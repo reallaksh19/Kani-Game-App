@@ -83,7 +83,7 @@ export const DEFAULT_MASTER_TILES: Record<string, boolean> = {
     math: true,
     english: true,
     braintraining: true,
-    exam: true,
+    exam: false,
     lqchamp: true,
     ...(defaultMasterTiles as Record<string, boolean>)
 };
