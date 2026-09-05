@@ -483,7 +483,7 @@ export const DEFAULT_SETTINGS = {
         'math': true,
         'english': true,
         'braintraining': true,
-        'exam': true,
+        'exam': false,
         'lqchamp': true
     },
     disableAnalyticsInProduction: true
