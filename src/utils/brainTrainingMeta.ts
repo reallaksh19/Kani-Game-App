@@ -19,15 +19,28 @@ export const BRAIN_SKILL_BY_GAME: Record<string, string> = {
     'classify-quest': 'Classification',
 };
 
-export const BRAIN_GAME_ID_BY_TITLE: Record<string, string> = {
-    'Memory Matrix': 'memory-matrix',
-    'Sequence Sprint': 'sequence-sprint',
-    'Path Planner': 'path-planner',
-    'Data Detective': 'data-detective',
-    'Venn Voyager': 'venn-voyager',
-    'Mirror Match': 'mirror-match',
-    'Scale Sense': 'scale-sense',
+export const BRAIN_TITLE_BY_GAME: Record<string, string> = {
+    'pattern-forge': 'Pattern Forge',
+    'logic-lab': 'Logic Lab',
+    'odd-wizard': 'Odd Wizard',
+    'sorting-station': 'Sorting Station',
+    'code-breaker': 'Code Breaker',
+    'memory-matrix': 'Memory Matrix',
+    'sequence-sprint': 'Sequence Sprint',
+    'path-planner': 'Path Planner',
+    'data-detective': 'Data Detective',
+    'venn-voyager': 'Venn Voyager',
+    'mirror-match': 'Mirror Match',
+    'scale-sense': 'Scale Sense',
+    'cause-effect': 'Cause & Effect',
+    'analogy-arena': 'Analogy Arena',
+    'sequence-story': 'Sequence Story',
+    'classify-quest': 'Classify Quest',
 };
+
+export const BRAIN_GAME_ID_BY_TITLE: Record<string, string> = Object.fromEntries(
+    Object.entries(BRAIN_TITLE_BY_GAME).map(([gameId, title]) => [title, gameId])
+);
 
 export interface BrainGameProgress {
     plays: number;
