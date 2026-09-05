@@ -19,6 +19,16 @@ export const BRAIN_SKILL_BY_GAME: Record<string, string> = {
     'classify-quest': 'Classification',
 };
 
+export const BRAIN_GAME_ID_BY_TITLE: Record<string, string> = {
+    'Memory Matrix': 'memory-matrix',
+    'Sequence Sprint': 'sequence-sprint',
+    'Path Planner': 'path-planner',
+    'Data Detective': 'data-detective',
+    'Venn Voyager': 'venn-voyager',
+    'Mirror Match': 'mirror-match',
+    'Scale Sense': 'scale-sense',
+};
+
 export interface BrainGameProgress {
     plays: number;
     bestStars: number;
@@ -29,11 +39,13 @@ export interface BrainGameProgress {
 export const getBrainGameProgress = (
     leaderboard: LeaderboardEntry[],
     gameId: string,
-    studentName?: string | null
+    studentName?: string | null,
+    studentId?: string | null
 ): BrainGameProgress => {
     const normalizedName = studentName?.trim().toLowerCase();
     const entries = leaderboard.filter(entry => {
         if (entry.game !== gameId) return false;
+        if (studentId && entry.studentId) return entry.studentId === studentId;
         if (!normalizedName) return true;
         return entry.name.trim().toLowerCase() === normalizedName;
     });
@@ -51,9 +63,10 @@ export const getBrainGameProgress = (
 export const getBrainTrainingSummary = (
     leaderboard: LeaderboardEntry[],
     gameIds: string[],
-    studentName?: string | null
+    studentName?: string | null,
+    studentId?: string | null
 ) => {
-    const progress = gameIds.map(gameId => getBrainGameProgress(leaderboard, gameId, studentName));
+    const progress = gameIds.map(gameId => getBrainGameProgress(leaderboard, gameId, studentName, studentId));
     return {
         gamesTried: progress.filter(item => item.plays > 0).length,
         savedSessions: progress.reduce((sum, item) => sum + item.plays, 0),
