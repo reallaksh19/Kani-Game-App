@@ -16,6 +16,8 @@ const EnglishLandingPage = React.lazy(() => import('./components/pages/EnglishLa
 const MainLandingPage = React.lazy(() => import('./components/pages/MainLandingPage').then(module => ({ default: module.MainLandingPage })));
 const BrainTrainingPage = React.lazy(() => import('./components/pages/BrainTrainingPage').then(module => ({ default: module.BrainTrainingPage })));
 const LQChampHubPage = React.lazy(() => import('./components/pages/LQChampHubPage').then(module => ({ default: module.LQChampHubPage })));
+const LearnHubPage = React.lazy(() => import('./components/pages/LearnHubPage').then(module => ({ default: module.LearnHubPage })));
+const PracticeHubPage = React.lazy(() => import('./components/pages/PracticeHubPage').then(module => ({ default: module.PracticeHubPage })));
 
 // Interactive game components
 const MemoryMatrixGame = React.lazy(() => import('./components/games/MemoryMatrixGame').then(module => ({ default: module.MemoryMatrixGame })));
@@ -116,6 +118,8 @@ const LearningGalaxy: React.FC = () => {
           setSelectedDifficulty(difficulty);
         };
 
+        if (currentSubject === 'learn') return <LearnHubPage onBack={handleBackToHome} />;
+        if (currentSubject === 'practice') return <PracticeHubPage onBack={handleBackToHome} />;
         if (currentSubject === 'english' && englishCategory) {
           const games = englishCategory === 'grammar' ? GRAMMAR_GAMES : englishCategory === 'vocabulary' ? VOCABULARY_GAMES : COMPREHENSION_GAMES;
           return <GameTilesPage title={englishCategory.charAt(0).toUpperCase() + englishCategory.slice(1)} icon={englishCategory === 'grammar' ? '✏️' : englishCategory === 'vocabulary' ? '📖' : '🔍'} games={games} onSelectGame={handleGameSelect} onBack={() => setEnglishCategory(null)} totalStars={totalStars} variant={englishCategory} surpriseMode={settings.surpriseMode} leaderboard={leaderboard} />;
