@@ -18,12 +18,14 @@ export interface StudyHubContentClientOptions {
 export class StudyHubContentError extends Error {
   readonly status?: number;
   readonly url?: string;
+  readonly cause?: unknown;
 
   constructor(message: string, options?: { status?: number; url?: string; cause?: unknown }) {
-    super(message, options?.cause ? { cause: options.cause } : undefined);
+    super(message);
     this.name = 'StudyHubContentError';
     this.status = options?.status;
     this.url = options?.url;
+    this.cause = options?.cause;
   }
 }
 
