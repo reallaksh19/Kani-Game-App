@@ -26,11 +26,11 @@ import {
 } from '../utils/sessionLogger';
 
 // Randomized question order is the product default from this release onward.
-// Persisted user choices still win, so anyone who explicitly turned it off stays off.
 const APP_DEFAULT_SETTINGS: Settings = {
     ...DEFAULT_SETTINGS,
     randomize: true,
 };
+const RANDOMIZE_DEFAULT_MIGRATION_KEY = 'learning-galaxy-randomize-default-v1';
 
 // Storage helper
 const storage = {
@@ -111,6 +111,15 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
                         }
                     };
                 }
+
+                // Older builds shipped randomize=false as the default. Apply the new
+                // default exactly once, then preserve every user toggle after that.
+                const randomizeDefaultMigrated = await storage.get(RANDOMIZE_DEFAULT_MIGRATION_KEY);
+                if (!randomizeDefaultMigrated) {
+                    mergedSettings = { ...mergedSettings, randomize: true };
+                    await storage.set('learning-galaxy-settings', JSON.stringify(mergedSettings));
+                    await storage.set(RANDOMIZE_DEFAULT_MIGRATION_KEY, '1');
+                }
                 setSettings(mergedSettings);
 
                 // Load Leaderboard
@@ -168,13 +177,13 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
     const updateSettings = async (newSettings: Settings) => {
         // SettingsPage's Reset action passes the shared DEFAULT_SETTINGS object.
-        // Normalize that reset to the current product defaults without overriding
-        // a deliberate persisted randomize=false choice.
+        // Normalize that reset to the current product defaults.
         const normalizedSettings = newSettings === DEFAULT_SETTINGS
             ? APP_DEFAULT_SETTINGS
             : newSettings;
         setSettings(normalizedSettings);
         await storage.set('learning-galaxy-settings', JSON.stringify(normalizedSettings));
+        await storage.set(RANDOMIZE_DEFAULT_MIGRATION_KEY, '1');
         if (normalizedSettings.enabledMasterTiles) {
             await saveMasterTilesConfig(normalizedSettings.enabledMasterTiles);
         }
