@@ -84,6 +84,57 @@ describe('AnswerEvaluator', () => {
     expect(evaluateQuestionAnswer(multi, [0])).toMatchObject({ correct: false, partialCredit: 0.5 });
     expect(evaluateQuestionAnswer(multi, [0, 1])).toMatchObject({ correct: false, partialCredit: 0 });
   });
+
+  it('supports numeric tolerance, ordering, matching and assertion/reason', () => {
+    const numeric: KaniQuestion = {
+      ...base,
+      id: 'numeric',
+      type: 'numeric',
+      prompt: 'Estimate pi.',
+      answer: 3.14,
+      tolerance: 0.01,
+      difficulty: 'easy',
+    };
+    expect(evaluateQuestionAnswer(numeric, 3.145)).toMatchObject({ supported: true, correct: true, partialCredit: 1 });
+    expect(evaluateQuestionAnswer(numeric, 3.2)).toMatchObject({ correct: false, partialCredit: 0 });
+
+    const sequence: KaniQuestion = {
+      ...base,
+      id: 'sequence',
+      type: 'sequence_order',
+      prompt: 'Order the steps.',
+      items: ['A', 'B', 'C'],
+      correctOrder: [2, 0, 1],
+      difficulty: 'medium',
+    };
+    expect(evaluateQuestionAnswer(sequence, [2, 0, 1])).toMatchObject({ correct: true, partialCredit: 1 });
+    expect(evaluateQuestionAnswer(sequence, [2, 1, 0])).toMatchObject({ correct: false, partialCredit: 1 / 3 });
+
+    const matching: KaniQuestion = {
+      ...base,
+      id: 'matching',
+      type: 'match_following',
+      prompt: 'Match.',
+      leftItems: [{ id: 'l1', text: 'Half' }, { id: 'l2', text: 'Quarter' }],
+      rightItems: [{ id: 'r1', text: '1/2' }, { id: 'r2', text: '1/4' }],
+      correctPairs: [['l1', 'r1'], ['l2', 'r2']],
+      difficulty: 'medium',
+    };
+    expect(evaluateQuestionAnswer(matching, { l1: 'r1', l2: 'r2' })).toMatchObject({ correct: true, partialCredit: 1 });
+    expect(evaluateQuestionAnswer(matching, { l1: 'r1', l2: 'r1' })).toMatchObject({ correct: false, partialCredit: 0.5 });
+
+    const assertion: KaniQuestion = {
+      ...base,
+      id: 'assertion',
+      type: 'assertion_reason',
+      assertion: 'A is true.',
+      reason: 'R explains A.',
+      options: ['Both true and R explains A', 'Both true but R does not explain A', 'A true R false', 'A false R true'],
+      answerIndex: 0,
+      difficulty: 'hard',
+    };
+    expect(evaluateQuestionAnswer(assertion, 0)).toMatchObject({ supported: true, correct: true, partialCredit: 1 });
+  });
 });
 
 describe('QuestionSessionEngine', () => {
@@ -131,18 +182,35 @@ describe('QuestionSessionEngine', () => {
     });
   });
 
-  it('rejects unsupported later-wave question types rather than silently mis-scoring them', () => {
-    const numeric: KaniQuestion = {
+  it('records partial credit from second-wave structured questions', () => {
+    const matching: KaniQuestion = {
       ...base,
-      id: 'numeric',
-      type: 'numeric',
-      prompt: 'What is 3 + 4?',
-      answer: 7,
-      tolerance: 0,
-      difficulty: 'easy',
+      id: 'matching-session',
+      type: 'match_following',
+      prompt: 'Match.',
+      leftItems: [{ id: 'l1', text: 'Half' }, { id: 'l2', text: 'Quarter' }],
+      rightItems: [{ id: 'r1', text: '1/2' }, { id: 'r2', text: '1/4' }],
+      correctPairs: [['l1', 'r1'], ['l2', 'r2']],
+      difficulty: 'medium',
     };
-    const engine = new QuestionSessionEngine({ questions: [numeric], config: { randomize: false } });
-    expect(() => engine.submitAnswer(7)).toThrow(/not supported/);
+    const engine = new QuestionSessionEngine({ questions: [matching], config: { randomize: false, sessionId: 'structured' } });
+    engine.submitAnswer({ l1: 'r1', l2: 'r1' });
+    const result = engine.buildResult({ studentId: 'student_alpha', activityId: 'match_demo', activityType: 'worksheet' });
+    expect(result.attempts[0]).toMatchObject({ correct: false, partialCredit: 0.5 });
+    expect(result.review[0]).toMatchObject({ partialCredit: 0.5, selectedAnswer: { l1: 'r1', l2: 'r1' } });
+  });
+
+  it('rejects question types without an objective runtime evaluator', () => {
+    const longAnswer: KaniQuestion = {
+      ...base,
+      id: 'long',
+      type: 'long_answer',
+      prompt: 'Explain your reasoning.',
+      modelAnswer: 'A model explanation.',
+      difficulty: 'hard',
+    };
+    const engine = new QuestionSessionEngine({ questions: [longAnswer], config: { randomize: false } });
+    expect(() => engine.submitAnswer('My answer')).toThrow(/not supported/);
   });
 
   it('requires stable student identity before producing attempts', () => {
