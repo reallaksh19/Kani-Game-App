@@ -52,6 +52,46 @@ describe('adaptStudyHubPageQuestions', () => {
     expect(result.questions[0].conceptTags).toEqual(expect.arrayContaining(['fractions', 'equivalent-fractions']));
   });
 
+  it('adapts the legacy answer shapes present in published Study-Hub pages', () => {
+    const result = adaptStudyHubPageQuestions(page([
+      {
+        id: 'legacy-mcq',
+        type: 'mcq',
+        category: 'MCQ',
+        prompt: 'Which option is correct?',
+        options: ['First', 'The exact answer text', 'Third'],
+        answer: 'The exact answer text',
+      },
+      {
+        id: 'legacy-tf',
+        type: 'true_false',
+        category: 'true/false',
+        prompt: 'This statement is false.',
+        answer: 'False',
+      },
+      {
+        id: 'legacy-short',
+        type: 'short_answer',
+        category: 'short answer',
+        prompt: 'Give the answer.',
+        answer: 'Published Study-Hub answer text',
+      },
+      {
+        id: 'legacy-multi',
+        type: 'multi_select',
+        prompt: 'Choose the exact text answers.',
+        options: ['Alpha', 'Beta', 'Gamma'],
+        answers: ['Alpha', 'Gamma'],
+      },
+    ]), meta);
+
+    expect(result.unsupported).toEqual([]);
+    expect(result.questions[0]).toMatchObject({ type: 'mcq', answerIndex: 1, cognitiveDemand: 'MCQ' });
+    expect(result.questions[1]).toMatchObject({ type: 'true_false', answer: false });
+    expect(result.questions[2]).toMatchObject({ type: 'short_answer', acceptedAnswers: ['Published Study-Hub answer text'] });
+    expect(result.questions[3]).toMatchObject({ type: 'multi_select', answerIndexes: [0, 2] });
+  });
+
   it('refuses missing stable ids and unsupported types instead of inventing or mis-scoring them', () => {
     const result = adaptStudyHubPageQuestions(page([
       { type: 'mcq', prompt: 'No id', options: ['a', 'b'], answer: 0 },
