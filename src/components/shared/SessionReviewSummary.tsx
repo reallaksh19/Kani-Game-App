@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Question } from '../../types';
 import { SvgDiagramRenderer } from './SvgDiagramRenderer';
 import { StarIcon } from './StarIcon';
@@ -40,6 +40,36 @@ export const SessionReviewSummary: React.FC<SessionReviewSummaryProps> = ({
 }) => {
     const [filter, setFilter] = useState<'all' | 'incorrect' | 'correct'>('all');
     const [collapsedIds, setCollapsedIds] = useState<Record<number, boolean>>({});
+    const [showScrollTop, setShowScrollTop] = useState(false);
+
+    // Scroll to top immediately when summary loads
+    useEffect(() => {
+        window.scrollTo({ top: 0, behavior: 'instant' });
+        const scrollParents = document.querySelectorAll('.overflow-y-auto');
+        scrollParents.forEach(el => {
+            el.scrollTop = 0;
+        });
+
+        const handleScroll = () => {
+            const container = document.querySelector('.overflow-y-auto') || window;
+            const currentY = 'scrollTop' in container ? (container as HTMLElement).scrollTop : window.scrollY;
+            setShowScrollTop(currentY > 300);
+        };
+
+        const targetContainer = document.querySelector('.overflow-y-auto');
+        if (targetContainer) {
+            targetContainer.addEventListener('scroll', handleScroll);
+            return () => targetContainer.removeEventListener('scroll', handleScroll);
+        }
+    }, []);
+
+    const scrollToTop = () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        const scrollContainer = document.querySelector('.overflow-y-auto');
+        if (scrollContainer) {
+            scrollContainer.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    };
 
     const totalQuestions = questions.length;
     const correctCount = Object.values(answers).filter(a => a.isCorrect).length;
@@ -150,38 +180,65 @@ export const SessionReviewSummary: React.FC<SessionReviewSummaryProps> = ({
                 </div>
             </div>
 
-            {/* Filter Tabs */}
-            <div className="flex items-center gap-2 mb-6">
-                <button
-                    onClick={() => setFilter('all')}
-                    className={`px-4 py-2 rounded-xl text-sm font-bold transition-all cursor-pointer ${
-                        filter === 'all'
-                            ? 'bg-[#5c4fd6] text-white shadow-md'
-                            : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'
-                    }`}
-                >
-                    All Questions ({totalQuestions})
-                </button>
-                <button
-                    onClick={() => setFilter('incorrect')}
-                    className={`px-4 py-2 rounded-xl text-sm font-bold transition-all cursor-pointer ${
-                        filter === 'incorrect'
-                            ? 'bg-rose-600 text-white shadow-md'
-                            : 'bg-white text-rose-600 border border-rose-200 hover:bg-rose-50'
-                    }`}
-                >
-                    Needs Review ({attemptedCount - correctCount})
-                </button>
-                <button
-                    onClick={() => setFilter('correct')}
-                    className={`px-4 py-2 rounded-xl text-sm font-bold transition-all cursor-pointer ${
-                        filter === 'correct'
-                            ? 'bg-emerald-600 text-white shadow-md'
-                            : 'bg-white text-emerald-600 border border-emerald-200 hover:bg-emerald-50'
-                    }`}
-                >
-                    Correct ({correctCount})
-                </button>
+            {/* Filter Tabs & View Controls */}
+            <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
+                <div className="flex flex-wrap items-center gap-2">
+                    <button
+                        onClick={() => setFilter('all')}
+                        className={`px-4 py-2 rounded-xl text-sm font-bold transition-all cursor-pointer ${
+                            filter === 'all'
+                                ? 'bg-[#5c4fd6] text-white shadow-md'
+                                : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'
+                        }`}
+                    >
+                        All Questions ({totalQuestions})
+                    </button>
+                    <button
+                        onClick={() => setFilter('incorrect')}
+                        className={`px-4 py-2 rounded-xl text-sm font-bold transition-all cursor-pointer ${
+                            filter === 'incorrect'
+                                ? 'bg-rose-600 text-white shadow-md'
+                                : 'bg-white text-rose-600 border border-rose-200 hover:bg-rose-50'
+                        }`}
+                    >
+                        Needs Review ({attemptedCount - correctCount})
+                    </button>
+                    <button
+                        onClick={() => setFilter('correct')}
+                        className={`px-4 py-2 rounded-xl text-sm font-bold transition-all cursor-pointer ${
+                            filter === 'correct'
+                                ? 'bg-emerald-600 text-white shadow-md'
+                                : 'bg-white text-emerald-600 border border-emerald-200 hover:bg-emerald-50'
+                        }`}
+                    >
+                        Correct ({correctCount})
+                    </button>
+                </div>
+
+                <div className="flex items-center gap-2">
+                    <button
+                        type="button"
+                        onClick={() => {
+                            const newCollapsed: Record<number, boolean> = {};
+                            questions.forEach((_, i) => { newCollapsed[i] = false; });
+                            setCollapsedIds(newCollapsed);
+                        }}
+                        className="text-xs font-bold text-indigo-700 bg-indigo-50 hover:bg-indigo-100 px-3 py-2 rounded-xl border border-indigo-200 transition-colors cursor-pointer"
+                    >
+                        Expand All ⌃
+                    </button>
+                    <button
+                        type="button"
+                        onClick={() => {
+                            const newCollapsed: Record<number, boolean> = {};
+                            questions.forEach((_, i) => { newCollapsed[i] = true; });
+                            setCollapsedIds(newCollapsed);
+                        }}
+                        className="text-xs font-bold text-gray-700 bg-gray-100 hover:bg-gray-200 px-3 py-2 rounded-xl border border-gray-300 transition-colors cursor-pointer"
+                    >
+                        Collapse All ⌄
+                    </button>
+                </div>
             </div>
 
             {/* Question Cards List */}
@@ -350,6 +407,18 @@ export const SessionReviewSummary: React.FC<SessionReviewSummaryProps> = ({
                     Play Again ↻
                 </button>
             </div>
+
+            {/* Floating Back to Top Button */}
+            {showScrollTop && (
+                <button
+                    onClick={scrollToTop}
+                    className="fixed bottom-6 right-6 z-40 bg-[#5c4fd6] hover:bg-[#4d3fc0] text-white px-4 py-3 rounded-full shadow-2xl transition-all cursor-pointer flex items-center gap-1.5 font-black text-xs hover:scale-105"
+                    title="Scroll to Top"
+                >
+                    <span>↑</span>
+                    <span>Top</span>
+                </button>
+            )}
         </div>
     );
 };

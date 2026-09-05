@@ -1435,7 +1435,18 @@ export const SheetBasedGame: React.FC<SheetBasedGameProps> = ({ onBack, difficul
 
     return (
         <SpaceBackground variant={background}>
-            <Header timer={timer} streak={streak} stars={stars} onBack={onBack} formatTime={(s) => `${Math.floor(s / 60).toString().padStart(2, '0')}:${(s % 60).toString().padStart(2, '0')}`} difficulty={difficulty} progress={{ current: currentIndex + 1, total: totalQuestions }} hintCount={totalHintsUsed} />
+            {!gameOver && (
+                <Header
+                    timer={timer}
+                    streak={streak}
+                    stars={stars}
+                    onBack={onBack}
+                    formatTime={(s) => `${Math.floor(s / 60).toString().padStart(2, '0')}:${(s % 60).toString().padStart(2, '0')}`}
+                    difficulty={difficulty}
+                    progress={{ current: currentIndex + 1, total: totalQuestions }}
+                    hintCount={totalHintsUsed}
+                />
+            )}
 
             {/* Hint Modal */}
             {showHintModal && gameId === 'story-nebula' && (
@@ -1464,9 +1475,9 @@ export const SheetBasedGame: React.FC<SheetBasedGameProps> = ({ onBack, difficul
                 </div>
             )}
 
-            <div className="flex flex-col items-center justify-center h-full pt-20 px-4 pb-20">
+            <div className={`w-full min-h-full flex flex-col items-center justify-start px-4 pb-24 ${gameOver ? 'pt-6' : 'pt-20'}`}>
                 {!gameActive && !gameOver && (
-                    <div className="text-center">
+                    <div className="my-auto text-center py-12">
                         <h1 className="text-5xl font-bold text-white mb-2">{safeIcon} {safeTitle}</h1>
                         <DifficultyBadge difficulty={difficulty} />
                         <p className="text-gray-300 my-4">{questionsCount} questions loaded for challenge!</p>
