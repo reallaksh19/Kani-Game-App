@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useMemo, useRef } from 'react';
 import { Settings, LeaderboardEntry, Question, StudentProfile, SessionLog } from '../types';
+import { BrainSessionDraft, BrainSessionRecord } from '../types/brainProgress';
 import { DEFAULT_SETTINGS } from '../data/gameDefinitions';
 import {
     PlayerStats,
@@ -24,6 +25,11 @@ import {
     startSessionLog,
     updateSessionLog
 } from '../utils/sessionLogger';
+import {
+    createBrainSessionRecord,
+    loadBrainSessions,
+    saveBrainSessions,
+} from '../utils/brainProgress';
 
 // Randomized question order is the product default from this release onward.
 const APP_DEFAULT_SETTINGS: Settings = {
@@ -55,6 +61,8 @@ interface AppContextType {
     updateSettings: (newSettings: Settings) => Promise<void>;
     leaderboard: LeaderboardEntry[];
     addLeaderboardEntry: (entry: LeaderboardEntry) => Promise<void>;
+    brainSessions: BrainSessionRecord[];
+    recordBrainSession: (draft: BrainSessionDraft) => Promise<BrainSessionRecord>;
     playerStats: PlayerStats;
     recordLotCompletion: (
         lotId: string,
@@ -79,6 +87,7 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [settings, setSettings] = useState<Settings>(APP_DEFAULT_SETTINGS);
     const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
+    const [brainSessions, setBrainSessions] = useState<BrainSessionRecord[]>([]);
     const [playerStats, setPlayerStats] = useState<PlayerStats>(DEFAULT_PLAYER_STATS);
     const [studentProfiles, setStudentProfiles] = useState<StudentProfile[]>([]);
     const [activeStudent, setActiveStudent] = useState<StudentProfile | null>(null);
@@ -127,6 +136,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
                 if (leaderboardData) {
                     setLeaderboard(JSON.parse(leaderboardData));
                 }
+
+                // Load detailed Brain Training history separately from the leaderboard.
+                setBrainSessions(await loadBrainSessions());
 
                 // Load Player Stats
                 const loadedStats = await loadPlayerStats();
@@ -217,12 +229,23 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
             : (activeStudent?.name || entry.name || 'Cadet');
         const resolvedEntry: LeaderboardEntry = {
             ...entry,
-            name: resolvedName
+            name: resolvedName,
+            studentId: activeStudent?.id || entry.studentId,
         };
         const updated = [...leaderboard, resolvedEntry];
         setLeaderboard(updated);
         await storage.set('learning-galaxy-leaderboard', JSON.stringify(updated));
         await recordGameActivity(resolvedEntry.stars || 0);
+    };
+
+    const recordBrainSession = async (draft: BrainSessionDraft): Promise<BrainSessionRecord> => {
+        const studentName = activeStudent?.name || draft.studentName?.trim() || 'Cadet';
+        const studentId = activeStudent?.id || `name:${studentName.trim().toLowerCase() || 'cadet'}`;
+        const record = createBrainSessionRecord(draft, studentId, studentName);
+        const updated = [record, ...brainSessions].slice(0, 250);
+        setBrainSessions(updated);
+        await saveBrainSessions(updated);
+        return record;
     };
 
     const recordLotCompletion = async (
@@ -284,6 +307,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         const updated = studentProfiles.filter(p => p.id !== studentId);
         setStudentProfiles(updated);
         await saveStudentProfiles(updated);
+
+        const remainingBrainSessions = brainSessions.filter(session => session.studentId !== studentId);
+        setBrainSessions(remainingBrainSessions);
+        await saveBrainSessions(remainingBrainSessions);
+
         if (activeStudent?.id === studentId) {
             await selectStudent(null);
         }
@@ -294,6 +322,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         updateSettings,
         leaderboard,
         addLeaderboardEntry,
+        brainSessions,
+        recordBrainSession,
         playerStats,
         recordLotCompletion,
         activeStudent,
@@ -307,6 +337,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }), [
         settings,
         leaderboard,
+        brainSessions,
         playerStats,
         activeStudent,
         studentProfiles,
