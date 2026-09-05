@@ -15,9 +15,8 @@ const NUMBERS = ['1', '2', '3', '4', '5', '6', '7', '8'];
 
 export const SequenceSprintGame: React.FC<SequenceSprintGameProps> = ({ onBack, difficulty }) => {
     const { addLeaderboardEntry } = useAppContext();
-
     const [currentItems, setCurrentItems] = useState<string[]>(difficulty === 'Hard' ? [...EMOJIS, ...NUMBERS.slice(0, 4)] : EMOJIS.slice(0, 6));
-
+    const [activeDifficulty, setActiveDifficulty] = useState<Difficulty>(difficulty === 'None' ? 'Easy' : difficulty);
     const [gameState, setGameState] = useState<'start' | 'show' | 'play' | 'result' | 'gameover'>('start');
     const [sequence, setSequence] = useState<string[]>([]);
     const [playerSequence, setPlayerSequence] = useState<string[]>([]);
@@ -30,10 +29,10 @@ export const SequenceSprintGame: React.FC<SequenceSprintGameProps> = ({ onBack, 
     const [playerName, setPlayerName] = useState('');
     const [scoreSaved, setScoreSaved] = useState(false);
     const [feedback, setFeedback] = useState<'correct' | 'wrong' | null>(null);
+    const [attempted, setAttempted] = useState(0);
+    const [correctCount, setCorrectCount] = useState(0);
 
-    // Generate sequence
     const generateSequence = useCallback(() => {
-        // Determine difficulty dynamic
         let effectiveDifficulty = difficulty;
         if (difficulty === 'None') {
             const difficulties: Difficulty[] = ['Easy', 'Medium', 'Hard'];
@@ -42,47 +41,41 @@ export const SequenceSprintGame: React.FC<SequenceSprintGameProps> = ({ onBack, 
 
         const len = effectiveDifficulty === 'Hard' ? 5 : effectiveDifficulty === 'Medium' ? 4 : 3;
         const pool = effectiveDifficulty === 'Hard' ? [...EMOJIS, ...NUMBERS.slice(0, 4)] : EMOJIS.slice(0, 6);
-
-        // Update state for render used later (note: this is during callback, usually better to return, but we have state for items)
-        // Actually, items are used in render for buttons. If we change items per round, the buttons must update.
-        // So we return the config.
-
         const length = len + Math.floor(round / 3);
         const seq: string[] = [];
         for (let i = 0; i < length; i++) {
             seq.push(pool[Math.floor(Math.random() * pool.length)]);
         }
-        return { seq, pool };
+        return { seq, pool, effectiveDifficulty };
     }, [difficulty, round]);
 
-    // Start showing sequence
     const startRound = useCallback(() => {
-        const { seq, pool } = generateSequence();
+        const { seq, pool, effectiveDifficulty } = generateSequence();
         setSequence(seq);
         setCurrentItems(pool);
+        setActiveDifficulty(effectiveDifficulty);
         setPlayerSequence([]);
         setCurrentShowIndex(0);
         setFeedback(null);
         setGameState('show');
     }, [generateSequence]);
 
-    // Animate showing sequence
     useEffect(() => {
         if (gameState === 'show' && currentShowIndex < sequence.length) {
-            const timer = setTimeout(() => {
+            const timerId = setTimeout(() => {
                 setCurrentShowIndex(i => i + 1);
             }, 800);
-            return () => clearTimeout(timer);
+            return () => clearTimeout(timerId);
         }
         if (gameState === 'show' && currentShowIndex >= sequence.length && sequence.length > 0) {
-            setTimeout(() => {
+            const timerId = setTimeout(() => {
                 setGameState('play');
                 setCurrentShowIndex(-1);
             }, 500);
+            return () => clearTimeout(timerId);
         }
     }, [gameState, currentShowIndex, sequence.length]);
 
-    // Start game
     const startGame = () => {
         setRound(1);
         setStars(0);
@@ -90,36 +83,35 @@ export const SequenceSprintGame: React.FC<SequenceSprintGameProps> = ({ onBack, 
         setMaxStreak(0);
         setTimer(90);
         setScoreSaved(false);
+        setAttempted(0);
+        setCorrectCount(0);
         startRound();
     };
 
-    // Handle item selection
     const handleItemClick = (item: string) => {
         if (gameState !== 'play') return;
 
         const newPlayerSequence = [...playerSequence, item];
         setPlayerSequence(newPlayerSequence);
-
         const currentIndex = newPlayerSequence.length - 1;
 
-        // Check if correct so far
         if (item !== sequence[currentIndex]) {
-            // Wrong!
+            setAttempted(value => value + 1);
             setFeedback('wrong');
             setStreak(0);
             setGameState('result');
 
-            setTimeout(() => {
+            window.setTimeout(() => {
                 setRound(r => r + 1);
                 startRound();
             }, 2000);
             return;
         }
 
-        // Check if complete
         if (newPlayerSequence.length === sequence.length) {
-            // Correct!
-            const points = sequence.length * 5 * (difficulty === 'Hard' ? 2 : difficulty === 'Medium' ? 1.5 : 1);
+            setAttempted(value => value + 1);
+            setCorrectCount(value => value + 1);
+            const points = sequence.length * 5 * (activeDifficulty === 'Hard' ? 2 : activeDifficulty === 'Medium' ? 1.5 : 1);
             setStars(s => s + Math.floor(points + streak * 3));
             setStreak(s => {
                 const newStreak = s + 1;
@@ -129,14 +121,13 @@ export const SequenceSprintGame: React.FC<SequenceSprintGameProps> = ({ onBack, 
             setFeedback('correct');
             setGameState('result');
 
-            setTimeout(() => {
+            window.setTimeout(() => {
                 setRound(r => r + 1);
                 startRound();
             }, 1500);
         }
     };
 
-    // Timer countdown
     useEffect(() => {
         if (gameState === 'play' || gameState === 'show') {
             const interval = setInterval(() => {
@@ -152,7 +143,6 @@ export const SequenceSprintGame: React.FC<SequenceSprintGameProps> = ({ onBack, 
         }
     }, [gameState]);
 
-    // Save score
     const handleSaveScore = async () => {
         if (!playerName.trim()) return;
         await addLeaderboardEntry({
@@ -202,14 +192,13 @@ export const SequenceSprintGame: React.FC<SequenceSprintGameProps> = ({ onBack, 
                                     feedback === 'wrong' ? 'bg-red-500 text-white' :
                                         'bg-orange-500 text-white'
                                 }`}>
-                                {gameState === 'show' ? '👀 Watch carefully!' :
+                                {gameState === 'show' ? `👀 Watch carefully! · ${activeDifficulty}` :
                                     feedback === 'correct' ? '✓ Perfect!' :
                                         feedback === 'wrong' ? '✗ Wrong order!' :
                                             `Round ${round} - Repeat ${sequence.length} items`}
                             </span>
                         </div>
 
-                        {/* Sequence display */}
                         <div className="bg-gray-900/80 rounded-2xl p-6 mb-6 min-h-[100px] flex items-center justify-center gap-3 flex-wrap">
                             {gameState === 'show' ? (
                                 <div className="text-6xl animate-bounce">
@@ -248,7 +237,6 @@ export const SequenceSprintGame: React.FC<SequenceSprintGameProps> = ({ onBack, 
                             )}
                         </div>
 
-                        {/* Selection buttons */}
                         {gameState === 'play' && (
                             <div className="grid grid-cols-4 gap-3 max-w-xs mx-auto">
                                 {currentItems.map((item, i) => (
@@ -281,6 +269,13 @@ export const SequenceSprintGame: React.FC<SequenceSprintGameProps> = ({ onBack, 
                         playerName={playerName}
                         setPlayerName={setPlayerName}
                         scoreSaved={scoreSaved}
+                        gameTitle="Sequence Sprint"
+                        skill="Memory & Concentration"
+                        difficulty={difficulty === 'None' ? 'Mixed' : difficulty}
+                        correct={correctCount}
+                        attempted={attempted}
+                        durationSeconds={90 - timer}
+                        backLabel="BRAIN HUB"
                     />
                 )}
             </div>
