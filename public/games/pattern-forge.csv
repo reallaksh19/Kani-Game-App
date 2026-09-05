@@ -1,16 +1,31 @@
-game_type,difficulty,text1,text2,answer,option1,option2,option3,option4,hint
-pattern-forge,Easy,2 4 6 8 ?,Add 2 each time,10,10,12,9,14,Count by 2s
-pattern-forge,Easy,🔴 🔵 🔴 🔵 ?,Alternating colors,🔴,🔴,🔵,🟢,🟡,Colors alternate
-pattern-forge,Easy,1 2 3 4 ?,Simple counting,5,5,6,4,7,Count up by 1
-pattern-forge,Easy,A B C D ?,Alphabet order,E,E,F,G,H,Next letter
-pattern-forge,Easy,5 10 15 20 ?,Count by 5s,25,25,30,22,35,Add 5
-pattern-forge,Medium,3 6 9 12 ?,Multiply by 3,15,15,14,16,18,Count by 3s
-pattern-forge,Medium,2 4 8 16 ?,Each number doubles,32,32,24,20,64,Double each time
-pattern-forge,Medium,🌟 🌙 🌟 🌙 🌟 ?,Star and moon pattern,🌙,🌙,🌟,☀️,⭐,Alternating pattern
-pattern-forge,Medium,10 20 30 40 ?,Count by 10s,50,50,60,45,100,Add 10
-pattern-forge,Medium,Z Y X W ?,Backward alphabet,V,V,U,T,A,Go backwards
-pattern-forge,Hard,1 1 2 3 5 ?,Add previous two,8,8,6,7,10,Fibonacci sequence
-pattern-forge,Hard,1 4 9 16 ?,Square numbers,25,25,20,24,36,1²=1 2²=4 3²=9...
-pattern-forge,Hard,3 6 12 24 ?,Doubling numbers,48,48,36,30,60,x2 each time
-pattern-forge,Hard,🔴 🔵 🟢 🔴 🔵 ?,Three color pattern,🟢,🟢,🔴,🔵,🟡,Repeats every 3
-pattern-forge,Hard,27 9 3 1 ?,Divide by 3,1/3,1/3,0,1,3,Division pattern
+game_type,difficulty,text1,text2,answer,option1,option2,option3,option4,hint,know_more,grade,skill,cognitive_demand
+pattern-forge,Easy,"2, 4, 6, 8, ?",Number pattern,10,10,9,11,12,Check the change from one term to the next.,"The pattern adds 2 each time, so 8 + 2 = 10.",Grade 4,Pattern Recognition,1-step
+pattern-forge,Easy,"5, 10, 15, 20, ?",Number pattern,25,22,24,30,25,Find the equal jump.,"The pattern adds 5 each time, so 20 + 5 = 25.",Grade 4,Pattern Recognition,1-step
+pattern-forge,Easy,"1, 3, 5, 7, ?",Number pattern,9,10,11,9,8,These are consecutive odd numbers.,"The sequence increases by 2: 1,3,5,7,9.",Grade 4,Pattern Recognition,1-step
+pattern-forge,Easy,"20, 18, 16, 14, ?",Number pattern,12,15,12,10,13,The numbers decrease by the same amount.,"Subtract 2 each time, giving 12.",Grade 4,Pattern Recognition,1-step
+pattern-forge,Easy,"A, C, E, G, ?",Letter pattern,I,I,H,J,K,Skip one letter each time.,"A,C,E,G are every second letter, so I follows.",Grade 4,Pattern Recognition,1-step
+pattern-forge,Easy,"Z, X, V, T, ?",Letter pattern,R,S,Q,P,R,Move backward by two letters.,"Moving backward by two letters gives Z, X, V, T, then R.",Grade 4,Pattern Recognition,1-step
+pattern-forge,Easy,"3, 6, 9, 12, ?",Number pattern,15,16,18,15,14,Count by threes.,"The sequence adds 3, so 12 + 3 = 15.",Grade 4,Pattern Recognition,1-step
+pattern-forge,Easy,"40, 35, 30, 25, ?",Number pattern,20,24,20,15,22,Find the repeated subtraction.,"Subtract 5 each time, so 20 is next.",Grade 4,Pattern Recognition,1-step
+pattern-forge,Easy,"B, D, F, H, ?",Letter pattern,J,J,I,K,L,The letters move forward by two.,"B,D,F,H,J are every second letter.",Grade 4,Pattern Recognition,1-step
+pattern-forge,Easy,"7, 14, 21, 28, ?",Number pattern,35,30,32,36,35,Think of multiples of 7.,"The terms are 7×1, 7×2, 7×3, 7×4, so next is 35.",Grade 4,Pattern Recognition,1-step
+pattern-forge,Medium,"2, 5, 8, 11, 14, ?",Arithmetic sequence,17,18,19,17,16,Check the constant difference.,Each term is 3 more than the previous one; 14+3=17.,Grade 4,Pattern Recognition,2-step
+pattern-forge,Medium,"3, 6, 12, 24, ?",Multiplicative sequence,48,50,48,36,42,The amount added is not constant; compare by multiplication.,Each term doubles: 3→6→12→24→48.,Grade 4,Pattern Recognition,2-step
+pattern-forge,Medium,"1, 4, 7, 10, 13, ?",Arithmetic sequence,16,16,15,17,19,Find the repeated jump.,"Add 3 each time, so 16 follows.",Grade 4,Pattern Recognition,2-step
+pattern-forge,Medium,"50, 45, 35, 20, ?",Growing differences,0,5,10,15,0,Look at how much is subtracted each time.,"Subtract 5, then 10, then 15, so subtract 20 next: 20−20=0.",Grade 4,Pattern Recognition,2-step
+pattern-forge,Medium,"A, D, G, J, ?",Letter sequence,M,N,O,M,L,Count how many alphabet positions are skipped.,"Move forward 3 letters each time: A,D,G,J,M.",Grade 4,Pattern Recognition,2-step
+pattern-forge,Medium,"2, 4, 7, 11, 16, ?",Growing-addition sequence,22,23,22,20,21,Look at the differences between terms.,"The increases are +2,+3,+4,+5, so next is +6: 16+6=22.",Grade 4,Pattern Recognition,2-step
+pattern-forge,Medium,"30, 27, 23, 18, ?",Growing-subtraction sequence,12,12,11,13,14,The amount subtracted changes by one.,"Subtract 3,4,5, then 6: 18−6=12.",Grade 4,Pattern Recognition,2-step
+pattern-forge,Medium,"4, 8, 7, 14, 13, 26, ?",Alternating operations,25,24,27,52,25,Two operations alternate.,"The rule alternates ×2, −1: 4→8→7→14→13→26→25.",Grade 4,Pattern Recognition,2-step
+pattern-forge,Medium,"1, 2, 4, 7, 11, ?",Growing-addition sequence,16,17,18,16,15,List the jumps between terms.,"The jumps are +1,+2,+3,+4, so next is +5: 11+5=16.",Grade 4,Pattern Recognition,2-step
+pattern-forge,Medium,"C, F, J, O, ?",Growing letter gaps,U,W,U,T,V,The alphabet jumps grow by one each time.,"C→F is +3, F→J +4, J→O +5, so next +6 gives U.",Grade 4,Pattern Recognition,2-step
+pattern-forge,Hard,"2, 6, 12, 20, 30, ?",Product pattern,42,42,36,40,44,Write each term as a product of two nearby whole numbers.,"2=1×2, 6=2×3, 12=3×4, 20=4×5, 30=5×6, so next is 6×7=42.",Grade 4,Pattern Recognition,3-step
+pattern-forge,Hard,"1, 2, 6, 24, ?",Multiplying sequence,120,48,96,144,120,The multiplier increases each time.,"×2, ×3, ×4, so next ×5: 24×5=120.",Grade 4,Pattern Recognition,3-step
+pattern-forge,Hard,"3, 5, 9, 17, 33, ?",Double-then-subtract pattern,65,66,67,65,63,Compare each term with twice the previous term.,Each term is previous×2−1: 33×2−1=65.,Grade 4,Pattern Recognition,3-step
+pattern-forge,Hard,"81, 27, 9, 3, ?",Division sequence,1,6,1,0,2,The same division is repeated.,Divide by 3 each time: 81→27→9→3→1.,Grade 4,Pattern Recognition,3-step
+pattern-forge,Hard,"2, 3, 5, 8, 12, 17, ?",Growing-addition sequence,23,23,21,22,24,Find the successive differences.,"The jumps are +1,+2,+3,+4,+5, so next is +6: 17+6=23.",Grade 4,Pattern Recognition,3-step
+pattern-forge,Hard,"5, 10, 8, 16, 14, 28, ?",Alternating operations,26,24,30,56,26,Two operations repeat in turn.,"The rule alternates ×2, −2: 5→10→8→16→14→28→26.",Grade 4,Pattern Recognition,3-step
+pattern-forge,Hard,"4, 7, 13, 25, 49, ?",Double-minus-one,97,98,99,97,96,Check whether each term is nearly double the previous one.,Each term is previous×2−1: 49×2−1=97.,Grade 4,Pattern Recognition,3-step
+pattern-forge,Hard,"A, C, F, J, O, ?",Growing letter gaps,U,W,U,T,V,The alphabet jump increases by one each time.,"The jumps are +2,+3,+4,+5, so next is +6: O→U.",Grade 4,Pattern Recognition,3-step
+pattern-forge,Hard,"100, 95, 85, 70, 50, ?",Growing-subtraction sequence,25,25,20,30,35,The amount subtracted grows by 5.,"Subtract 5,10,15,20, then 25: 50−25=25.",Grade 4,Pattern Recognition,3-step
+pattern-forge,Hard,"2, 4, 12, 48, ?",Changing multiplier,240,96,192,288,240,The multiplier increases each step.,"Multiply by 2, then 3, then 4, so next multiply by 5: 48×5=240.",Grade 4,Pattern Recognition,3-step
