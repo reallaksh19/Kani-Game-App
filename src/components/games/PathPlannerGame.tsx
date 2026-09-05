@@ -25,6 +25,8 @@ export const PathPlannerGame: React.FC<PathPlannerGameProps> = ({ onBack, diffic
     const [timer, setTimer] = useState(120);
     const [playerName, setPlayerName] = useState('');
     const [scoreSaved, setScoreSaved] = useState(false);
+    const [attempted, setAttempted] = useState(0);
+    const [correctCount, setCorrectCount] = useState(0);
 
     const obstacleSet = useMemo(() => new Set(level?.obstacles ?? []), [level]);
     const starSet = useMemo(() => new Set(level?.stars ?? []), [level]);
@@ -40,7 +42,13 @@ export const PathPlannerGame: React.FC<PathPlannerGameProps> = ({ onBack, diffic
     };
 
     const startGame = () => {
-        setStars(0); setStreak(0); setMaxStreak(0); setTimer(120); setScoreSaved(false);
+        setStars(0);
+        setStreak(0);
+        setMaxStreak(0);
+        setTimer(120);
+        setScoreSaved(false);
+        setAttempted(0);
+        setCorrectCount(0);
         nextRound();
     };
 
@@ -62,8 +70,10 @@ export const PathPlannerGame: React.FC<PathPlannerGameProps> = ({ onBack, diffic
         setRobotPos(pos);
         setVisited(path);
         const success = !failed && pos.x === level.goal.x && pos.y === level.goal.y;
+        setAttempted(value => value + 1);
         setFeedback(success ? 'success' : 'fail');
         if (success) {
+            setCorrectCount(value => value + 1);
             const collected = level.stars.filter(star => path.includes(star)).length;
             const efficiency = Math.max(0, level.maxMoves - commands.length);
             const multiplier = level.difficulty === 'Hard' ? 2 : level.difficulty === 'Medium' ? 1.5 : 1;
@@ -131,7 +141,25 @@ export const PathPlannerGame: React.FC<PathPlannerGameProps> = ({ onBack, diffic
                         {gameState === 'result' && <div className={`mt-5 text-xl font-bold ${feedback === 'success' ? 'text-emerald-300' : 'text-rose-300'}`}>{feedback === 'success' ? 'Route complete!' : 'That program did not reach the goal. A solvable route is available.'}</div>}
                     </div>
                 )}
-                {gameState === 'gameover' && <GameOverScreen stars={stars} streak={maxStreak} onRestart={startGame} onBack={onBack} onSaveScore={handleSaveScore} playerName={playerName} setPlayerName={setPlayerName} scoreSaved={scoreSaved} />}
+                {gameState === 'gameover' && (
+                    <GameOverScreen
+                        stars={stars}
+                        streak={maxStreak}
+                        onRestart={startGame}
+                        onBack={onBack}
+                        onSaveScore={handleSaveScore}
+                        playerName={playerName}
+                        setPlayerName={setPlayerName}
+                        scoreSaved={scoreSaved}
+                        gameTitle="Path Planner"
+                        skill="Planning & Spatial Reasoning"
+                        difficulty={difficulty === 'None' ? 'Mixed' : difficulty}
+                        correct={correctCount}
+                        attempted={attempted}
+                        durationSeconds={120 - timer}
+                        backLabel="BRAIN HUB"
+                    />
+                )}
             </div>
         </SpaceBackground>
     );
