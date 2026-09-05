@@ -4,6 +4,7 @@ import { Header } from '../shared/Header';
 import { GameOverScreen } from '../shared/GameOverScreen';
 import { useAppContext } from '../../contexts/AppContext';
 import { Difficulty } from '../../types';
+import { BrainReviewItem } from '../../types/brainReview';
 import { generateScaleRound, ScaleRound } from '../../utils/brainGameGenerators';
 
 interface ScaleSenseGameProps { onBack: () => void; difficulty: Difficulty; }
@@ -21,6 +22,7 @@ export const ScaleSenseGame: React.FC<ScaleSenseGameProps> = ({ onBack, difficul
     const [selected, setSelected] = useState<number | null>(null);
     const [attempted, setAttempted] = useState(0);
     const [correctCount, setCorrectCount] = useState(0);
+    const [reviewItems, setReviewItems] = useState<BrainReviewItem[]>([]);
 
     const nextRound = () => {
         setRound(generateScaleRound(difficulty));
@@ -36,14 +38,25 @@ export const ScaleSenseGame: React.FC<ScaleSenseGameProps> = ({ onBack, difficul
         setScoreSaved(false);
         setAttempted(0);
         setCorrectCount(0);
+        setReviewItems([]);
         nextRound();
     };
 
     const handleAnswer = (value: number) => {
         if (!round || gameState !== 'play') return;
+        const correct = value === round.answer;
         setSelected(value);
         setAttempted(count => count + 1);
-        const correct = value === round.answer;
+        setReviewItems(items => [...items, {
+            kind: 'scale',
+            id: `scale-${items.length + 1}-${Date.now()}`,
+            round: items.length + 1,
+            correct,
+            difficulty: round.difficulty,
+            leftItems: [...round.leftItems],
+            selected: value,
+            answer: round.answer,
+        }]);
         if (correct) {
             setCorrectCount(count => count + 1);
             const multiplier = round.difficulty === 'Hard' ? 2 : round.difficulty === 'Medium' ? 1.5 : 1;
@@ -91,50 +104,18 @@ export const ScaleSenseGame: React.FC<ScaleSenseGameProps> = ({ onBack, difficul
                         <div className="mb-3 text-sm font-bold uppercase tracking-wider text-amber-200">{round.difficulty} · {round.leftItems.length} weights</div>
                         <div className="relative mx-auto mb-10 h-56 max-w-xl">
                             <div className="absolute bottom-0 left-1/2 h-36 w-4 -translate-x-1/2 rounded-t bg-slate-400" />
-                            <div className="absolute top-20 left-1/2 h-2 w-4/5 -translate-x-1/2 bg-slate-300 transition-transform duration-500"
-                                style={{ transform: `translateX(-50%) rotate(${selected === null ? 0 : selected < round.answer ? -9 : selected > round.answer ? 9 : 0}deg)` }}>
-                                <div className="absolute left-0 top-2 w-40 -translate-x-1/3 rounded-2xl border border-amber-300/40 bg-amber-950/70 p-3">
-                                    <div className="flex flex-wrap justify-center gap-2">
-                                        {round.leftItems.map((value, i) => <span key={i} className="flex h-10 w-10 items-center justify-center rounded-full bg-amber-500 text-white font-black">{value}</span>)}
-                                    </div>
-                                </div>
-                                <div className="absolute right-0 top-2 w-28 translate-x-1/3 rounded-2xl border border-indigo-300/40 bg-indigo-950/70 p-4 text-2xl font-black text-white">
-                                    {selected ?? '?'}
-                                </div>
+                            <div className="absolute top-20 left-1/2 h-2 w-4/5 -translate-x-1/2 bg-slate-300 transition-transform duration-500" style={{ transform: `translateX(-50%) rotate(${selected === null ? 0 : selected < round.answer ? -9 : selected > round.answer ? 9 : 0}deg)` }}>
+                                <div className="absolute left-0 top-2 w-40 -translate-x-1/3 rounded-2xl border border-amber-300/40 bg-amber-950/70 p-3"><div className="flex flex-wrap justify-center gap-2">{round.leftItems.map((value, i) => <span key={i} className="flex h-10 w-10 items-center justify-center rounded-full bg-amber-500 text-white font-black">{value}</span>)}</div></div>
+                                <div className="absolute right-0 top-2 w-28 translate-x-1/3 rounded-2xl border border-indigo-300/40 bg-indigo-950/70 p-4 text-2xl font-black text-white">{selected ?? '?'}</div>
                             </div>
                         </div>
                         <div className="mb-4 text-xl font-bold text-white">Which weight balances the scale?</div>
-                        <div className="flex flex-wrap justify-center gap-3">
-                            {round.options.map(value => {
-                                const show = gameState === 'result';
-                                const correct = value === round.answer;
-                                const chosen = value === selected;
-                                return <button key={value} disabled={show} onClick={() => handleAnswer(value)} className={`h-16 w-16 rounded-full border-2 text-xl font-black transition ${show && correct ? 'bg-emerald-500 border-emerald-200 text-white' : show && chosen ? 'bg-rose-500 border-rose-200 text-white' : 'bg-amber-500 border-amber-300 text-white hover:scale-110'}`}>{value}</button>;
-                            })}
-                        </div>
+                        <div className="flex flex-wrap justify-center gap-3">{round.options.map(value => { const show = gameState === 'result'; const correctOption = value === round.answer; const chosen = value === selected; return <button key={value} disabled={show} onClick={() => handleAnswer(value)} className={`h-16 w-16 rounded-full border-2 text-xl font-black transition ${show && correctOption ? 'bg-emerald-500 border-emerald-200 text-white' : show && chosen ? 'bg-rose-500 border-rose-200 text-white' : 'bg-amber-500 border-amber-300 text-white hover:scale-110'}`}>{value}</button>; })}</div>
                         {gameState === 'result' && <div className={`mt-6 text-xl font-bold ${selected === round.answer ? 'text-emerald-300' : 'text-rose-300'}`}>{selected === round.answer ? 'Balanced!' : `Not quite — ${round.leftItems.join(' + ')} = ${round.answer}`}</div>}
                     </div>
                 )}
 
-                {gameState === 'gameover' && (
-                    <GameOverScreen
-                        stars={stars}
-                        streak={maxStreak}
-                        onRestart={startGame}
-                        onBack={onBack}
-                        onSaveScore={handleSaveScore}
-                        playerName={playerName}
-                        setPlayerName={setPlayerName}
-                        scoreSaved={scoreSaved}
-                        gameTitle="Scale Sense"
-                        skill="Numerical Reasoning"
-                        difficulty={difficulty === 'None' ? 'Mixed' : difficulty}
-                        correct={correctCount}
-                        attempted={attempted}
-                        durationSeconds={60 - timer}
-                        backLabel="BRAIN HUB"
-                    />
-                )}
+                {gameState === 'gameover' && <GameOverScreen stars={stars} streak={maxStreak} onRestart={startGame} onBack={onBack} onSaveScore={handleSaveScore} playerName={playerName} setPlayerName={setPlayerName} scoreSaved={scoreSaved} gameTitle="Scale Sense" skill="Numerical Reasoning" difficulty={difficulty === 'None' ? 'Mixed' : difficulty} correct={correctCount} attempted={attempted} durationSeconds={60 - timer} backLabel="BRAIN HUB" reviewItems={reviewItems} />}
             </div>
         </SpaceBackground>
     );
