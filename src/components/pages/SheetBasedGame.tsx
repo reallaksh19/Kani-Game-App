@@ -4,6 +4,8 @@ import { Header } from '../shared/Header';
 import { DifficultyBadge } from '../shared/DifficultyBadge';
 import { LoadingSpinner } from '../shared/LoadingSpinner';
 import { GameOverScreen } from '../shared/GameOverScreen';
+import { SvgDiagramRenderer } from '../shared/SvgDiagramRenderer';
+import { SessionReviewSummary } from '../shared/SessionReviewSummary';
 import { StoryNebulaRenderer, InferenceInvestigatorRenderer } from '../../renderers/ComprehensionRenderer';
 import { VocabularyRenderer } from '../../renderers/VocabularyRenderer';
 import { SpyglassRenderer } from '../../renderers/SpyglassRenderer';
@@ -388,7 +390,7 @@ export const SheetBasedGame: React.FC<SheetBasedGameProps> = ({ onBack, difficul
     };
 
     const {
-        gameState: { stars, timer, gameActive, gameOver, currentQ, streak, maxStreak, feedback, playerName, scoreSaved, currentIndex, totalQuestions, answers, hintLogs, totalHintsUsed },
+        gameState: { stars, timer, gameActive, gameOver, currentQ, questionsQueue, streak, maxStreak, feedback, playerName, scoreSaved, currentIndex, totalQuestions, answers, hintLogs, totalHintsUsed },
         setters: { setPlayerName },
         actions: { startGame, handleAnswer, handleSaveScore, navigateQuestion, toggleHint },
         data: { loading, error, questionsCount }
@@ -1295,7 +1297,6 @@ export const SheetBasedGame: React.FC<SheetBasedGameProps> = ({ onBack, difficul
             const selectedOption = answerState?.selected;
             const selectedIndex = selectedOption ? options.indexOf(selectedOption) : -1;
             const selectedLetter = selectedIndex >= 0 ? String.fromCharCode(65 + selectedIndex) : '';
-            const passRate = currentQ.difficulty === 'Hard' ? '31%' : '56%';
 
             return (
                 <div className="w-full max-w-3xl relative animate-slideIn pb-24">
@@ -1330,7 +1331,14 @@ export const SheetBasedGame: React.FC<SheetBasedGameProps> = ({ onBack, difficul
                                 {currentQ.text1}
                             </div>
 
-                            {/* User Answer, Time & Pass Rate Bar (LogIQids Style) */}
+                            {/* SVG Diagram if provided */}
+                            {currentQ.image_url && (
+                                <div className="my-2">
+                                    <SvgDiagramRenderer url={currentQ.image_url} />
+                                </div>
+                            )}
+
+                            {/* User Answer & Time Bar (Genuine recorded data only) */}
                             <div className="flex flex-wrap items-center gap-3 py-2 border-y border-gray-100 my-4 text-xs font-bold text-gray-500">
                                 {isAnswered && (
                                     <span className={`px-3 py-1 rounded-full font-extrabold flex items-center gap-1.5 ${
@@ -1342,10 +1350,6 @@ export const SheetBasedGame: React.FC<SheetBasedGameProps> = ({ onBack, difficul
                                         <span>{answerState.isCorrect ? '✓' : '✗'}</span>
                                     </span>
                                 )}
-                                <span className="flex items-center gap-1 text-gray-600">
-                                    <span>👥</span>
-                                    <span>{passRate} users solved it right</span>
-                                </span>
                                 <span className="flex items-center gap-1 text-gray-500 ml-auto">
                                     <span>⏱️ Time:</span>
                                     <span>{Math.floor(timer / 60)}m {timer % 60}s</span>
@@ -1472,7 +1476,35 @@ export const SheetBasedGame: React.FC<SheetBasedGameProps> = ({ onBack, difficul
                         </button>
                     </div>
                 )}
-                {gameOver && <GameOverScreen stars={stars} streak={maxStreak} onRestart={startGame} onBack={onBack} onSaveScore={handleSaveScore} playerName={playerName} setPlayerName={setPlayerName} scoreSaved={scoreSaved} />}
+                {gameOver && (
+                    gameId.startsWith('lq-') ? (
+                        <SessionReviewSummary
+                            title={`${safeTitle} · Review Summary`}
+                            questions={questionsQueue}
+                            answers={answers}
+                            stars={stars}
+                            streak={maxStreak}
+                            totalTime={timer}
+                            playerName={playerName}
+                            setPlayerName={setPlayerName}
+                            scoreSaved={scoreSaved}
+                            onSaveScore={handleSaveScore}
+                            onRestart={startGame}
+                            onBack={onBack}
+                        />
+                    ) : (
+                        <GameOverScreen
+                            stars={stars}
+                            streak={maxStreak}
+                            onRestart={startGame}
+                            onBack={onBack}
+                            onSaveScore={handleSaveScore}
+                            playerName={playerName}
+                            setPlayerName={setPlayerName}
+                            scoreSaved={scoreSaved}
+                        />
+                    )
+                )}
 
                 {gameActive && (
                     <>

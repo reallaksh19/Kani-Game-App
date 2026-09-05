@@ -45,8 +45,9 @@ export const useGameLogic = (
     const [totalQuestions, setTotalQuestions] = useState(0);
 
     // Persistence and Navigation State
-    const [answers, setAnswers] = useState<Record<number, { selected: string, isCorrect: boolean }>>({});
+    const [answers, setAnswers] = useState<Record<number, { selected: string, isCorrect: boolean, timeSpent?: number }>>({});
     const [hintLogs, setHintLogs] = useState<Record<number, boolean>>({});
+    const [questionStartTime, setQuestionStartTime] = useState<number>(Date.now());
 
     const filterQuestions = useCallback(() => {
         return allQuestions.filter(q => !q.difficulty || q.difficulty === difficulty || difficulty === 'None');
@@ -82,6 +83,7 @@ export const useGameLogic = (
         setAnswers({});
         setHintLogs({});
         setFeedback(null);
+        setQuestionStartTime(Date.now());
 
         // Prepare session questions
         const filtered = filterQuestions();
@@ -137,11 +139,12 @@ export const useGameLogic = (
         if (!gameActive || answers[currentIndex]) return;
 
         const isCorrect = selected === correct || selected === String(correct);
+        const elapsedSec = Math.max(1, Math.round((Date.now() - questionStartTime) / 1000));
 
         // Save answer
         setAnswers(prev => ({
             ...prev,
-            [currentIndex]: { selected, isCorrect }
+            [currentIndex]: { selected, isCorrect, timeSpent: elapsedSec }
         }));
 
         // Calculate points
@@ -167,6 +170,7 @@ export const useGameLogic = (
             setCurrentIndex(newIndex);
             setCurrentQ(questionsQueue[newIndex]);
             setFeedback(null); // Clear feedback when navigating
+            setQuestionStartTime(Date.now());
         } else if (direction === 'next' && newIndex >= questionsQueue.length) {
             // End Game
             setGameActive(false);
@@ -195,6 +199,7 @@ export const useGameLogic = (
             gameActive,
             gameOver,
             currentQ,
+            questionsQueue,
             streak,
             maxStreak,
             feedback,
