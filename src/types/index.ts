@@ -128,6 +128,7 @@ export interface ThemeConfig {
 export interface LeaderboardEntry {
     game: string;
     name: string;
+    studentId?: string;
     stars: number;
     streak: number;
     date: string;
