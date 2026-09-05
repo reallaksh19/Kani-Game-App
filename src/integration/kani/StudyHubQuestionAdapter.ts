@@ -11,6 +11,13 @@ export interface StudyHubQuestionAdapterResult {
   unsupported: StudyHubQuestionAdapterIssue[];
 }
 
+const ASSERTION_REASON_OPTIONS = [
+  { id: 'both_true_reason_explains_assertion', label: 'Both A and R are true, and R correctly explains A.' },
+  { id: 'both_true_reason_not_explain', label: 'Both A and R are true, but R does not explain A.' },
+  { id: 'assertion_true_reason_false', label: 'A is true, but R is false.' },
+  { id: 'assertion_false_reason_true', label: 'A is false, but R is true.' },
+] as const;
+
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
@@ -109,6 +116,16 @@ function sequenceOrder(value: unknown, itemCount: number): number[] | null {
   if (order.length !== itemCount || new Set(order).size !== itemCount) return null;
   if (order.some((item) => item < 0 || item >= itemCount)) return null;
   return order;
+}
+
+function assertionReasonAnswer(value: unknown): { options: string[]; answerIndex: number } | null {
+  if (typeof value !== 'string') return null;
+  const index = ASSERTION_REASON_OPTIONS.findIndex((option) => option.id === value.trim());
+  if (index < 0) return null;
+  return {
+    options: ASSERTION_REASON_OPTIONS.map((option) => option.label),
+    answerIndex: index,
+  };
 }
 
 function commonMetadata(raw: Record<string, unknown>, page: StudyHubPageDocument, meta: KaniCatalogPage, id: string) {
@@ -249,6 +266,18 @@ export function adaptStudyHubPageQuestions(page: StudyHubPageDocument, meta: Kan
         return;
       }
       questions.push({ ...base, type, prompt, leftItems, rightItems, correctPairs: pairs });
+      return;
+    }
+
+    if (type === 'assertion_reason') {
+      const assertion = typeof value.assertion === 'string' ? value.assertion.trim() : '';
+      const reason = typeof value.reason === 'string' ? value.reason.trim() : '';
+      const resolved = assertionReasonAnswer(value.answerPattern);
+      if (!assertion || !reason || !resolved) {
+        unsupported.push({ questionId: id, type, reason: 'Assertion/reason requires assertion, reason and a recognized Study-Hub answerPattern' });
+        return;
+      }
+      questions.push({ ...base, type, assertion, reason, options: resolved.options, answerIndex: resolved.answerIndex });
       return;
     }
 
