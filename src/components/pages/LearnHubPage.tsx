@@ -3,6 +3,7 @@ import { SpaceBackground } from '../shared/SpaceBackground';
 import { KaniCatalogTopic, KaniCatalogV1, StudyHubPageDocument } from '../../integration/kani/contracts';
 import { StudyHubContentClient } from '../../integration/kani/StudyHubContentClient';
 import { getKaniIntegrationConfig } from '../../integration/kani/integrationConfig';
+import { StudyHubPracticePanel } from '../integration/StudyHubPracticePanel';
 
 interface LearnHubPageProps {
   onBack: () => void;
@@ -46,6 +47,7 @@ export const LearnHubPage: React.FC<LearnHubPageProps> = ({ onBack }) => {
   const selectedTopic: KaniCatalogTopic | undefined = catalog?.topics.find((topic) => topic.id === selectedTopicId);
   const pages = catalog?.pages.filter((page) => page.topicId === selectedTopicId) || [];
   const subjectById = new Map((catalog?.subjects || []).map((subject) => [subject.id, subject]));
+  const selectedPageMeta = selectedPage ? catalog?.pages.find((page) => page.id === selectedPage.id) : undefined;
 
   const openPage = async (pageId: string) => {
     setLoadingPageId(pageId);
@@ -137,11 +139,12 @@ export const LearnHubPage: React.FC<LearnHubPageProps> = ({ onBack }) => {
                         <Info label="Kind" value={String(selectedPage.pageKind || 'lesson')} />
                       </div>
                       <div className="mt-5 rounded-2xl border border-purple-300/20 bg-purple-950/30 p-4 text-sm text-purple-100">
-                        Runtime lesson rendering remains owned by Study-Hub. This placeholder proves the Game App can discover and load canonical Study-Hub content without importing Study-Hub React internals.
+                        Lesson rendering remains owned by Study-Hub. Structured questions can now cross the content boundary and run through Kani without importing Study-Hub React internals.
                       </div>
                       <div className="mt-4 text-sm text-slate-300">
                         Blocks: {Array.isArray(selectedPage.blocks) ? selectedPage.blocks.length : 0} · Clarifiers: {Array.isArray(selectedPage.clarifiers) ? selectedPage.clarifiers.length : 0} · Questions: {Array.isArray(selectedPage.questions) ? selectedPage.questions.length : 0}
                       </div>
+                      {selectedPageMeta && <StudyHubPracticePanel page={selectedPage} pageMeta={selectedPageMeta} />}
                     </div>
                   ) : (
                     <div>
