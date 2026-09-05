@@ -1,0 +1,13 @@
+game_type,difficulty,text1,text2,answer,option1,option2,option3,option4,hint
+logic-lab,Easy,All dogs have tails. Max is a dog.,Does Max have a tail?,Yes,Yes,No,Maybe,Sometimes,Think about what we know about dogs
+logic-lab,Easy,Red is bigger than Blue. Green is smaller than Blue.,Which is biggest?,Red,Red,Blue,Green,Same size,Compare step by step
+logic-lab,Easy,"If it rains, grass gets wet. It is raining.",Is the grass wet?,Yes,Yes,No,Maybe,Only sometimes,Cause and effect
+logic-lab,Easy,Cats meow. Fluffy is a cat.,Does Fluffy meow?,Yes,Yes,No,Maybe,Bark,Drawing conclusions
+logic-lab,Medium,Amy is taller than Ben. Ben is taller than Carl.,Who is shortest?,Carl,Amy,Ben,Carl,All same,Order from tall to short
+logic-lab,Medium,All birds have feathers. A penguin is a bird.,Does a penguin have feathers?,Yes,Yes,No,Maybe,Only some,Penguins are birds
+logic-lab,Medium,No fish can fly. Nemo is a fish.,Can Nemo fly?,No,No,Yes,Maybe,Sometimes,Direct rule
+logic-lab,Medium,A square has 4 sides. This shape has 3 sides.,Is it a square?,No,No,Yes,Maybe,Almost,Definition check
+logic-lab,Hard,Tom has more apples than Sue. Sue has more than Pat. Pat has 3 apples.,Tom has at least how many?,5,5,4,3,6,Work backwards
+logic-lab,Hard,In a race: A is not first. B beats C. C beats A.,Who wins the race?,B,A,B,C,Tie,Think about order
+logic-lab,Hard,Start with 5. Double it. Subtract 2. Divide by 4.,What's the number?,2,2,4,3,5,Follow steps carefully
+logic-lab,Hard,Every Zorp is a Blip. No Blip is a Crag.,Is a Zorp a Crag?,No,No,Yes,Maybe,Sometimes,Set logic

@@ -1,0 +1,10 @@
+game_type,difficulty,text1,text2,answer,option1,option2,option3,option4,hint
+sequence-sprint,Easy,3,sequence_length,emojis,🔴,🔵,🟢,🟡,Remember 3 items
+sequence-sprint,Easy,4,sequence_length,numbers,1,2,3,4,Remember 4 numbers
+sequence-sprint,Easy,4,sequence_length,emojis,🟣,🟠,⭐,💎,Pattern of 4
+sequence-sprint,Medium,5,sequence_length,emojis,🔴,🔵,🟢,🟡,Remember 5 items
+sequence-sprint,Medium,6,sequence_length,numbers,1,2,3,4,Remember 6 numbers
+sequence-sprint,Medium,5,sequence_length,mixed,A,1,B,2,Mixed sequence
+sequence-sprint,Hard,7,sequence_length,emojis,🔴,🔵,🟢,🟡,Remember 7 items
+sequence-sprint,Hard,8,sequence_length,mixed,🔴,🔵,A,B,Remember 8 mixed items
+sequence-sprint,Hard,9,sequence_length,numbers,9,8,7,6,Long reverse sequence

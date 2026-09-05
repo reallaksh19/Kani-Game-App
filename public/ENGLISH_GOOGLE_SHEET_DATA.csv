@@ -1,0 +1,538 @@
+game_type,text1,text2,answer,option1,option2,option3,option4,difficulty,category,know_more,hint,image_url,topic
+grammar-galaxy,She don't like apples.,Subject-Verb Agreement,doesn't,doesn't,don't,didn't,won't,Easy,grammar,She is singular so use DOESN'T not don't!,,
+grammar-galaxy,The cats is sleeping.,Subject-Verb Agreement,are,is,are,was,be,Easy,grammar,Cats is plural so use ARE not is!,,
+grammar-galaxy,Him went to school.,Pronoun,He,Him,He,His,Her,Easy,grammar,Use HE for subject (doing action). HIM is for objects.,,
+grammar-galaxy,I seen the movie yesterday.,Verb Tense,saw,seen,saw,see,seeing,Easy,grammar,Past tense of see is SAW. Seen needs have/had before it.,,
+grammar-galaxy,They was very happy.,Subject-Verb Agreement,were,was,were,is,be,Easy,grammar,They is plural so use WERE not was!,,
+grammar-galaxy,She run very fast everyday.,Subject-Verb Agreement,runs,run,runs,running,ran,Medium,grammar,She/He/It needs an S on the verb! She RUNS.,,
+grammar-galaxy,The dog chased it's tail.,Apostrophe,its,it's,its,its',it,Medium,grammar,ITS (no apostrophe) = belonging to it. IT'S = it is.,,
+grammar-galaxy,Everyone have finished their work.,Subject-Verb Agreement,has,have,has,had,having,Medium,grammar,Everyone is singular! Use HAS not have.,,
+grammar-galaxy,She speaks more louder than him.,Comparative,louder,more louder,louder,more loud,loudest,Medium,grammar,Never use MORE with -ER words. Just LOUDER not more louder!,,
+grammar-galaxy,Between you and I this is wrong.,Pronoun,me,I,me,myself,mine,Medium,grammar,Between you and ME. Object pronouns after prepositions!,,
+grammar-galaxy,The team are playing good today.,Adverb/Adjective,well,good,well,better,best,Hard,grammar,WELL is the adverb. GOOD is an adjective. Playing WELL!,,
+grammar-galaxy,If I was you I would leave now.,Subjunctive,were,was,were,am,be,Hard,grammar,If I WERE you - subjunctive mood for hypotheticals!,,
+grammar-galaxy,The number of students have increased.,Subject-Verb Agreement,has,have,has,had,having,Hard,grammar,The NUMBER (singular) HAS increased. Numbers HAVE...,,
+grammar-galaxy,Whom is responsible for this mess?,Pronoun,Who,Whom,Who,Whose,Which,Hard,grammar,WHO for subjects (doing action). WHOM for objects.,,
+grammar-galaxy,She lay the book on the table.,Verb Form,laid,lay,laid,lain,lied,Hard,grammar,LAY needs an object (lay something). Past tense is LAID.,,
+word-class-warp,dog,noun,noun,noun,verb,adjective,adverb,Easy,parts-of-speech,Nouns are people places things or ideas. Dog is a thing!,,
+word-class-warp,run,verb,verb,noun,verb,adjective,adverb,Easy,parts-of-speech,Verbs are action words - what you DO. Run is an action!,,
+word-class-warp,beautiful,adjective,adjective,noun,verb,adjective,adverb,Easy,parts-of-speech,Adjectives describe nouns. Beautiful flower - beautiful is adjective!,,
+word-class-warp,quickly,adverb,adverb,noun,verb,adjective,adverb,Easy,parts-of-speech,Adverbs describe verbs (how you do things). Run QUICKLY!,,
+word-class-warp,happiness,noun,noun,noun,verb,adjective,adverb,Easy,parts-of-speech,Happiness is a thing (an idea/feeling) so its a noun!,,
+word-class-warp,think,verb,verb,noun,verb,adjective,adverb,Medium,parts-of-speech,Think is what your brain DOES - its an action verb!,,
+word-class-warp,enormous,adjective,adjective,noun,verb,adjective,adverb,Medium,parts-of-speech,Enormous describes size. Enormous elephant - its an adjective!,,
+word-class-warp,silently,adverb,adverb,noun,verb,adjective,adverb,Medium,parts-of-speech,-LY ending usually means adverb! Silently describes HOW.,,
+word-class-warp,freedom,noun,noun,noun,verb,adjective,adverb,Medium,parts-of-speech,Freedom is an idea/concept - abstract noun!,,
+word-class-warp,discover,verb,verb,noun,verb,adjective,adverb,Medium,parts-of-speech,Discover is what scientists DO - its an action verb!,,
+word-class-warp,mysterious,adjective,adjective,noun,verb,adjective,adverb,Hard,parts-of-speech,Mysterious describes something. The mysterious box!,,
+word-class-warp,communicate,verb,verb,noun,verb,adjective,adverb,Hard,parts-of-speech,Communicate is an action - something you DO with others!,,
+word-class-warp,extremely,adverb,adverb,noun,verb,adjective,adverb,Hard,parts-of-speech,Extremely modifies adjectives/adverbs. Extremely fast!,,
+word-class-warp,achievement,noun,noun,noun,verb,adjective,adverb,Hard,parts-of-speech,Achievement is a thing you earn - its a noun!,,
+word-class-warp,brilliant,adjective,adjective,noun,verb,adjective,adverb,Hard,parts-of-speech,Brilliant describes someone/something. A brilliant idea!,,
+punctuation-pop,What time is it,question,?,.,?,!,",",Easy,punctuation,Questions need question marks! They ask something.,,
+punctuation-pop,I love ice cream,statement,.,.,?,!,",",Easy,punctuation,Statements (telling facts) end with periods.,,
+punctuation-pop,Wow that is amazing,exclamation,!,.,?,!,",",Easy,punctuation,Exclamations show strong feelings! Use exclamation marks!,,
+punctuation-pop,Where are you going,question,?,.,?,!,",",Easy,punctuation,Where When What Why How = question words need ?,,
+punctuation-pop,Stop right there,command,!,.,?,!,",",Easy,punctuation,Commands can use ! for urgency or . for calm commands.,,
+punctuation-pop,The cat sat on the mat,statement,.,.,?,!,",",Medium,punctuation,This tells us something happened - its a statement (.),,
+punctuation-pop,How beautiful the sunset is,exclamation,!,.,?,!,",",Medium,punctuation,Strong emotion about beauty - use exclamation mark!,,
+punctuation-pop,Can you help me please,question,?,.,?,!,",",Medium,punctuation,Asking for help = question. Needs ?,,
+punctuation-pop,She said hello to me,statement,.,.,?,!,",",Medium,punctuation,Reporting what happened = statement. Ends with period.,,
+punctuation-pop,What a wonderful day,exclamation,!,.,?,!,",",Medium,punctuation,What a... shows strong feeling = exclamation!,,
+punctuation-pop,Have you finished your homework,question,?,.,?,!,",",Hard,punctuation,Have you...? Is asking - needs question mark!,,
+punctuation-pop,I cannot believe it,exclamation,!,.,?,!,",",Hard,punctuation,Strong disbelief = strong emotion = exclamation!,,
+punctuation-pop,The train leaves at noon,statement,.,.,?,!,",",Hard,punctuation,Giving information calmly = statement with period.,,
+punctuation-pop,Watch out for that car,command,!,.,?,!,",",Hard,punctuation,Urgent warning command - exclamation mark!,,
+punctuation-pop,Did she really say that,question,?,.,?,!,",",Hard,punctuation,Did she...? = question asking for yes/no answer.,,
+tense-traveler,walk,past,walked,walk,walked,walks,will walk,Easy,tenses,Past tense adds -ED for regular verbs. Walk → Walked!,,
+tense-traveler,walk,present,walks,walk,walked,walks,will walk,Easy,tenses,Present tense for he/she adds -S. He walks every day.,,
+tense-traveler,walk,future,will walk,walk,walked,walks,will walk,Easy,tenses,Future tense uses WILL + verb. Will walk tomorrow.,,
+tense-traveler,run,past,ran,run,ran,runs,will run,Easy,tenses,Run is irregular! Past = RAN not runned.,,
+tense-traveler,run,present,runs,run,ran,runs,will run,Easy,tenses,He/She RUNS every morning. Add -S for present.,,
+tense-traveler,eat,past,ate,eat,ate,eats,will eat,Medium,tenses,Eat is irregular. Past = ATE. Yesterday I ate pizza.,,
+tense-traveler,eat,future,will eat,eat,ate,eats,will eat,Medium,tenses,Tomorrow I WILL EAT breakfast. WILL + base verb.,,
+tense-traveler,write,past,wrote,write,wrote,writes,will write,Medium,tenses,Write → Wrote (past). Irregular verb!,,
+tense-traveler,sing,past,sang,sing,sang,sings,will sing,Medium,tenses,Sing → Sang (past). She sang beautifully yesterday.,,
+tense-traveler,swim,past,swam,swim,swam,swims,will swim,Medium,tenses,Swim → Swam (past). We swam in the pool.,,
+tense-traveler,think,past,thought,think,thought,thinks,will think,Hard,tenses,Think → Thought. Irregular - memorize it!,,
+tense-traveler,speak,past,spoke,speak,spoke,speaks,will speak,Hard,tenses,Speak → Spoke (past). He spoke to the class.,,
+tense-traveler,bring,past,brought,bring,brought,brings,will bring,Hard,tenses,Bring → Brought. Similar to think → thought!,,
+tense-traveler,teach,past,taught,teach,taught,teaches,will teach,Hard,tenses,Teach → Taught. The teacher taught math.,,
+tense-traveler,catch,past,caught,catch,caught,catches,will catch,Hard,tenses,Catch → Caught. I caught the ball yesterday.,,
+synonym-stars,happy,synonym,joyful,joyful,sad,angry,tired,Easy,vocabulary,Synonyms mean the SAME thing! Happy = Joyful.,,
+synonym-stars,big,synonym,large,large,small,tiny,short,Easy,vocabulary,Big and Large mean the same - both describe size!,,
+synonym-stars,fast,synonym,quick,quick,slow,lazy,heavy,Easy,vocabulary,Fast and Quick both mean speedy!,,
+synonym-stars,smart,synonym,intelligent,intelligent,dumb,slow,weak,Easy,vocabulary,Smart = Intelligent = Clever. All mean brainy!,,
+synonym-stars,beautiful,synonym,gorgeous,gorgeous,ugly,plain,dull,Easy,vocabulary,Beautiful and Gorgeous both mean very pretty!,,
+synonym-stars,begin,synonym,start,start,end,finish,stop,Medium,vocabulary,Begin and Start mean the same - to commence!,,
+synonym-stars,brave,synonym,courageous,courageous,scared,afraid,weak,Medium,vocabulary,Brave = Courageous = Fearless. Same meaning!,,
+synonym-stars,calm,synonym,peaceful,peaceful,angry,wild,loud,Medium,vocabulary,Calm and Peaceful both mean tranquil and quiet.,,
+synonym-stars,difficult,synonym,hard,hard,easy,simple,clear,Medium,vocabulary,Difficult = Hard = Challenging. Same meaning!,,
+synonym-stars,enormous,synonym,huge,huge,tiny,small,little,Medium,vocabulary,Enormous = Huge = Gigantic. All mean very big!,,
+synonym-stars,ancient,synonym,old,old,new,modern,young,Hard,vocabulary,Ancient means very very old - from long ago!,,
+synonym-stars,purchase,synonym,buy,buy,sell,give,throw,Hard,vocabulary,Purchase is a fancy word for buy!,,
+synonym-stars,vanish,synonym,disappear,disappear,appear,arrive,stay,Hard,vocabulary,Vanish = Disappear. Both mean go away suddenly!,,
+synonym-stars,wealthy,synonym,rich,rich,poor,broke,needy,Hard,vocabulary,Wealthy = Rich = Affluent. Having lots of money!,,
+synonym-stars,rapid,synonym,swift,swift,slow,lazy,still,Hard,vocabulary,Rapid = Swift = Fast = Quick. All mean speedy!,,
+antonym-asteroids,happy,antonym,sad,sad,joyful,glad,pleased,Easy,vocabulary,Antonyms are OPPOSITES! Happy ↔ Sad.,,
+antonym-asteroids,big,antonym,small,small,large,huge,giant,Easy,vocabulary,Big is the opposite of Small!,,
+antonym-asteroids,fast,antonym,slow,slow,quick,rapid,swift,Easy,vocabulary,Fast ↔ Slow. Complete opposites!,,
+antonym-asteroids,hot,antonym,cold,cold,warm,heated,burning,Easy,vocabulary,Hot and Cold are temperature opposites!,,
+antonym-asteroids,light,antonym,dark,dark,bright,shiny,glowing,Easy,vocabulary,Light ↔ Dark. Day vs Night!,,
+antonym-asteroids,old,antonym,new,new,ancient,aged,elderly,Medium,vocabulary,Old ↔ New. Ancient ↔ Modern.,,
+antonym-asteroids,love,antonym,hate,hate,adore,like,cherish,Medium,vocabulary,Love is strong positive feeling. Hate is the opposite!,,
+antonym-asteroids,begin,antonym,end,end,start,commence,initiate,Medium,vocabulary,Begin/Start ↔ End/Finish.,,
+antonym-asteroids,easy,antonym,difficult,difficult,simple,effortless,basic,Medium,vocabulary,Easy ↔ Difficult/Hard.,,
+antonym-asteroids,rich,antonym,poor,poor,wealthy,affluent,prosperous,Medium,vocabulary,Rich ↔ Poor. Having money vs not having money.,,
+antonym-asteroids,brave,antonym,cowardly,cowardly,bold,fearless,heroic,Hard,vocabulary,Brave (facing fear) ↔ Cowardly (running from fear).,,
+antonym-asteroids,smooth,antonym,rough,rough,silky,soft,gentle,Hard,vocabulary,Smooth ↔ Rough. Think of textures!,,
+antonym-asteroids,ancient,antonym,modern,modern,old,aged,antique,Hard,vocabulary,Ancient (very old) ↔ Modern (current/new).,,
+antonym-asteroids,generous,antonym,selfish,selfish,kind,giving,charitable,Hard,vocabulary,Generous (giving) ↔ Selfish (keeping for yourself).,,
+antonym-asteroids,humble,antonym,proud,proud,modest,meek,shy,Hard,vocabulary,Humble (modest) ↔ Proud (thinking highly of self).,,
+story-nebula,The Lost Puppy,Emma found a small puppy in the park. It was brown with white spots and looked hungry. She gave it her sandwich and the puppy wagged its tail.,In the park,In the park,At school,At home,In a store,Easy,Where did Emma find the puppy?,Read carefully! The story says in the park.,,
+story-nebula,The Lost Puppy,Emma found a small puppy in the park. It was brown with white spots and looked hungry. She gave it her sandwich and the puppy wagged its tail.,Brown with white spots,Brown with white spots,Black,White,Gray,Easy,What color was the puppy?,Look for color words - brown with white spots!,,
+story-nebula,The Lost Puppy,Emma found a small puppy in the park. It was brown with white spots and looked hungry. She gave it her sandwich and the puppy wagged its tail.,Her sandwich,Her sandwich,Water,A toy,Nothing,Easy,What did Emma give the puppy?,She GAVE it her sandwich - giving means sharing!,,
+story-nebula,The Science Fair,Tom made a volcano for the science fair. He used baking soda and vinegar to make it erupt. Everyone clapped and he won second place.,A volcano,A volcano,Planets,Plants,Animals,Easy,What was Toms project?,His project was a VOLCANO that erupted!,,
+story-nebula,The Science Fair,Tom made a volcano for the science fair. He used baking soda and vinegar to make it erupt. Everyone clapped and he won second place.,Baking soda and vinegar,Baking soda and vinegar,Water,Paint,Fire,Medium,What made it erupt?,Baking soda + vinegar = chemical reaction = eruption!,,
+story-nebula,The Rainy Day,Sarah wanted to play outside but it was raining. She built a blanket fort with her brother. They read books until the rain stopped.,It was raining,It was raining,She was sick,Too hot,Had homework,Easy,Why couldnt Sarah play outside?,Look for the reason - IT WAS RAINING!,,
+story-nebula,The Rainy Day,Sarah wanted to play outside but it was raining. She built a blanket fort with her brother. They read books until the rain stopped.,A blanket fort,A blanket fort,Treehouse,Puzzle,Snowman,Medium,What did Sarah build?,She BUILT a blanket fort - building with blankets!,,
+story-nebula,The Rainy Day,Sarah wanted to play outside but it was raining. She built a blanket fort with her brother. They read books until the rain stopped.,Her brother,Her brother,Her mom,Her friend,No one,Medium,Who helped Sarah?,WITH her brother means he helped!,,
+story-nebula,The Library Visit,Jake went to the library with his grandmother. He found a book about dinosaurs and the librarian helped him check it out.,The library,The library,The park,School,The store,Hard,Where did Jake go?,The first sentence tells us - the LIBRARY!,,
+story-nebula,The Library Visit,Jake went to the library with his grandmother. He found a book about dinosaurs and the librarian helped him check it out.,Dinosaurs,Dinosaurs,Cars,Space,Dogs,Hard,What was the book about?,He found a book ABOUT DINOSAURS!,,
+story-nebula,Birthday Cake,Mom baked a cake for Dads birthday. She used chocolate frosting. When Dad came home he was surprised and happy.,A cake,A cake,Cookies,Pie,Bread,Hard,What did Mom bake?,Mom BAKED a CAKE - look for the action and object!,,
+story-nebula,Birthday Cake,Mom baked a cake for Dads birthday. She used chocolate frosting. When Dad came home he was surprised and happy.,Surprised and happy,Surprised and happy,Angry,Sad,Tired,Hard,How did Dad feel?,Look for feeling words - SURPRISED and HAPPY!,,
+inference-investigator,Maria grabbed her umbrella before leaving the house.,What can you infer about the weather?,It might rain,Very hot,Snowing,Windy,,Easy,inference,Umbrella = expecting rain! Good inference!,,
+inference-investigator,The boys eyes grew wide when he opened the present.,How did the boy feel?,Surprised or excited,Disappointed,Angry,Bored,,Easy,inference,Eyes growing wide = surprise or excitement!,,
+inference-investigator,Sarah yawned and rubbed her eyes during the movie.,What can you infer about Sarah?,She was tired,Scared,Hungry,Cold,,Easy,inference,Yawning + rubbing eyes = signs of being tired!,,
+inference-investigator,The dog wagged its tail and jumped when Tom came home.,How did the dog feel?,Happy to see Tom,Scared,Hungry,Sleepy,,Easy,inference,Wagging tail + jumping = dog is happy and excited!,,
+inference-investigator,Mom put on her apron and took out flour and eggs.,What is Mom going to do?,Bake something,Go shopping,Clean,Watch TV,,Easy,inference,Apron + flour + eggs = baking ingredients!,,
+inference-investigator,The students cheered when teacher said no homework.,How did students feel?,Happy,Sad,Confused,Angry,,Medium,inference,Cheering = celebrating = happy about no homework!,,
+inference-investigator,Dad put on his coat and grabbed car keys.,What is Dad about to do?,Leave the house,Go to sleep,Eat dinner,Watch TV,,Medium,inference,Coat + car keys = going somewhere by car!,,
+inference-investigator,The flowers were drooping and the soil was dry.,What do the flowers need?,Water,Sunlight,Fertilizer,Nothing,,Medium,inference,Drooping + dry soil = thirsty plants need water!,,
+inference-investigator,Lisa smiled and hugged grandma at the airport.,How does Lisa feel?,Happy,Sad,Angry,Scared,,Medium,inference,Smiling + hugging = happy to see grandma!,,
+inference-investigator,The baby cried when loud thunder boomed.,Why is the baby crying?,Thunder scared baby,Baby hungry,Baby tired,Baby hot,,Medium,inference,Loud sounds can scare babies - the thunder frightened the baby!,,
+inference-investigator,Sam practiced piano two hours daily for a month.,What can you infer about Sam?,Wants to improve,Hates piano,Is lazy,No hobbies,,Hard,inference,Practicing a lot = dedicated = wants to get better!,,
+inference-investigator,The bird built a nest and gathered twigs.,What is the bird preparing for?,Having baby birds,Winter,Storm,Moving,,Hard,inference,Nest building = preparing for eggs and baby birds!,,
+inference-investigator,Everyone sang Happy Birthday to Emma.,What event is happening?,Birthday party,Wedding,Graduation,Concert,,Hard,inference,Happy Birthday song = birthday celebration!,,
+inference-investigator,The doctor gave Amy a bandage for her knee.,What happened to Amy?,She hurt her knee,Has cold,Has fever,Is hungry,,Hard,inference,Bandage on knee = knee injury or scrape!,,
+inference-investigator,Empty cookie jar sat on counter with crumbs.,What happened to cookies?,Someone ate them,In oven,Thrown away,Nothing,,Hard,inference,Empty jar + crumbs = cookies were eaten!,,
+grammar-galaxy,The boy run to school every day.,Subject-Verb Agreement,runs,run,runs,ran,running,Easy,grammar,He/She/It needs -s! The boy RUNS.,,
+grammar-galaxy,We was going to the park.,Subject-Verb Agreement,were,was,were,is,are,Easy,grammar,We is plural so use WERE not was!,,
+grammar-galaxy,Her have a new book.,Pronoun,She,Her,She,His,Hers,Easy,grammar,Use SHE for subject. HER is for objects.,,
+grammar-galaxy,Me and John went home.,Pronoun,John and I,Me and John,John and I,I and John,John and me,Medium,grammar,Always put the other person first! John and I.,,
+grammar-galaxy,This is the most biggest house.,Comparative,biggest,most biggest,biggest,bigger,most big,Medium,grammar,Never use MOST with -EST! Just BIGGEST.,,
+grammar-galaxy,Her and I are friends.,Pronoun,She,Her,She,Hers,Herself,Medium,grammar,SHE and I are friends. SHE for subjects!,,
+grammar-galaxy,Neither of the boys are ready.,Subject-Verb Agreement,is,are,is,was,were,Hard,grammar,NEITHER is singular! Use IS not are.,,
+grammar-galaxy,The data is inconsistent.,Subject-Verb Agreement,are,is,are,was,were,Hard,grammar,DATA is plural! Use ARE. Datum is singular.,,
+grammar-galaxy,Me and her went shopping.,Pronoun,She and I,Me and her,She and I,Her and I,I and her,Hard,grammar,SHE and I went shopping. Subject pronouns!,,
+word-class-warp,jump,verb,verb,noun,verb,adjective,adverb,Easy,parts-of-speech,Jump is an action - what you DO!,,
+word-class-warp,happy,adjective,adjective,noun,verb,adjective,adverb,Easy,parts-of-speech,Happy describes feelings. A happy child!,,
+word-class-warp,slowly,adverb,adverb,noun,verb,adjective,adverb,Easy,parts-of-speech,Slowly tells HOW. Walk slowly. -LY = adverb!,,
+word-class-warp,teacher,noun,noun,noun,verb,adjective,adverb,Medium,parts-of-speech,Teacher is a person - that's a noun!,,
+word-class-warp,bright,adjective,adjective,noun,verb,adjective,adverb,Medium,parts-of-speech,Bright describes light. A bright star!,,
+word-class-warp,happily,adverb,adverb,noun,verb,adjective,adverb,Medium,parts-of-speech,Happily tells HOW you do something. -LY ending!,,
+word-class-warp,imagination,noun,noun,noun,verb,adjective,adverb,Hard,parts-of-speech,Imagination is an idea/concept - abstract noun!,,
+word-class-warp,fascinate,verb,verb,noun,verb,adjective,adverb,Hard,parts-of-speech,Fascinate is what interesting things DO to you!,,
+word-class-warp,carefully,adverb,adverb,noun,verb,adjective,adverb,Hard,parts-of-speech,Carefully describes HOW. Drive carefully!,,
+punctuation-pop,Come here right now,command,!,.,?,!,",",Easy,punctuation,Commands with urgency use exclamation marks!,,
+punctuation-pop,I have a dog,statement,.,.,?,!,",",Easy,punctuation,Simple statement = period at the end!,,
+punctuation-pop,Are you okay,question,?,.,?,!,",",Easy,punctuation,Asking if someone is okay = question mark!,,
+punctuation-pop,Please sit down,command,.,.,?,!,",",Medium,punctuation,Polite command can use period for calm tone!,,
+punctuation-pop,Which one do you want,question,?,.,?,!,",",Medium,punctuation,Which = question word needs question mark!,,
+punctuation-pop,Look at that rainbow,exclamation,!,.,?,!,",",Medium,punctuation,Excitement about rainbow = exclamation!,,
+punctuation-pop,Why did you do that,question,?,.,?,!,",",Hard,punctuation,Why = asking for reason = question mark!,,
+punctuation-pop,That hurts so much,exclamation,!,.,?,!,",",Hard,punctuation,Expression of pain = strong feeling = exclamation!,,
+punctuation-pop,The meeting starts at two,statement,.,.,?,!,",",Hard,punctuation,Stating a fact calmly = period!,,
+tense-traveler,jump,past,jumped,jump,jumped,jumps,will jump,Easy,tenses,Past tense: add -ED. Jump → Jumped!,,
+tense-traveler,play,present,plays,play,played,plays,will play,Easy,tenses,She/He PLAYS. Add -S for present with he/she/it!,,
+tense-traveler,talk,future,will talk,talk,talked,talks,will talk,Easy,tenses,Future: WILL + verb. Will talk tomorrow!,,
+tense-traveler,go,past,went,go,went,goes,will go,Medium,tenses,Go is irregular! Past = WENT not goed!,,
+tense-traveler,make,past,made,make,made,makes,will make,Medium,tenses,Make → Made (past). Irregular verb!,,
+tense-traveler,see,past,saw,see,saw,sees,will see,Medium,tenses,See → Saw (past). I saw a bird yesterday!,,
+tense-traveler,fly,past,flew,fly,flew,flies,will fly,Hard,tenses,Fly → Flew. The bird flew away!,,
+tense-traveler,buy,past,bought,buy,bought,buys,will buy,Hard,tenses,Buy → Bought. She bought milk yesterday!,,
+tense-traveler,fight,past,fought,fight,fought,fights,will fight,Hard,tenses,Fight → Fought. They fought bravely!,,
+synonym-stars,tiny,synonym,small,small,big,large,huge,Easy,vocabulary,Tiny and Small both mean very little!,,
+synonym-stars,sad,synonym,unhappy,unhappy,happy,glad,joyful,Easy,vocabulary,Sad = Unhappy = Sorrowful. Same meaning!,,
+synonym-stars,shout,synonym,yell,yell,whisper,quiet,silent,Easy,vocabulary,Shout and Yell both mean speak loudly!,,
+synonym-stars,error,synonym,mistake,mistake,correct,right,perfect,Medium,vocabulary,Error = Mistake = Wrong. All mean not correct!,,
+synonym-stars,sleepy,synonym,tired,tired,awake,alert,energetic,Medium,vocabulary,Sleepy = Tired = Drowsy. Need rest!,,
+synonym-stars,scared,synonym,afraid,afraid,brave,bold,fearless,Medium,vocabulary,Scared = Afraid = Frightened. All mean fearful!,,
+synonym-stars,complete,synonym,finish,finish,start,begin,commence,Hard,vocabulary,Complete = Finish = Conclude. All mean done!,,
+synonym-stars,discover,synonym,find,find,lose,hide,miss,Hard,vocabulary,Discover = Find = Uncover. All mean locate!,,
+synonym-stars,genuine,synonym,real,real,fake,false,phony,Hard,vocabulary,Genuine = Real = Authentic. Not fake!,,
+antonym-asteroids,up,antonym,down,down,above,high,top,Easy,vocabulary,Up ↔ Down. Opposite directions!,,
+antonym-asteroids,day,antonym,night,night,morning,afternoon,evening,Easy,vocabulary,Day (light) ↔ Night (dark)!,,
+antonym-asteroids,happy,antonym,sad,sad,joyful,glad,cheerful,Easy,vocabulary,Happy ↔ Sad. Opposite emotions!,,
+antonym-asteroids,empty,antonym,full,full,hollow,vacant,bare,Medium,vocabulary,Empty (nothing) ↔ Full (filled)!,,
+antonym-asteroids,strong,antonym,weak,weak,powerful,mighty,sturdy,Medium,vocabulary,Strong ↔ Weak. Opposite strengths!,,
+antonym-asteroids,friend,antonym,enemy,enemy,buddy,pal,companion,Medium,vocabulary,Friend (ally) ↔ Enemy (foe)!,,
+antonym-asteroids,increase,antonym,decrease,decrease,grow,expand,enlarge,Hard,vocabulary,Increase (more) ↔ Decrease (less)!,,
+antonym-asteroids,victory,antonym,defeat,defeat,win,triumph,success,Hard,vocabulary,Victory (win) ↔ Defeat (loss)!,,
+antonym-asteroids,accept,antonym,reject,reject,receive,take,welcome,Hard,vocabulary,Accept (take) ↔ Reject (refuse)!,,
+story-nebula,The New Pet,Maria wanted a pet. Her parents took her to the animal shelter. She chose a small orange kitten named Whiskers.,Animal shelter,Animal shelter,Pet store,Zoo,Park,Easy,Where did Maria get her pet?,The story says they went to the ANIMAL SHELTER!,,
+story-nebula,The New Pet,Maria wanted a pet. Her parents took her to the animal shelter. She chose a small orange kitten named Whiskers.,Whiskers,Whiskers,Fluffy,Mittens,Shadow,Easy,What was the kitten's name?,The kitten's name is WHISKERS!,,
+story-nebula,The New Pet,Maria wanted a pet. Her parents took her to the animal shelter. She chose a small orange kitten named Whiskers.,Orange,Orange,Black,White,Gray,Easy,What color was the kitten?,Look for the color word - ORANGE kitten!,,
+story-nebula,The Garden,Tom planted tomato seeds in his garden. He watered them every day. After two months small red tomatoes grew.,Tomato,Tomato,Carrot,Lettuce,Corn,Medium,What did Tom plant?,He planted TOMATO seeds!,,
+story-nebula,The Garden,Tom planted tomato seeds in his garden. He watered them every day. After two months small red tomatoes grew.,Every day,Every day,Once a week,Never,Sometimes,Medium,How often did Tom water?,The story says EVERY DAY!,,
+story-nebula,The Garden,Tom planted tomato seeds in his garden. He watered them every day. After two months small red tomatoes grew.,Two months,Two months,One week,One month,Three months,Medium,How long until tomatoes grew?,AFTER TWO MONTHS they grew!,,
+story-nebula,The Concert,Anna practiced violin for months. On concert night she played beautifully. The audience clapped for five minutes.,Violin,Violin,Piano,Guitar,Flute,Hard,What instrument did Anna play?,She practiced and played the VIOLIN!,,
+story-nebula,The Concert,Anna practiced violin for months. On concert night she played beautifully. The audience clapped for five minutes.,For months,For months,One day,One week,One year,Hard,How long did Anna practice?,She practiced FOR MONTHS!,,
+story-nebula,The Concert,Anna practiced violin for months. On concert night she played beautifully. The audience clapped for five minutes.,Five minutes,Five minutes,One minute,Ten minutes,Two minutes,Hard,How long did audience clap?,They clapped for FIVE MINUTES!,,
+inference-investigator,Tom put on sunscreen before going outside.,Why did Tom use sunscreen?,Sunny day,Rainy,Snowing,Cloudy,,Easy,inference,Sunscreen protects from sun = sunny day expected!,,
+inference-investigator,Mom turned on the heater.,What can you infer?,It was cold,Hot,Warm,Summer,,Easy,inference,Turning on heater = trying to warm up = cold!,,
+inference-investigator,The kids wore costumes and went trick-or-treating.,What holiday is it?,Halloween,Halloween,Christmas,Easter,Birthday,Easy,inference,Costumes + trick-or-treating = Halloween!,,
+inference-investigator,Dad packed suitcases and called a taxi.,What is Dad doing?,Going on trip,Staying home,Sleeping,Cooking,,Medium,inference,Packing + taxi = traveling somewhere!,,
+inference-investigator,Students put books away when bell rang.,What time is it?,End of class,Start of class,Lunchtime,Morning,,Medium,inference,Putting books away at bell = class ending!,,
+inference-investigator,The ice cream melted on the sidewalk.,What was the weather like?,Hot and sunny,Cold,Rainy,Windy,,Medium,inference,Ice cream melting = hot temperature outside!,,
+inference-investigator,The library was quiet and everyone whispered.,Why are people whispering?,Library rules,Party time,Gym class,Recess,,Hard,inference,Libraries require quiet - that's why whispers!,,
+inference-investigator,Chef tasted the soup and added more salt.,What was wrong with soup?,Not salty enough,Too salty,Too hot,Perfect,,Hard,inference,Adding salt = soup needed more salt flavor!,,
+inference-investigator,Bird gathering worms in its beak repeatedly.,What is bird doing?,Feeding babies,Flying south,Building nest,Sleeping,,Hard,inference,Gathering food repeatedly = feeding baby birds!,,
+word-wizard,The _____ kitten hid under the bed during the storm.,frightened means very scared,scared,scared,happy,angry,sleepy,Easy,vocabulary,Context clues: hiding during storm suggests fear,,
+word-wizard,The teacher asked us to _____ the passage carefully before answering.,read with attention,examine,examine,ignore,skip,forget,Easy,vocabulary,Teachers want careful reading,,
+word-wizard,After running the marathon he felt completely _____.,very tired,exhausted,exhausted,energetic,hungry,happy,Medium,vocabulary,Running 26 miles makes you very tired,,
+word-wizard,The _____ explorers discovered a hidden cave in the mountains.,brave and ready for adventure,intrepid,intrepid,scared,tired,lost,Medium,vocabulary,Explorers who discover things are brave,,
+word-wizard,Despite the _____ weather we decided to go hiking anyway.,bad or unpleasant,inclement,inclement,perfect,sunny,beautiful,Hard,vocabulary,Inclement means bad weather,,
+word-wizard,Her _____ response surprised everyone in the meeting.,quick and witty,astute,astute,slow,boring,angry,Hard,vocabulary,Astute means clever and quick,,
+root-raider,bio,biology biography,life,life,water,earth,fire,Easy,vocabulary,Bio = life. Biology = study of life,,
+root-raider,aqua,aquarium aquatic,water,water,fire,earth,air,Easy,vocabulary,Aqua = water. Aquarium = water tank,,
+root-raider,geo,geography geology,earth,earth,water,fire,life,Easy,vocabulary,Geo = earth. Geography = study of earth,,
+root-raider,tele,telephone television,far/distant,far/distant,close,inside,above,Medium,vocabulary,Tele = far. Telephone = far sound,,
+root-raider,chrono,chronological chronicle,time,time,color,sound,light,Medium,vocabulary,Chrono = time. Chronological = in time order,,
+root-raider,phon,phonics telephone,sound,sound,light,smell,taste,Medium,vocabulary,Phon = sound. Phonics = study of sounds,,
+root-raider,bene,benefit beneficial,good/well,good/well,bad,small,large,Hard,vocabulary,Bene = good. Benefit = something good,,
+root-raider,mal,malfunction malice,bad/evil,bad/evil,good,fast,slow,Hard,vocabulary,Mal = bad. Malfunction = bad function,,
+idiom-island,Break a leg!,Said to performers before a show,Good luck!,Good luck!,Get injured,Run away,Be careful,Easy,vocabulary,Theater tradition - wishing good luck,,
+idiom-island,It's raining cats and dogs.,Describing weather,Raining very heavily,Raining very heavily,Animals falling,Light rain,Cloudy sky,Easy,vocabulary,Means extremely heavy rain,,
+idiom-island,Piece of cake,Describing a task,Very easy,Very easy,Delicious food,Party time,Sweet treat,Easy,vocabulary,When something is super easy to do,,
+idiom-island,Hit the books,What a student should do,Study hard,Study hard,Fight books,Throw books,Buy books,Medium,vocabulary,Means to study seriously,,
+idiom-island,Under the weather,How someone feels,Feeling sick,Feeling sick,Outside in rain,Very cold,Lost compass,Medium,vocabulary,Feeling unwell or ill,,
+idiom-island,Cost an arm and a leg,Describing a price,Very expensive,Very expensive,Need surgery,Free item,Body parts,Medium,vocabulary,Something that costs a lot of money,,
+idiom-island,Burning the midnight oil,Describing work habits,Working very late,Working very late,Fire hazard,Cooking oil,Lamp repair,Hard,vocabulary,Working late into the night,,
+idiom-island,Bite off more than you can chew,Describing a situation,Taking on too much,Taking on too much,Eating fast,Dental problem,Food fight,Hard,vocabulary,Taking on more than you can handle,,
+homophone-hunt,_____ going to the park tomorrow.,They are going,They're,They're,Their,There,They,Easy,vocabulary,They're = They are,,
+homophone-hunt,The dog wagged _____ tail happily.,Belonging to the dog,its,its,it's,its',is,Easy,vocabulary,Its = belonging to it (no apostrophe),,
+homophone-hunt,Put the books over _____.,That place,there,there,their,they're,the,Easy,vocabulary,There = a place,,
+homophone-hunt,_____ house is the blue one on the corner.,Belonging to them,Their,Their,There,They're,Theirs,Medium,vocabulary,Their = belonging to them,,
+homophone-hunt,I _____ the answer to the question.,Past tense of know,knew,knew,new,kniew,know,Medium,vocabulary,Knew = past tense of know,,
+homophone-hunt,We need to _____ the package today.,Send through mail,mail,mail,male,mael,mal,Medium,vocabulary,Mail = to send,,
+homophone-hunt,The _____ of the story is to be kind.,Lesson learned,moral,moral,morale,mural,mortal,Hard,vocabulary,Moral = lesson or principle,,
+homophone-hunt,The knight wore heavy _____ armor.,Made of metal,steel,steel,steal,stele,stil,Hard,vocabulary,Steel = metal. Steal = to take,,
+story-nebula,The Space Picnic,"Zog the alien wanted to have a picnic on the moon. He packed green sandwiches and moon cheese. He flew his silver rocket ship past three bright stars. When he landed, he saw his friend Beep-Boop the robot. They sat on a crater and watched the Earth spin. It was a beautiful blue ball in the dark sky. Zog shared his sandwich, and Beep-Boop shared his oil juice. They were happy best friends.",Green sandwiches and moon cheese,Green sandwiches and moon cheese,Pizza,Burgers,Rocks,Easy,comprehension,Did you read about the food?,He packed green sandwiches and moon cheese.,dynamic:shape:star
+story-nebula,The Space Picnic,"Zog the alien wanted to have a picnic on the moon. He packed green sandwiches and moon cheese. He flew his silver rocket ship past three bright stars. When he landed, he saw his friend Beep-Boop the robot. They sat on a crater and watched the Earth spin. It was a beautiful blue ball in the dark sky. Zog shared his sandwich, and Beep-Boop shared his oil juice. They were happy best friends.",Beep-Boop,Beep-Boop,Zorg,Gleep,Bloop,Easy,comprehension,Who was the robot?,"When he landed, he saw his friend Beep-Boop the robot.",dynamic:shape:star
+story-nebula,The Space Picnic,"Zog the alien wanted to have a picnic on the moon. He packed green sandwiches and moon cheese. He flew his silver rocket ship past three bright stars. When he landed, he saw his friend Beep-Boop the robot. They sat on a crater and watched the Earth spin. It was a beautiful blue ball in the dark sky. Zog shared his sandwich, and Beep-Boop shared his oil juice. They were happy best friends.",Blue,Blue,Red,Green,Purple,Easy,comprehension,What color is Earth?,It was a beautiful blue ball in the dark sky.,dynamic:shape:star
+story-nebula,The Helpful Dragon,"Sparky was a small dragon who could not breathe fire. He could only breathe bubbles! The other dragons laughed at him. One day, a forest fire started near the village. The big dragons tried to stomp it out, but it was too hot. Sparky flew over the fire and blew thousands of giant wet bubbles. Pop! Pop! The bubbles burst and water splashed everywhere. The fire went out! The village was saved, and Sparky was a hero.",Bubbles,Bubbles,Fire,Smoke,Ice,Easy,comprehension,What came out of his mouth?,He could only breathe bubbles!,dynamic:shape:heart
+story-nebula,The Helpful Dragon,"Sparky was a small dragon who could not breathe fire. He could only breathe bubbles! The other dragons laughed at him. One day, a forest fire started near the village. The big dragons tried to stomp it out, but it was too hot. Sparky flew over the fire and blew thousands of giant wet bubbles. Pop! Pop! The bubbles burst and water splashed everywhere. The fire went out! The village was saved, and Sparky was a hero.",He couldn't breathe fire,He couldn't breathe fire,He was too small,He was green,He couldn't fly,Easy,comprehension,Why did they laugh?,Sparky was a small dragon who could not breathe fire.,dynamic:shape:heart
+story-nebula,The Helpful Dragon,"Sparky was a small dragon who could not breathe fire. He could only breathe bubbles! The other dragons laughed at him. One day, a forest fire started near the village. The big dragons tried to stomp it out, but it was too hot. Sparky flew over the fire and blew thousands of giant wet bubbles. Pop! Pop! The bubbles burst and water splashed everywhere. The fire went out! The village was saved, and Sparky was a hero.",Used wet bubbles,Used wet bubbles,Stomped on it,Blew wind,Called for help,Easy,comprehension,How did he stop the fire?,The bubbles burst and water splashed everywhere. The fire went out!,dynamic:shape:heart
+story-nebula,The Secret Key,"Lily found a rusty old key in her grandmother's attic. It had a shape of a heart on top. She tried it on the front door, but it didn't work. She tried it on her jewelry box, but it was too big. Then she saw a dusty wooden chest in the corner. She put the key in the lock and turned it. Click! The chest opened. Inside was a beautiful dress made of blue silk. It was her grandmother's favorite dress.",Attic,Attic,Basement,Garden,Kitchen,Easy,comprehension,Where was the key?,Lily found a rusty old key in her grandmother's attic.,dynamic:shape:circle
+story-nebula,The Secret Key,"Lily found a rusty old key in her grandmother's attic. It had a shape of a heart on top. She tried it on the front door, but it didn't work. She tried it on her jewelry box, but it was too big. Then she saw a dusty wooden chest in the corner. She put the key in the lock and turned it. Click! The chest opened. Inside was a beautiful dress made of blue silk. It was her grandmother's favorite dress.",Heart,Heart,Star,Square,Circle,Easy,comprehension,What shape was it?,It had a shape of a heart on top.,dynamic:shape:circle
+story-nebula,The Secret Key,"Lily found a rusty old key in her grandmother's attic. It had a shape of a heart on top. She tried it on the front door, but it didn't work. She tried it on her jewelry box, but it was too big. Then she saw a dusty wooden chest in the corner. She put the key in the lock and turned it. Click! The chest opened. Inside was a beautiful dress made of blue silk. It was her grandmother's favorite dress.",Blue silk dress,Blue silk dress,Gold coins,Old toys,Books,Easy,comprehension,What was inside?,Inside was a beautiful dress made of blue silk.,dynamic:shape:circle
+spyglass-explorer,The City Park,How many dogs are playing?,Two,Two,One,Three,Four,Easy,observation,Look closely at the animals.,Count the dogs!,dynamic:scene:park
+spyglass-explorer,Sunny Beach,What color is the beach ball?,Red and Blue,Red and Blue,Green and Yellow,Purple,Orange,Easy,observation,Check the stripes on the ball.,Look at the ball colors!,dynamic:scene:beach
+spyglass-explorer,Messy Classroom,Where is the red book?,On the desk,On the desk,Under the chair,On the shelf,In the bag,Hard,observation,It was near the pencils.,Check the desk surface!,dynamic:scene:classroom
+sentence-builder,cat | the | on | sat | mat | the,Arrange words,The cat sat on the mat.,The cat sat on the mat.,Cat the sat mat on.,The mat sat cat the.,Sat the cat on mat.,Easy,grammar
+contraction-commander,I am,Two words,I'm,I'm,Im,Iam,I'am,Easy,grammar
+contraction-commander,do not,Negative,don't,don't,dont,do'nt,donot,Easy,grammar
+article-adventure,apple is red.,Vowel sound,an,a,an,the,,Easy,grammar
+article-adventure,dog is barking.,Consonant,a,a,an,the,,Easy,grammar
+article-adventure,sun rises in the east.,Specific,the,a,an,the,,Easy,grammar
+grammar-galaxy,The dog _____ loudly.,Choose the correct verb,barked,barked,barking,barks,bark,Easy,grammar,Past tense action,Check subject-verb agreement.,,Verbs
+grammar-galaxy,She _____ to the store.,Choose the correct verb,walks,walks,walking,walk,walked,Easy,grammar,Present tense singular,Check subject-verb agreement.,,Verbs
+grammar-galaxy,They _____ football.,Choose the correct verb,play,plays,playing,play,played,Easy,grammar,Plural subject,Check subject-verb agreement.,,Verbs
+grammar-galaxy,I _____ a letter.,Choose the correct verb,wrote,writes,wrote,writing,write,Easy,grammar,Past tense irregular,Check subject-verb agreement.,,Verbs
+grammar-galaxy,He _____ fast.,Choose the correct verb,runs,running,ran,runs,run,Easy,grammar,Third person singular,Check subject-verb agreement.,,Verbs
+grammar-galaxy,We _____ lunch.,Choose the correct verb,eat,eats,eating,eat,ate,Easy,grammar,Plural subject base form,Check subject-verb agreement.,,Verbs
+grammar-galaxy,The bird _____ away.,Choose the correct verb,flew,flies,fly,flying,flew,Easy,grammar,Irregular past tense,Check subject-verb agreement.,,Verbs
+grammar-galaxy,She _____ a song.,Choose the correct verb,sang,singing,sings,sang,sing,Easy,grammar,Past tense song,Check subject-verb agreement.,,Verbs
+grammar-galaxy,He _____ the ball.,Choose the correct verb,threw,throwing,threw,throws,throw,Easy,grammar,Past tense throw,Check subject-verb agreement.,,Verbs
+grammar-galaxy,The cat _____ milk.,Choose the correct verb,drinks,drink,drinking,drank,drinks,Easy,grammar,Daily habit,Check subject-verb agreement.,,Verbs
+grammar-galaxy,They _____ happy.,Choose the correct verb,are,are,am,be,is,Easy,grammar,Plural be verb,Check subject-verb agreement.,,Verbs
+grammar-galaxy,I _____ tired.,Choose the correct verb,am,be,is,are,am,Easy,grammar,First person be verb,Check subject-verb agreement.,,Verbs
+grammar-galaxy,She _____ a teacher.,Choose the correct verb,is,is,be,am,are,Easy,grammar,Singular be verb,Check subject-verb agreement.,,Verbs
+grammar-galaxy,We _____ students.,Choose the correct verb,are,am,was,is,are,Easy,grammar,Plural present,Check subject-verb agreement.,,Verbs
+grammar-galaxy,You _____ my friend.,Choose the correct verb,are,are,be,am,is,Easy,grammar,Second person,Check subject-verb agreement.,,Verbs
+grammar-galaxy,The sun _____ bright.,Choose the correct verb,shines,shining,shine,shines,shone,Easy,grammar,Nature fact,Check subject-verb agreement.,,Verbs
+grammar-galaxy,Rain _____ from clouds.,Choose the correct verb,falls,falls,falling,fall,fell,Easy,grammar,Nature fact,Check subject-verb agreement.,,Verbs
+grammar-galaxy,Fish _____ in water.,Choose the correct verb,swim,swim,swam,swimming,swims,Easy,grammar,Plural fish,Check subject-verb agreement.,,Verbs
+grammar-galaxy,A spider _____ 8 legs.,Choose the correct verb,has,has,had,have,having,Easy,grammar,Singular possession,Check subject-verb agreement.,,Verbs
+grammar-galaxy,Birds _____ nests.,Choose the correct verb,build,building,built,build,builds,Easy,grammar,Plural action,Check subject-verb agreement.,,Verbs
+grammar-galaxy,My mom _____ dinner.,Choose the correct verb,cooks,cooking,cooks,cooked,cook,Easy,grammar,Singular habit,Check subject-verb agreement.,,Verbs
+grammar-galaxy,Dad _____ the car.,Choose the correct verb,drives,driving,drove,drive,drives,Easy,grammar,Singular habit,Check subject-verb agreement.,,Verbs
+grammar-galaxy,The baby _____.,Choose the correct verb,cries,cried,cry,crying,cries,Easy,grammar,Singular y->ies,Check subject-verb agreement.,,Verbs
+grammar-galaxy,We _____ math.,Choose the correct verb,study,study,studying,studies,studied,Easy,grammar,Plural base,Check subject-verb agreement.,,Verbs
+grammar-galaxy,He _____ his teeth.,Choose the correct verb,brushes,brushes,brush,brushed,brushing,Easy,grammar,Singular es,Check subject-verb agreement.,,Verbs
+grammar-galaxy,He runs _____.,Choose the correct adverb,quickly,quicker,quick,quickly,quickest,Medium,grammar,Describes how he runs,Adverbs often end in -ly.,,Adverbs
+grammar-galaxy,She sings _____.,Choose the correct adverb,beautifully,beauty,beautifully,beautiful,beautify,Medium,grammar,Describes how she sings,Adverbs often end in -ly.,,Adverbs
+grammar-galaxy,The snail moves _____.,Choose the correct adverb,slowly,slow,slower,slowly,slowest,Medium,grammar,Describes movement,Adverbs often end in -ly.,,Adverbs
+grammar-galaxy,He speaks _____.,Choose the correct adverb,loudly,loudest,loud,loudly,louder,Medium,grammar,Volume of speech,Adverbs often end in -ly.,,Adverbs
+grammar-galaxy,They played _____.,Choose the correct adverb,happily,happy,happiness,happily,happier,Medium,grammar,Emotion of action,Adverbs often end in -ly.,,Adverbs
+grammar-galaxy,She waited _____.,Choose the correct adverb,patiently,patiented,patiently,patient,patience,Medium,grammar,Manner of waiting,Adverbs often end in -ly.,,Adverbs
+grammar-galaxy,The sun shines _____.,Choose the correct adverb,brightly,bright,brightest,brighter,brightly,Medium,grammar,Light intensity,Adverbs often end in -ly.,,Adverbs
+grammar-galaxy,He writes _____.,Choose the correct adverb,neatly,neatest,neater,neat,neatly,Medium,grammar,Handwriting style,Adverbs often end in -ly.,,Adverbs
+grammar-galaxy,She answered _____.,Choose the correct adverb,correctly,correction,corrected,correctly,correct,Medium,grammar,Right answer,Adverbs often end in -ly.,,Adverbs
+grammar-galaxy,The dog barked _____.,Choose the correct adverb,fiercely,fiercely,fiercer,fierce,fire,Medium,grammar,Aggressive bark,Adverbs often end in -ly.,,Adverbs
+grammar-galaxy,Rain fell _____.,Choose the correct adverb,heavily,heaviest,heavy,heavier,heavily,Medium,grammar,Amount of rain,Adverbs often end in -ly.,,Adverbs
+grammar-galaxy,He whispered _____.,Choose the correct adverb,softly,softest,softer,soft,softly,Medium,grammar,Quiet voice,Adverbs often end in -ly.,,Adverbs
+grammar-galaxy,She dances _____.,Choose the correct adverb,gracefully,grace,gracefully,graced,graceful,Medium,grammar,Elegant movement,Adverbs often end in -ly.,,Adverbs
+grammar-galaxy,They fought _____.,Choose the correct adverb,bravely,bravely,bravery,brave,braver,Medium,grammar,Courageous action,Adverbs often end in -ly.,,Adverbs
+grammar-galaxy,He looked _____.,Choose the correct adverb,sadly,sadder,sad,saddest,sadly,Medium,grammar,Unhappy look,Adverbs often end in -ly.,,Adverbs
+grammar-galaxy,She laughed _____.,Choose the correct adverb,joyfully,enjoy,joyful,joyfully,joy,Medium,grammar,Happy sound,Adverbs often end in -ly.,,Adverbs
+grammar-galaxy,The car stopped _____.,Choose the correct adverb,suddenly,soon,sooner,suddenly,sudden,Medium,grammar,Quick stop,Adverbs often end in -ly.,,Adverbs
+grammar-galaxy,He works _____.,Choose the correct adverb,hard,harder,hardness,hardly,hard,Medium,grammar,Hard is an irregular adverb!,Adverbs often end in -ly.,,Adverbs
+grammar-galaxy,She woke up _____.,Choose the correct adverb,early,early,earliest,year,earlier,Medium,grammar,Time adverb,Adverbs often end in -ly.,,Adverbs
+grammar-galaxy,Come here _____!,Choose the correct adverb,now,yesterday,tomorrow,now,then,Medium,grammar,Time adverb,Adverbs often end in -ly.,,Adverbs
+grammar-galaxy,He is _____ late.,Choose the correct adverb,always,often,always,sometimes,never,Medium,grammar,Frequency,Adverbs often end in -ly.,,Adverbs
+grammar-galaxy,She _____ eats candy.,Choose the correct adverb,never,never,always,often,ever,Medium,grammar,Negative frequency,Adverbs often end in -ly.,,Adverbs
+grammar-galaxy,They _____ visit us.,Choose the correct adverb,often,often,rarely,never,sometimes,Medium,grammar,Positive frequency,Adverbs often end in -ly.,,Adverbs
+grammar-galaxy,I am _____ happy.,Choose the correct adverb,very,various,very,verily,vary,Medium,grammar,Degree adverb,Adverbs often end in -ly.,,Adverbs
+grammar-galaxy,It is _____ cold.,Choose the correct adverb,too,too,two,to,tow,Medium,grammar,Excessive degree,Adverbs often end in -ly.,,Adverbs
+grammar-galaxy,I saw _____ elephant.,Choose the article,an,a,an,the,one,Easy,grammar,"Use AN before vowels (a,e,i,o,u)",A/An depends on the sound that follows.,,Articles
+grammar-galaxy,She has _____ cat.,Choose the article,a,an,the,a,one,Easy,grammar,Use A before consonants,A/An depends on the sound that follows.,,Articles
+grammar-galaxy,_____ sun is hot.,Choose the article,The,An,One,A,The,Easy,grammar,Specific unique object,A/An depends on the sound that follows.,,Articles
+grammar-galaxy,He ate _____ apple.,Choose the article,an,two,the,an,a,Easy,grammar,Apple starts with A,A/An depends on the sound that follows.,,Articles
+grammar-galaxy,I want _____ cookie.,Choose the article,a,two,an,the,a,Easy,grammar,Any cookie,A/An depends on the sound that follows.,,Articles
+grammar-galaxy,Please close _____ door.,Choose the article,the,one,an,the,a,Easy,grammar,Specific door,A/An depends on the sound that follows.,,Articles
+grammar-galaxy,It is _____ orange.,Choose the article,an,an,one,the,a,Easy,grammar,Orange starts with O,A/An depends on the sound that follows.,,Articles
+grammar-galaxy,She is _____ doctor.,Choose the article,a,an,the,one,a,Easy,grammar,Profession uses A,A/An depends on the sound that follows.,,Articles
+grammar-galaxy,He is _____ honest man.,Choose the article,an,the,a,one,an,Easy,grammar,Silent H counts as vowel sound!,A/An depends on the sound that follows.,,Articles
+grammar-galaxy,We saw _____ unicorn.,Choose the article,a,an,a,one,the,Easy,grammar,Unicorn starts with 'Y' sound!,A/An depends on the sound that follows.,,Articles
+grammar-galaxy,_____ moon is bright.,Choose the article,The,The,A,One,An,Easy,grammar,Unique moon,A/An depends on the sound that follows.,,Articles
+grammar-galaxy,I have _____ idea.,Choose the article,an,the,an,a,one,Easy,grammar,Idea starts with I,A/An depends on the sound that follows.,,Articles
+grammar-galaxy,She wants _____ puppy.,Choose the article,a,the,one,an,a,Easy,grammar,Consonant P,A/An depends on the sound that follows.,,Articles
+grammar-galaxy,Give me _____ pen.,Choose the article,a,a,one,the,an,Easy,grammar,Consonant P,A/An depends on the sound that follows.,,Articles
+grammar-galaxy,_____ sky is blue.,Choose the article,The,One,The,An,A,Easy,grammar,Unique sky,A/An depends on the sound that follows.,,Articles
+grammar-galaxy,He is _____ engineer.,Choose the article,an,the,a,an,one,Easy,grammar,Starts with E,A/An depends on the sound that follows.,,Articles
+grammar-galaxy,It is _____ hour late.,Choose the article,an,the,a,an,one,Easy,grammar,Silent H,A/An depends on the sound that follows.,,Articles
+grammar-galaxy,I saw _____ eagle.,Choose the article,an,an,a,one,the,Easy,grammar,Starts with E,A/An depends on the sound that follows.,,Articles
+grammar-galaxy,She has _____ uniform.,Choose the article,a,the,a,an,one,Easy,grammar,'Y' sound U,A/An depends on the sound that follows.,,Articles
+grammar-galaxy,_____ earth is round.,Choose the article,The,One,An,A,The,Easy,grammar,Unique planet,A/An depends on the sound that follows.,,Articles
+grammar-galaxy,He read _____ book.,Choose the article,a,one,the,an,a,Easy,grammar,Consonant B,A/An depends on the sound that follows.,,Articles
+grammar-galaxy,I ate _____ egg.,Choose the article,an,an,the,one,a,Easy,grammar,Starts with E,A/An depends on the sound that follows.,,Articles
+grammar-galaxy,She is _____ artist.,Choose the article,an,the,an,one,a,Easy,grammar,Starts with A,A/An depends on the sound that follows.,,Articles
+grammar-galaxy,He is _____ boy.,Choose the article,a,a,one,an,the,Easy,grammar,Consonant B,A/An depends on the sound that follows.,,Articles
+grammar-galaxy,This is _____ end.,Choose the article,the,one,the,an,a,Easy,grammar,Specific end,A/An depends on the sound that follows.,,Articles
+tense-traveler,jump,past,jumped,will jump,jumps,jumped,jumping,Medium,tenses,Regular verb,Think about past time.,,Tenses
+tense-traveler,play,present,plays,will play,playing,plays,played,Medium,tenses,Regular verb,Think about present time.,,Tenses
+tense-traveler,walk,past,walked,walking,walks,will walk,walked,Medium,tenses,Regular verb,Think about past time.,,Tenses
+tense-traveler,talk,future,will talk,talking,talks,talked,willed talk,Medium,tenses,Regular verb,Think about future time.,,Tenses
+tense-traveler,look,future,will look,looked,looks,willed look,will look,Medium,tenses,Regular verb,Think about future time.,,Tenses
+tense-traveler,help,past,helped,helps,will help,helping,helped,Medium,tenses,Regular verb,Think about past time.,,Tenses
+tense-traveler,cook,future,will cook,will cook,willed cook,cooking,cooks,Medium,tenses,Regular verb,Think about future time.,,Tenses
+tense-traveler,clean,past,cleaned,will clean,cleaning,cleans,cleaned,Medium,tenses,Regular verb,Think about past time.,,Tenses
+tense-traveler,wash,present,washes,washed,washing,will wash,washs,Medium,tenses,Ends in sh -> add es,Think about present time.,,Tenses
+tense-traveler,watch,future,will watch,will watch,watching,willed watch,watched,Medium,tenses,Ends in ch -> add es,Think about future time.,,Tenses
+tense-traveler,kiss,future,will kiss,will kiss,kissing,kisses,willed kiss,Medium,tenses,Ends in ss -> add es,Think about future time.,,Tenses
+tense-traveler,fix,present,fixes,fixed,fixs,fixing,fixes,Medium,tenses,Ends in x -> add es,Think about present time.,,Tenses
+tense-traveler,go,future,will go,willed go,will go,went,going,Medium,tenses,Irregular: go -> went,Think about future time.,,Tenses
+tense-traveler,do,past,did,did,does,doed,doing,Medium,tenses,Irregular: do -> did,Think about past time.,,Tenses
+tense-traveler,have,past,had,haveed,has,haveing,had,Medium,tenses,Irregular: have -> had,Think about past time.,,Tenses
+tense-traveler,be,future,will be,will be,willed be,was,being,Medium,tenses,Irregular: be -> was,Think about future time.,,Tenses
+tense-traveler,eat,present,eats,eating,will eat,eats,ate,Medium,tenses,Irregular: eat -> ate,Think about present time.,,Tenses
+tense-traveler,run,present,runs,ran,runing,runs,will run,Medium,tenses,Irregular: run -> ran,Think about present time.,,Tenses
+tense-traveler,see,past,saw,seeing,seeed,will see,saw,Medium,tenses,Irregular: see -> saw,Think about past time.,,Tenses
+tense-traveler,come,present,comes,came,comeing,will come,comes,Medium,tenses,Irregular: come -> came,Think about present time.,,Tenses
+tense-traveler,say,future,will say,will say,willed say,said,says,Medium,tenses,Irregular: say -> said,Think about future time.,,Tenses
+tense-traveler,make,present,makes,makes,made,will make,makeing,Medium,tenses,Irregular: make -> made,Think about present time.,,Tenses
+tense-traveler,take,past,took,takeed,takeing,takes,will take,Medium,tenses,Irregular: take -> took,Think about past time.,,Tenses
+tense-traveler,get,past,got,got,geted,geting,gets,Medium,tenses,Irregular: get -> got,Think about past time.,,Tenses
+tense-traveler,give,future,will give,willed give,gives,giveing,will give,Medium,tenses,Irregular: give -> gave,Think about future time.,,Tenses
+tense-traveler,know,future,will know,willed know,knows,will know,knowing,Medium,tenses,Irregular: know -> knew,Think about future time.,,Tenses
+tense-traveler,think,future,will think,willed think,thinking,will think,thought,Medium,tenses,Irregular: think -> thought,Think about future time.,,Tenses
+tense-traveler,find,present,finds,finding,finds,will find,found,Medium,tenses,Irregular: find -> found,Think about present time.,,Tenses
+tense-traveler,tell,future,will tell,tells,told,willed tell,telling,Medium,tenses,Irregular: tell -> told,Think about future time.,,Tenses
+tense-traveler,ask,past,asked,asking,asked,asks,will ask,Medium,tenses,Regular verb,Think about past time.,,Tenses
+tense-traveler,write,future,will write,willed write,writeing,writes,wrote,Medium,tenses,Irregular: write -> wrote,Think about future time.,,Tenses
+tense-traveler,read,present,reads,reads,read,reading,will read,Medium,tenses,Past is read (sounds like red),Think about present time.,,Tenses
+tense-traveler,speak,present,speaks,will speak,spoke,speaks,speaking,Medium,tenses,Irregular: speak -> spoke,Think about present time.,,Tenses
+tense-traveler,break,present,breaks,breaks,will break,breaking,broke,Medium,tenses,Irregular: break -> broke,Think about present time.,,Tenses
+tense-traveler,drive,present,drives,drives,driveing,will drive,drove,Medium,tenses,Irregular: drive -> drove,Think about present time.,,Tenses
+tense-traveler,ride,past,rode,rideed,will ride,rides,rode,Medium,tenses,Irregular: ride -> rode,Think about past time.,,Tenses
+tense-traveler,swim,past,swam,swims,swiming,swimed,swam,Medium,tenses,Irregular: swim -> swam,Think about past time.,,Tenses
+tense-traveler,sing,future,will sing,willed sing,sang,sings,singing,Medium,tenses,Irregular: sing -> sang,Think about future time.,,Tenses
+tense-traveler,fly,past,flew,flyed,flies,flying,flew,Medium,tenses,Irregular: fly -> flew,Think about past time.,,Tenses
+tense-traveler,sleep,present,sleeps,sleeps,slept,will sleep,sleeping,Medium,tenses,Irregular: sleep -> slept,Think about present time.,,Tenses
+tense-traveler,keep,past,kept,kept,keeps,keeping,will keep,Medium,tenses,Irregular: keep -> kept,Think about past time.,,Tenses
+tense-traveler,sweep,future,will sweep,will sweep,sweeps,willed sweep,swept,Medium,tenses,Irregular: sweep -> swept,Think about future time.,,Tenses
+tense-traveler,leave,present,leaves,will leave,leaveing,left,leaves,Medium,tenses,Irregular: leave -> left,Think about present time.,,Tenses
+tense-traveler,feel,present,feels,will feel,feeling,feels,felt,Medium,tenses,Irregular: feel -> felt,Think about present time.,,Tenses
+tense-traveler,buy,future,will buy,buys,willed buy,buying,bought,Medium,tenses,Irregular: buy -> bought,Think about future time.,,Tenses
+tense-traveler,bring,present,brings,brings,will bring,brought,bringing,Medium,tenses,Irregular: bring -> brought,Think about present time.,,Tenses
+tense-traveler,fight,present,fights,will fight,fought,fighting,fights,Medium,tenses,Irregular: fight -> fought,Think about present time.,,Tenses
+tense-traveler,catch,future,will catch,will catch,willed catch,caught,catches,Medium,tenses,Irregular: catch -> caught,Think about future time.,,Tenses
+tense-traveler,teach,future,will teach,willed teach,will teach,teaching,teaches,Medium,tenses,Irregular: teach -> taught,Think about future time.,,Tenses
+tense-traveler,lose,present,loses,loses,will lose,lost,loseing,Medium,tenses,Irregular: lose -> lost,Think about present time.,,Tenses
+tense-traveler,jump,past,jumped,will jump,jumped,jumping,jumps,Medium,tenses,Regular verb,Think about past time.,,Tenses
+tense-traveler,play,past,played,played,will play,plays,playing,Medium,tenses,Regular verb,Think about past time.,,Tenses
+tense-traveler,walk,past,walked,walks,will walk,walking,walked,Medium,tenses,Regular verb,Think about past time.,,Tenses
+tense-traveler,talk,future,will talk,talking,talked,willed talk,talks,Medium,tenses,Regular verb,Think about future time.,,Tenses
+tense-traveler,look,future,will look,looked,will look,willed look,looks,Medium,tenses,Regular verb,Think about future time.,,Tenses
+tense-traveler,help,present,helps,will help,helping,helps,helped,Medium,tenses,Regular verb,Think about present time.,,Tenses
+tense-traveler,cook,future,will cook,willed cook,will cook,cooks,cooking,Medium,tenses,Regular verb,Think about future time.,,Tenses
+tense-traveler,clean,past,cleaned,cleans,will clean,cleaning,cleaned,Medium,tenses,Regular verb,Think about past time.,,Tenses
+tense-traveler,wash,present,washes,washing,will wash,washed,washs,Medium,tenses,Ends in sh -> add es,Think about present time.,,Tenses
+tense-traveler,watch,past,watched,will watch,watched,watching,watches,Medium,tenses,Ends in ch -> add es,Think about past time.,,Tenses
+tense-traveler,kiss,present,kisses,kisses,will kiss,kissing,kissed,Medium,tenses,Ends in ss -> add es,Think about present time.,,Tenses
+tense-traveler,fix,future,will fix,fixing,fixes,fixed,willed fix,Medium,tenses,Ends in x -> add es,Think about future time.,,Tenses
+tense-traveler,go,present,goes,will go,went,gos,going,Medium,tenses,Irregular: go -> went,Think about present time.,,Tenses
+tense-traveler,do,future,will do,willed do,doing,did,will do,Medium,tenses,Irregular: do -> did,Think about future time.,,Tenses
+tense-traveler,have,present,has,has,haves,haveing,had,Medium,tenses,Irregular: have -> had,Think about present time.,,Tenses
+tense-traveler,be,past,was,being,will be,is,was,Medium,tenses,Irregular: be -> was,Think about past time.,,Tenses
+tense-traveler,eat,future,will eat,willed eat,ate,eats,eating,Medium,tenses,Irregular: eat -> ate,Think about future time.,,Tenses
+tense-traveler,run,future,will run,runs,runing,will run,willed run,Medium,tenses,Irregular: run -> ran,Think about future time.,,Tenses
+tense-traveler,see,future,will see,saw,willed see,will see,seeing,Medium,tenses,Irregular: see -> saw,Think about future time.,,Tenses
+tense-traveler,come,past,came,came,comeing,comes,comeed,Medium,tenses,Irregular: come -> came,Think about past time.,,Tenses
+tense-traveler,say,past,said,said,saying,will say,says,Medium,tenses,Irregular: say -> said,Think about past time.,,Tenses
+tense-traveler,make,future,will make,makeing,made,willed make,makes,Medium,tenses,Irregular: make -> made,Think about future time.,,Tenses
+tense-traveler,take,present,takes,takeing,takes,took,will take,Medium,tenses,Irregular: take -> took,Think about present time.,,Tenses
+tense-traveler,get,future,will get,willed get,gets,geting,got,Medium,tenses,Irregular: get -> got,Think about future time.,,Tenses
+tense-traveler,give,future,will give,giveing,willed give,will give,gives,Medium,tenses,Irregular: give -> gave,Think about future time.,,Tenses
+punctuation-pop,Stand pizza,command,!,",",?,.,!,Easy,punctuation,Commands often use exclamation marks.,It is a command.,,Punctuation
+punctuation-pop,Listen fast,command,!,",",.,!,?,Easy,punctuation,Commands often use exclamation marks.,It is a command.,,Punctuation
+punctuation-pop,How huge the moon is,exclamation,!,?,",",.,!,Easy,punctuation,Exclamations end with an exclamation mark!,It is a exclamation.,,Punctuation
+punctuation-pop,Listen pizza,command,!,.,",",?,!,Easy,punctuation,Commands often use exclamation marks.,It is a command.,,Punctuation
+punctuation-pop,How great the moon is,exclamation,!,",",?,.,!,Easy,punctuation,Exclamations end with an exclamation mark!,It is a exclamation.,,Punctuation
+punctuation-pop,How lovely the dog is,exclamation,!,?,",",!,.,Easy,punctuation,Exclamations end with an exclamation mark!,It is a exclamation.,,Punctuation
+punctuation-pop,Where do they cook,question,?,!,",",?,.,Easy,punctuation,Questions end with a question mark.,It is a question.,,Punctuation
+punctuation-pop,Come pizza,command,!,.,?,",",!,Easy,punctuation,Commands often use exclamation marks.,It is a command.,,Punctuation
+punctuation-pop,Do the dog apples,question,?,?,.,!,",",Easy,punctuation,Questions end with a question mark.,It is a question.,,Punctuation
+punctuation-pop,What are the cat laugh,question,?,?,",",.,!,Easy,punctuation,Questions end with a question mark.,It is a question.,,Punctuation
+punctuation-pop,The sun cries apples,statement,.,",",!,.,?,Easy,punctuation,Statements end with a period.,It is a statement.,,Punctuation
+punctuation-pop,Help a book,command,!,.,!,",",?,Easy,punctuation,Commands often use exclamation marks.,It is a command.,,Punctuation
+punctuation-pop,Go to school,command,!,.,?,",",!,Easy,punctuation,Commands often use exclamation marks.,It is a command.,,Punctuation
+punctuation-pop,Where can the teacher flie,question,?,?,.,!,",",Easy,punctuation,Questions end with a question mark.,It is a question.,,Punctuation
+punctuation-pop,The car flies to school,statement,.,.,!,",",?,Easy,punctuation,Statements end with a period.,It is a statement.,,Punctuation
+punctuation-pop,The sun eats happily,statement,.,.,!,",",?,Easy,punctuation,Statements end with a period.,It is a statement.,,Punctuation
+punctuation-pop,What a great he,exclamation,!,",",.,?,!,Easy,punctuation,Exclamations end with an exclamation mark!,It is a exclamation.,,Punctuation
+punctuation-pop,The school eats a book,statement,.,!,.,",",?,Easy,punctuation,Statements end with a period.,It is a statement.,,Punctuation
+punctuation-pop,Will it to school,question,?,?,",",!,.,Easy,punctuation,Questions end with a question mark.,It is a question.,,Punctuation
+punctuation-pop,The boy shines a book,statement,.,.,",",?,!,Easy,punctuation,Statements end with a period.,It is a statement.,,Punctuation
+punctuation-pop,What a wonderful dad,exclamation,!,!,",",.,?,Easy,punctuation,Exclamations end with an exclamation mark!,It is a exclamation.,,Punctuation
+punctuation-pop,Who is we jump,question,?,.,!,?,",",Easy,punctuation,Questions end with a question mark.,It is a question.,,Punctuation
+punctuation-pop,We cries a book,statement,.,.,!,",",?,Easy,punctuation,Statements end with a period.,It is a statement.,,Punctuation
+punctuation-pop,How huge a bird is,exclamation,!,?,.,",",!,Easy,punctuation,Exclamations end with an exclamation mark!,It is a exclamation.,,Punctuation
+punctuation-pop,Why can she leep,question,?,.,?,",",!,Easy,punctuation,Questions end with a question mark.,It is a question.,,Punctuation
+punctuation-pop,Help slowly,command,!,.,!,",",?,Easy,punctuation,Commands often use exclamation marks.,It is a command.,,Punctuation
+punctuation-pop,Sit happily,command,!,",",!,.,?,Easy,punctuation,Commands often use exclamation marks.,It is a command.,,Punctuation
+punctuation-pop,How will the moon run,question,?,?,!,",",.,Easy,punctuation,Questions end with a question mark.,It is a question.,,Punctuation
+punctuation-pop,Go pizza,command,!,.,!,",",?,Easy,punctuation,Commands often use exclamation marks.,It is a command.,,Punctuation
+punctuation-pop,Stop a book,command,!,!,",",.,?,Easy,punctuation,Commands often use exclamation marks.,It is a command.,,Punctuation
+punctuation-pop,Does the dog at home,question,?,.,",",?,!,Easy,punctuation,Questions end with a question mark.,It is a question.,,Punctuation
+punctuation-pop,Sit apples,command,!,!,.,?,",",Easy,punctuation,Commands often use exclamation marks.,It is a command.,,Punctuation
+punctuation-pop,What a amazing car,exclamation,!,?,!,.,",",Easy,punctuation,Exclamations end with an exclamation mark!,It is a exclamation.,,Punctuation
+punctuation-pop,When does he run,question,?,!,",",?,.,Easy,punctuation,Questions end with a question mark.,It is a question.,,Punctuation
+punctuation-pop,He reads in the park,statement,.,.,",",!,?,Easy,punctuation,Statements end with a period.,It is a statement.,,Punctuation
+punctuation-pop,My mom walks slowly,statement,.,!,.,?,",",Easy,punctuation,Statements end with a period.,It is a statement.,,Punctuation
+punctuation-pop,What a loud girl,exclamation,!,.,",",!,?,Easy,punctuation,Exclamations end with an exclamation mark!,It is a exclamation.,,Punctuation
+punctuation-pop,The car eats a song,statement,.,!,.,",",?,Easy,punctuation,Statements end with a period.,It is a statement.,,Punctuation
+punctuation-pop,Stop to school,command,!,!,?,.,",",Easy,punctuation,Commands often use exclamation marks.,It is a command.,,Punctuation
+punctuation-pop,They runs a song,statement,.,?,",",.,!,Easy,punctuation,Statements end with a period.,It is a statement.,,Punctuation
+punctuation-pop,How beautiful it is,exclamation,!,.,",",!,?,Easy,punctuation,Exclamations end with an exclamation mark!,It is a exclamation.,,Punctuation
+punctuation-pop,Will he pizza,question,?,.,?,!,",",Easy,punctuation,Questions end with a question mark.,It is a question.,,Punctuation
+punctuation-pop,Come slowly,command,!,?,",",!,.,Easy,punctuation,Commands often use exclamation marks.,It is a command.,,Punctuation
+punctuation-pop,When are he jump,question,?,",",?,.,!,Easy,punctuation,Questions end with a question mark.,It is a question.,,Punctuation
+punctuation-pop,What a scary it,exclamation,!,?,.,!,",",Easy,punctuation,Exclamations end with an exclamation mark!,It is a exclamation.,,Punctuation
+punctuation-pop,Will the girl apples,question,?,!,",",.,?,Easy,punctuation,Questions end with a question mark.,It is a question.,,Punctuation
+punctuation-pop,Come to school,command,!,.,",",!,?,Easy,punctuation,Commands often use exclamation marks.,It is a command.,,Punctuation
+punctuation-pop,Look happily,command,!,.,?,!,",",Easy,punctuation,Commands often use exclamation marks.,It is a command.,,Punctuation
+punctuation-pop,Go happily,command,!,.,?,!,",",Easy,punctuation,Commands often use exclamation marks.,It is a command.,,Punctuation
+punctuation-pop,What a fast dad,exclamation,!,!,.,",",?,Easy,punctuation,Exclamations end with an exclamation mark!,It is a exclamation.,,Punctuation
+punctuation-pop,What a scary dog,exclamation,!,?,",",.,!,Easy,punctuation,Exclamations end with an exclamation mark!,It is a exclamation.,,Punctuation
+punctuation-pop,How scary the girl is,exclamation,!,!,?,.,",",Easy,punctuation,Exclamations end with an exclamation mark!,It is a exclamation.,,Punctuation
+punctuation-pop,The girl shines a book,statement,.,?,",",!,.,Easy,punctuation,Statements end with a period.,It is a statement.,,Punctuation
+punctuation-pop,Look fast,command,!,?,",",!,.,Easy,punctuation,Commands often use exclamation marks.,It is a command.,,Punctuation
+punctuation-pop,What a great she,exclamation,!,.,!,?,",",Easy,punctuation,Exclamations end with an exclamation mark!,It is a exclamation.,,Punctuation
+punctuation-pop,A bird reads happily,statement,.,!,",",?,.,Easy,punctuation,Statements end with a period.,It is a statement.,,Punctuation
+punctuation-pop,Sit the ball,command,!,",",!,?,.,Easy,punctuation,Commands often use exclamation marks.,It is a command.,,Punctuation
+punctuation-pop,Do the car in the park,question,?,!,",",.,?,Easy,punctuation,Questions end with a question mark.,It is a question.,,Punctuation
+punctuation-pop,Stop at home,command,!,.,!,?,",",Easy,punctuation,Commands often use exclamation marks.,It is a command.,,Punctuation
+punctuation-pop,My dad sings dinner,statement,.,!,?,.,",",Easy,punctuation,Statements end with a period.,It is a statement.,,Punctuation
+punctuation-pop,How great my dad is,exclamation,!,.,",",?,!,Easy,punctuation,Exclamations end with an exclamation mark!,It is a exclamation.,,Punctuation
+punctuation-pop,What a beautiful mom,exclamation,!,?,.,!,",",Easy,punctuation,Exclamations end with an exclamation mark!,It is a exclamation.,,Punctuation
+punctuation-pop,When will the dog drive,question,?,?,!,",",.,Easy,punctuation,Questions end with a question mark.,It is a question.,,Punctuation
+punctuation-pop,Can they a book,question,?,!,",",?,.,Easy,punctuation,Questions end with a question mark.,It is a question.,,Punctuation
+punctuation-pop,Does she apples,question,?,",",.,!,?,Easy,punctuation,Questions end with a question mark.,It is a question.,,Punctuation
+punctuation-pop,What a amazing boy,exclamation,!,",",?,.,!,Easy,punctuation,Exclamations end with an exclamation mark!,It is a exclamation.,,Punctuation
+punctuation-pop,How amazing they is,exclamation,!,",",?,!,.,Easy,punctuation,Exclamations end with an exclamation mark!,It is a exclamation.,,Punctuation
+punctuation-pop,Are the car loudly,question,?,.,!,",",?,Easy,punctuation,Questions end with a question mark.,It is a question.,,Punctuation
+punctuation-pop,It runs pizza,statement,.,?,",",!,.,Easy,punctuation,Statements end with a period.,It is a statement.,,Punctuation
+punctuation-pop,Help to school,command,!,?,!,.,",",Easy,punctuation,Commands often use exclamation marks.,It is a command.,,Punctuation
+punctuation-pop,Can the dog a song,question,?,?,!,",",.,Easy,punctuation,Questions end with a question mark.,It is a question.,,Punctuation
+punctuation-pop,What do the cat run,question,?,.,",",?,!,Easy,punctuation,Questions end with a question mark.,It is a question.,,Punctuation
+punctuation-pop,The moon sings slowly,statement,.,",",!,?,.,Easy,punctuation,Statements end with a period.,It is a statement.,,Punctuation
+punctuation-pop,The cat reads at home,statement,.,",",?,!,.,Easy,punctuation,Statements end with a period.,It is a statement.,,Punctuation
+punctuation-pop,The girl shines happily,statement,.,!,.,",",?,Easy,punctuation,Statements end with a period.,It is a statement.,,Punctuation
+story-nebula,The Little Seed,"A little seed for me to sow\nA little earth to make it grow\nA little hole, a little pat,\nA little wish, and that is that,\nA little sun, a little shower,\nA little while - and then, a flower!","Earth, sun, and shower",Toys,Cars,"Earth, sun, and shower",Pizza,Easy,comprehension,What does the seed need to grow?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,The Little Seed,"A little seed for me to sow\nA little earth to make it grow\nA little hole, a little pat,\nA little wish, and that is that,\nA little sun, a little shower,\nA little while - and then, a flower!",A flower,A flower,A tree,A bush,A weed,Easy,comprehension,What grows from the seed?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,The Little Seed,"A little seed for me to sow\nA little earth to make it grow\nA little hole, a little pat,\nA little wish, and that is that,\nA little sun, a little shower,\nA little while - and then, a flower!",That is that,A surprise,That is that,A nap,A dance,Easy,comprehension,What happens after the wish?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,The Little Seed,"A little seed for me to sow\nA little earth to make it grow\nA little hole, a little pat,\nA little wish, and that is that,\nA little sun, a little shower,\nA little while - and then, a flower!",A little,A lot,A little,None,Too much,Easy,comprehension,How much sun is needed?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,The Little Seed,"A little seed for me to sow\nA little earth to make it grow\nA little hole, a little pat,\nA little wish, and that is that,\nA little sun, a little shower,\nA little while - and then, a flower!",Pat it,Dig it,Eat it,Pat it,Kick it,Easy,comprehension,What do you do to the earth?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,The Little Seed,"A little seed for me to sow\nA little earth to make it grow\nA little hole, a little pat,\nA little wish, and that is that,\nA little sun, a little shower,\nA little while - and then, a flower!",A little while,Forever,A year,A little while,A day,Easy,comprehension,How long does it take?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,The Little Seed,"A little seed for me to sow\nA little earth to make it grow\nA little hole, a little pat,\nA little wish, and that is that,\nA little sun, a little shower,\nA little while - and then, a flower!",A seed,A coin,A rock,A bead,A seed,Easy,comprehension,What is sown?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,The Little Seed,"A little seed for me to sow\nA little earth to make it grow\nA little hole, a little pat,\nA little wish, and that is that,\nA little sun, a little shower,\nA little while - and then, a flower!",AABBCC,None,AABBCC,ABCABC,ABABAB,Easy,comprehension,What is the rhyme scheme?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,My Shadow,"I have a little shadow that goes in and out with me,\nAnd what can be the use of him is more than I can see.\nHe is very, very like me from the heels up to the head;\nAnd I see him jump before me, when I jump into my bed.",My shadow,My cat,My friend,My dog,My shadow,Easy,comprehension,Who goes in and out?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,My Shadow,"I have a little shadow that goes in and out with me,\nAnd what can be the use of him is more than I can see.\nHe is very, very like me from the heels up to the head;\nAnd I see him jump before me, when I jump into my bed.",Very like me,Different,Tall,Scary,Very like me,Easy,comprehension,What is the shadow like?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,My Shadow,"I have a little shadow that goes in and out with me,\nAnd what can be the use of him is more than I can see.\nHe is very, very like me from the heels up to the head;\nAnd I see him jump before me, when I jump into my bed.",Into my bed,Into the pool,Into my bed,Into the car,Into the park,Easy,comprehension,When does he jump before me?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,My Shadow,"I have a little shadow that goes in and out with me,\nAnd what can be the use of him is more than I can see.\nHe is very, very like me from the heels up to the head;\nAnd I see him jump before me, when I jump into my bed.",Heels to head,Head to toe,Heels to head,Back to front,Toes to nose,Easy,comprehension,From where is he like me?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,My Shadow,"I have a little shadow that goes in and out with me,\nAnd what can be the use of him is more than I can see.\nHe is very, very like me from the heels up to the head;\nAnd I see him jump before me, when I jump into my bed.",More than I can see,None,To help,More than I can see,To play,Easy,comprehension,What is the use of him?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,My Shadow,"I have a little shadow that goes in and out with me,\nAnd what can be the use of him is more than I can see.\nHe is very, very like me from the heels up to the head;\nAnd I see him jump before me, when I jump into my bed.","No, goes in and out",Yes,"No, goes in and out",Sometimes,Maybe,Easy,comprehension,Does the shadow stay inside?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,My Shadow,"I have a little shadow that goes in and out with me,\nAnd what can be the use of him is more than I can see.\nHe is very, very like me from the heels up to the head;\nAnd I see him jump before me, when I jump into my bed.",The shadow,The dog,The shadow,The boy,The dad,Easy,comprehension,Who is 'He' in the poem?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,My Shadow,"I have a little shadow that goes in and out with me,\nAnd what can be the use of him is more than I can see.\nHe is very, very like me from the heels up to the head;\nAnd I see him jump before me, when I jump into my bed.",Bedtime,Morning,Bedtime,Lunch,School time,Easy,comprehension,What time is it likely?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,The Star,"Twinkle, twinkle, little star,\nHow I wonder what you are!\nUp above the world so high,\nLike a diamond in the sky.",Twinkling,Sleeping,Falling,Twinkling,Jump,Easy,comprehension,What is the star doing?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,The Star,"Twinkle, twinkle, little star,\nHow I wonder what you are!\nUp above the world so high,\nLike a diamond in the sky.",Up above the world,On the ground,Up above the world,In a box,In the sea,Easy,comprehension,Where is the star?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,The Star,"Twinkle, twinkle, little star,\nHow I wonder what you are!\nUp above the world so high,\nLike a diamond in the sky.",A diamond,A ruby,A pearl,A rock,A diamond,Easy,comprehension,What is it like?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,The Star,"Twinkle, twinkle, little star,\nHow I wonder what you are!\nUp above the world so high,\nLike a diamond in the sky.",What you are,What you are,Who you are,Where you go,Why you shine,Easy,comprehension,What does the poet wonder?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,The Star,"Twinkle, twinkle, little star,\nHow I wonder what you are!\nUp above the world so high,\nLike a diamond in the sky.","No, so high",Maybe,"No, so high",Yes,Sometimes,Easy,comprehension,Is the star low?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,The Star,"Twinkle, twinkle, little star,\nHow I wonder what you are!\nUp above the world so high,\nLike a diamond in the sky.",Diamond,Square,Triangle,Circle,Diamond,Easy,comprehension,What shape is mentioned?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,The Star,"Twinkle, twinkle, little star,\nHow I wonder what you are!\nUp above the world so high,\nLike a diamond in the sky.",At night,Afternoon,At night,Morning,Noon,Easy,comprehension,When do you see stars?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,The Star,"Twinkle, twinkle, little star,\nHow I wonder what you are!\nUp above the world so high,\nLike a diamond in the sky.","No, the star is",Yes,Maybe,"No, the star is",Both,Easy,comprehension,Is the world high?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,Rain,"The rain is raining all around,\nIt falls on field and tree,\nIt rains on the umbrellas here,\nAnd on the ships at sea.",All around,Only there,Only here,All around,Nowhere,Easy,comprehension,Where is it raining?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,Rain,"The rain is raining all around,\nIt falls on field and tree,\nIt rains on the umbrellas here,\nAnd on the ships at sea.",Field and tree,Houses,Dogs,Field and tree,Cars,Easy,comprehension,What does it fall on?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,Rain,"The rain is raining all around,\nIt falls on field and tree,\nIt rains on the umbrellas here,\nAnd on the ships at sea.",Umbrellas,Coats,Umbrellas,Hats,Boots,Easy,comprehension,What do people use?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,Rain,"The rain is raining all around,\nIt falls on field and tree,\nIt rains on the umbrellas here,\nAnd on the ships at sea.",At sea,At sea,In port,On land,In the sky,Easy,comprehension,Where are the ships?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,Rain,"The rain is raining all around,\nIt falls on field and tree,\nIt rains on the umbrellas here,\nAnd on the ships at sea.","No, it's raining",Maybe,Yes,"No, it's raining",Partly,Easy,comprehension,Is it dry?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,Rain,"The rain is raining all around,\nIt falls on field and tree,\nIt rains on the umbrellas here,\nAnd on the ships at sea.",Yes,No,Yes,Sometimes,Maybe,Easy,comprehension,Does it rain on trees?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,Rain,"The rain is raining all around,\nIt falls on field and tree,\nIt rains on the umbrellas here,\nAnd on the ships at sea.","No, all around","No, all around",Yes,Sort of,Maybe,Easy,comprehension,Is the rain local?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,Rain,"The rain is raining all around,\nIt falls on field and tree,\nIt rains on the umbrellas here,\nAnd on the ships at sea.",Rainy,Windy,Snowy,Sunny,Rainy,Easy,comprehension,What weather is it?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,The Cow,"The friendly cow all red and white,\nI love with all my heart:\nShe gives me cream with all her might,\nTo eat with apple-tart.",Red and white,Grey,Red and white,Brown,Black and white,Easy,comprehension,What color is the cow?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,The Cow,"The friendly cow all red and white,\nI love with all my heart:\nShe gives me cream with all her might,\nTo eat with apple-tart.",Loves her,Loves her,Scared,Hates her,Sad,Easy,comprehension,How does the poet feel?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,The Cow,"The friendly cow all red and white,\nI love with all my heart:\nShe gives me cream with all her might,\nTo eat with apple-tart.",Cream,Cheese,Milk,Butter,Cream,Easy,comprehension,What does she give?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,The Cow,"The friendly cow all red and white,\nI love with all my heart:\nShe gives me cream with all her might,\nTo eat with apple-tart.",Apple-tart,Pie,Apple-tart,Cake,Bread,Easy,comprehension,What do you eat with cream?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,The Cow,"The friendly cow all red and white,\nI love with all my heart:\nShe gives me cream with all her might,\nTo eat with apple-tart.","No, friendly",Sometimes,Yes,Maybe,"No, friendly",Easy,comprehension,Is the cow mean?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,The Cow,"The friendly cow all red and white,\nI love with all my heart:\nShe gives me cream with all her might,\nTo eat with apple-tart.",With all her might,Sadly,Slowly,Badly,With all her might,Easy,comprehension,How does she give cream?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,The Cow,"The friendly cow all red and white,\nI love with all my heart:\nShe gives me cream with all her might,\nTo eat with apple-tart.","No, a cow",Maybe,Sort of,Yes,"No, a cow",Easy,comprehension,Is it a pig?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,The Cow,"The friendly cow all red and white,\nI love with all my heart:\nShe gives me cream with all her might,\nTo eat with apple-tart.",Yes (cream),No,Maybe,Water,Yes (cream),Easy,comprehension,Does she give milk?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,Clouds,"White sheep, white sheep,\nOn a blue hill,\nWhen the wind stops,\nYou all stand still.\nWhen the wind blows,\nYou walk away slow.\nWhite sheep, white sheep,\nWhere do you go?",Clouds,Clouds,Real sheep,Dogs,Birds,Easy,comprehension,What are the white sheep?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,Clouds,"White sheep, white sheep,\nOn a blue hill,\nWhen the wind stops,\nYou all stand still.\nWhen the wind blows,\nYou walk away slow.\nWhite sheep, white sheep,\nWhere do you go?",The sky,The sky,A rug,The sea,A mountain,Easy,comprehension,What is the blue hill?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,Clouds,"White sheep, white sheep,\nOn a blue hill,\nWhen the wind stops,\nYou all stand still.\nWhen the wind blows,\nYou walk away slow.\nWhite sheep, white sheep,\nWhere do you go?",When wind stops,When wind stops,At night,When wind blows,Never,Easy,comprehension,When do they stand still?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,Clouds,"White sheep, white sheep,\nOn a blue hill,\nWhen the wind stops,\nYou all stand still.\nWhen the wind blows,\nYou walk away slow.\nWhite sheep, white sheep,\nWhere do you go?",Walk away slow,Walk away slow,Jump high,Sleep,Run fast,Easy,comprehension,What happens when wind blows?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,Clouds,"White sheep, white sheep,\nOn a blue hill,\nWhen the wind stops,\nYou all stand still.\nWhen the wind blows,\nYou walk away slow.\nWhite sheep, white sheep,\nWhere do you go?",Unknown,Home,Barn,School,Unknown,Easy,comprehension,Where do they go?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,Clouds,"White sheep, white sheep,\nOn a blue hill,\nWhen the wind stops,\nYou all stand still.\nWhen the wind blows,\nYou walk away slow.\nWhite sheep, white sheep,\nWhere do you go?",White,Blue,Grey,Black,White,Easy,comprehension,What color are they?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,Clouds,"White sheep, white sheep,\nOn a blue hill,\nWhen the wind stops,\nYou all stand still.\nWhen the wind blows,\nYou walk away slow.\nWhite sheep, white sheep,\nWhere do you go?","No, slow","No, slow",Yes,Very fast,Zoom,Easy,comprehension,Are they fast?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,Clouds,"White sheep, white sheep,\nOn a blue hill,\nWhen the wind stops,\nYou all stand still.\nWhen the wind blows,\nYou walk away slow.\nWhite sheep, white sheep,\nWhere do you go?",Likely (blue hill),Likely (blue hill),Night,No,Raining,Easy,comprehension,Is it a sunny day?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,Colors,"Blue is the ocean,\nGreen is the grass,\nYellow is the sunshine,\nSmooth as glass.",The ocean,The ocean,The car,The berry,The sky,Easy,comprehension,What is blue?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,Colors,"Blue is the ocean,\nGreen is the grass,\nYellow is the sunshine,\nSmooth as glass.",The grass,The frog,The grass,The tree,The leaf,Easy,comprehension,What is green?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,Colors,"Blue is the ocean,\nGreen is the grass,\nYellow is the sunshine,\nSmooth as glass.",The sunshine,The banana,The sunshine,The bus,The lemon,Easy,comprehension,What is yellow?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,Colors,"Blue is the ocean,\nGreen is the grass,\nYellow is the sunshine,\nSmooth as glass.",Glass,Rock,Glass,Wood,Sand,Easy,comprehension,What is smooth?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,Colors,"Blue is the ocean,\nGreen is the grass,\nYellow is the sunshine,\nSmooth as glass.","No, green",Purple,Maybe,"No, green",Yes,Easy,comprehension,Is the grass blue?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,Colors,"Blue is the ocean,\nGreen is the grass,\nYellow is the sunshine,\nSmooth as glass.","No, blue",Yes,Red,Maybe,"No, blue",Easy,comprehension,Is the ocean yellow?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,Colors,"Blue is the ocean,\nGreen is the grass,\nYellow is the sunshine,\nSmooth as glass.",Yellow,Warm,Yellow,Bright,Hot,Easy,comprehension,What describes sunshine?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,Colors,"Blue is the ocean,\nGreen is the grass,\nYellow is the sunshine,\nSmooth as glass.",Three,Five,Three,Four,Two,Easy,comprehension,How many colors mentioned?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,Time,"Sixty seconds make a minute,\nHow much good can I do in it?\nSixty minutes make an hour,\nAll the good that's in my power.",Sixty,Ten,Sixty,Fifty,Thirty,Easy,comprehension,How many seconds in a minute?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,Time,"Sixty seconds make a minute,\nHow much good can I do in it?\nSixty minutes make an hour,\nAll the good that's in my power.",Sixty minutes,Thirty minutes,Ten minutes,Fifty minutes,Sixty minutes,Easy,comprehension,What makes an hour?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,Time,"Sixty seconds make a minute,\nHow much good can I do in it?\nSixty minutes make an hour,\nAll the good that's in my power.",Good,Sleep,Good,Nothing,Bad,Easy,comprehension,What should I do in a minute?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,Time,"Sixty seconds make a minute,\nHow much good can I do in it?\nSixty minutes make an hour,\nAll the good that's in my power.",All in my power,Some,All in my power,None,Little,Easy,comprehension,How much good in an hour?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,Time,"Sixty seconds make a minute,\nHow much good can I do in it?\nSixty minutes make an hour,\nAll the good that's in my power.",60 seconds,60 seconds,Maybe,Yes,No,Easy,comprehension,Is a minute long?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,Time,"Sixty seconds make a minute,\nHow much good can I do in it?\nSixty minutes make an hour,\nAll the good that's in my power.","No, 60",Maybe,Yes,Close,"No, 60",Easy,comprehension,Is an hour 100 minutes?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,Time,"Sixty seconds make a minute,\nHow much good can I do in it?\nSixty minutes make an hour,\nAll the good that's in my power.",Time and doing good,Time and doing good,Food,Math,Sleep,Easy,comprehension,What is the theme?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,Time,"Sixty seconds make a minute,\nHow much good can I do in it?\nSixty minutes make an hour,\nAll the good that's in my power.",I (the poet),They,You,I (the poet),We,Easy,comprehension,Who is speaking?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,Snow,"Snow makes the world look new and clean,\nThe prettiest sight I've ever seen.\nIt covers up the dirt and grime,\nAnd makes the world a happy rhyme.",Make world new/clean,Make it hot,Make it wet,Make world new/clean,Make it dirty,Easy,comprehension,What does snow do?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,Snow,"Snow makes the world look new and clean,\nThe prettiest sight I've ever seen.\nIt covers up the dirt and grime,\nAnd makes the world a happy rhyme.",Prettiest sight,Dark,Scary,Prettiest sight,Ugly,Easy,comprehension,How does it look?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,Snow,"Snow makes the world look new and clean,\nThe prettiest sight I've ever seen.\nIt covers up the dirt and grime,\nAnd makes the world a happy rhyme.",Dirt and grime,People,Dirt and grime,Cars,Houses,Easy,comprehension,What does it cover?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,Snow,"Snow makes the world look new and clean,\nThe prettiest sight I've ever seen.\nIt covers up the dirt and grime,\nAnd makes the world a happy rhyme.",A happy rhyme,A sad song,A loud noise,A happy rhyme,A quiet place,Easy,comprehension,What does it make the world?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,Snow,"Snow makes the world look new and clean,\nThe prettiest sight I've ever seen.\nIt covers up the dirt and grime,\nAnd makes the world a happy rhyme.","No, covers dirt",Sometimes,Maybe,"No, covers dirt",Yes,Easy,comprehension,Is snow dirty?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,Snow,"Snow makes the world look new and clean,\nThe prettiest sight I've ever seen.\nIt covers up the dirt and grime,\nAnd makes the world a happy rhyme.","No, snow falls in winter",Spring,Yes,Maybe,"No, snow falls in winter",Easy,comprehension,Is it summer?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,Snow,"Snow makes the world look new and clean,\nThe prettiest sight I've ever seen.\nIt covers up the dirt and grime,\nAnd makes the world a happy rhyme.",Yes,No,Yes,Scared,Hates it,Easy,comprehension,Does the poet like snow?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,Snow,"Snow makes the world look new and clean,\nThe prettiest sight I've ever seen.\nIt covers up the dirt and grime,\nAnd makes the world a happy rhyme.",White (implied),Blue,Red,Green,White (implied),Easy,comprehension,What color is snow?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,Books,"Books are keys to wisdom's treasure,\nBooks are gates to lands of pleasure;\nBooks are paths that upward lead,\nBooks are friends. Come, let us read.",Wisdom's treasure,Car,Wisdom's treasure,Box,House,Easy,comprehension,What are books keys to?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,Books,"Books are keys to wisdom's treasure,\nBooks are gates to lands of pleasure;\nBooks are paths that upward lead,\nBooks are friends. Come, let us read.",Lands of pleasure,School,Work,Lands of pleasure,Prison,Easy,comprehension,What are books gates to?,Read the poem closely.,dynamic:shape:star,Poetry comprehension
+story-nebula,Books,"Books are keys to wisdom's treasure,\nBooks are gates to lands of pleasure;\nBooks are paths that upward lead,\nBooks are friends. Come, let us read.",Upward,Backward,Upward,Downward,Nowhere,Easy,comprehension,Where do books lead?,Read the poem closely.,dynamic:shape:star,Poetry comprehension

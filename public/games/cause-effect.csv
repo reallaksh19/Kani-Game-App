@@ -1,0 +1,3 @@
+game_type,difficulty,text1,text2,answer,option1,option2,option3,option4,operation
+cause-effect,Easy,"The ice cream melted.","What caused this?","The weather was hot","The weather was hot","It was in the freezer","It was night time","It was raining",cause
+cause-effect,Medium,"Tom studied hard for his test.","What was the effect?","He got a good grade","He got a good grade","He forgot everything","He missed school","He lost his book",effect

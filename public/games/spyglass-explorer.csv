@@ -1,0 +1,4 @@
+game_type,text1,text2,answer,option1,option2,option3,option4,difficulty,category,know_more,hint,image_url,topic
+spyglass-explorer,The City Park,How many dogs are playing?,Two,Two,One,Three,Four,Easy,observation,Look closely at the animals.,Count the dogs!,dynamic:scene:park,
+spyglass-explorer,Sunny Beach,What color is the beach ball?,Red and Blue,Red and Blue,Green and Yellow,Purple,Orange,Easy,observation,Check the stripes on the ball.,Look at the ball colors!,dynamic:scene:beach,
+spyglass-explorer,Messy Classroom,Where is the red book?,On the desk,On the desk,Under the chair,On the shelf,In the bag,Hard,observation,It was near the pencils.,Check the desk surface!,dynamic:scene:classroom,

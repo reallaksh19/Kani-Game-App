@@ -1,0 +1,13 @@
+game_type,difficulty,text1,text2,answer,option1,option2,option3,option4,hint
+code-breaker,Easy,3-1-20,A=1 B=2 C=3...,CAT,CAT,DOG,BAT,RAT,C=3 A=1 T=20
+code-breaker,Easy,4-15-7,A=1 B=2 C=3...,DOG,DOG,CAT,LOG,FOG,D=4 O=15 G=7
+code-breaker,Easy,2-5-4,A=1 B=2 C=3...,BED,BED,RED,FED,LED,B=2 E=5 D=4
+code-breaker,Easy,16-5-14,A=1 B=2...,PEN,PEN,HEN,DEN,TEN,P=16 E=5 N=14
+code-breaker,Medium,8-1-20,A=1 B=2 C=3...,HAT,HAT,BAT,CAT,RAT,H=8 A=1 T=20
+code-breaker,Medium,19-21-14,A=1 B=2 C=3...,SUN,SUN,FUN,RUN,GUN,S=19 U=21 N=14
+code-breaker,Medium,2-9-7,A=1 B=2...,BIG,BIG,DIG,FIG,PIG,B=2 I=9 G=7
+code-breaker,Medium,13-1-14,A=1 B=2...,MAN,MAN,PAN,FAN,VAN,M=13 A=1 N=14
+code-breaker,Hard,13-15-15-14,A=1 B=2 C=3...,MOON,MOON,NOON,SOON,BOON,M=13 O=15 N=14
+code-breaker,Hard,2-15-15-11,A=1 B=2 C=3...,BOOK,BOOK,COOK,LOOK,TOOK,B=2 O=15 K=11
+code-breaker,Hard,6-9-19-8,A=1 B=2...,FISH,FISH,WISH,DISH,SWISH,F=6 I=9 S=19 H=8
+code-breaker,Hard,20-18-5-5,A=1 B=2...,TREE,TREE,FREE,KNEE,FLEE,T=20 R=18 E=5 E=5

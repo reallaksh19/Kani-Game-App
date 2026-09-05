@@ -1,0 +1,13 @@
+game_type,difficulty,text1,text2,answer,option1,option2,option3,option4,hint
+sorting-station,Easy,Order from smallest to largest: 5 2 8 3,Which is first?,2,5,2,8,3,Find the smallest
+sorting-station,Easy,What comes first in the alphabet?,Which letter starts earliest,A,D,A,C,B,ABC order
+sorting-station,Easy,Smallest Number: 10 50 5 100,Which is smallest?,5,10,50,5,100,Value comparison
+sorting-station,Easy,First meal of the day?,Which comes first?,Breakfast,Dinner,Lunch,Breakfast,Snack,Time of day
+sorting-station,Medium,Order morning to evening: Lunch Breakfast Dinner,What's first?,Breakfast,Lunch,Breakfast,Dinner,Snack,Think about your day
+sorting-station,Medium,Order by size: Elephant Mouse Horse,Smallest first?,Mouse,Elephant,Mouse,Horse,All same,Compare sizes
+sorting-station,Medium,Order: Baby Adult Child,Youngest first,Baby,Baby,Child,Adult,Old,Age Stages
+sorting-station,Medium,Fastest to Slowest: Plane Car Bike,Fastest?,Plane,Plane,Car,Bike,Walk,Speed comparison
+sorting-station,Hard,Order: Plant seed → ? → Water → Harvest,What's step 2?,Dig hole,Dig hole,Harvest,Plant seed,Wait,Growing process
+sorting-station,Hard,Caterpillar → ? → Butterfly,What's in between?,Cocoon,Cocoon,Egg,Caterpillar,Moth,Life cycle
+sorting-station,Hard,Seconds Minutes ? Days,What fits?,Hours,Hours,Weeks,Months,Years,Time units
+sorting-station,Hard,Freezing ? Boiling,Middle temperature?,Warm,Cold,Warm,Hot,Ice,Temperature scale

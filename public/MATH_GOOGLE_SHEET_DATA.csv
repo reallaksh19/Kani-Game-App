@@ -1,0 +1,527 @@
+game_type,option1,text1,answer,know_more,num1,difficulty,operation,option2,option4,hint,image_url,num2,option3,topic
+space-math,8,,8,When adding start with the bigger number and count up!,5,Easy,+,7,6,Add the numbers together,,3,9
+space-math,19,,19,Adding to 12: Count 7 more - 13 14 15 16 17 18 19!,12,Easy,+,18,17,Count up from 12,,7,20
+space-math,4,,4,Subtraction means taking away. 8 fingers minus 4 equals 4!,8,Easy,-,3,6,Take away 4 from 8,,4,5
+space-math,9,,9,For subtraction count backwards from the bigger number.,15,Easy,-,8,7,Subtract carefully,,6,10
+space-math,18,,18,Doubling means adding a number to itself. 9+9=18!,9,Easy,+,17,16,Double 9,,9,19
+space-math,38,,38,Break it down: 25+10=35 then 35+3=38.,25,Medium,+,35,36,Add tens then ones,,13,40
+space-math,17,,17,Subtract 10 first (34-10=24) then subtract 7 (24-7=17).,34,Medium,-,15,18,Subtract step by step,,17,19
+space-math,42,,42,Multiplication is repeated addition. 6x7 means 7+7+7+7+7+7=42.,6,Medium,×,36,35,6 times 7,,7,48
+space-math,32,,32,8x4 means 4 groups of 8 or 8+8+8+8=32.,8,Medium,×,28,24,8 times 4,,4,36
+space-math,63,,63,Add the ones first (5+8=13) then add tens (40+10=50) plus carry 50+13=63.,45,Medium,+,60,58,Add carefully,,18,65
+space-math,27,,27,When ones column needs borrowing take 10 from tens column!,56,Hard,-,25,31,Borrow if needed,,29,29
+space-math,72,,72,Trick: 9x8 = 9x9-9 = 81-9 = 72. Or remember 8x9=72!,9,Hard,×,64,63,9 times 8,,8,81
+space-math,8,,8,Division answers: How many groups? 48÷6=8 because 6x8=48.,48,Hard,÷,6,9,How many 6s in 48,,6,7
+space-math,9,,9,To check division multiply your answer by divisor: 9x8=72 ✓,72,Hard,÷,8,10,Division practice,,8,7
+space-math,132,,132,11x12: Think of it as 11x10=110 plus 11x2=22. 110+22=132.,11,Hard,×,121,120,11 times 12,,12,144
+alien-invasion,5,,5,Speed tip: For small numbers use your fingers to count!,3,Easy,+,4,7,Quick addition,,2,6
+alien-invasion,4,,4,Counting back: Start at 7 count back 3: 6 5 4!,7,Easy,-,3,6,Fast subtraction,,3,5
+alien-invasion,9,,9,4+5=9. Remember pairs that make 9: 4+5 3+6 2+7 1+8!,4,Easy,+,8,7,Add quickly,,5,10
+alien-invasion,6,,6,10 is easy to subtract from. 10-4=6.,10,Easy,-,5,8,Subtract fast,,4,7
+alien-invasion,9,,9,6+3=9. These are number friends that make 9!,6,Easy,+,8,7,Speed math,,3,10
+alien-invasion,20,,20,5x4=20. Counting by 5s four times: 5 10 15 20!,5,Medium,×,16,25,Multiply fast,,4,24
+alien-invasion,36,,36,6x6=36. A square number - same number times itself!,6,Medium,×,30,32,6 squared,,6,42
+alien-invasion,37,,37,Add 10 then subtract 1: 28+10=38 then 38-1=37.,28,Medium,+,35,36,Add quickly,,9,39
+alien-invasion,56,,56,7x8=56. Memory trick: 5 6 7 8 → 56=7x8!,7,Medium,×,48,54,7 times 8,,8,64
+alien-invasion,27,,27,45-18: Subtract 20 (=25) then add 2 back (=27).,45,Medium,-,25,23,Subtract fast,,18,29
+alien-invasion,81,,81,9x9=81. Square numbers: 1 4 9 16 25 36 49 64 81 100.,9,Hard,×,72,63,9 squared,,9,90
+alien-invasion,9,,9,63÷7=9 because 7x9=63. Know your times tables!,63,Hard,÷,8,6,Quick division,,7,7
+alien-invasion,72,,72,84-12=72. Subtract 10 first (74) then 2 more (72).,84,Hard,-,70,68,Subtract large numbers,,12,74
+alien-invasion,121,,121,11x11=121. Pattern: 11²=121 12²=144 13²=169.,11,Hard,×,111,110,11 squared,,11,131
+alien-invasion,12,,12,96÷8=12. Check: 12x8=96 ✓,96,Hard,÷,10,14,Division challenge,,8,11
+bubble-pop,5,,5,2+3=5. Use your fingers: hold up 2 then 3 more!,2,Easy,+,4,7,Pop the sum,,3,6
+bubble-pop,6,,6,8-2=6. Take away means make the number smaller.,8,Easy,-,5,4,Find the difference,,2,7
+bubble-pop,8,,8,4+4=8. Doubles are easy: 1+1=2 2+2=4 3+3=6 4+4=8 5+5=10!,4,Easy,+,7,6,Double 4,,4,9
+bubble-pop,4,,4,9-5=4. Count back 5 from 9: 8 7 6 5 4!,9,Easy,-,3,6,Take away,,5,5
+bubble-pop,13,,13,7+6=13. Make 10 first: 7+3=10 then add 3 more = 13.,7,Easy,+,12,11,Add together,,6,14
+bubble-pop,12,,12,3x4=12. Skip count by 3s four times: 3 6 9 12!,3,Medium,×,10,16,Multiply,,4,14
+bubble-pop,25,,25,5x5=25. Skip count by 5s: 5 10 15 20 25!,5,Medium,×,20,15,5 squared,,5,30
+bubble-pop,18,,18,6x3=18. Three groups of 6 or six groups of 3!,6,Medium,×,15,12,6 times 3,,3,21
+bubble-pop,5,,5,20÷4=5. How many 4s fit in 20? Five of them!,20,Medium,÷,4,8,Divide evenly,,4,6
+bubble-pop,56,,56,8x7=56. Remember: 5 6 7 8 reads as 56=7x8!,8,Medium,×,49,54,Multiply quickly,,7,63
+bubble-pop,54,,54,9x6=54. Pattern: Digits of 9 times tables always add to 9!,9,Hard,×,48,45,9 times 6,,6,60
+bubble-pop,6,,6,42÷7=6. Six sevens make 42!,42,Hard,÷,5,8,Division,,7,7
+bubble-pop,8,,8,64÷8=8. 64 is 8 squared (8x8=64).,64,Hard,÷,7,6,8 squared backwards,,8,9
+bubble-pop,132,,132,12x11=132. Use 12x10=120 plus 12x1=12. 120+12=132!,12,Hard,×,121,120,Big multiply,,11,143
+bubble-pop,12,,12,144÷12=12. 144 is 12 squared!,144,Hard,÷,11,14,12 squared backwards,,12,13
+planet-hopper,8,,8,This is counting by 2s (even numbers): 2 4 6 8 10!,2 4 6 ? 10,Easy,,6,12,Add 2 each time,,sequence,10
+planet-hopper,20,,20,Skip counting by 5s like a clock: 5 10 15 20 25!,5 10 15 ? 25,Easy,,15,30,Add 5 each time,,sequence,25
+planet-hopper,12,,12,Times 3 table as a pattern: 3 6 9 12 15!,3 6 9 ? 15,Easy,,10,18,Add 3 each time,,sequence,14
+planet-hopper,40,,40,Counting by 10s is easy: 10 20 30 40 50!,10 20 30 ? 50,Easy,,35,50,Add 10 each time,,sequence,45
+planet-hopper,4,,4,Simple counting! 1 2 3 4 5.,1 2 3 ? 5,Easy,,3,6,Count by 1,,sequence,5
+planet-hopper,16,,16,4 times table: 4 8 12 16 20!,4 8 12 ? 20,Medium,,14,20,Add 4 each time,,sequence,18
+planet-hopper,28,,28,7 times table: 7 14 21 28 35!,7 14 21 ? 35,Medium,,24,35,Add 7 each time,,sequence,30
+planet-hopper,24,,24,Counting by 6s: 6 12 18 24 30!,6 12 18 ? 30,Medium,,20,30,Add 6 each time,,sequence,26
+planet-hopper,36,,36,9 times table: 9 18 27 36 45!,9 18 27 ? 45,Medium,,32,45,Add 9 each time,,sequence,40
+planet-hopper,32,,32,8 times table: 8 16 24 32 40!,8 16 24 ? 40,Medium,,28,40,Add 8 each time,,sequence,36
+planet-hopper,44,,44,11 times table: 11 22 33 44 55!,11 22 33 ? 55,Hard,,40,55,Add 11 each time,,sequence,48
+planet-hopper,48,,48,12 times table: 12 24 36 48 60!,12 24 36 ? 60,Hard,,44,60,Add 12 each time,,sequence,52
+planet-hopper,60,,60,Counting by 15s: Like quarter hours on a clock!,15 30 45 ? 75,Hard,,55,75,Add 15 each time,,sequence,65
+planet-hopper,100,,100,Counting by 25s: Like quarters (coins)!,25 50 75 ? 125,Hard,,90,125,Add 25 each time,,sequence,110
+planet-hopper,54,,54,This is a geometric sequence - multiply by 3 each time!,2 6 18 ? 162,Hard,,36,108,Multiply by 3,,sequence,72
+time-warp,3:00,,3:00,When minute hand points to 12 - read the hour hand!,3,Easy,read,6:00,12:00,Hour hand on 3,,0,9:00
+time-warp,6:00,,6:00,6:00 - hour hand on 6 minute hand on 12.,6,Easy,read,3:00,12:00,Hour hand on 6,,0,9:00
+time-warp,9:00,,9:00,9 oclock - the hour hand points to 9!,9,Easy,read,6:00,12:00,Hour hand on 9,,0,3:00
+time-warp,12:00,,12:00,12:00 - both hands point straight up!,12,Easy,read,6:00,9:00,Both hands up,,0,3:00
+time-warp,3:30,,3:30,Half past = 30 minutes. Minute hand on 6!,3,Easy,read,3:00,4:30,Half past 3,,30,4:00
+time-warp,6:30,,6:30,At :30 the minute hand is on the 6 (bottom).,6,Medium,read,6:00,7:30,Half past 6,,30,7:00
+time-warp,2:15,,2:15,Quarter past = 15 minutes. Minute hand on 3!,2,Medium,read,2:30,3:15,Quarter past 2,,15,2:45
+time-warp,4:45,,4:45,4:45 is also called quarter to 5!,4,Medium,read,4:15,4:30,Quarter to 5,,45,5:00
+time-warp,7:30,,7:30,The short hand shows hours the long hand shows minutes.,7,Medium,read,7:00,6:30,Half past 7,,30,8:00
+time-warp,10:15,,10:15,15 minutes = quarter of an hour!,10,Medium,read,10:30,9:15,Quarter past 10,,15,10:45
+time-warp,2 hours,,2 hours,Count from 2 to 4: thats 2 hours!,2:00 to 4:00,Hard,duration,3 hours,4 hours,Count the hours,,,1 hour
+time-warp,30 minutes,,30 minutes,From :00 to :30 is always 30 minutes (half hour)!,3:00 to 3:30,Hard,duration,1 hour,45 minutes,Half hour passed,,,15 minutes
+time-warp,1 hour 30 min,,1 hour 30 min,1:00 to 2:00 = 1 hour. Then 2:00 to 2:30 = 30 min. Total: 1.5 hours!,1:00 to 2:30,Hard,duration,2 hours,45 minutes,Hour and a half,,,1 hour
+time-warp,3 hours,,3 hours,Count: 5→6 (1hr) 6→7 (2hr) 7→8 (3hr) = 3 hours!,5:00 to 8:00,Hard,duration,2 hours,5 hours,Count from 5 to 8,,,4 hours
+time-warp,45 minutes,,45 minutes,From :00 to :45 is 45 minutes (3 quarters of an hour)!,9:00 to 9:45,Hard,duration,30 minutes,15 minutes,Almost an hour,,,1 hour
+space-math,8,,8,Adding small numbers: 6+2 equals 8!,6,Easy,+,7,10,Add 6 and 2,,2,9
+space-math,16,,16,11+5: Start at 11 and count 5 more!,11,Easy,+,15,14,Add to 11,,5,17
+space-math,6,,6,Subtraction: Take 3 away from 9 leaves 6!,9,Easy,-,5,8,9 minus 3,,3,7
+space-math,27,,27,Add: 18+10=28 then subtract 1 = 27!,18,Medium,+,25,26,Add 18 and 9,,9,29
+space-math,30,,30,Multiply: 5×6 = 30. Count by 5s six times!,5,Medium,×,25,36,5 times 6,,6,35
+space-math,63,,63,7×9=63. Trick: 7×10=70 then subtract 7!,7,Medium,×,54,56,7 times 9,,9,72
+space-math,9,,9,Division: 81÷9=9 because 9×9=81!,81,Hard,÷,8,7,81 divided by 9,,9,10
+space-math,143,,143,13×11: Think (10+3)×11 = 110+33 = 143!,13,Hard,×,121,132,13 times 11,,11,154
+space-math,12,,12,Division check: 12×9=108 so 108÷9=12!,108,Hard,÷,11,10,108 divided by 9,,9,13
+alien-invasion,7,,7,5+2=7. Use fingers to count quickly!,5,Easy,+,6,9,Quick add,,2,8
+alien-invasion,5,,5,8-3=5. Count backwards: 7 6 5!,8,Easy,-,4,7,Fast take away,,3,6
+alien-invasion,10,,10,6+4=10. Number bonds that make 10!,6,Easy,+,9,8,Make 10,,4,11
+alien-invasion,49,,49,7×7=49. Seven groups of seven!,7,Medium,×,42,45,7 squared,,7,56
+alien-invasion,36,,36,9×4=36. Four nines: 9+9+9+9!,9,Medium,×,32,35,9 times 4,,4,40
+alien-invasion,54,,54,Add 20 then subtract 2: 36+20=56 -2=54!,36,Medium,+,52,50,Add with tens,,18,56
+alien-invasion,12,,12,144÷12=12. Know your squares!,144,Hard,÷,11,14,12 squared backwards,,12,13
+alien-invasion,96,,96,8×12=96. Double 8×6=48 then double again!,8,Hard,×,84,88,8 times 12,,12,108
+alien-invasion,156,,156,13×12: 13×10=130 plus 13×2=26. Sum=156!,13,Hard,×,144,132,Big multiplication,,12,168
+bubble-pop,8,,8,3+5=8. Make patterns: 3+5 4+4!,3,Easy,+,7,10,Add 3 and 5,,5,9
+bubble-pop,7,,7,From 10 subtract 3 leaves 7!,10,Easy,-,6,9,10 minus 3,,3,8
+bubble-pop,11,,11,5+6=11. Think 5+5=10 plus 1 more!,5,Easy,+,10,13,5 plus 6,,6,12
+bubble-pop,35,,35,7×5=35. Count by 7s: 7 14 21 28 35!,7,Medium,×,30,32,7 times 5,,5,40
+bubble-pop,27,,27,9×3=27. Three nines: 9+9+9=27!,9,Medium,×,24,21,9 times 3,,3,30
+bubble-pop,4,,4,24÷6=4. How many 6s in 24? Four!,24,Medium,÷,3,6,Divide 24 by 6,,6,5
+bubble-pop,84,,84,7×12=84. Seven dozen eggs!,7,Hard,×,72,78,7 times 12,,12,96
+bubble-pop,99,,99,11×9=99. Pattern: 11×9 has 9s!,11,Hard,×,88,90,11 times 9,,9,110
+bubble-pop,8,,8,72÷9=8. Nine eights make 72!,72,Hard,÷,7,6,72 divided by 9,,9,9
+planet-hopper,7,,7,Odd numbers: 1 3 5 7 9!,1 3 5 ? 9,Easy,,5,11,Add 2 odd numbers,,sequence,9
+planet-hopper,20,,20,Counting by 4s like quarters!,4 8 12 16 ?,Easy,,18,24,Add 4 each time,,sequence,22
+planet-hopper,16,,16,Pattern: ×2 each step. 2 4 8 16 32!,2 4 8 ? 32,Easy,,12,24,Double each time,,sequence,20
+planet-hopper,25,,25,Skip counting by 5s!,5 10 15 20 ?,Medium,,20,35,Add 5 each time,,sequence,30
+planet-hopper,81,,81,Multiply by 3: 3 9 27 81!,3 9 27 ?,Medium,,54,90,Times 3 pattern,,sequence,72
+planet-hopper,70,,70,Counting backwards by 10s!,100 90 80 ? 60,Medium,,65,50,Subtract 10,,sequence,75
+planet-hopper,25,,25,Squares: 1² 2² 3² 4² 5² = 1 4 9 16 25!,1 4 9 16 ?,Hard,,20,36,Square numbers,,sequence,30
+planet-hopper,80,,80,Counting by 20s!,20 40 60 ? 100,Hard,,70,85,Add 20 each time,,sequence,90
+planet-hopper,8,,8,Add last two: 1+1=2 1+2=3 2+3=5 3+5=8!,1 1 2 3 5 ?,Hard,,6,7,Fibonacci sequence,,sequence,10
+time-warp,1:00,,1:00,1 o'clock - hour hand points to 1!,1,Easy,read,2:00,11:00,Hour hand on 1,,0,12:00
+time-warp,2:00,,2:00,2:00 - both hands make an L shape!,2,Easy,read,1:00,4:00,Hour hand on 2,,0,3:00
+time-warp,5:00,,5:00,5 o'clock - minute hand up hour hand on 5!,5,Easy,read,4:00,7:00,Hour hand on 5,,0,6:00
+time-warp,8:30,,8:30,8:30 - halfway between 8 and 9!,8,Medium,read,8:00,7:30,Half past 8,,30,9:00
+time-warp,5:15,,5:15,15 minutes after 5 o'clock!,5,Medium,read,5:30,4:15,Quarter past 5,,15,5:45
+time-warp,11:45,,11:45,11:45 is 15 minutes before noon!,11,Medium,read,11:15,10:45,Quarter to 12,,45,12:00
+time-warp,3 hours,,3 hours,From 4 to 7 is 3 hours: 4→5→6→7!,4:00 to 7:00,Hard,duration,4 hours,5 hours,Count hours,,,2 hours
+time-warp,15 minutes,,15 minutes,15 minutes = quarter of an hour!,6:00 to 6:15,Hard,duration,30 minutes,1 hour,Quarter hour,,,45 minutes
+time-warp,2 hours 30 min,,2 hours 30 min,2:30 to 5:00 = 2.5 hours!,2:30 to 5:00,Hard,duration,2 hours,2 hours 15 min,Two and a half hours,,,3 hours
+fraction-frenzy,3/10,,7/8,The top number (numerator) counts shaded parts. The bottom number (denominator) counts total parts.,7,Easy,identify,2/3,7/8,Count the shaded parts (top) and total parts (bottom).,dynamic:fraction:7:8,8,2/10
+fraction-frenzy,3/6,,2/3,The top number (numerator) counts shaded parts. The bottom number (denominator) counts total parts.,2,Easy,identify,1/6,2/3,Count the shaded parts (top) and total parts (bottom).,dynamic:fraction:2:3,3,1/2
+fraction-frenzy,1/4,,1/3,The top number (numerator) counts shaded parts. The bottom number (denominator) counts total parts.,1,Easy,identify,2/3,1/3,Count the shaded parts (top) and total parts (bottom).,dynamic:fraction:1:3,3,5/8
+fraction-frenzy,2/8,,1/2,The top number (numerator) counts shaded parts. The bottom number (denominator) counts total parts.,1,Easy,identify,2/6,1/2,Count the shaded parts (top) and total parts (bottom).,dynamic:fraction:1:2,2,1/5
+fraction-frenzy,1/3,,1/3,The top number (numerator) counts shaded parts. The bottom number (denominator) counts total parts.,1,Easy,identify,1/2,5/6,Count the shaded parts (top) and total parts (bottom).,dynamic:fraction:1:3,3,1/5
+fraction-frenzy,9/10,,1/5,The top number (numerator) counts shaded parts. The bottom number (denominator) counts total parts.,1,Easy,identify,1/2,1/5,Count the shaded parts (top) and total parts (bottom).,dynamic:fraction:1:5,5,4/5
+fraction-frenzy,4/8,,4/6,The top number (numerator) counts shaded parts. The bottom number (denominator) counts total parts.,4,Easy,identify,4/6,1/2,Count the shaded parts (top) and total parts (bottom).,dynamic:fraction:4:6,6,5/10
+fraction-frenzy,1/3,,4/6,The top number (numerator) counts shaded parts. The bottom number (denominator) counts total parts.,4,Easy,identify,4/6,4/8,Count the shaded parts (top) and total parts (bottom).,dynamic:fraction:4:6,6,2/3
+fraction-frenzy,3/5,,1/2,The top number (numerator) counts shaded parts. The bottom number (denominator) counts total parts.,1,Easy,identify,1/10,1/2,Count the shaded parts (top) and total parts (bottom).,dynamic:fraction:1:2,2,5/8
+fraction-frenzy,1/10,,3/4,The top number (numerator) counts shaded parts. The bottom number (denominator) counts total parts.,3,Easy,identify,3/4,1/4,Count the shaded parts (top) and total parts (bottom).,dynamic:fraction:3:4,4,2/4
+fraction-frenzy,1/2,,1/2,The top number (numerator) counts shaded parts. The bottom number (denominator) counts total parts.,1,Easy,identify,1/8,3/4,Count the shaded parts (top) and total parts (bottom).,dynamic:fraction:1:2,2,1/4
+fraction-frenzy,1/2,,7/10,The top number (numerator) counts shaded parts. The bottom number (denominator) counts total parts.,7,Easy,identify,3/5,1/4,Count the shaded parts (top) and total parts (bottom).,dynamic:fraction:7:10,10,7/10
+fraction-frenzy,2/4,,4/5,The top number (numerator) counts shaded parts. The bottom number (denominator) counts total parts.,4,Easy,identify,1/2,3/4,Count the shaded parts (top) and total parts (bottom).,dynamic:fraction:4:5,5,4/5
+fraction-frenzy,1/2,,5/6,The top number (numerator) counts shaded parts. The bottom number (denominator) counts total parts.,5,Easy,identify,5/6,2/3,Count the shaded parts (top) and total parts (bottom).,dynamic:fraction:5:6,6,1/3
+fraction-frenzy,2/5,,5/10,The top number (numerator) counts shaded parts. The bottom number (denominator) counts total parts.,5,Easy,identify,7/8,9/10,Count the shaded parts (top) and total parts (bottom).,dynamic:fraction:5:10,10,5/10
+fraction-frenzy,>,,<,Compare shaded areas.,4/8,Medium,compare,<,?,Right is bigger,dynamic:compare:4:8:5:6,5/6,=
+fraction-frenzy,>,,>,Compare shaded areas.,5/8,Medium,compare,<,?,Left is bigger,dynamic:compare:5:8:1:6,1/6,=
+fraction-frenzy,>,,<,Compare shaded areas.,2/6,Medium,compare,<,?,Right is bigger,dynamic:compare:2:6:4:6,4/6,=
+fraction-frenzy,>,,<,Compare shaded areas.,5/8,Medium,compare,<,?,Right is bigger,dynamic:compare:5:8:4:6,4/6,=
+fraction-frenzy,>,,>,Compare shaded areas.,3/6,Medium,compare,<,?,Left is bigger,dynamic:compare:3:6:1:3,1/3,=
+fraction-frenzy,>,,>,Compare shaded areas.,5/6,Medium,compare,<,?,Left is bigger,dynamic:compare:5:6:4:8,4/8,=
+fraction-frenzy,>,,<,Compare shaded areas.,1/6,Medium,compare,<,?,Right is bigger,dynamic:compare:1:6:2:4,2/4,=
+fraction-frenzy,>,,>,Compare shaded areas.,5/8,Medium,compare,<,?,Left is bigger,dynamic:compare:5:8:1:2,1/2,=
+fraction-frenzy,>,,>,Compare shaded areas.,5/8,Medium,compare,<,?,Left is bigger,dynamic:compare:5:8:1:8,1/8,=
+fraction-frenzy,>,,<,Compare shaded areas.,4/6,Medium,compare,<,?,Right is bigger,dynamic:compare:4:6:6:8,6/8,=
+fraction-frenzy,>,,=,Compare shaded areas.,4/8,Medium,compare,<,?,Equal!,dynamic:compare:4:8:3:6,3/6,=
+fraction-frenzy,>,,>,Compare shaded areas.,2/3,Medium,compare,<,?,Left is bigger,dynamic:compare:2:3:1:3,1/3,=
+fraction-frenzy,>,,<,Compare shaded areas.,1/8,Medium,compare,<,?,Right is bigger,dynamic:compare:1:8:1:2,1/2,=
+fraction-frenzy,>,,>,Compare shaded areas.,1/2,Medium,compare,<,?,Left is bigger,dynamic:compare:1:2:1:3,1/3,=
+fraction-frenzy,>,,<,Compare shaded areas.,2/6,Medium,compare,<,?,Right is bigger,dynamic:compare:2:6:1:2,1/2,=
+fraction-frenzy,2,,2,1/2 is the same as 2/4.,1/2,Hard,fill-blank,3,4,Equivalent fractions.,dynamic:fraction:1:2,?/4,1
+fraction-frenzy,3,,3,1/2 is the same as 3/6.,1/2,Hard,fill-blank,4,6,Equivalent fractions.,dynamic:fraction:1:2,?/6,2
+fraction-frenzy,4,,4,1/2 is the same as 4/8.,1/2,Hard,fill-blank,5,8,Equivalent fractions.,dynamic:fraction:1:2,?/8,3
+fraction-frenzy,5,,5,1/2 is the same as 5/10.,1/2,Hard,fill-blank,6,10,Equivalent fractions.,dynamic:fraction:1:2,?/10,4
+fraction-frenzy,2,,2,1/3 is the same as 2/6.,1/3,Hard,fill-blank,3,6,Equivalent fractions.,dynamic:fraction:1:3,?/6,1
+fraction-frenzy,3,,3,1/3 is the same as 3/9.,1/3,Hard,fill-blank,4,9,Equivalent fractions.,dynamic:fraction:1:3,?/9,2
+fraction-frenzy,4,,4,2/3 is the same as 4/6.,2/3,Hard,fill-blank,5,6,Equivalent fractions.,dynamic:fraction:2:3,?/6,3
+fraction-frenzy,6,,6,2/3 is the same as 6/9.,2/3,Hard,fill-blank,7,9,Equivalent fractions.,dynamic:fraction:2:3,?/9,5
+fraction-frenzy,2,,2,1/4 is the same as 2/8.,1/4,Hard,fill-blank,3,8,Equivalent fractions.,dynamic:fraction:1:4,?/8,1
+fraction-frenzy,6,,6,3/4 is the same as 6/8.,3/4,Hard,fill-blank,7,8,Equivalent fractions.,dynamic:fraction:3:4,?/8,5
+fraction-frenzy,2,,2,1/5 is the same as 2/10.,1/5,Hard,fill-blank,3,10,Equivalent fractions.,dynamic:fraction:1:5,?/10,1
+fraction-frenzy,4,,4,2/5 is the same as 4/10.,2/5,Hard,fill-blank,5,10,Equivalent fractions.,dynamic:fraction:2:5,?/10,3
+fraction-frenzy,3/3,,2/3,Sum of parts.,1/3,Medium,add,2/3,1/3,Add top numbers.,dynamic:add:1:3:1:3,1/3,2/3
+fraction-frenzy,3/3,,3/3,Sum of parts.,1/3,Medium,add,1/3,1/3,Add top numbers.,dynamic:add:1:3:2:3,2/3,2/3
+fraction-frenzy,1/3,,2/3,Sum of parts.,1/3,Medium,add,2/3,1/3,Add top numbers.,dynamic:add:1:3:1:3,1/3,3/3
+fraction-frenzy,3/3,,2/3,Sum of parts.,1/3,Medium,add,3/3,2/3,Add top numbers.,dynamic:add:1:3:1:3,1/3,1/3
+fraction-frenzy,3/5,,5/5,Sum of parts.,2/5,Medium,add,2/5,1/5,Add top numbers.,dynamic:add:2:5:3:5,3/5,5/5
+fraction-frenzy,9/10,,7/10,Sum of parts.,3/10,Medium,add,5/10,7/10,Add top numbers.,dynamic:add:3:10:4:10,4/10,10/10
+fraction-frenzy,6/6,,6/6,Sum of parts.,2/6,Medium,add,5/6,2/6,Add top numbers.,dynamic:add:2:6:4:6,4/6,1/6
+fraction-frenzy,5/10,,8/10,Sum of parts.,5/10,Medium,add,9/10,3/10,Add top numbers.,dynamic:add:5:10:3:10,3/10,8/10
+fraction-frenzy,1/4,,4/4,Sum of parts.,1/4,Medium,add,4/4,3/4,Add top numbers.,dynamic:add:1:4:3:4,3/4,2/4
+fraction-frenzy,2/4,,3/4,Sum of parts.,1/4,Medium,add,3/4,1/4,Add top numbers.,dynamic:add:1:4:2:4,2/4,4/4
+geometry-galaxy,Hexagon,circle,Circle,circle shape.,,Easy,identify,Circle,Square,Count sides/corners.,dynamic:shape:circle,,Cross
+geometry-galaxy,Arrow,triangle,Triangle,triangle shape.,,Easy,identify,Rhombus,Triangle,Count sides/corners.,dynamic:shape:triangle,,Circle
+geometry-galaxy,Square,square,Square,square shape.,,Easy,identify,Oval,Rectangle,Count sides/corners.,dynamic:shape:square,,Hexagon
+geometry-galaxy,Hexagon,rectangle,Rectangle,rectangle shape.,,Easy,identify,Circle,Rectangle,Count sides/corners.,dynamic:shape:rectangle,,Triangle
+geometry-galaxy,Triangle,pentagon,Pentagon,pentagon shape.,,Easy,identify,Star,Pentagon,Count sides/corners.,dynamic:shape:pentagon,,Heart
+geometry-galaxy,Hexagon,hexagon,Hexagon,hexagon shape.,,Easy,identify,Square,Triangle,Count sides/corners.,dynamic:shape:hexagon,,Trapezoid
+geometry-galaxy,Octagon,octagon,Octagon,octagon shape.,,Easy,identify,Triangle,Circle,Count sides/corners.,dynamic:shape:octagon,,Pentagon
+geometry-galaxy,Pentagon,star,Star,star shape.,,Easy,identify,Star,Rhombus,Count sides/corners.,dynamic:shape:star,,Square
+geometry-galaxy,Octagon,rhombus,Rhombus,rhombus shape.,,Easy,identify,Rhombus,Star,Count sides/corners.,dynamic:shape:rhombus,,Triangle
+geometry-galaxy,Arrow,trapezoid,Trapezoid,trapezoid shape.,,Easy,identify,Triangle,Trapezoid,Count sides/corners.,dynamic:shape:trapezoid,,Heart
+geometry-galaxy,Arrow,oval,Oval,oval shape.,,Easy,identify,Oval,Heart,Count sides/corners.,dynamic:shape:oval,,Square
+geometry-galaxy,Hexagon,heart,Heart,heart shape.,,Easy,identify,Heart,Rhombus,Count sides/corners.,dynamic:shape:heart,,Arrow
+geometry-galaxy,Pentagon,arrow,Arrow,arrow shape.,,Easy,identify,Arrow,Rhombus,Count sides/corners.,dynamic:shape:arrow,,Hexagon
+geometry-galaxy,Cross,cross,Cross,cross shape.,,Easy,identify,Triangle,Arrow,Count sides/corners.,dynamic:shape:cross,,Pentagon
+geometry-galaxy,Semicircle,semicircle,Semicircle,semicircle shape.,,Easy,identify,Arrow,Oval,Count sides/corners.,dynamic:shape:semicircle,,Star
+geometry-galaxy,Sphere,cube,Cube,cube is 3D.,,Medium,identify,Cone,Cylinder,3D Object.,dynamic:shape:cube,,Cube
+geometry-galaxy,Cylinder,sphere,Sphere,sphere is 3D.,,Medium,identify,Sphere,Pyramid,3D Object.,dynamic:shape:sphere,,Cone
+geometry-galaxy,4,triangle,3,3 sides.,,Medium,sides,3,9,Count lines.,dynamic:shape:triangle,,6
+geometry-galaxy,7,triangle,3,3 sides.,,Medium,sides,4,3,Count lines.,dynamic:shape:triangle,,5
+geometry-galaxy,7,square,4,4 sides.,,Medium,sides,4,3,Count lines.,dynamic:shape:square,,8
+geometry-galaxy,3,square,4,4 sides.,,Medium,sides,4,6,Count lines.,dynamic:shape:square,,5
+geometry-galaxy,7,rectangle,4,4 sides.,,Medium,sides,4,9,Count lines.,dynamic:shape:rectangle,,3
+geometry-galaxy,9,rectangle,4,4 sides.,,Medium,sides,4,5,Count lines.,dynamic:shape:rectangle,,8
+geometry-galaxy,6,pentagon,5,5 sides.,,Medium,sides,5,3,Count lines.,dynamic:shape:pentagon,,4
+geometry-galaxy,4,pentagon,5,5 sides.,,Medium,sides,10,6,Count lines.,dynamic:shape:pentagon,,5
+geometry-galaxy,8,hexagon,6,6 sides.,,Medium,sides,4,6,Count lines.,dynamic:shape:hexagon,,9
+geometry-galaxy,3,hexagon,6,6 sides.,,Medium,sides,5,9,Count lines.,dynamic:shape:hexagon,,6
+geometry-galaxy,7,octagon,8,8 sides.,,Medium,sides,8,10,Count lines.,dynamic:shape:octagon,,9
+geometry-galaxy,8,octagon,8,8 sides.,,Medium,sides,9,10,Count lines.,dynamic:shape:octagon,,4
+money-master,21¢,,21¢,Total is 21¢.,Count Coins,Easy,count,16¢,31¢,Sum the values.,dynamic:coins:dime:2:penny:1,,20¢
+money-master,77¢,,67¢,Total is 67¢.,Count Coins,Medium,count,72¢,57¢,Sum the values.,dynamic:coins:quarter:2:nickel:3:penny:2,,67¢
+money-master,23¢,,23¢,Total is 23¢.,Count Coins,Easy,count,33¢,28¢,Sum the values.,dynamic:coins:nickel:4:penny:3,,18¢
+money-master,47¢,,42¢,Total is 42¢.,Count Coins,Easy,count,37¢,42¢,Sum the values.,dynamic:coins:dime:4:penny:2,,41¢
+money-master,77¢,,77¢,Total is 77¢.,Count Coins,Medium,count,67¢,87¢,Sum the values.,dynamic:coins:quarter:1:dime:4:nickel:2:penny:2,,78¢
+money-master,56¢,,55¢,Total is 55¢.,Count Coins,Medium,count,54¢,55¢,Sum the values.,dynamic:coins:quarter:1:dime:1:nickel:4,,65¢
+money-master,23¢,,33¢,Total is 33¢.,Count Coins,Easy,count,43¢,34¢,Sum the values.,dynamic:coins:dime:1:nickel:4:penny:3,,33¢
+money-master,98¢,,97¢,Total is 97¢.,Count Coins,Medium,count,92¢,102¢,Sum the values.,dynamic:coins:quarter:2:dime:3:nickel:3:penny:2,,97¢
+money-master,94¢,,94¢,Total is 94¢.,Count Coins,Medium,count,99¢,95¢,Sum the values.,dynamic:coins:quarter:3:dime:1:nickel:1:penny:4,,84¢
+money-master,98¢,,97¢,Total is 97¢.,Count Coins,Medium,count,87¢,102¢,Sum the values.,dynamic:coins:quarter:3:dime:1:nickel:2:penny:2,,97¢
+money-master,81¢,,91¢,Total is 91¢.,Count Coins,Medium,count,86¢,96¢,Sum the values.,dynamic:coins:quarter:2:dime:4:penny:1,,91¢
+money-master,94¢,,94¢,Total is 94¢.,Count Coins,Medium,count,99¢,89¢,Sum the values.,dynamic:coins:quarter:2:dime:3:nickel:2:penny:4,,95¢
+money-master,77¢,,72¢,Total is 72¢.,Count Coins,Medium,count,71¢,72¢,Sum the values.,dynamic:coins:quarter:2:dime:1:nickel:2:penny:2,,67¢
+money-master,63¢,,62¢,Total is 62¢.,Count Coins,Medium,count,52¢,62¢,Sum the values.,dynamic:coins:quarter:2:nickel:2:penny:2,,67¢
+money-master,30¢,,25¢,Total is 25¢.,Count Coins,Easy,count,25¢,20¢,Sum the values.,dynamic:coins:quarter:1,,24¢
+money-master,108¢,,109¢,Total is 109¢.,Count Coins,Medium,count,109¢,114¢,Sum the values.,dynamic:coins:quarter:3:dime:3:penny:4,,99¢
+money-master,69¢,,69¢,Total is 69¢.,Count Coins,Medium,count,68¢,59¢,Sum the values.,dynamic:coins:quarter:2:nickel:3:penny:4,,79¢
+money-master,45¢,,44¢,Total is 44¢.,Count Coins,Easy,count,49¢,54¢,Sum the values.,dynamic:coins:quarter:1:dime:1:nickel:1:penny:4,,44¢
+money-master,22¢,,21¢,Total is 21¢.,Count Coins,Easy,count,21¢,20¢,Sum the values.,dynamic:coins:dime:1:nickel:2:penny:1,,11¢
+money-master,51¢,,56¢,Total is 56¢.,Count Coins,Medium,count,55¢,56¢,Sum the values.,dynamic:coins:quarter:1:dime:1:nickel:4:penny:1,,66¢
+money-master,76¢,,86¢,Total is 86¢.,Count Coins,Medium,count,91¢,86¢,Sum the values.,dynamic:coins:quarter:2:dime:3:nickel:1:penny:1,,87¢
+money-master,42¢,,43¢,Total is 43¢.,Count Coins,Easy,count,33¢,53¢,Sum the values.,dynamic:coins:quarter:1:dime:1:nickel:1:penny:3,,43¢
+money-master,48¢,,43¢,Total is 43¢.,Count Coins,Easy,count,44¢,53¢,Sum the values.,dynamic:coins:dime:4:penny:3,,43¢
+money-master,46¢,,41¢,Total is 41¢.,Count Coins,Easy,count,41¢,31¢,Sum the values.,dynamic:coins:dime:3:nickel:2:penny:1,,40¢
+money-master,95¢,,94¢,Total is 94¢.,Count Coins,Medium,count,84¢,94¢,Sum the values.,dynamic:coins:quarter:3:nickel:3:penny:4,,104¢
+money-master,123¢,,122¢,Total is 122¢.,Count Coins,Medium,count,122¢,127¢,Sum the values.,dynamic:coins:quarter:3:dime:4:nickel:1:penny:2,,112¢
+money-master,25¢,,30¢,Total is 30¢.,Count Coins,Easy,count,31¢,30¢,Sum the values.,dynamic:coins:dime:1:nickel:4,,20¢
+money-master,83¢,,83¢,Total is 83¢.,Count Coins,Medium,count,78¢,93¢,Sum the values.,dynamic:coins:quarter:1:dime:4:nickel:3:penny:3,,88¢
+money-master,61¢,,61¢,Total is 61¢.,Count Coins,Medium,count,60¢,66¢,Sum the values.,dynamic:coins:dime:4:nickel:4:penny:1,,62¢
+money-master,73¢,,78¢,Total is 78¢.,Count Coins,Medium,count,83¢,78¢,Sum the values.,dynamic:coins:quarter:1:dime:4:nickel:2:penny:3,,77¢
+money-master,60¢,Paid: $1.00,60¢,Change is 60¢.,Price: 40¢,Hard,change,65¢,70¢,100 - 40,,change,55¢
+money-master,55¢,Paid: $1.00,55¢,Change is 55¢.,Price: 45¢,Hard,change,60¢,65¢,100 - 45,,change,50¢
+money-master,30¢,Paid: $1.00,30¢,Change is 30¢.,Price: 70¢,Hard,change,35¢,40¢,100 - 70,,change,25¢
+money-master,55¢,Paid: $1.00,55¢,Change is 55¢.,Price: 45¢,Hard,change,60¢,65¢,100 - 45,,change,50¢
+money-master,5¢,Paid: $1.00,5¢,Change is 5¢.,Price: 95¢,Hard,change,10¢,15¢,100 - 95,,change,0¢
+money-master,5¢,Paid: $1.00,5¢,Change is 5¢.,Price: 95¢,Hard,change,10¢,15¢,100 - 95,,change,0¢
+money-master,15¢,Paid: $1.00,15¢,Change is 15¢.,Price: 85¢,Hard,change,20¢,25¢,100 - 85,,change,10¢
+money-master,25¢,Paid: $1.00,25¢,Change is 25¢.,Price: 75¢,Hard,change,30¢,35¢,100 - 75,,change,20¢
+money-master,75¢,Paid: $1.00,75¢,Change is 75¢.,Price: 25¢,Hard,change,80¢,85¢,100 - 25,,change,70¢
+money-master,10¢,Paid: $1.00,10¢,Change is 10¢.,Price: 90¢,Hard,change,15¢,20¢,100 - 90,,change,5¢
+money-master,45¢,Paid: $1.00,45¢,Change is 45¢.,Price: 55¢,Hard,change,50¢,55¢,100 - 55,,change,40¢
+money-master,15¢,Paid: $1.00,15¢,Change is 15¢.,Price: 85¢,Hard,change,20¢,25¢,100 - 85,,change,10¢
+money-master,30¢,Paid: $1.00,30¢,Change is 30¢.,Price: 70¢,Hard,change,35¢,40¢,100 - 70,,change,25¢
+money-master,70¢,Paid: $1.00,70¢,Change is 70¢.,Price: 30¢,Hard,change,75¢,80¢,100 - 30,,change,65¢
+money-master,5¢,Paid: $1.00,5¢,Change is 5¢.,Price: 95¢,Hard,change,10¢,15¢,100 - 95,,change,0¢
+money-master,55¢,Paid: $1.00,55¢,Change is 55¢.,Price: 45¢,Hard,change,60¢,65¢,100 - 45,,change,50¢
+money-master,40¢,Paid: $1.00,40¢,Change is 40¢.,Price: 60¢,Hard,change,45¢,50¢,100 - 60,,change,35¢
+money-master,30¢,Paid: $1.00,30¢,Change is 30¢.,Price: 70¢,Hard,change,35¢,40¢,100 - 70,,change,25¢
+money-master,15¢,Paid: $1.00,15¢,Change is 15¢.,Price: 85¢,Hard,change,20¢,25¢,100 - 85,,change,10¢
+money-master,25¢,Paid: $1.00,25¢,Change is 25¢.,Price: 75¢,Hard,change,30¢,35¢,100 - 75,,change,20¢
+
+story-solver,2,Tom has 14 toy cars. He arranges them in rows of 2. How many rows does he make?,7,Divide the total cars by the number in each row.,14,Medium,word_problem,7,3,Divide 14 by 2,,2,8
+story-solver,Yes,Sarah has 13 apples. She wants to give one to each of her 13 friends. Does she have enough?,Yes,Compare the number of apples to the number of friends.,13,Medium,word_problem,No,Don't Know,Is 13 bigger than 13?,,13,Maybe
+story-solver,61,There are 25 cookies in a jar. Mom puts 36 more cookies in. How many cookies are there now?,61,Add the new cookies to the ones already there.,25,Medium,word_problem,66,58,Add them up!,,36,57
+story-solver,50,A box holds 85 crayons. 40 crayons are broken. How many are not broken?,45,Subtract the broken crayons from the total.,85,Medium,word_problem,48,45,Take away the broken ones.,,40,40
+story-solver,30,Leo reads 9 pages on Monday and 26 pages on Tuesday. How many pages did he read in total?,35,Add the pages from both days together.,9,Medium,word_problem,31,35,Combine Monday and Tuesday.,,26,32
+story-solver,59,Emma has 38 stickers. She buys 18 more. How many stickers does she have now?,56,Add the stickers she started with and the ones she bought!,38,Medium,word_problem,51,57,Think: 38 plus 18,,18,56
+story-solver,16,There are 37 birds on a tree. 21 fly away. How many birds are left?,16,Subtract the birds that flew away from the total.,37,Medium,word_problem,12,14,Think: 37 minus 21,,21,19
+story-solver,48,Emma has 36 stickers. She buys 16 more. How many stickers does she have now?,52,Add the stickers she started with and the ones she bought!,36,Medium,word_problem,53,50,Think: 36 plus 16,,16,52
+story-solver,8,There are 22 birds on a tree. 14 fly away. How many birds are left?,8,Subtract the birds that flew away from the total.,22,Medium,word_problem,4,11,Think: 22 minus 14,,14,9
+story-solver,Yes,Sarah has 12 apples. She wants to give one to each of her 14 friends. Does she have enough?,No,Compare the number of apples to the number of friends.,12,Medium,word_problem,No,Don't Know,Is 12 bigger than 14?,,14,Maybe
+story-solver,1,A box holds 32 crayons. 28 crayons are broken. How many are not broken?,4,Subtract the broken crayons from the total.,32,Medium,word_problem,8,4,Take away the broken ones.,,28,6
+story-solver,12,Tom has 20 toy cars. He arranges them in rows of 2. How many rows does he make?,10,Divide the total cars by the number in each row.,20,Medium,word_problem,10,15,Divide 20 by 2,,2,11
+story-solver,3,A garden has 3 rows of flowers. Each row has 2 flowers. How many flowers are there in total?,6,Multiply rows by flowers per row.,3,Medium,word_problem,5,6,3 groups of 2,,2,10
+story-solver,Yes,Sarah has 7 apples. She wants to give one to each of her 13 friends. Does she have enough?,No,Compare the number of apples to the number of friends.,7,Medium,word_problem,No,Don't Know,Is 7 bigger than 13?,,13,Maybe
+story-solver,63,There are 35 cookies in a jar. Mom puts 32 more cookies in. How many cookies are there now?,67,Add the new cookies to the ones already there.,35,Medium,word_problem,67,64,Add them up!,,32,72
+story-solver,7,Tom has 20 toy cars. He arranges them in rows of 4. How many rows does he make?,5,Divide the total cars by the number in each row.,20,Medium,word_problem,8,1,Divide 20 by 4,,4,5
+story-solver,7,A classroom has 68 chairs. 64 chairs are empty. How many chairs are occupied?,4,Total chairs minus empty chairs equals occupied chairs.,68,Medium,word_problem,4,1,Subtract the empty ones.,,64,5
+story-solver,11,A box holds 25 crayons. 18 crayons are broken. How many are not broken?,7,Subtract the broken crayons from the total.,25,Medium,word_problem,7,2,Take away the broken ones.,,18,9
+story-solver,9,A garden has 2 rows of flowers. Each row has 3 flowers. How many flowers are there in total?,6,Multiply rows by flowers per row.,2,Medium,word_problem,5,11,2 groups of 3,,3,6
+story-solver,22,Leo reads 6 pages on Monday and 20 pages on Tuesday. How many pages did he read in total?,26,Add the pages from both days together.,6,Medium,word_problem,30,26,Combine Monday and Tuesday.,,20,24
+story-solver,52,Emma has 41 stickers. She buys 8 more. How many stickers does she have now?,49,Add the stickers she started with and the ones she bought!,41,Medium,word_problem,49,51,Think: 41 plus 8,,8,47
+story-solver,51,A garden has 7 rows of flowers. Each row has 8 flowers. How many flowers are there in total?,56,Multiply rows by flowers per row.,7,Medium,word_problem,56,59,7 groups of 8,,8,60
+story-solver,8,Tom has 20 toy cars. He arranges them in rows of 4. How many rows does he make?,5,Divide the total cars by the number in each row.,20,Medium,word_problem,5,1,Divide 20 by 4,,4,2
+story-solver,44,Leo reads 22 pages on Monday and 22 pages on Tuesday. How many pages did he read in total?,44,Add the pages from both days together.,22,Medium,word_problem,46,43,Combine Monday and Tuesday.,,22,48
+story-solver,70,Emma has 30 stickers. She buys 37 more. How many stickers does she have now?,67,Add the stickers she started with and the ones she bought!,30,Medium,word_problem,68,67,Think: 30 plus 37,,37,65
+story-solver,13,Tom has 45 toy cars. He arranges them in rows of 5. How many rows does he make?,9,Divide the total cars by the number in each row.,45,Medium,word_problem,9,8,Divide 45 by 5,,5,6
+story-solver,26,There are 52 birds on a tree. 25 fly away. How many birds are left?,27,Subtract the birds that flew away from the total.,52,Medium,word_problem,27,22,Think: 52 minus 25,,25,28
+story-solver,18,A box holds 41 crayons. 19 crayons are broken. How many are not broken?,22,Subtract the broken crayons from the total.,41,Medium,word_problem,26,25,Take away the broken ones.,,19,22
+story-solver,8,Tom has 50 toy cars. He arranges them in rows of 5. How many rows does he make?,10,Divide the total cars by the number in each row.,50,Medium,word_problem,7,10,Divide 50 by 5,,5,15
+story-solver,50,A box holds 61 crayons. 11 crayons are broken. How many are not broken?,50,Subtract the broken crayons from the total.,61,Medium,word_problem,53,51,Take away the broken ones.,,11,45
+story-solver,73,Emma has 38 stickers. She buys 30 more. How many stickers does she have now?,68,Add the stickers she started with and the ones she bought!,38,Medium,word_problem,71,66,Think: 38 plus 30,,30,68
+story-solver,5,Tom has 25 toy cars. He arranges them in rows of 5. How many rows does he make?,5,Divide the total cars by the number in each row.,25,Medium,word_problem,1,8,Divide 25 by 5,,5,3
+story-solver,Yes,Sarah has 10 apples. She wants to give one to each of her 12 friends. Does she have enough?,No,Compare the number of apples to the number of friends.,10,Medium,word_problem,No,Don't Know,Is 10 bigger than 12?,,12,Maybe
+story-solver,1,A box holds 87 crayons. 86 crayons are broken. How many are not broken?,1,Subtract the broken crayons from the total.,87,Medium,word_problem,6,3,Take away the broken ones.,,86,4
+story-solver,63,Leo reads 30 pages on Monday and 35 pages on Tuesday. How many pages did he read in total?,65,Add the pages from both days together.,30,Medium,word_problem,65,67,Combine Monday and Tuesday.,,35,69
+story-solver,84,A box holds 89 crayons. 6 crayons are broken. How many are not broken?,83,Subtract the broken crayons from the total.,89,Medium,word_problem,83,81,Take away the broken ones.,,6,79
+story-solver,Yes,Sarah has 9 apples. She wants to give one to each of her 8 friends. Does she have enough?,Yes,Compare the number of apples to the number of friends.,9,Medium,word_problem,No,Don't Know,Is 9 bigger than 8?,,8,Maybe
+story-solver,41,Leo reads 19 pages on Monday and 17 pages on Tuesday. How many pages did he read in total?,36,Add the pages from both days together.,19,Medium,word_problem,35,32,Combine Monday and Tuesday.,,17,36
+story-solver,47,Leo reads 39 pages on Monday and 10 pages on Tuesday. How many pages did he read in total?,49,Add the pages from both days together.,39,Medium,word_problem,49,44,Combine Monday and Tuesday.,,10,54
+story-solver,Yes,Sarah has 14 apples. She wants to give one to each of her 13 friends. Does she have enough?,Yes,Compare the number of apples to the number of friends.,14,Medium,word_problem,No,Don't Know,Is 14 bigger than 13?,,13,Maybe
+story-solver,52,A garden has 7 rows of flowers. Each row has 7 flowers. How many flowers are there in total?,49,Multiply rows by flowers per row.,7,Medium,word_problem,49,44,7 groups of 7,,7,47
+story-solver,47,Leo reads 11 pages on Monday and 35 pages on Tuesday. How many pages did he read in total?,46,Add the pages from both days together.,11,Medium,word_problem,49,45,Combine Monday and Tuesday.,,35,46
+story-solver,62,A box holds 59 crayons. 1 crayons are broken. How many are not broken?,58,Subtract the broken crayons from the total.,59,Medium,word_problem,60,58,Take away the broken ones.,,1,61
+story-solver,11,Tom has 16 toy cars. He arranges them in rows of 2. How many rows does he make?,8,Divide the total cars by the number in each row.,16,Medium,word_problem,7,3,Divide 16 by 2,,2,8
+story-solver,34,A garden has 4 rows of flowers. Each row has 8 flowers. How many flowers are there in total?,32,Multiply rows by flowers per row.,4,Medium,word_problem,32,27,4 groups of 8,,8,35
+story-solver,8,Tom has 24 toy cars. He arranges them in rows of 3. How many rows does he make?,8,Divide the total cars by the number in each row.,24,Medium,word_problem,10,6,Divide 24 by 3,,3,3
+story-solver,Yes,Sarah has 14 apples. She wants to give one to each of her 8 friends. Does she have enough?,Yes,Compare the number of apples to the number of friends.,14,Medium,word_problem,No,Don't Know,Is 14 bigger than 8?,,8,Maybe
+story-solver,10,A classroom has 22 chairs. 12 chairs are empty. How many chairs are occupied?,10,Total chairs minus empty chairs equals occupied chairs.,22,Medium,word_problem,8,13,Subtract the empty ones.,,12,15
+story-solver,Yes,Sarah has 11 apples. She wants to give one to each of her 10 friends. Does she have enough?,Yes,Compare the number of apples to the number of friends.,11,Medium,word_problem,No,Don't Know,Is 11 bigger than 10?,,10,Maybe
+story-solver,10,Tom has 40 toy cars. He arranges them in rows of 5. How many rows does he make?,8,Divide the total cars by the number in each row.,40,Medium,word_problem,5,9,Divide 40 by 5,,5,8
+estimation-express,90,,100,Estimation helps checking answers!,30,Medium,+,100,110,Round 30 -> 30 and 71 -> 70,,71,70
+estimation-express,60,,60,Estimation helps checking answers!,14,Medium,*,70,80,Close to 10 x 4,,4,50
+estimation-express,60,,80,Estimation helps checking answers!,21,Medium,*,100,80,Close to 20 x 4,,4,50
+estimation-express,110,,110,Estimation helps checking answers!,31,Medium,+,80,140,Round 31 -> 30 and 83 -> 80,,83,90
+estimation-express,20,,30,Estimation helps checking answers!,63,Medium,-,60,30,Round 63 -> 60 and 34 -> 30,,34,50
+estimation-express,70,,100,Estimation helps checking answers!,85,Medium,+,100,120,Round 85 -> 80 and 15 -> 20,,15,80
+estimation-express,70,,100,Estimation helps checking answers!,25,Medium,*,120,110,Close to 20 x 4,,4,100
+estimation-express,80,,80,Estimation helps checking answers!,16,Medium,+,100,90,Round 16 -> 20 and 65 -> 60,,65,70
+estimation-express,80,,80,Estimation helps checking answers!,20,Medium,+,60,50,Round 20 -> 20 and 65 -> 60,,65,90
+estimation-express,50,,60,Estimation helps checking answers!,73,Medium,-,30,70,Round 73 -> 70 and 15 -> 20,,15,60
+estimation-express,50,,20,Estimation helps checking answers!,54,Medium,-,20,40,Round 54 -> 50 and 30 -> 30,,30,30
+estimation-express,40,,40,Estimation helps checking answers!,83,Medium,-,30,60,Round 83 -> 80 and 45 -> 40,,45,10
+estimation-express,60,,90,Estimation helps checking answers!,101,Medium,-,90,70,Round 101 -> 100 and 15 -> 20,,15,120
+estimation-express,20,,40,Estimation helps checking answers!,13,Medium,*,30,50,Close to 10 x 3,,3,40
+estimation-express,50,,30,Estimation helps checking answers!,12,Medium,+,20,10,Round 12 -> 10 and 15 -> 20,,15,30
+estimation-express,50,,30,Estimation helps checking answers!,55,Medium,-,40,10,Round 55 -> 60 and 26 -> 30,,26,30
+estimation-express,100,,120,Estimation helps checking answers!,132,Medium,-,130,90,Round 132 -> 130 and 15 -> 20,,15,120
+estimation-express,10,,0,Estimation helps checking answers!,50,Medium,-,20,30,Round 50 -> 50 and 46 -> 50,,46,0
+estimation-express,120,,110,Estimation helps checking answers!,19,Medium,+,110,100,Round 19 -> 20 and 94 -> 90,,94,80
+estimation-express,40,,40,Estimation helps checking answers!,80,Medium,-,50,60,Round 80 -> 80 and 44 -> 40,,44,30
+estimation-express,80,,80,Estimation helps checking answers!,19,Medium,+,110,90,Round 19 -> 20 and 56 -> 60,,56,70
+estimation-express,120,,100,Estimation helps checking answers!,16,Medium,+,130,100,Round 16 -> 20 and 84 -> 80,,84,110
+estimation-express,90,,70,Estimation helps checking answers!,62,Medium,+,70,40,Round 62 -> 60 and 12 -> 10,,12,100
+estimation-express,130,,120,Estimation helps checking answers!,24,Medium,*,120,150,Close to 20 x 5,,5,90
+estimation-express,130,,160,Estimation helps checking answers!,69,Medium,+,180,160,Round 69 -> 70 and 87 -> 90,,87,140
+estimation-express,40,,40,Estimation helps checking answers!,33,Medium,+,70,50,Round 33 -> 30 and 12 -> 10,,12,10
+estimation-express,60,,60,Estimation helps checking answers!,12,Medium,+,30,50,Round 12 -> 10 and 47 -> 50,,47,70
+estimation-express,50,,50,Estimation helps checking answers!,25,Medium,+,60,30,Round 25 -> 20 and 26 -> 30,,26,70
+estimation-express,30,,50,Estimation helps checking answers!,23,Medium,*,40,50,Close to 20 x 2,,2,70
+estimation-express,40,,50,Estimation helps checking answers!,64,Medium,-,70,80,Round 64 -> 60 and 18 -> 20,,18,50
+estimation-express,10,,30,Estimation helps checking answers!,13,Medium,*,40,50,Close to 10 x 2,,2,30
+estimation-express,60,,80,Estimation helps checking answers!,17,Medium,*,80,110,Close to 20 x 5,,5,90
+estimation-express,30,,30,Estimation helps checking answers!,13,Medium,*,50,60,Close to 10 x 2,,2,40
+estimation-express,20,,20,Estimation helps checking answers!,69,Medium,-,30,40,Round 69 -> 70 and 49 -> 50,,49,50
+estimation-express,60,,90,Estimation helps checking answers!,125,Medium,-,90,110,Round 125 -> 120 and 36 -> 40,,36,100
+estimation-express,20,,50,Estimation helps checking answers!,25,Medium,+,50,80,Round 25 -> 20 and 21 -> 20,,21,70
+estimation-express,80,,90,Estimation helps checking answers!,132,Medium,-,60,90,Round 132 -> 130 and 39 -> 40,,39,100
+estimation-express,100,,100,Estimation helps checking answers!,71,Medium,+,80,110,Round 71 -> 70 and 30 -> 30,,30,70
+estimation-express,80,,100,Estimation helps checking answers!,114,Medium,-,120,110,Round 114 -> 110 and 15 -> 20,,15,100
+estimation-express,50,,20,Estimation helps checking answers!,64,Medium,-,10,30,Round 64 -> 60 and 40 -> 40,,40,20
+estimation-express,50,,40,Estimation helps checking answers!,20,Medium,*,40,60,Close to 20 x 2,,2,20
+estimation-express,30,,60,Estimation helps checking answers!,99,Medium,-,90,60,Round 99 -> 100 and 43 -> 40,,43,50
+estimation-express,60,,80,Estimation helps checking answers!,29,Medium,+,90,80,Round 29 -> 30 and 54 -> 50,,54,70
+estimation-express,50,,30,Estimation helps checking answers!,17,Medium,*,30,40,Close to 20 x 2,,2,20
+estimation-express,90,,100,Estimation helps checking answers!,16,Medium,+,100,80,Round 16 -> 20 and 85 -> 80,,85,120
+estimation-express,30,,60,Estimation helps checking answers!,11,Medium,*,60,80,Close to 10 x 5,,5,90
+estimation-express,90,,100,Estimation helps checking answers!,141,Medium,-,120,100,Round 141 -> 140 and 43 -> 40,,43,80
+estimation-express,100,,70,Estimation helps checking answers!,18,Medium,*,70,50,Close to 20 x 4,,4,90
+estimation-express,120,,110,Estimation helps checking answers!,23,Medium,+,90,110,Round 23 -> 20 and 89 -> 90,,89,80
+estimation-express,100,,100,Estimation helps checking answers!,145,Medium,-,130,120,Round 145 -> 140 and 48 -> 50,,48,90
+pattern-planet,🟢,🔴 🟢 🔴 🟢 ?,🔴,Patterns follow a rule!,,Easy,,🟡,🔴,Alternating colors,,,🟣
+pattern-planet,28,20 22 24 26 ?,28,Patterns follow a rule!,,Easy,,31,26,Add 2 each time,,,29
+pattern-planet,30,15 18 21 24 ?,27,Patterns follow a rule!,,Easy,,27,29,Add 3 each time,,,28
+pattern-planet,14,1 2 4 8 ?,16,Patterns follow a rule!,,Easy,,12,16,Double the number each time,,,22
+pattern-planet,25,10 14 18 22 ?,26,Patterns follow a rule!,,Easy,,26,23,Add 4 each time,,,24
+pattern-planet,13,7 9 11 13 ?,15,Patterns follow a rule!,,Easy,,18,15,Add 2 each time,,,14
+pattern-planet,48,3 6 12 24 ?,48,Patterns follow a rule!,,Easy,,54,52,Double the number each time,,,46
+pattern-planet,🌙,☀️ ☁️ ☀️ ☀️ ?,☁️,Patterns follow a rule!,,Easy,,⭐,☁️,Repeats every 3 items,,,☀️
+pattern-planet,🟢,🔵 🟢 🔵 🟢 ?,🔵,Patterns follow a rule!,,Easy,,🔵,🔴,Alternating colors,,,🟣
+pattern-planet,33,16 21 26 31 ?,36,Patterns follow a rule!,,Easy,,37,36,Add 5 each time,,,38
+pattern-planet,☁️,☁️ ⭐ 🌙 ☁️ ?,⭐,Patterns follow a rule!,,Easy,,⚡,⭐,Repeats every 3 items,,,🌙
+pattern-planet,🟡,🔵 🟢 🔵 🟢 ?,🔵,Patterns follow a rule!,,Easy,,🔵,🟣,Alternating colors,,,🟢
+pattern-planet,🟣,🟡 🟣 🟡 🟣 ?,🟡,Patterns follow a rule!,,Easy,,🟡,🔵,Alternating colors,,,🟢
+pattern-planet,20,1 2 4 8 ?,16,Patterns follow a rule!,,Easy,,18,16,Double the number each time,,,22
+pattern-planet,🔴,🟢 🟣 🟢 🟣 ?,🟢,Patterns follow a rule!,,Easy,,🟣,🟢,Alternating colors,,,🟡
+pattern-planet,29,11 15 19 23 ?,27,Patterns follow a rule!,,Easy,,28,30,Add 4 each time,,,27
+pattern-planet,48,3 6 12 24 ?,48,Patterns follow a rule!,,Easy,,54,52,Double the number each time,,,50
+pattern-planet,🟢,🟣 🟢 🟣 🟢 ?,🟣,Patterns follow a rule!,,Easy,,🔵,🟡,Alternating colors,,,🟣
+pattern-planet,16,1 2 4 8 ?,16,Patterns follow a rule!,,Easy,,20,18,Double the number each time,,,10
+pattern-planet,28,2 4 8 16 ?,32,Patterns follow a rule!,,Easy,,32,38,Double the number each time,,,34
+pattern-planet,☀️,☀️ ⚡ ☀️ ☀️ ?,⚡,Patterns follow a rule!,,Easy,,⭐,☁️,Repeats every 3 items,,,⚡
+pattern-planet,🌙,☁️ ☁️ ⚡ ☁️ ?,☁️,Patterns follow a rule!,,Easy,,⭐,☁️,Repeats every 3 items,,,⚡
+pattern-planet,10,1 2 4 8 ?,16,Patterns follow a rule!,,Easy,,16,18,Double the number each time,,,20
+pattern-planet,🟡,🔵 🔴 🔵 🔴 ?,🔵,Patterns follow a rule!,,Easy,,🔵,🔴,Alternating colors,,,🟢
+pattern-planet,🟢,🔴 🟢 🔴 🟢 ?,🔴,Patterns follow a rule!,,Easy,,🔴,🟣,Alternating colors,,,🔵
+pattern-planet,46,3 6 12 24 ?,48,Patterns follow a rule!,,Easy,,48,52,Double the number each time,,,54
+pattern-planet,🔴,🟣 🔴 🟣 🔴 ?,🟣,Patterns follow a rule!,,Easy,,🟡,🔵,Alternating colors,,,🟣
+pattern-planet,⚡,⭐ ☀️ ☁️ ⭐ ?,☀️,Patterns follow a rule!,,Easy,,⭐,☁️,Repeats every 3 items,,,☀️
+pattern-planet,29,15 18 21 24 ?,27,Patterns follow a rule!,,Easy,,27,28,Add 3 each time,,,30
+pattern-planet,☁️,🌙 ☁️ ⭐ 🌙 ?,☁️,Patterns follow a rule!,,Easy,,🌙,⭐,Repeats every 3 items,,,⚡
+pattern-planet,44,3 6 12 24 ?,48,Patterns follow a rule!,,Easy,,46,54,Double the number each time,,,48
+pattern-planet,22,1 2 4 8 ?,16,Patterns follow a rule!,,Easy,,12,14,Double the number each time,,,16
+pattern-planet,⭐,☁️ ☁️ ☀️ ☁️ ?,☁️,Patterns follow a rule!,,Easy,,🌙,☀️,Repeats every 3 items,,,☁️
+pattern-planet,☁️,☁️ ☀️ ☀️ ☁️ ?,☀️,Patterns follow a rule!,,Easy,,☀️,🌙,Repeats every 3 items,,,⭐
+pattern-planet,42,3 6 12 24 ?,48,Patterns follow a rule!,,Easy,,50,52,Double the number each time,,,48
+pattern-planet,33,18 22 26 30 ?,34,Patterns follow a rule!,,Easy,,32,34,Add 4 each time,,,31
+pattern-planet,28,17 20 23 26 ?,29,Patterns follow a rule!,,Easy,,27,29,Add 3 each time,,,32
+pattern-planet,🔵,🔵 🔴 🔵 🔴 ?,🔵,Patterns follow a rule!,,Easy,,🟡,🟣,Alternating colors,,,🔴
+pattern-planet,54,3 6 12 24 ?,48,Patterns follow a rule!,,Easy,,50,44,Double the number each time,,,48
+pattern-planet,🌙,🌙 ☁️ ⭐ 🌙 ?,☁️,Patterns follow a rule!,,Easy,,⭐,⚡,Repeats every 3 items,,,☁️
+pattern-planet,🟣,🔴 🟡 🔴 🟡 ?,🔴,Patterns follow a rule!,,Easy,,🔴,🟢,Alternating colors,,,🟡
+pattern-planet,🟡,🔴 🟢 🔴 🟢 ?,🔴,Patterns follow a rule!,,Easy,,🟢,🟣,Alternating colors,,,🔴
+pattern-planet,🔴,🟡 🔴 🟡 🔴 ?,🟡,Patterns follow a rule!,,Easy,,🟣,🔵,Alternating colors,,,🟡
+pattern-planet,26,13 17 21 25 ?,29,Patterns follow a rule!,,Easy,,28,31,Add 4 each time,,,29
+pattern-planet,32,15 20 25 30 ?,35,Patterns follow a rule!,,Easy,,33,35,Add 5 each time,,,34
+pattern-planet,42,3 6 12 24 ?,48,Patterns follow a rule!,,Easy,,48,52,Double the number each time,,,50
+pattern-planet,18,1 2 4 8 ?,16,Patterns follow a rule!,,Easy,,16,22,Double the number each time,,,20
+pattern-planet,13,1 4 7 10 ?,13,Patterns follow a rule!,,Easy,,11,12,Add 3 each time,,,10
+pattern-planet,21,5 9 13 17 ?,21,Patterns follow a rule!,,Easy,,18,22,Add 4 each time,,,19
+pattern-planet,34,18 22 26 30 ?,34,Patterns follow a rule!,,Easy,,37,35,Add 4 each time,,,32
+measurement-mission,20,How many 500ml bottles fill a 5 liter jug?,10,Measure carefully!,,Medium,capacity,10,7,1 Liter = 2 x 500ml,,,5
+measurement-mission,12,How many hours is 180 minutes?,3,Measure carefully!,,Medium,time,3,18,60 minutes = 1 hour,,,6
+measurement-mission,500,How many meters in 1000 centimeters?,10,Measure carefully!,,Medium,length,100,10,100 cm = 1 m,,,10000
+measurement-mission,2000,How many grams in 2 kilograms?,2000,Measure carefully!,,Medium,weight,20,200,1 kg = 1000 g,,,1000
+measurement-mission,Equal,Is 30 minutes more than an hour?,No,Measure carefully!,,Medium,time,Yes,Maybe,60 minutes = 1 hour,,,No
+measurement-mission,400,How many grams in 4 kilograms?,4000,Measure carefully!,,Medium,weight,40,4000,1 kg = 1000 g,,,2000
+measurement-mission,10,How many 500ml bottles fill a 5 liter jug?,10,Measure carefully!,,Medium,capacity,5,7,1 Liter = 2 x 500ml,,,20
+measurement-mission,6,How many 500ml bottles fill a 3 liter jug?,6,Measure carefully!,,Medium,capacity,12,5,1 Liter = 2 x 500ml,,,3
+measurement-mission,1000,How many grams in 2 kilograms?,2000,Measure carefully!,,Medium,weight,200,20,1 kg = 1000 g,,,2000
+measurement-mission,16,How many 500ml bottles fill a 4 liter jug?,8,Measure carefully!,,Medium,capacity,8,4,1 Liter = 2 x 500ml,,,6
+measurement-mission,25,How many meters in 250 centimeters?,2.5,Measure carefully!,,Medium,length,125,2.5,100 cm = 1 m,,,2500
+measurement-mission,8,How many hours is 120 minutes?,2,Measure carefully!,,Medium,time,12,2,60 minutes = 1 hour,,,4
+measurement-mission,No,Is 30 minutes more than an hour?,No,Measure carefully!,,Medium,time,Maybe,Yes,60 minutes = 1 hour,,,Equal
+measurement-mission,12,How many hours is 120 minutes?,2,Measure carefully!,,Medium,time,2,4,60 minutes = 1 hour,,,8
+measurement-mission,200,How many grams in 2 kilograms?,2000,Measure carefully!,,Medium,weight,20,1000,1 kg = 1000 g,,,2000
+measurement-mission,1500,How many grams in 3 kilograms?,3000,Measure carefully!,,Medium,weight,30,300,1 kg = 1000 g,,,3000
+measurement-mission,100,How many meters in 200 centimeters?,2,Measure carefully!,,Medium,length,2000,20,100 cm = 1 m,,,2
+measurement-mission,250,How many meters in 500 centimeters?,5,Measure carefully!,,Medium,length,5000,5,100 cm = 1 m,,,50
+measurement-mission,6,How many hours is 180 minutes?,3,Measure carefully!,,Medium,time,12,18,60 minutes = 1 hour,,,3
+measurement-mission,10000,How many meters in 1000 centimeters?,10,Measure carefully!,,Medium,length,500,100,100 cm = 1 m,,,10
+measurement-mission,Maybe,Is 30 minutes more than an hour?,No,Measure carefully!,,Medium,time,No,Yes,60 minutes = 1 hour,,,Equal
+measurement-mission,4000,How many grams in 4 kilograms?,4000,Measure carefully!,,Medium,weight,2000,40,1 kg = 1000 g,,,400
+measurement-mission,18,How many hours is 180 minutes?,3,Measure carefully!,,Medium,time,12,3,60 minutes = 1 hour,,,6
+measurement-mission,4,How many hours is 120 minutes?,2,Measure carefully!,,Medium,time,2,12,60 minutes = 1 hour,,,8
+measurement-mission,2,How many hours is 120 minutes?,2,Measure carefully!,,Medium,time,8,4,60 minutes = 1 hour,,,12
+measurement-mission,1.5,How many meters in 150 centimeters?,1.5,Measure carefully!,,Medium,length,75,15,100 cm = 1 m,,,1500
+measurement-mission,3,How many 500ml bottles fill a 3 liter jug?,6,Measure carefully!,,Medium,capacity,12,5,1 Liter = 2 x 500ml,,,6
+measurement-mission,250,How many meters in 500 centimeters?,5,Measure carefully!,,Medium,length,5000,50,100 cm = 1 m,,,5
+measurement-mission,20,How many 500ml bottles fill a 5 liter jug?,10,Measure carefully!,,Medium,capacity,7,10,1 Liter = 2 x 500ml,,,5
+measurement-mission,300,How many grams in 3 kilograms?,3000,Measure carefully!,,Medium,weight,3000,1500,1 kg = 1000 g,,,30
+measurement-mission,4,How many 500ml bottles fill a 2 liter jug?,4,Measure carefully!,,Medium,capacity,2,8,1 Liter = 2 x 500ml,,,4
+measurement-mission,1.5,How many meters in 150 centimeters?,1.5,Measure carefully!,,Medium,length,75,15,100 cm = 1 m,,,1500
+measurement-mission,20,How many meters in 200 centimeters?,2,Measure carefully!,,Medium,length,2,100,100 cm = 1 m,,,2000
+measurement-mission,Yes,Is 30 minutes more than an hour?,No,Measure carefully!,,Medium,time,Maybe,No,60 minutes = 1 hour,,,Equal
+measurement-mission,8,How many 500ml bottles fill a 2 liter jug?,4,Measure carefully!,,Medium,capacity,2,4,1 Liter = 2 x 500ml,,,4
+measurement-mission,1000,How many grams in 1 kilograms?,1000,Measure carefully!,,Medium,weight,10,500,1 kg = 1000 g,,,100
+measurement-mission,Yes,Is 30 minutes more than an hour?,No,Measure carefully!,,Medium,time,No,Equal,60 minutes = 1 hour,,,Maybe
+measurement-mission,4,How many 500ml bottles fill a 4 liter jug?,8,Measure carefully!,,Medium,capacity,8,6,1 Liter = 2 x 500ml,,,16
+measurement-mission,1500,How many grams in 3 kilograms?,3000,Measure carefully!,,Medium,weight,3000,300,1 kg = 1000 g,,,30
+measurement-mission,12,How many 500ml bottles fill a 3 liter jug?,6,Measure carefully!,,Medium,capacity,3,6,1 Liter = 2 x 500ml,,,5
+measurement-mission,2500,How many meters in 250 centimeters?,2.5,Measure carefully!,,Medium,length,2.5,125,100 cm = 1 m,,,25
+measurement-mission,1,How many hours is 60 minutes?,1,Measure carefully!,,Medium,time,6,2,60 minutes = 1 hour,,,4
+measurement-mission,50,How many grams in 5 kilograms?,5000,Measure carefully!,,Medium,weight,2500,500,1 kg = 1000 g,,,5000
+measurement-mission,Maybe,Is 30 minutes more than an hour?,No,Measure carefully!,,Medium,time,No,Equal,60 minutes = 1 hour,,,Yes
+measurement-mission,5,How many meters in 500 centimeters?,5,Measure carefully!,,Medium,length,250,50,100 cm = 1 m,,,5000
+measurement-mission,15,How many meters in 150 centimeters?,1.5,Measure carefully!,,Medium,length,75,1500,100 cm = 1 m,,,1.5
+measurement-mission,10000,How many meters in 1000 centimeters?,10,Measure carefully!,,Medium,length,500,10,100 cm = 1 m,,,100
+measurement-mission,6,How many 500ml bottles fill a 4 liter jug?,8,Measure carefully!,,Medium,capacity,16,8,1 Liter = 2 x 500ml,,,4
+measurement-mission,8,How many 500ml bottles fill a 2 liter jug?,4,Measure carefully!,,Medium,capacity,4,2,1 Liter = 2 x 500ml,,,4
+measurement-mission,2,How many meters in 200 centimeters?,2,Measure carefully!,,Medium,length,2000,100,100 cm = 1 m,,,20fraction-frenzy,1/8,What fraction is shaded?,1/5,The numerator (top) is 1 and denominator (bottom) is 5.,1,Medium,identify,3/9,1/5,Count the shaded parts vs total parts.,dynamic:fraction:1:5,5,5/8,Fraction
+fraction-frenzy,3/10,What fraction is shaded?,1/5,The numerator (top) is 1 and denominator (bottom) is 5.,1,Medium,identify,5/10,4/9,Count the shaded parts vs total parts.,dynamic:fraction:1:5,5,1/5,Fraction
+fraction-frenzy,3/5,What fraction is shaded?,3/8,The numerator (top) is 3 and denominator (bottom) is 8.,3,Medium,identify,4/8,3/8,Count the shaded parts vs total parts.,dynamic:fraction:3:8,8,2/9,Fraction
+fraction-frenzy,1/2,What fraction is shaded?,1/2,The numerator (top) is 1 and denominator (bottom) is 2.,1,Easy,identify,2/9,1/10,Count the shaded parts vs total parts.,dynamic:fraction:1:2,2,3/10,Fraction
+fraction-frenzy,6/9,What fraction is shaded?,1/2,The numerator (top) is 1 and denominator (bottom) is 2.,1,Easy,identify,1/8,1/2,Count the shaded parts vs total parts.,dynamic:fraction:1:2,2,3/4,Fraction
+fraction-frenzy,3/6,What fraction is shaded?,3/6,The numerator (top) is 3 and denominator (bottom) is 6.,3,Medium,identify,9/10,2/10,Count the shaded parts vs total parts.,dynamic:fraction:3:6,6,1/9,Fraction
+fraction-frenzy,2/3,What fraction is shaded?,2/3,The numerator (top) is 2 and denominator (bottom) is 3.,2,Easy,identify,5/10,3/10,Count the shaded parts vs total parts.,dynamic:fraction:2:3,3,4/8,Fraction
+fraction-frenzy,1/2,What fraction is shaded?,1/2,The numerator (top) is 1 and denominator (bottom) is 2.,1,Easy,identify,9/10,4/6,Count the shaded parts vs total parts.,dynamic:fraction:1:2,2,2/10,Fraction
+fraction-frenzy,1/10,What fraction is shaded?,1/10,The numerator (top) is 1 and denominator (bottom) is 10.,1,Medium,identify,1/2,3/5,Count the shaded parts vs total parts.,dynamic:fraction:1:10,10,5/10,Fraction
+fraction-frenzy,2/9,What fraction is shaded?,1/3,The numerator (top) is 1 and denominator (bottom) is 3.,1,Easy,identify,3/6,1/3,Count the shaded parts vs total parts.,dynamic:fraction:1:3,3,5/9,Fraction
+fraction-frenzy,1/4,What fraction is shaded?,1/2,The numerator (top) is 1 and denominator (bottom) is 2.,1,Easy,identify,7/8,8/10,Count the shaded parts vs total parts.,dynamic:fraction:1:2,2,1/2,Fraction
+fraction-frenzy,2/3,What fraction is shaded?,2/3,The numerator (top) is 2 and denominator (bottom) is 3.,2,Easy,identify,1/8,5/6,Count the shaded parts vs total parts.,dynamic:fraction:2:3,3,2/6,Fraction
+fraction-frenzy,3/6,What fraction is shaded?,1/4,The numerator (top) is 1 and denominator (bottom) is 4.,1,Easy,identify,7/9,1/4,Count the shaded parts vs total parts.,dynamic:fraction:1:4,4,5/10,Fraction
+fraction-frenzy,3/6,What fraction is shaded?,4/10,The numerator (top) is 4 and denominator (bottom) is 10.,4,Medium,identify,8/10,2/7,Count the shaded parts vs total parts.,dynamic:fraction:4:10,10,4/10,Fraction
+fraction-frenzy,4/9,What fraction is shaded?,2/4,The numerator (top) is 2 and denominator (bottom) is 4.,2,Easy,identify,2/4,1/4,Count the shaded parts vs total parts.,dynamic:fraction:2:4,4,7/9,Fraction
+fraction-frenzy,3/6,What fraction is shaded?,1/6,The numerator (top) is 1 and denominator (bottom) is 6.,1,Medium,identify,6/7,1/6,Count the shaded parts vs total parts.,dynamic:fraction:1:6,6,5/6,Fraction
+fraction-frenzy,6/7,What fraction is shaded?,1/8,The numerator (top) is 1 and denominator (bottom) is 8.,1,Medium,identify,1/8,3/8,Count the shaded parts vs total parts.,dynamic:fraction:1:8,8,3/10,Fraction
+fraction-frenzy,4/6,What fraction is shaded?,1/2,The numerator (top) is 1 and denominator (bottom) is 2.,1,Easy,identify,4/5,7/9,Count the shaded parts vs total parts.,dynamic:fraction:1:2,2,1/2,Fraction
+fraction-frenzy,3/9,What fraction is shaded?,5/8,The numerator (top) is 5 and denominator (bottom) is 8.,5,Medium,identify,5/8,8/9,Count the shaded parts vs total parts.,dynamic:fraction:5:8,8,9/10,Fraction
+fraction-frenzy,1/10,What fraction is shaded?,2/3,The numerator (top) is 2 and denominator (bottom) is 3.,2,Easy,identify,5/7,1/9,Count the shaded parts vs total parts.,dynamic:fraction:2:3,3,2/3,Fraction
+fraction-frenzy,?,Compare the fractions,>,5/8 is bigger than 1/8,5/8,Medium,compare,=,<,Which pie has more shaded area?,dynamic:compare:5:8:1:8,1/8,>,Fraction
+fraction-frenzy,?,Compare the fractions,=,1/2 is equal to 3/6,1/2,Medium,compare,=,>,Which pie has more shaded area?,dynamic:compare:1:2:3:6,3/6,<,Fraction
+fraction-frenzy,<,Compare the fractions,<,1/3 is smaller than 3/6,1/3,Medium,compare,=,>,Which pie has more shaded area?,dynamic:compare:1:3:3:6,3/6,?,Fraction
+fraction-frenzy,>,Compare the fractions,>,1/2 is bigger than 2/8,1/2,Medium,compare,=,?,Which pie has more shaded area?,dynamic:compare:1:2:2:8,2/8,<,Fraction
+fraction-frenzy,<,Compare the fractions,<,1/4 is smaller than 4/8,1/4,Medium,compare,>,=,Which pie has more shaded area?,dynamic:compare:1:4:4:8,4/8,?,Fraction
+fraction-frenzy,<,Compare the fractions,<,1/3 is smaller than 6/8,1/3,Medium,compare,?,=,Which pie has more shaded area?,dynamic:compare:1:3:6:8,6/8,>,Fraction
+fraction-frenzy,=,Compare the fractions,>,2/4 is bigger than 2/8,2/4,Medium,compare,<,>,Which pie has more shaded area?,dynamic:compare:2:4:2:8,2/8,?,Fraction
+fraction-frenzy,?,Compare the fractions,=,4/6 is equal to 2/3,4/6,Medium,compare,<,=,Which pie has more shaded area?,dynamic:compare:4:6:2:3,2/3,>,Fraction
+fraction-frenzy,?,Compare the fractions,<,3/8 is smaller than 2/3,3/8,Medium,compare,<,=,Which pie has more shaded area?,dynamic:compare:3:8:2:3,2/3,>,Fraction
+fraction-frenzy,=,Compare the fractions,<,1/2 is smaller than 5/8,1/2,Medium,compare,?,>,Which pie has more shaded area?,dynamic:compare:1:2:5:8,5/8,<,Fraction
+fraction-frenzy,<,Compare the fractions,<,1/2 is smaller than 3/4,1/2,Medium,compare,?,>,Which pie has more shaded area?,dynamic:compare:1:2:3:4,3/4,=,Fraction
+fraction-frenzy,=,Compare the fractions,>,7/8 is bigger than 4/6,7/8,Medium,compare,>,<,Which pie has more shaded area?,dynamic:compare:7:8:4:6,4/6,?,Fraction
+fraction-frenzy,=,Compare the fractions,=,2/4 is equal to 1/2,2/4,Medium,compare,?,<,Which pie has more shaded area?,dynamic:compare:2:4:1:2,1/2,>,Fraction
+fraction-frenzy,?,Compare the fractions,<,1/3 is smaller than 3/4,1/3,Medium,compare,=,<,Which pie has more shaded area?,dynamic:compare:1:3:3:4,3/4,>,Fraction
+fraction-frenzy,?,Compare the fractions,<,1/4 is smaller than 1/2,1/4,Medium,compare,<,=,Which pie has more shaded area?,dynamic:compare:1:4:1:2,1/2,>,Fraction
+fraction-frenzy,>,Compare the fractions,<,1/4 is smaller than 2/3,1/4,Medium,compare,?,=,Which pie has more shaded area?,dynamic:compare:1:4:2:3,2/3,<,Fraction
+fraction-frenzy,?,Compare the fractions,=,1/6 is equal to 1/6,1/6,Medium,compare,<,>,Which pie has more shaded area?,dynamic:compare:1:6:1:6,1/6,=,Fraction
+fraction-frenzy,>,Compare the fractions,<,1/2 is smaller than 3/4,1/2,Medium,compare,<,=,Which pie has more shaded area?,dynamic:compare:1:2:3:4,3/4,?,Fraction
+fraction-frenzy,=,Compare the fractions,<,3/8 is smaller than 2/3,3/8,Medium,compare,<,>,Which pie has more shaded area?,dynamic:compare:3:8:2:3,2/3,?,Fraction
+fraction-frenzy,>,Compare the fractions,>,1/2 is bigger than 2/8,1/2,Medium,compare,=,?,Which pie has more shaded area?,dynamic:compare:1:2:2:8,2/8,<,Fraction
+fraction-frenzy,7/10,Add the fractions: 1/5 + 2/5,3/5,"When denominators are same, just add numerators.",1/5,Medium,add,3/5,2/3,Add the top numbers.,dynamic:add:1:5:2:5,2/5,1/5,Fraction
+fraction-frenzy,3/4,Add the fractions: 2/5 + 1/5,3/5,"When denominators are same, just add numerators.",2/5,Medium,add,3/5,6/7,Add the top numbers.,dynamic:add:2:5:1:5,1/5,3/9,Fraction
+fraction-frenzy,1/6,Add the fractions: 2/4 + 2/4,4/4,"When denominators are same, just add numerators.",2/4,Medium,add,2/4,4/6,Add the top numbers.,dynamic:add:2:4:2:4,2/4,4/4,Fraction
+fraction-frenzy,6/6,Add the fractions: 3/6 + 3/6,6/6,"When denominators are same, just add numerators.",3/6,Medium,add,2/9,2/3,Add the top numbers.,dynamic:add:3:6:3:6,3/6,1/4,Fraction
+fraction-frenzy,5/9,Add the fractions: 3/5 + 1/5,4/5,"When denominators are same, just add numerators.",3/5,Medium,add,5/6,1/8,Add the top numbers.,dynamic:add:3:5:1:5,1/5,4/5,Fraction
+fraction-frenzy,6/10,Add the fractions: 3/8 + 4/8,7/8,"When denominators are same, just add numerators.",3/8,Medium,add,4/7,3/8,Add the top numbers.,dynamic:add:3:8:4:8,4/8,7/8,Fraction
+fraction-frenzy,2/4,Add the fractions: 5/8 + 1/8,6/8,"When denominators are same, just add numerators.",5/8,Medium,add,9/10,6/9,Add the top numbers.,dynamic:add:5:8:1:8,1/8,6/8,Fraction
+fraction-frenzy,4/6,Add the fractions: 4/6 + 1/6,5/6,"When denominators are same, just add numerators.",4/6,Medium,add,2/7,3/4,Add the top numbers.,dynamic:add:4:6:1:6,1/6,5/6,Fraction
+fraction-frenzy,4/8,Add the fractions: 2/5 + 1/5,3/5,"When denominators are same, just add numerators.",2/5,Medium,add,3/9,3/10,Add the top numbers.,dynamic:add:2:5:1:5,1/5,3/5,Fraction
+fraction-frenzy,8/10,Add the fractions: 2/6 + 2/6,4/6,"When denominators are same, just add numerators.",2/6,Medium,add,4/6,3/6,Add the top numbers.,dynamic:add:2:6:2:6,2/6,1/8,Fraction
+fraction-frenzy,3/4,Add the fractions: 1/4 + 2/4,3/4,"When denominators are same, just add numerators.",1/4,Medium,add,7/9,1/6,Add the top numbers.,dynamic:add:1:4:2:4,2/4,6/9,Fraction
+fraction-frenzy,1/9,Add the fractions: 3/6 + 3/6,6/6,"When denominators are same, just add numerators.",3/6,Medium,add,3/9,6/6,Add the top numbers.,dynamic:add:3:6:3:6,3/6,1/5,Fraction
+fraction-frenzy,1/5,Add the fractions: 6/8 + 2/8,8/8,"When denominators are same, just add numerators.",6/8,Medium,add,3/5,2/6,Add the top numbers.,dynamic:add:6:8:2:8,2/8,8/8,Fraction
+fraction-frenzy,1/5,Add the fractions: 4/6 + 1/6,5/6,"When denominators are same, just add numerators.",4/6,Medium,add,8/10,5/6,Add the top numbers.,dynamic:add:4:6:1:6,1/6,2/10,Fraction
+fraction-frenzy,9/10,Add the fractions: 2/6 + 1/6,3/6,"When denominators are same, just add numerators.",2/6,Medium,add,3/4,3/6,Add the top numbers.,dynamic:add:2:6:1:6,1/6,1/6,Fraction
+fraction-frenzy,8/10,Simplify 2/4,1/2,Divide top and bottom by 2.,2/4,Hard,equivalent,1/2,2/7,What divides both 2 and 4?,,,4/8,Fraction
+fraction-frenzy,4/5,Simplify 12/15,4/5,Divide top and bottom by 3.,12/15,Hard,equivalent,6/8,3/7,What divides both 12 and 15?,,,4/9,Fraction
+fraction-frenzy,1/3,Simplify 12/20,3/5,Divide top and bottom by 4.,12/20,Hard,equivalent,3/5,4/10,What divides both 12 and 20?,,,1/4,Fraction
+fraction-frenzy,3/4,Simplify 12/16,3/4,Divide top and bottom by 4.,12/16,Hard,equivalent,2/5,2/9,What divides both 12 and 16?,,,1/2,Fraction
+fraction-frenzy,2/3,Simplify 8/12,2/3,Divide top and bottom by 4.,8/12,Hard,equivalent,2/10,3/7,What divides both 8 and 12?,,,4/9,Fraction
+fraction-frenzy,2/9,Simplify 12/15,4/5,Divide top and bottom by 3.,12/15,Hard,equivalent,4/5,1/5,What divides both 12 and 15?,,,1/2,Fraction
+fraction-frenzy,5/7,Simplify 9/15,3/5,Divide top and bottom by 3.,9/15,Hard,equivalent,6/10,3/5,What divides both 9 and 15?,,,8/10,Fraction
+fraction-frenzy,2/6,Simplify 12/15,4/5,Divide top and bottom by 3.,12/15,Hard,equivalent,4/5,4/7,What divides both 12 and 15?,,,1/6,Fraction
+fraction-frenzy,2/3,Simplify 4/20,1/5,Divide top and bottom by 4.,4/20,Hard,equivalent,6/9,1/5,What divides both 4 and 20?,,,5/8,Fraction
+fraction-frenzy,2/5,Simplify 2/10,1/5,Divide top and bottom by 2.,2/10,Hard,equivalent,2/4,9/10,What divides both 2 and 10?,,,1/5,Fraction
+fraction-frenzy,2/4,Simplify 6/12,2/4,Divide top and bottom by 3.,6/12,Hard,equivalent,3/5,7/8,What divides both 6 and 12?,,,9/10,Fraction
+fraction-frenzy,1/5,Simplify 3/15,1/5,Divide top and bottom by 3.,3/15,Hard,equivalent,8/9,3/4,What divides both 3 and 15?,,,4/10,Fraction
+fraction-frenzy,1/3,Simplify 4/12,1/3,Divide top and bottom by 4.,4/12,Hard,equivalent,6/7,4/5,What divides both 4 and 12?,,,7/10,Fraction
+fraction-frenzy,5/9,Simplify 12/15,4/5,Divide top and bottom by 3.,12/15,Hard,equivalent,2/5,4/5,What divides both 12 and 15?,,,4/7,Fraction
+fraction-frenzy,1/2,Simplify 12/20,3/5,Divide top and bottom by 4.,12/20,Hard,equivalent,3/5,1/9,What divides both 12 and 20?,,,8/9,Fraction
+fraction-frenzy,5/10,Simplify 8/12,2/3,Divide top and bottom by 4.,8/12,Hard,equivalent,4/7,2/10,What divides both 8 and 12?,,,2/3,Fraction
+fraction-frenzy,1/2,Simplify 2/4,1/2,Divide top and bottom by 2.,2/4,Hard,equivalent,4/10,7/9,What divides both 2 and 4?,,,8/9,Fraction
+fraction-frenzy,2/9,Simplify 12/16,3/4,Divide top and bottom by 4.,12/16,Hard,equivalent,7/9,3/4,What divides both 12 and 16?,,,6/8,Fraction
+fraction-frenzy,4/5,Simplify 16/20,4/5,Divide top and bottom by 4.,16/20,Hard,equivalent,3/5,5/7,What divides both 16 and 20?,,,2/5,Fraction
+fraction-frenzy,2/10,Simplify 6/8,3/4,Divide top and bottom by 2.,6/8,Hard,equivalent,5/8,2/8,What divides both 6 and 8?,,,3/4,Fraction

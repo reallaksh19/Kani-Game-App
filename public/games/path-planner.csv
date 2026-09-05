@@ -1,0 +1,10 @@
+game_type,difficulty,text1,text2,answer,option1,option2,option3,option4,hint
+path-planner,Easy,3,grid_size,simple,⬆️,➡️,⬇️,⬅️,3x3 grid with simple path
+path-planner,Easy,3,grid_size,simple,⬆️,➡️,⬇️,⬅️,3x3 grid avoid 1 obstacle
+path-planner,Easy,3,grid_size,simple,⬆️,➡️,⬇️,⬅️,Straight shot
+path-planner,Medium,4,grid_size,obstacles,⬆️,➡️,⬇️,⬅️,4x4 grid with obstacles
+path-planner,Medium,4,grid_size,collect,⬆️,➡️,⬇️,⬅️,4x4 grid collect stars
+path-planner,Medium,4,grid_size,obstacles,⬆️,➡️,⬇️,⬅️,Navigate around rocks
+path-planner,Hard,5,grid_size,complex,⬆️,➡️,⬇️,⬅️,5x5 grid complex path
+path-planner,Hard,5,grid_size,multi,⬆️,➡️,⬇️,⬅️,5x5 grid multiple goals
+path-planner,Hard,5,grid_size,complex,⬆️,➡️,⬇️,⬅️,Long winding path

@@ -1,0 +1,10 @@
+game_type,difficulty,text1,text2,answer,option1,option2,option3,option4,hint
+mirror-match,Easy,3x3,horizontal,simple,,,,,Simple pattern reflection
+mirror-match,Easy,3x3,vertical,simple,,,,,Vertical reflection
+mirror-match,Medium,3x3,horizontal,complex,,,,,Complex pattern reflection
+mirror-match,Medium,3x3,vertical,complex,,,,,Vertical complex reflection
+mirror-match,Hard,4x4,horizontal,complex,,,,,Larger grid reflection
+mirror-match,Hard,4x4,vertical,complex,,,,,Larger vertical reflection
+mirror-match,Easy,b,Mirror b,d,d,p,q,b,Flip
+mirror-match,Medium,M,Mirror M,M,M,W,E,3,Sym
+mirror-match,Hard,12,Mirror 12,51,51,12,21,15,Rev

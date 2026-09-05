@@ -1,0 +1,13 @@
+game_type,difficulty,text1,text2,answer,option1,option2,option3,option4,hint
+memory-matrix,Easy,3,grid_size,3x3,,,,,Remember 3 cells in a 3x3 grid
+memory-matrix,Easy,4,grid_size,3x3,,,,,Remember 4 cells in a 3x3 grid
+memory-matrix,Easy,3,grid_size,3x3,,,,,Identify 3 distinct spots
+memory-matrix,Easy,4,grid_size,3x3,,,,,Pattern of 4
+memory-matrix,Medium,5,grid_size,4x4,,,,,Remember 5 cells in a 4x4 grid
+memory-matrix,Medium,6,grid_size,4x4,,,,,Remember 6 cells in a 4x4 grid
+memory-matrix,Medium,5,grid_size,4x4,,,,,5 spots spread out
+memory-matrix,Medium,6,grid_size,4x4,,,,,6 spots cluster
+memory-matrix,Hard,7,grid_size,5x5,,,,,Remember 7 cells in a 5x5 grid
+memory-matrix,Hard,8,grid_size,5x5,,,,,Remember 8 cells in a 5x5 grid
+memory-matrix,Hard,9,grid_size,5x5,,,,,9 cell complex pattern
+memory-matrix,Hard,8,grid_size,5x5,,,,,Scatter 8

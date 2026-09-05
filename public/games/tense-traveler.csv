@@ -1,0 +1,100 @@
+game_type,text1,text2,answer,option1,option2,option3,option4,difficulty,category,know_more,hint,image_url,topic
+tense-traveler,walk,past,walked,walk,walked,walks,will walk,Easy,tenses,Past tense adds -ED for regular verbs. Walk → Walked!,,,
+tense-traveler,walk,present,walks,walk,walked,walks,will walk,Easy,tenses,Present tense for he/she adds -S. He walks every day.,,,
+tense-traveler,walk,future,will walk,walk,walked,walks,will walk,Easy,tenses,Future tense uses WILL + verb. Will walk tomorrow.,,,
+tense-traveler,run,past,ran,run,ran,runs,will run,Easy,tenses,Run is irregular! Past = RAN not runned.,,,
+tense-traveler,run,present,runs,run,ran,runs,will run,Easy,tenses,He/She RUNS every morning. Add -S for present.,,,
+tense-traveler,eat,past,ate,eat,ate,eats,will eat,Medium,tenses,Eat is irregular. Past = ATE. Yesterday I ate pizza.,,,
+tense-traveler,eat,future,will eat,eat,ate,eats,will eat,Medium,tenses,Tomorrow I WILL EAT breakfast. WILL + base verb.,,,
+tense-traveler,write,past,wrote,write,wrote,writes,will write,Medium,tenses,Write → Wrote (past). Irregular verb!,,,
+tense-traveler,sing,past,sang,sing,sang,sings,will sing,Medium,tenses,Sing → Sang (past). She sang beautifully yesterday.,,,
+tense-traveler,swim,past,swam,swim,swam,swims,will swim,Medium,tenses,Swim → Swam (past). We swam in the pool.,,,
+tense-traveler,think,past,thought,think,thought,thinks,will think,Hard,tenses,Think → Thought. Irregular - memorize it!,,,
+tense-traveler,speak,past,spoke,speak,spoke,speaks,will speak,Hard,tenses,Speak → Spoke (past). He spoke to the class.,,,
+tense-traveler,bring,past,brought,bring,brought,brings,will bring,Hard,tenses,Bring → Brought. Similar to think → thought!,,,
+tense-traveler,teach,past,taught,teach,taught,teaches,will teach,Hard,tenses,Teach → Taught. The teacher taught math.,,,
+tense-traveler,catch,past,caught,catch,caught,catches,will catch,Hard,tenses,Catch → Caught. I caught the ball yesterday.,,,
+tense-traveler,jump,past,jumped,jump,jumped,jumps,will jump,Easy,tenses,Past tense: add -ED. Jump → Jumped!,,,
+tense-traveler,play,present,plays,play,played,plays,will play,Easy,tenses,She/He PLAYS. Add -S for present with he/she/it!,,,
+tense-traveler,talk,future,will talk,talk,talked,talks,will talk,Easy,tenses,Future: WILL + verb. Will talk tomorrow!,,,
+tense-traveler,go,past,went,go,went,goes,will go,Medium,tenses,Go is irregular! Past = WENT not goed!,,,
+tense-traveler,make,past,made,make,made,makes,will make,Medium,tenses,Make → Made (past). Irregular verb!,,,
+tense-traveler,see,past,saw,see,saw,sees,will see,Medium,tenses,See → Saw (past). I saw a bird yesterday!,,,
+tense-traveler,fly,past,flew,fly,flew,flies,will fly,Hard,tenses,Fly → Flew. The bird flew away!,,,
+tense-traveler,buy,past,bought,buy,bought,buys,will buy,Hard,tenses,Buy → Bought. She bought milk yesterday!,,,
+tense-traveler,fight,past,fought,fight,fought,fights,will fight,Hard,tenses,Fight → Fought. They fought bravely!,,,
+tense-traveler,jump,past,jumped,will jump,jumps,jumped,jumping,Medium,tenses,Regular verb,Think about past time.,,Tenses
+tense-traveler,play,present,plays,will play,playing,plays,played,Medium,tenses,Regular verb,Think about present time.,,Tenses
+tense-traveler,walk,past,walked,walking,walks,will walk,walked,Medium,tenses,Regular verb,Think about past time.,,Tenses
+tense-traveler,talk,future,will talk,talking,talks,talked,willed talk,Medium,tenses,Regular verb,Think about future time.,,Tenses
+tense-traveler,look,future,will look,looked,looks,willed look,will look,Medium,tenses,Regular verb,Think about future time.,,Tenses
+tense-traveler,help,past,helped,helps,will help,helping,helped,Medium,tenses,Regular verb,Think about past time.,,Tenses
+tense-traveler,cook,future,will cook,will cook,willed cook,cooking,cooks,Medium,tenses,Regular verb,Think about future time.,,Tenses
+tense-traveler,clean,past,cleaned,will clean,cleaning,cleans,cleaned,Medium,tenses,Regular verb,Think about past time.,,Tenses
+tense-traveler,wash,present,washes,washed,washing,will wash,washs,Medium,tenses,Ends in sh -> add es,Think about present time.,,Tenses
+tense-traveler,watch,future,will watch,will watch,watching,willed watch,watched,Medium,tenses,Ends in ch -> add es,Think about future time.,,Tenses
+tense-traveler,kiss,future,will kiss,will kiss,kissing,kisses,willed kiss,Medium,tenses,Ends in ss -> add es,Think about future time.,,Tenses
+tense-traveler,fix,present,fixes,fixed,fixs,fixing,fixes,Medium,tenses,Ends in x -> add es,Think about present time.,,Tenses
+tense-traveler,go,future,will go,willed go,will go,went,going,Medium,tenses,Irregular: go -> went,Think about future time.,,Tenses
+tense-traveler,do,past,did,did,does,doed,doing,Medium,tenses,Irregular: do -> did,Think about past time.,,Tenses
+tense-traveler,have,past,had,haveed,has,haveing,had,Medium,tenses,Irregular: have -> had,Think about past time.,,Tenses
+tense-traveler,be,future,will be,will be,willed be,was,being,Medium,tenses,Irregular: be -> was,Think about future time.,,Tenses
+tense-traveler,eat,present,eats,eating,will eat,eats,ate,Medium,tenses,Irregular: eat -> ate,Think about present time.,,Tenses
+tense-traveler,run,present,runs,ran,runing,runs,will run,Medium,tenses,Irregular: run -> ran,Think about present time.,,Tenses
+tense-traveler,see,past,saw,seeing,seeed,will see,saw,Medium,tenses,Irregular: see -> saw,Think about past time.,,Tenses
+tense-traveler,come,present,comes,came,comeing,will come,comes,Medium,tenses,Irregular: come -> came,Think about present time.,,Tenses
+tense-traveler,say,future,will say,will say,willed say,said,says,Medium,tenses,Irregular: say -> said,Think about future time.,,Tenses
+tense-traveler,make,present,makes,makes,made,will make,makeing,Medium,tenses,Irregular: make -> made,Think about present time.,,Tenses
+tense-traveler,take,past,took,takeed,takeing,takes,will take,Medium,tenses,Irregular: take -> took,Think about past time.,,Tenses
+tense-traveler,get,past,got,got,geted,geting,gets,Medium,tenses,Irregular: get -> got,Think about past time.,,Tenses
+tense-traveler,give,future,will give,willed give,gives,giveing,will give,Medium,tenses,Irregular: give -> gave,Think about future time.,,Tenses
+tense-traveler,know,future,will know,willed know,knows,will know,knowing,Medium,tenses,Irregular: know -> knew,Think about future time.,,Tenses
+tense-traveler,think,future,will think,willed think,thinking,will think,thought,Medium,tenses,Irregular: think -> thought,Think about future time.,,Tenses
+tense-traveler,find,present,finds,finding,finds,will find,found,Medium,tenses,Irregular: find -> found,Think about present time.,,Tenses
+tense-traveler,tell,future,will tell,tells,told,willed tell,telling,Medium,tenses,Irregular: tell -> told,Think about future time.,,Tenses
+tense-traveler,ask,past,asked,asking,asked,asks,will ask,Medium,tenses,Regular verb,Think about past time.,,Tenses
+tense-traveler,write,future,will write,willed write,writeing,writes,wrote,Medium,tenses,Irregular: write -> wrote,Think about future time.,,Tenses
+tense-traveler,read,present,reads,reads,read,reading,will read,Medium,tenses,Past is read (sounds like red),Think about present time.,,Tenses
+tense-traveler,speak,present,speaks,will speak,spoke,speaks,speaking,Medium,tenses,Irregular: speak -> spoke,Think about present time.,,Tenses
+tense-traveler,break,present,breaks,breaks,will break,breaking,broke,Medium,tenses,Irregular: break -> broke,Think about present time.,,Tenses
+tense-traveler,drive,present,drives,drives,driveing,will drive,drove,Medium,tenses,Irregular: drive -> drove,Think about present time.,,Tenses
+tense-traveler,ride,past,rode,rideed,will ride,rides,rode,Medium,tenses,Irregular: ride -> rode,Think about past time.,,Tenses
+tense-traveler,swim,past,swam,swims,swiming,swimed,swam,Medium,tenses,Irregular: swim -> swam,Think about past time.,,Tenses
+tense-traveler,sing,future,will sing,willed sing,sang,sings,singing,Medium,tenses,Irregular: sing -> sang,Think about future time.,,Tenses
+tense-traveler,fly,past,flew,flyed,flies,flying,flew,Medium,tenses,Irregular: fly -> flew,Think about past time.,,Tenses
+tense-traveler,sleep,present,sleeps,sleeps,slept,will sleep,sleeping,Medium,tenses,Irregular: sleep -> slept,Think about present time.,,Tenses
+tense-traveler,keep,past,kept,kept,keeps,keeping,will keep,Medium,tenses,Irregular: keep -> kept,Think about past time.,,Tenses
+tense-traveler,sweep,future,will sweep,will sweep,sweeps,willed sweep,swept,Medium,tenses,Irregular: sweep -> swept,Think about future time.,,Tenses
+tense-traveler,leave,present,leaves,will leave,leaveing,left,leaves,Medium,tenses,Irregular: leave -> left,Think about present time.,,Tenses
+tense-traveler,feel,present,feels,will feel,feeling,feels,felt,Medium,tenses,Irregular: feel -> felt,Think about present time.,,Tenses
+tense-traveler,buy,future,will buy,buys,willed buy,buying,bought,Medium,tenses,Irregular: buy -> bought,Think about future time.,,Tenses
+tense-traveler,bring,present,brings,brings,will bring,brought,bringing,Medium,tenses,Irregular: bring -> brought,Think about present time.,,Tenses
+tense-traveler,fight,present,fights,will fight,fought,fighting,fights,Medium,tenses,Irregular: fight -> fought,Think about present time.,,Tenses
+tense-traveler,catch,future,will catch,will catch,willed catch,caught,catches,Medium,tenses,Irregular: catch -> caught,Think about future time.,,Tenses
+tense-traveler,teach,future,will teach,willed teach,will teach,teaching,teaches,Medium,tenses,Irregular: teach -> taught,Think about future time.,,Tenses
+tense-traveler,lose,present,loses,loses,will lose,lost,loseing,Medium,tenses,Irregular: lose -> lost,Think about present time.,,Tenses
+tense-traveler,jump,past,jumped,will jump,jumped,jumping,jumps,Medium,tenses,Regular verb,Think about past time.,,Tenses
+tense-traveler,play,past,played,played,will play,plays,playing,Medium,tenses,Regular verb,Think about past time.,,Tenses
+tense-traveler,walk,past,walked,walks,will walk,walking,walked,Medium,tenses,Regular verb,Think about past time.,,Tenses
+tense-traveler,talk,future,will talk,talking,talked,willed talk,talks,Medium,tenses,Regular verb,Think about future time.,,Tenses
+tense-traveler,look,future,will look,looked,will look,willed look,looks,Medium,tenses,Regular verb,Think about future time.,,Tenses
+tense-traveler,help,present,helps,will help,helping,helps,helped,Medium,tenses,Regular verb,Think about present time.,,Tenses
+tense-traveler,cook,future,will cook,willed cook,will cook,cooks,cooking,Medium,tenses,Regular verb,Think about future time.,,Tenses
+tense-traveler,clean,past,cleaned,cleans,will clean,cleaning,cleaned,Medium,tenses,Regular verb,Think about past time.,,Tenses
+tense-traveler,wash,present,washes,washing,will wash,washed,washs,Medium,tenses,Ends in sh -> add es,Think about present time.,,Tenses
+tense-traveler,watch,past,watched,will watch,watched,watching,watches,Medium,tenses,Ends in ch -> add es,Think about past time.,,Tenses
+tense-traveler,kiss,present,kisses,kisses,will kiss,kissing,kissed,Medium,tenses,Ends in ss -> add es,Think about present time.,,Tenses
+tense-traveler,fix,future,will fix,fixing,fixes,fixed,willed fix,Medium,tenses,Ends in x -> add es,Think about future time.,,Tenses
+tense-traveler,go,present,goes,will go,went,gos,going,Medium,tenses,Irregular: go -> went,Think about present time.,,Tenses
+tense-traveler,do,future,will do,willed do,doing,did,will do,Medium,tenses,Irregular: do -> did,Think about future time.,,Tenses
+tense-traveler,have,present,has,has,haves,haveing,had,Medium,tenses,Irregular: have -> had,Think about present time.,,Tenses
+tense-traveler,be,past,was,being,will be,is,was,Medium,tenses,Irregular: be -> was,Think about past time.,,Tenses
+tense-traveler,eat,future,will eat,willed eat,ate,eats,eating,Medium,tenses,Irregular: eat -> ate,Think about future time.,,Tenses
+tense-traveler,run,future,will run,runs,runing,will run,willed run,Medium,tenses,Irregular: run -> ran,Think about future time.,,Tenses
+tense-traveler,see,future,will see,saw,willed see,will see,seeing,Medium,tenses,Irregular: see -> saw,Think about future time.,,Tenses
+tense-traveler,come,past,came,came,comeing,comes,comeed,Medium,tenses,Irregular: come -> came,Think about past time.,,Tenses
+tense-traveler,say,past,said,said,saying,will say,says,Medium,tenses,Irregular: say -> said,Think about past time.,,Tenses
+tense-traveler,make,future,will make,makeing,made,willed make,makes,Medium,tenses,Irregular: make -> made,Think about future time.,,Tenses
+tense-traveler,take,present,takes,takeing,takes,took,will take,Medium,tenses,Irregular: take -> took,Think about present time.,,Tenses
+tense-traveler,get,future,will get,willed get,gets,geting,got,Medium,tenses,Irregular: get -> got,Think about future time.,,Tenses
+tense-traveler,give,future,will give,giveing,willed give,will give,gives,Medium,tenses,Irregular: give -> gave,Think about future time.,,Tenses

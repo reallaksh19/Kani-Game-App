@@ -1,0 +1,10 @@
+game_type,difficulty,text1,text2,answer,option1,option2,option3,option4,hint
+scale-sense,Easy,2,weights,simple,,,,,Balance 2 items
+scale-sense,Easy,2,weights,simple,,,,,Simple math balance
+scale-sense,Medium,3,weights,medium,,,,,Balance 3 items
+scale-sense,Medium,3,weights,medium,,,,,A bit heavier
+scale-sense,Hard,4,weights,complex,,,,,Balance 4 items
+scale-sense,Hard,4,weights,complex,,,,,Complex weights
+scale-sense,Easy,10?,Bal 10,10,10,5,2,1,Eq
+scale-sense,Medium,X+1=5,X?,4,4,1,5,6,Alg
+scale-sense,Hard,2X=10,X?,5,5,2,10,20,Div

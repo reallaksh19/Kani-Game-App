@@ -1,0 +1,100 @@
+game_type,text1,text2,answer,option1,option2,option3,option4,difficulty,category,know_more,hint,image_url,topic
+punctuation-pop,What time is it,question,?,.,?,!,",",Easy,punctuation,Questions need question marks! They ask something.,,,
+punctuation-pop,I love ice cream,statement,.,.,?,!,",",Easy,punctuation,Statements (telling facts) end with periods.,,,
+punctuation-pop,Wow that is amazing,exclamation,!,.,?,!,",",Easy,punctuation,Exclamations show strong feelings! Use exclamation marks!,,,
+punctuation-pop,Where are you going,question,?,.,?,!,",",Easy,punctuation,Where When What Why How = question words need ?,,,
+punctuation-pop,Stop right there,command,!,.,?,!,",",Easy,punctuation,Commands can use ! for urgency or . for calm commands.,,,
+punctuation-pop,The cat sat on the mat,statement,.,.,?,!,",",Medium,punctuation,This tells us something happened - its a statement (.),,,
+punctuation-pop,How beautiful the sunset is,exclamation,!,.,?,!,",",Medium,punctuation,Strong emotion about beauty - use exclamation mark!,,,
+punctuation-pop,Can you help me please,question,?,.,?,!,",",Medium,punctuation,Asking for help = question. Needs ?,,,
+punctuation-pop,She said hello to me,statement,.,.,?,!,",",Medium,punctuation,Reporting what happened = statement. Ends with period.,,,
+punctuation-pop,What a wonderful day,exclamation,!,.,?,!,",",Medium,punctuation,What a... shows strong feeling = exclamation!,,,
+punctuation-pop,Have you finished your homework,question,?,.,?,!,",",Hard,punctuation,Have you...? Is asking - needs question mark!,,,
+punctuation-pop,I cannot believe it,exclamation,!,.,?,!,",",Hard,punctuation,Strong disbelief = strong emotion = exclamation!,,,
+punctuation-pop,The train leaves at noon,statement,.,.,?,!,",",Hard,punctuation,Giving information calmly = statement with period.,,,
+punctuation-pop,Watch out for that car,command,!,.,?,!,",",Hard,punctuation,Urgent warning command - exclamation mark!,,,
+punctuation-pop,Did she really say that,question,?,.,?,!,",",Hard,punctuation,Did she...? = question asking for yes/no answer.,,,
+punctuation-pop,Come here right now,command,!,.,?,!,",",Easy,punctuation,Commands with urgency use exclamation marks!,,,
+punctuation-pop,I have a dog,statement,.,.,?,!,",",Easy,punctuation,Simple statement = period at the end!,,,
+punctuation-pop,Are you okay,question,?,.,?,!,",",Easy,punctuation,Asking if someone is okay = question mark!,,,
+punctuation-pop,Please sit down,command,.,.,?,!,",",Medium,punctuation,Polite command can use period for calm tone!,,,
+punctuation-pop,Which one do you want,question,?,.,?,!,",",Medium,punctuation,Which = question word needs question mark!,,,
+punctuation-pop,Look at that rainbow,exclamation,!,.,?,!,",",Medium,punctuation,Excitement about rainbow = exclamation!,,,
+punctuation-pop,Why did you do that,question,?,.,?,!,",",Hard,punctuation,Why = asking for reason = question mark!,,,
+punctuation-pop,That hurts so much,exclamation,!,.,?,!,",",Hard,punctuation,Expression of pain = strong feeling = exclamation!,,,
+punctuation-pop,The meeting starts at two,statement,.,.,?,!,",",Hard,punctuation,Stating a fact calmly = period!,,,
+punctuation-pop,Stand pizza,command,!,",",?,.,!,Easy,punctuation,Commands often use exclamation marks.,It is a command.,,Punctuation
+punctuation-pop,Listen fast,command,!,",",.,!,?,Easy,punctuation,Commands often use exclamation marks.,It is a command.,,Punctuation
+punctuation-pop,How huge the moon is,exclamation,!,?,",",.,!,Easy,punctuation,Exclamations end with an exclamation mark!,It is a exclamation.,,Punctuation
+punctuation-pop,Listen pizza,command,!,.,",",?,!,Easy,punctuation,Commands often use exclamation marks.,It is a command.,,Punctuation
+punctuation-pop,How great the moon is,exclamation,!,",",?,.,!,Easy,punctuation,Exclamations end with an exclamation mark!,It is a exclamation.,,Punctuation
+punctuation-pop,How lovely the dog is,exclamation,!,?,",",!,.,Easy,punctuation,Exclamations end with an exclamation mark!,It is a exclamation.,,Punctuation
+punctuation-pop,Where do they cook,question,?,!,",",?,.,Easy,punctuation,Questions end with a question mark.,It is a question.,,Punctuation
+punctuation-pop,Come pizza,command,!,.,?,",",!,Easy,punctuation,Commands often use exclamation marks.,It is a command.,,Punctuation
+punctuation-pop,Do the dog apples,question,?,?,.,!,",",Easy,punctuation,Questions end with a question mark.,It is a question.,,Punctuation
+punctuation-pop,What are the cat laugh,question,?,?,",",.,!,Easy,punctuation,Questions end with a question mark.,It is a question.,,Punctuation
+punctuation-pop,The sun cries apples,statement,.,",",!,.,?,Easy,punctuation,Statements end with a period.,It is a statement.,,Punctuation
+punctuation-pop,Help a book,command,!,.,!,",",?,Easy,punctuation,Commands often use exclamation marks.,It is a command.,,Punctuation
+punctuation-pop,Go to school,command,!,.,?,",",!,Easy,punctuation,Commands often use exclamation marks.,It is a command.,,Punctuation
+punctuation-pop,Where can the teacher flie,question,?,?,.,!,",",Easy,punctuation,Questions end with a question mark.,It is a question.,,Punctuation
+punctuation-pop,The car flies to school,statement,.,.,!,",",?,Easy,punctuation,Statements end with a period.,It is a statement.,,Punctuation
+punctuation-pop,The sun eats happily,statement,.,.,!,",",?,Easy,punctuation,Statements end with a period.,It is a statement.,,Punctuation
+punctuation-pop,What a great he,exclamation,!,",",.,?,!,Easy,punctuation,Exclamations end with an exclamation mark!,It is a exclamation.,,Punctuation
+punctuation-pop,The school eats a book,statement,.,!,.,",",?,Easy,punctuation,Statements end with a period.,It is a statement.,,Punctuation
+punctuation-pop,Will it to school,question,?,?,",",!,.,Easy,punctuation,Questions end with a question mark.,It is a question.,,Punctuation
+punctuation-pop,The boy shines a book,statement,.,.,",",?,!,Easy,punctuation,Statements end with a period.,It is a statement.,,Punctuation
+punctuation-pop,What a wonderful dad,exclamation,!,!,",",.,?,Easy,punctuation,Exclamations end with an exclamation mark!,It is a exclamation.,,Punctuation
+punctuation-pop,Who is we jump,question,?,.,!,?,",",Easy,punctuation,Questions end with a question mark.,It is a question.,,Punctuation
+punctuation-pop,We cries a book,statement,.,.,!,",",?,Easy,punctuation,Statements end with a period.,It is a statement.,,Punctuation
+punctuation-pop,How huge a bird is,exclamation,!,?,.,",",!,Easy,punctuation,Exclamations end with an exclamation mark!,It is a exclamation.,,Punctuation
+punctuation-pop,Why can she leep,question,?,.,?,",",!,Easy,punctuation,Questions end with a question mark.,It is a question.,,Punctuation
+punctuation-pop,Help slowly,command,!,.,!,",",?,Easy,punctuation,Commands often use exclamation marks.,It is a command.,,Punctuation
+punctuation-pop,Sit happily,command,!,",",!,.,?,Easy,punctuation,Commands often use exclamation marks.,It is a command.,,Punctuation
+punctuation-pop,How will the moon run,question,?,?,!,",",.,Easy,punctuation,Questions end with a question mark.,It is a question.,,Punctuation
+punctuation-pop,Go pizza,command,!,.,!,",",?,Easy,punctuation,Commands often use exclamation marks.,It is a command.,,Punctuation
+punctuation-pop,Stop a book,command,!,!,",",.,?,Easy,punctuation,Commands often use exclamation marks.,It is a command.,,Punctuation
+punctuation-pop,Does the dog at home,question,?,.,",",?,!,Easy,punctuation,Questions end with a question mark.,It is a question.,,Punctuation
+punctuation-pop,Sit apples,command,!,!,.,?,",",Easy,punctuation,Commands often use exclamation marks.,It is a command.,,Punctuation
+punctuation-pop,What a amazing car,exclamation,!,?,!,.,",",Easy,punctuation,Exclamations end with an exclamation mark!,It is a exclamation.,,Punctuation
+punctuation-pop,When does he run,question,?,!,",",?,.,Easy,punctuation,Questions end with a question mark.,It is a question.,,Punctuation
+punctuation-pop,He reads in the park,statement,.,.,",",!,?,Easy,punctuation,Statements end with a period.,It is a statement.,,Punctuation
+punctuation-pop,My mom walks slowly,statement,.,!,.,?,",",Easy,punctuation,Statements end with a period.,It is a statement.,,Punctuation
+punctuation-pop,What a loud girl,exclamation,!,.,",",!,?,Easy,punctuation,Exclamations end with an exclamation mark!,It is a exclamation.,,Punctuation
+punctuation-pop,The car eats a song,statement,.,!,.,",",?,Easy,punctuation,Statements end with a period.,It is a statement.,,Punctuation
+punctuation-pop,Stop to school,command,!,!,?,.,",",Easy,punctuation,Commands often use exclamation marks.,It is a command.,,Punctuation
+punctuation-pop,They runs a song,statement,.,?,",",.,!,Easy,punctuation,Statements end with a period.,It is a statement.,,Punctuation
+punctuation-pop,How beautiful it is,exclamation,!,.,",",!,?,Easy,punctuation,Exclamations end with an exclamation mark!,It is a exclamation.,,Punctuation
+punctuation-pop,Will he pizza,question,?,.,?,!,",",Easy,punctuation,Questions end with a question mark.,It is a question.,,Punctuation
+punctuation-pop,Come slowly,command,!,?,",",!,.,Easy,punctuation,Commands often use exclamation marks.,It is a command.,,Punctuation
+punctuation-pop,When are he jump,question,?,",",?,.,!,Easy,punctuation,Questions end with a question mark.,It is a question.,,Punctuation
+punctuation-pop,What a scary it,exclamation,!,?,.,!,",",Easy,punctuation,Exclamations end with an exclamation mark!,It is a exclamation.,,Punctuation
+punctuation-pop,Will the girl apples,question,?,!,",",.,?,Easy,punctuation,Questions end with a question mark.,It is a question.,,Punctuation
+punctuation-pop,Come to school,command,!,.,",",!,?,Easy,punctuation,Commands often use exclamation marks.,It is a command.,,Punctuation
+punctuation-pop,Look happily,command,!,.,?,!,",",Easy,punctuation,Commands often use exclamation marks.,It is a command.,,Punctuation
+punctuation-pop,Go happily,command,!,.,?,!,",",Easy,punctuation,Commands often use exclamation marks.,It is a command.,,Punctuation
+punctuation-pop,What a fast dad,exclamation,!,!,.,",",?,Easy,punctuation,Exclamations end with an exclamation mark!,It is a exclamation.,,Punctuation
+punctuation-pop,What a scary dog,exclamation,!,?,",",.,!,Easy,punctuation,Exclamations end with an exclamation mark!,It is a exclamation.,,Punctuation
+punctuation-pop,How scary the girl is,exclamation,!,!,?,.,",",Easy,punctuation,Exclamations end with an exclamation mark!,It is a exclamation.,,Punctuation
+punctuation-pop,The girl shines a book,statement,.,?,",",!,.,Easy,punctuation,Statements end with a period.,It is a statement.,,Punctuation
+punctuation-pop,Look fast,command,!,?,",",!,.,Easy,punctuation,Commands often use exclamation marks.,It is a command.,,Punctuation
+punctuation-pop,What a great she,exclamation,!,.,!,?,",",Easy,punctuation,Exclamations end with an exclamation mark!,It is a exclamation.,,Punctuation
+punctuation-pop,A bird reads happily,statement,.,!,",",?,.,Easy,punctuation,Statements end with a period.,It is a statement.,,Punctuation
+punctuation-pop,Sit the ball,command,!,",",!,?,.,Easy,punctuation,Commands often use exclamation marks.,It is a command.,,Punctuation
+punctuation-pop,Do the car in the park,question,?,!,",",.,?,Easy,punctuation,Questions end with a question mark.,It is a question.,,Punctuation
+punctuation-pop,Stop at home,command,!,.,!,?,",",Easy,punctuation,Commands often use exclamation marks.,It is a command.,,Punctuation
+punctuation-pop,My dad sings dinner,statement,.,!,?,.,",",Easy,punctuation,Statements end with a period.,It is a statement.,,Punctuation
+punctuation-pop,How great my dad is,exclamation,!,.,",",?,!,Easy,punctuation,Exclamations end with an exclamation mark!,It is a exclamation.,,Punctuation
+punctuation-pop,What a beautiful mom,exclamation,!,?,.,!,",",Easy,punctuation,Exclamations end with an exclamation mark!,It is a exclamation.,,Punctuation
+punctuation-pop,When will the dog drive,question,?,?,!,",",.,Easy,punctuation,Questions end with a question mark.,It is a question.,,Punctuation
+punctuation-pop,Can they a book,question,?,!,",",?,.,Easy,punctuation,Questions end with a question mark.,It is a question.,,Punctuation
+punctuation-pop,Does she apples,question,?,",",.,!,?,Easy,punctuation,Questions end with a question mark.,It is a question.,,Punctuation
+punctuation-pop,What a amazing boy,exclamation,!,",",?,.,!,Easy,punctuation,Exclamations end with an exclamation mark!,It is a exclamation.,,Punctuation
+punctuation-pop,How amazing they is,exclamation,!,",",?,!,.,Easy,punctuation,Exclamations end with an exclamation mark!,It is a exclamation.,,Punctuation
+punctuation-pop,Are the car loudly,question,?,.,!,",",?,Easy,punctuation,Questions end with a question mark.,It is a question.,,Punctuation
+punctuation-pop,It runs pizza,statement,.,?,",",!,.,Easy,punctuation,Statements end with a period.,It is a statement.,,Punctuation
+punctuation-pop,Help to school,command,!,?,!,.,",",Easy,punctuation,Commands often use exclamation marks.,It is a command.,,Punctuation
+punctuation-pop,Can the dog a song,question,?,?,!,",",.,Easy,punctuation,Questions end with a question mark.,It is a question.,,Punctuation
+punctuation-pop,What do the cat run,question,?,.,",",?,!,Easy,punctuation,Questions end with a question mark.,It is a question.,,Punctuation
+punctuation-pop,The moon sings slowly,statement,.,",",!,?,.,Easy,punctuation,Statements end with a period.,It is a statement.,,Punctuation
+punctuation-pop,The cat reads at home,statement,.,",",?,!,.,Easy,punctuation,Statements end with a period.,It is a statement.,,Punctuation
+punctuation-pop,The girl shines happily,statement,.,!,.,",",?,Easy,punctuation,Statements end with a period.,It is a statement.,,Punctuation

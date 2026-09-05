@@ -1,0 +1,13 @@
+game_type,difficulty,text1,text2,answer,option1,option2,option3,option4,hint
+odd-wizard,Easy,Which one is NOT a fruit?,Find the odd one,Car,Apple,Car,Banana,Orange,Three are fruits
+odd-wizard,Easy,Which doesn't belong?,Find the odd one,Triangle,Dog,Cat,Bird,Triangle,Three are animals
+odd-wizard,Easy,Which is not a color?,Find the odd one,Table,Red,Blue,Table,Green,Material object
+odd-wizard,Easy,Which is not a number?,Find the odd one,A,1,2,A,3,Letter vs Numbers
+odd-wizard,Medium,Which number doesn't fit?,Find the odd one,7,2,4,6,7,Look at odd vs even
+odd-wizard,Medium,Which doesn't belong?,Find the odd one,Whale,Lion,Elephant,Whale,Tiger,One lives in water
+odd-wizard,Medium,Which is not a shape?,Find the odd one,Blue,Circle,Square,Blue,Triangle,Color vs Shapes
+odd-wizard,Medium,Which is not weather?,Find the odd one,Chair,Rain,Snow,Chair,Wind,Furniture
+odd-wizard,Hard,15 20 25 33 35,Not divisible by 5,33,15,20,25,33,Check divisibility
+odd-wizard,Hard,Mercury Venus Earth Mars,Which is not a planet?,Moon,Mercury,Venus,Moon,Mars,Planets vs moons
+odd-wizard,Hard,Which has no legs?,Find the odd one,Snake,Dog,Cat,Snake,Bird,Leg count
+odd-wizard,Hard,London Paris NewYork France,Which is a country?,France,London,Paris,France,NewYork,City vs Country

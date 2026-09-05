@@ -1,0 +1,10 @@
+game_type,difficulty,text1,text2,answer,option1,option2,option3,option4,hint
+data-detective,Easy,3,bar_chart,max,,,,,Find highest value
+data-detective,Easy,3,bar_chart,min,,,,,Find lowest value
+data-detective,Medium,4,pie_chart,max,,,,,Largest slice
+data-detective,Medium,4,line_chart,trend,,,,,Line going up/down
+data-detective,Hard,5,pie_chart,sum,,,,,Sum of two slices
+data-detective,Hard,5,bar_chart,compare,,,,,Compare two values
+data-detective,Medium,Sum?,5+12,17,17,10,5,20,Add
+data-detective,Hard,Avg?,10 20 30,20,20,10,30,40,Mean
+data-detective,Easy,Min?,Bar: 2 8,2,2,8,4,6,Low bar

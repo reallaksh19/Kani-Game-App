@@ -1,0 +1,10 @@
+game_type,difficulty,text1,text2,answer,option1,option2,option3,option4,hint
+venn-voyager,Easy,red-fruit,2-sets,,,,,Sort red and fruit,
+venn-voyager,Easy,round-food,2-sets,,,,,Sort round and food,
+venn-voyager,Medium,animal-green,2-sets,,,,,Sort animals and green things,
+venn-voyager,Medium,yellow-hot,2-sets,,,,,Sort yellow and hot things,
+venn-voyager,Hard,bird-fly,2-sets,,,,,Birds vs things that fly,
+venn-voyager,Hard,vehicle-wheels,2-sets,,,,,Vehicles vs things with wheels,
+venn-voyager,Easy,Pet?,Animal,Cat,Cat,Rock,Car,Sun,Living
+venn-voyager,Medium,Odd?,Numbers,3,3,2,4,6,Not even
+venn-voyager,Hard,Both?,Red and Big,Apple,Apple,Cherry,Truck,Ant,Overlap

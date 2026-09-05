@@ -1,0 +1,9 @@
+game_type,text1,text2,answer,option1,option2,option3,option4,difficulty,category,know_more,hint,image_url,topic
+root-raider,bio,biology biography,life,life,water,earth,fire,Easy,vocabulary,Bio = life. Biology = study of life,,,
+root-raider,aqua,aquarium aquatic,water,water,fire,earth,air,Easy,vocabulary,Aqua = water. Aquarium = water tank,,,
+root-raider,geo,geography geology,earth,earth,water,fire,life,Easy,vocabulary,Geo = earth. Geography = study of earth,,,
+root-raider,tele,telephone television,far/distant,far/distant,close,inside,above,Medium,vocabulary,Tele = far. Telephone = far sound,,,
+root-raider,chrono,chronological chronicle,time,time,color,sound,light,Medium,vocabulary,Chrono = time. Chronological = in time order,,,
+root-raider,phon,phonics telephone,sound,sound,light,smell,taste,Medium,vocabulary,Phon = sound. Phonics = study of sounds,,,
+root-raider,bene,benefit beneficial,good/well,good/well,bad,small,large,Hard,vocabulary,Bene = good. Benefit = something good,,,
+root-raider,mal,malfunction malice,bad/evil,bad/evil,good,fast,slow,Hard,vocabulary,Mal = bad. Malfunction = bad function,,,

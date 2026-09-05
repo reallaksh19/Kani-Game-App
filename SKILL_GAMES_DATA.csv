@@ -1,0 +1,78 @@
+game_type,difficulty,text1,text2,answer,option1,option2,option3,option4,hint
+pattern-forge,Easy,2 4 6 8 ?,Add 2 each time,10,10,12,9,14,Count by 2s
+pattern-forge,Easy,🔴 🔵 🔴 🔵 ?,Alternating colors,🔴,🔴,🔵,🟢,🟡,Colors alternate
+pattern-forge,Easy,1 2 3 4 ?,Simple counting,5,5,6,4,7,Count up by 1
+pattern-forge,Medium,3 6 9 12 ?,Multiply by 3,15,15,14,16,18,Count by 3s
+pattern-forge,Medium,2 4 8 16 ?,Each number doubles,32,32,24,20,64,Double each time
+pattern-forge,Medium,🌟 🌙 🌟 🌙 🌟 ?,Star and moon pattern,🌙,🌙,🌟,☀️,⭐,Alternating pattern
+pattern-forge,Hard,1 1 2 3 5 ?,Add previous two,8,8,6,7,10,Fibonacci sequence
+pattern-forge,Hard,1 4 9 16 ?,Square numbers,25,25,20,24,36,1²=1 2²=4 3²=9...
+logic-lab,Easy,"All dogs have tails. Max is a dog.",Does Max have a tail?,Yes,Yes,No,Maybe,Sometimes,Think about what we know about dogs
+logic-lab,Easy,"Red is bigger than Blue. Green is smaller than Blue.",Which is biggest?,Red,Red,Blue,Green,Same size,Compare step by step
+logic-lab,Medium,"Amy is taller than Ben. Ben is taller than Carl.",Who is shortest?,Carl,Amy,Ben,Carl,All same,Order from tall to short
+logic-lab,Medium,"All birds have feathers. A penguin is a bird.",Does a penguin have feathers?,Yes,Yes,No,Maybe,Only some,Penguins are birds
+logic-lab,Hard,"Tom has more apples than Sue. Sue has more than Pat. Pat has 3 apples.",Tom has at least how many?,5,5,4,3,6,Work backwards
+logic-lab,Hard,"In a race: A is not first. B beats C. C beats A.",Who wins the race?,B,A,B,C,Tie,Think about order
+odd-wizard,Easy,"Which one is NOT a fruit?",Find the odd one,Car,Apple,Car,Banana,Orange,Three are fruits
+odd-wizard,Easy,"Which doesn't belong?",Find the odd one,Triangle,Dog,Cat,Bird,Triangle,Three are animals
+odd-wizard,Medium,"Which number doesn't fit?",Find the odd one,7,2,4,6,7,Look at odd vs even
+odd-wizard,Medium,"Which doesn't belong?",Find the odd one,Whale,Lion,Elephant,Whale,Tiger,One lives in water
+odd-wizard,Hard,"15 20 25 33 35",Not divisible by 5,33,15,20,25,33,Check divisibility
+odd-wizard,Hard,"Mercury Venus Earth Mars",Which is not a planet?,Moon,Mercury,Venus,Moon,Mars,Planets vs moons
+sorting-station,Easy,"Order from smallest to largest: 5 2 8 3",Which is first?,2,5,2,8,3,Find the smallest
+sorting-station,Easy,"What comes first in the alphabet?",Which letter starts earliest,A,D,A,C,B,ABC order
+sorting-station,Medium,"Order morning to evening: Lunch Breakfast Dinner",What's first?,Breakfast,Lunch,Breakfast,Dinner,Snack,Think about your day
+sorting-station,Medium,"Order by size: Elephant Mouse Horse",Smallest first?,Mouse,Elephant,Mouse,Horse,All same,Compare sizes
+sorting-station,Hard,"Order: Plant seed → ? → Water → Harvest",What's step 2?,Dig hole,Dig hole,Harvest,Plant seed,Wait,Growing process
+sorting-station,Hard,"Caterpillar → ? → Butterfly",What's in between?,Cocoon,Cocoon,Egg,Caterpillar,Moth,Life cycle
+code-breaker,Easy,3-1-20,A=1 B=2 C=3...,CAT,CAT,DOG,BAT,RAT,C=3 A=1 T=20
+code-breaker,Easy,4-15-7,A=1 B=2 C=3...,DOG,DOG,CAT,LOG,FOG,D=4 O=15 G=7
+code-breaker,Medium,8-1-20,A=1 B=2 C=3...,HAT,HAT,BAT,CAT,RAT,H=8 A=1 T=20
+code-breaker,Medium,19-21-14,A=1 B=2 C=3...,SUN,SUN,FUN,RUN,GUN,S=19 U=21 N=14
+code-breaker,Hard,13-15-15-14,A=1 B=2 C=3...,MOON,MOON,NOON,SOON,BOON,M=13 O=15 N=14
+code-breaker,Hard,2-15-15-11,A=1 B=2 C=3...,BOOK,BOOK,COOK,LOOK,TOOK,B=2 O=15 K=11
+pattern-forge,Easy,A B A B ?,Alternating letters,A,A,B,C,D,Repeats A B
+pattern-forge,Easy,1 0 1 0 ?,Binary pattern,1,1,0,2,3,Repeats 1 0
+pattern-forge,Easy,△ ○ △ ○ ?,Shape pattern,△,△,○,□,☆,Alternates
+pattern-forge,Medium,2 4 8 16 ?,Doubling numbers,32,32,24,64,30,Times 2
+pattern-forge,Medium,10 20 30 40 ?,Counting by tens,50,50,60,45,55,Add 10
+pattern-forge,Medium,A C E G ?,Skip one letter,I,I,H,J,K,Skip B, D, F...
+pattern-forge,Medium,Z Y X W ?,Backwards alphabet,V,V,U,T,S,Go backwards
+pattern-forge,Hard,1 2 4 7 11 ?,Increasing gap,16,16,15,14,18,+1, +2, +3, +4, +5...
+pattern-forge,Hard,J F M A M ?,Months of year,J,J,A,S,O,June comes next
+pattern-forge,Hard,O T T F F ?,Number names,S,S,F,E,N,One Two Three Four Five Six
+logic-lab,Easy,"If it is raining, the ground is wet. The ground is dry.",Is it raining?,No,No,Yes,Maybe,Sometimes,Dry ground = No rain
+logic-lab,Easy,"All fish swim. Nemo is a fish.",Does Nemo swim?,Yes,Yes,No,Maybe,Sometimes,Nemo is a fish
+logic-lab,Medium,"Tom is older than Jerry. Jerry is older than Spike.",Who is youngest?,Spike,Spike,Jerry,Tom,Unknown,Order by age
+logic-lab,Medium,"A square has 4 sides. A triangle has 3 sides.",Which has more sides?,Square,Square,Triangle,Circle,Same,4 is more than 3
+logic-lab,Medium,"No birds are dogs. Fido is a dog.",Is Fido a bird?,No,No,Yes,Maybe,Sometimes,Dogs aren't birds
+logic-lab,Hard,"If A=B and B=C, then...",Is A=C?,Yes,Yes,No,Maybe,Unknown,Transitive property
+logic-lab,Hard,"Sam is not 2nd. Ted is before Sam. Ted is 2nd.",What place is Sam?,3rd,3rd,1st,2nd,4th,Ted is 2nd, Sam is after
+odd-wizard,Easy,"Red Blue Green Dog",Which is not a color?,Dog,Dog,Red,Blue,Green,Dog is an animal
+odd-wizard,Easy,"Car Bus Bike Apple",Which is not a vehicle?,Apple,Apple,Car,Bus,Bike,Apple is fruit
+odd-wizard,Medium,"Winter Summer Friday Spring",Which is not a season?,Friday,Friday,Winter,Summer,Spring,Friday is a day
+odd-wizard,Medium,"Shirt Pants Shoes Spoon",Which is not clothing?,Spoon,Spoon,Shirt,Pants,Shoes,Spoon is utensil
+odd-wizard,Hard,"2 4 6 9 8",Which is not even?,9,9,2,6,8,9 is odd
+odd-wizard,Hard,"A E I B U",Which is not a vowel?,B,B,A,E,U,B is consonant
+sorting-station,Easy,"Small Medium Large",What comes first?,Small,Small,Medium,Large,Giant,Size order
+sorting-station,Easy,"Monday Tuesday Wednesday",What comes next?,Thursday,Thursday,Friday,Sunday,Saturday,Days order
+sorting-station,Medium,"Baby Child Adult",Grow up order,Elder,Elder,Baby,Teen,Infant,Next stage
+sorting-station,Medium,"Second Minute Hour",Time order,Day,Day,Week,Month,Year,Next biggest unit
+sorting-station,Hard,"Seed Sprout Plant Flower",What comes last?,Flower,Flower,Plant,Seed,Sprout,Growth cycle
+sorting-station,Hard,"Mercury Venus Earth",Next planet?,Mars,Mars,Jupiter,Saturn,Uranus,Solar system order
+code-breaker,Easy,1-2-3,A=1 B=2...,ABC,ABC,CBA,CAB,BCA,Simple code
+code-breaker,Easy,2-5-4,A=1 B=2...,BED,BED,BAD,BID,BUD,B=2 E=5 D=4
+code-breaker,Medium,4-1-4,A=1...,DAD,DAD,DID,DUD,DOD,D=4 A=1
+code-breaker,Medium,3-1-2,A=1...,CAB,CAB,TAB,LAB,NAB,C=3
+code-breaker,Hard,8-5-12-12-15,A=1...,HELLO,HELLO,JELLO,CELLO,BELLO,H=8 E=5 L=12
+code-breaker,Hard,19-15-19,A=1...,SOS,SOS,SAS,SIS,SUS,S=19 O=15
+pattern-forge,Easy,Up Down Up Down ?,Direction,Up,Up,Down,Left,Right,Alternating
+pattern-forge,Medium,1 3 5 7 ?,Odd numbers,9,9,8,10,11,Next odd
+pattern-forge,Hard,1 2 4 8 16 ?,Doubling,32,32,30,34,24,Powers of 2
+logic-lab,Easy,"The sun is hot. Ice is cold.",Is the sun cold?,No,No,Yes,Maybe,Sometimes,Sun is hot
+logic-lab,Medium,"If today is Monday, yesterday was...",Sunday,Sunday,Sunday,Tuesday,Saturday,Friday,Day before
+logic-lab,Hard,"All squares are rectangles. Shape X is a square.",Is X a rectangle?,Yes,Yes,No,Maybe,Unknown,All squares are rectangles
+odd-wizard,Medium,"Soccer Tennis Pizza Golf",Not a sport,Pizza,Pizza,Soccer,Tennis,Golf,Pizza is food
+odd-wizard,Hard,"London Paris NewYork England",Not a city,England,England,London,Paris,NewYork,England is a country
+sorting-station,Medium,"One Ten Hundred",Next?,Thousand,Thousand,Million,Zero,Five,Powers of 10
+sorting-station,Hard,"Good Better Best",Comparison,Best,Best,Better,Good,Bad,Superlative

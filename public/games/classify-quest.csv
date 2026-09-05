@@ -1,0 +1,3 @@
+game_type,difficulty,text1,text2,answer,option1,option2,option3,option4,hint
+classify-quest,Easy,Apple,Which category?,Fruit,Fruit,Vegetable,Meat,Grain,Food groups
+classify-quest,Medium,Piano,Which category?,Musical Instrument,Musical Instrument,Furniture,Vehicle,Tool,Object types

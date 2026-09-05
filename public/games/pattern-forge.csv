@@ -1,0 +1,16 @@
+game_type,difficulty,text1,text2,answer,option1,option2,option3,option4,hint
+pattern-forge,Easy,2 4 6 8 ?,Add 2 each time,10,10,12,9,14,Count by 2s
+pattern-forge,Easy,🔴 🔵 🔴 🔵 ?,Alternating colors,🔴,🔴,🔵,🟢,🟡,Colors alternate
+pattern-forge,Easy,1 2 3 4 ?,Simple counting,5,5,6,4,7,Count up by 1
+pattern-forge,Easy,A B C D ?,Alphabet order,E,E,F,G,H,Next letter
+pattern-forge,Easy,5 10 15 20 ?,Count by 5s,25,25,30,22,35,Add 5
+pattern-forge,Medium,3 6 9 12 ?,Multiply by 3,15,15,14,16,18,Count by 3s
+pattern-forge,Medium,2 4 8 16 ?,Each number doubles,32,32,24,20,64,Double each time
+pattern-forge,Medium,🌟 🌙 🌟 🌙 🌟 ?,Star and moon pattern,🌙,🌙,🌟,☀️,⭐,Alternating pattern
+pattern-forge,Medium,10 20 30 40 ?,Count by 10s,50,50,60,45,100,Add 10
+pattern-forge,Medium,Z Y X W ?,Backward alphabet,V,V,U,T,A,Go backwards
+pattern-forge,Hard,1 1 2 3 5 ?,Add previous two,8,8,6,7,10,Fibonacci sequence
+pattern-forge,Hard,1 4 9 16 ?,Square numbers,25,25,20,24,36,1²=1 2²=4 3²=9...
+pattern-forge,Hard,3 6 12 24 ?,Doubling numbers,48,48,36,30,60,x2 each time
+pattern-forge,Hard,🔴 🔵 🟢 🔴 🔵 ?,Three color pattern,🟢,🟢,🔴,🔵,🟡,Repeats every 3
+pattern-forge,Hard,27 9 3 1 ?,Divide by 3,1/3,1/3,0,1,3,Division pattern

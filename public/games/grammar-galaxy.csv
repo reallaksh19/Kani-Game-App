@@ -1,0 +1,100 @@
+game_type,text1,text2,answer,option1,option2,option3,option4,difficulty,category,know_more,hint,image_url,topic
+grammar-galaxy,She don't like apples.,Subject-Verb Agreement,doesn't,doesn't,don't,didn't,won't,Easy,grammar,She is singular so use DOESN'T not don't!,,,
+grammar-galaxy,The cats is sleeping.,Subject-Verb Agreement,are,is,are,was,be,Easy,grammar,Cats is plural so use ARE not is!,,,
+grammar-galaxy,Him went to school.,Pronoun,He,Him,He,His,Her,Easy,grammar,Use HE for subject (doing action). HIM is for objects.,,,
+grammar-galaxy,I seen the movie yesterday.,Verb Tense,saw,seen,saw,see,seeing,Easy,grammar,Past tense of see is SAW. Seen needs have/had before it.,,,
+grammar-galaxy,They was very happy.,Subject-Verb Agreement,were,was,were,is,be,Easy,grammar,They is plural so use WERE not was!,,,
+grammar-galaxy,She run very fast everyday.,Subject-Verb Agreement,runs,run,runs,running,ran,Medium,grammar,She/He/It needs an S on the verb! She RUNS.,,,
+grammar-galaxy,The dog chased it's tail.,Apostrophe,its,it's,its,its',it,Medium,grammar,ITS (no apostrophe) = belonging to it. IT'S = it is.,,,
+grammar-galaxy,Everyone have finished their work.,Subject-Verb Agreement,has,have,has,had,having,Medium,grammar,Everyone is singular! Use HAS not have.,,,
+grammar-galaxy,She speaks more louder than him.,Comparative,louder,more louder,louder,more loud,loudest,Medium,grammar,Never use MORE with -ER words. Just LOUDER not more louder!,,,
+grammar-galaxy,Between you and I this is wrong.,Pronoun,me,I,me,myself,mine,Medium,grammar,Between you and ME. Object pronouns after prepositions!,,,
+grammar-galaxy,The team are playing good today.,Adverb/Adjective,well,good,well,better,best,Hard,grammar,WELL is the adverb. GOOD is an adjective. Playing WELL!,,,
+grammar-galaxy,If I was you I would leave now.,Subjunctive,were,was,were,am,be,Hard,grammar,If I WERE you - subjunctive mood for hypotheticals!,,,
+grammar-galaxy,The number of students have increased.,Subject-Verb Agreement,has,have,has,had,having,Hard,grammar,The NUMBER (singular) HAS increased. Numbers HAVE...,,,
+grammar-galaxy,Whom is responsible for this mess?,Pronoun,Who,Whom,Who,Whose,Which,Hard,grammar,WHO for subjects (doing action). WHOM for objects.,,,
+grammar-galaxy,She lay the book on the table.,Verb Form,laid,lay,laid,lain,lied,Hard,grammar,LAY needs an object (lay something). Past tense is LAID.,,,
+grammar-galaxy,The boy run to school every day.,Subject-Verb Agreement,runs,run,runs,ran,running,Easy,grammar,He/She/It needs -s! The boy RUNS.,,,
+grammar-galaxy,We was going to the park.,Subject-Verb Agreement,were,was,were,is,are,Easy,grammar,We is plural so use WERE not was!,,,
+grammar-galaxy,Her have a new book.,Pronoun,She,Her,She,His,Hers,Easy,grammar,Use SHE for subject. HER is for objects.,,,
+grammar-galaxy,Me and John went home.,Pronoun,John and I,Me and John,John and I,I and John,John and me,Medium,grammar,Always put the other person first! John and I.,,,
+grammar-galaxy,This is the most biggest house.,Comparative,biggest,most biggest,biggest,bigger,most big,Medium,grammar,Never use MOST with -EST! Just BIGGEST.,,,
+grammar-galaxy,Her and I are friends.,Pronoun,She,Her,She,Hers,Herself,Medium,grammar,SHE and I are friends. SHE for subjects!,,,
+grammar-galaxy,Neither of the boys are ready.,Subject-Verb Agreement,is,are,is,was,were,Hard,grammar,NEITHER is singular! Use IS not are.,,,
+grammar-galaxy,The data is inconsistent.,Subject-Verb Agreement,are,is,are,was,were,Hard,grammar,DATA is plural! Use ARE. Datum is singular.,,,
+grammar-galaxy,Me and her went shopping.,Pronoun,She and I,Me and her,She and I,Her and I,I and her,Hard,grammar,SHE and I went shopping. Subject pronouns!,,,
+grammar-galaxy,The dog _____ loudly.,Choose the correct verb,barked,barked,barking,barks,bark,Easy,grammar,Past tense action,Check subject-verb agreement.,,Verbs
+grammar-galaxy,She _____ to the store.,Choose the correct verb,walks,walks,walking,walk,walked,Easy,grammar,Present tense singular,Check subject-verb agreement.,,Verbs
+grammar-galaxy,They _____ football.,Choose the correct verb,play,plays,playing,play,played,Easy,grammar,Plural subject,Check subject-verb agreement.,,Verbs
+grammar-galaxy,I _____ a letter.,Choose the correct verb,wrote,writes,wrote,writing,write,Easy,grammar,Past tense irregular,Check subject-verb agreement.,,Verbs
+grammar-galaxy,He _____ fast.,Choose the correct verb,runs,running,ran,runs,run,Easy,grammar,Third person singular,Check subject-verb agreement.,,Verbs
+grammar-galaxy,We _____ lunch.,Choose the correct verb,eat,eats,eating,eat,ate,Easy,grammar,Plural subject base form,Check subject-verb agreement.,,Verbs
+grammar-galaxy,The bird _____ away.,Choose the correct verb,flew,flies,fly,flying,flew,Easy,grammar,Irregular past tense,Check subject-verb agreement.,,Verbs
+grammar-galaxy,She _____ a song.,Choose the correct verb,sang,singing,sings,sang,sing,Easy,grammar,Past tense song,Check subject-verb agreement.,,Verbs
+grammar-galaxy,He _____ the ball.,Choose the correct verb,threw,throwing,threw,throws,throw,Easy,grammar,Past tense throw,Check subject-verb agreement.,,Verbs
+grammar-galaxy,The cat _____ milk.,Choose the correct verb,drinks,drink,drinking,drank,drinks,Easy,grammar,Daily habit,Check subject-verb agreement.,,Verbs
+grammar-galaxy,They _____ happy.,Choose the correct verb,are,are,am,be,is,Easy,grammar,Plural be verb,Check subject-verb agreement.,,Verbs
+grammar-galaxy,I _____ tired.,Choose the correct verb,am,be,is,are,am,Easy,grammar,First person be verb,Check subject-verb agreement.,,Verbs
+grammar-galaxy,She _____ a teacher.,Choose the correct verb,is,is,be,am,are,Easy,grammar,Singular be verb,Check subject-verb agreement.,,Verbs
+grammar-galaxy,We _____ students.,Choose the correct verb,are,am,was,is,are,Easy,grammar,Plural present,Check subject-verb agreement.,,Verbs
+grammar-galaxy,You _____ my friend.,Choose the correct verb,are,are,be,am,is,Easy,grammar,Second person,Check subject-verb agreement.,,Verbs
+grammar-galaxy,The sun _____ bright.,Choose the correct verb,shines,shining,shine,shines,shone,Easy,grammar,Nature fact,Check subject-verb agreement.,,Verbs
+grammar-galaxy,Rain _____ from clouds.,Choose the correct verb,falls,falls,falling,fall,fell,Easy,grammar,Nature fact,Check subject-verb agreement.,,Verbs
+grammar-galaxy,Fish _____ in water.,Choose the correct verb,swim,swim,swam,swimming,swims,Easy,grammar,Plural fish,Check subject-verb agreement.,,Verbs
+grammar-galaxy,A spider _____ 8 legs.,Choose the correct verb,has,has,had,have,having,Easy,grammar,Singular possession,Check subject-verb agreement.,,Verbs
+grammar-galaxy,Birds _____ nests.,Choose the correct verb,build,building,built,build,builds,Easy,grammar,Plural action,Check subject-verb agreement.,,Verbs
+grammar-galaxy,My mom _____ dinner.,Choose the correct verb,cooks,cooking,cooks,cooked,cook,Easy,grammar,Singular habit,Check subject-verb agreement.,,Verbs
+grammar-galaxy,Dad _____ the car.,Choose the correct verb,drives,driving,drove,drive,drives,Easy,grammar,Singular habit,Check subject-verb agreement.,,Verbs
+grammar-galaxy,The baby _____.,Choose the correct verb,cries,cried,cry,crying,cries,Easy,grammar,Singular y->ies,Check subject-verb agreement.,,Verbs
+grammar-galaxy,We _____ math.,Choose the correct verb,study,study,studying,studies,studied,Easy,grammar,Plural base,Check subject-verb agreement.,,Verbs
+grammar-galaxy,He _____ his teeth.,Choose the correct verb,brushes,brushes,brush,brushed,brushing,Easy,grammar,Singular es,Check subject-verb agreement.,,Verbs
+grammar-galaxy,He runs _____.,Choose the correct adverb,quickly,quicker,quick,quickly,quickest,Medium,grammar,Describes how he runs,Adverbs often end in -ly.,,Adverbs
+grammar-galaxy,She sings _____.,Choose the correct adverb,beautifully,beauty,beautifully,beautiful,beautify,Medium,grammar,Describes how she sings,Adverbs often end in -ly.,,Adverbs
+grammar-galaxy,The snail moves _____.,Choose the correct adverb,slowly,slow,slower,slowly,slowest,Medium,grammar,Describes movement,Adverbs often end in -ly.,,Adverbs
+grammar-galaxy,He speaks _____.,Choose the correct adverb,loudly,loudest,loud,loudly,louder,Medium,grammar,Volume of speech,Adverbs often end in -ly.,,Adverbs
+grammar-galaxy,They played _____.,Choose the correct adverb,happily,happy,happiness,happily,happier,Medium,grammar,Emotion of action,Adverbs often end in -ly.,,Adverbs
+grammar-galaxy,She waited _____.,Choose the correct adverb,patiently,patiented,patiently,patient,patience,Medium,grammar,Manner of waiting,Adverbs often end in -ly.,,Adverbs
+grammar-galaxy,The sun shines _____.,Choose the correct adverb,brightly,bright,brightest,brighter,brightly,Medium,grammar,Light intensity,Adverbs often end in -ly.,,Adverbs
+grammar-galaxy,He writes _____.,Choose the correct adverb,neatly,neatest,neater,neat,neatly,Medium,grammar,Handwriting style,Adverbs often end in -ly.,,Adverbs
+grammar-galaxy,She answered _____.,Choose the correct adverb,correctly,correction,corrected,correctly,correct,Medium,grammar,Right answer,Adverbs often end in -ly.,,Adverbs
+grammar-galaxy,The dog barked _____.,Choose the correct adverb,fiercely,fiercely,fiercer,fierce,fire,Medium,grammar,Aggressive bark,Adverbs often end in -ly.,,Adverbs
+grammar-galaxy,Rain fell _____.,Choose the correct adverb,heavily,heaviest,heavy,heavier,heavily,Medium,grammar,Amount of rain,Adverbs often end in -ly.,,Adverbs
+grammar-galaxy,He whispered _____.,Choose the correct adverb,softly,softest,softer,soft,softly,Medium,grammar,Quiet voice,Adverbs often end in -ly.,,Adverbs
+grammar-galaxy,She dances _____.,Choose the correct adverb,gracefully,grace,gracefully,graced,graceful,Medium,grammar,Elegant movement,Adverbs often end in -ly.,,Adverbs
+grammar-galaxy,They fought _____.,Choose the correct adverb,bravely,bravely,bravery,brave,braver,Medium,grammar,Courageous action,Adverbs often end in -ly.,,Adverbs
+grammar-galaxy,He looked _____.,Choose the correct adverb,sadly,sadder,sad,saddest,sadly,Medium,grammar,Unhappy look,Adverbs often end in -ly.,,Adverbs
+grammar-galaxy,She laughed _____.,Choose the correct adverb,joyfully,enjoy,joyful,joyfully,joy,Medium,grammar,Happy sound,Adverbs often end in -ly.,,Adverbs
+grammar-galaxy,The car stopped _____.,Choose the correct adverb,suddenly,soon,sooner,suddenly,sudden,Medium,grammar,Quick stop,Adverbs often end in -ly.,,Adverbs
+grammar-galaxy,He works _____.,Choose the correct adverb,hard,harder,hardness,hardly,hard,Medium,grammar,Hard is an irregular adverb!,Adverbs often end in -ly.,,Adverbs
+grammar-galaxy,She woke up _____.,Choose the correct adverb,early,early,earliest,year,earlier,Medium,grammar,Time adverb,Adverbs often end in -ly.,,Adverbs
+grammar-galaxy,Come here _____!,Choose the correct adverb,now,yesterday,tomorrow,now,then,Medium,grammar,Time adverb,Adverbs often end in -ly.,,Adverbs
+grammar-galaxy,He is _____ late.,Choose the correct adverb,always,often,always,sometimes,never,Medium,grammar,Frequency,Adverbs often end in -ly.,,Adverbs
+grammar-galaxy,She _____ eats candy.,Choose the correct adverb,never,never,always,often,ever,Medium,grammar,Negative frequency,Adverbs often end in -ly.,,Adverbs
+grammar-galaxy,They _____ visit us.,Choose the correct adverb,often,often,rarely,never,sometimes,Medium,grammar,Positive frequency,Adverbs often end in -ly.,,Adverbs
+grammar-galaxy,I am _____ happy.,Choose the correct adverb,very,various,very,verily,vary,Medium,grammar,Degree adverb,Adverbs often end in -ly.,,Adverbs
+grammar-galaxy,It is _____ cold.,Choose the correct adverb,too,too,two,to,tow,Medium,grammar,Excessive degree,Adverbs often end in -ly.,,Adverbs
+grammar-galaxy,I saw _____ elephant.,Choose the article,an,a,an,the,one,Easy,grammar,"Use AN before vowels (a,e,i,o,u)",A/An depends on the sound that follows.,,Articles
+grammar-galaxy,She has _____ cat.,Choose the article,a,an,the,a,one,Easy,grammar,Use A before consonants,A/An depends on the sound that follows.,,Articles
+grammar-galaxy,_____ sun is hot.,Choose the article,The,An,One,A,The,Easy,grammar,Specific unique object,A/An depends on the sound that follows.,,Articles
+grammar-galaxy,He ate _____ apple.,Choose the article,an,two,the,an,a,Easy,grammar,Apple starts with A,A/An depends on the sound that follows.,,Articles
+grammar-galaxy,I want _____ cookie.,Choose the article,a,two,an,the,a,Easy,grammar,Any cookie,A/An depends on the sound that follows.,,Articles
+grammar-galaxy,Please close _____ door.,Choose the article,the,one,an,the,a,Easy,grammar,Specific door,A/An depends on the sound that follows.,,Articles
+grammar-galaxy,It is _____ orange.,Choose the article,an,an,one,the,a,Easy,grammar,Orange starts with O,A/An depends on the sound that follows.,,Articles
+grammar-galaxy,She is _____ doctor.,Choose the article,a,an,the,one,a,Easy,grammar,Profession uses A,A/An depends on the sound that follows.,,Articles
+grammar-galaxy,He is _____ honest man.,Choose the article,an,the,a,one,an,Easy,grammar,Silent H counts as vowel sound!,A/An depends on the sound that follows.,,Articles
+grammar-galaxy,We saw _____ unicorn.,Choose the article,a,an,a,one,the,Easy,grammar,Unicorn starts with 'Y' sound!,A/An depends on the sound that follows.,,Articles
+grammar-galaxy,_____ moon is bright.,Choose the article,The,The,A,One,An,Easy,grammar,Unique moon,A/An depends on the sound that follows.,,Articles
+grammar-galaxy,I have _____ idea.,Choose the article,an,the,an,a,one,Easy,grammar,Idea starts with I,A/An depends on the sound that follows.,,Articles
+grammar-galaxy,She wants _____ puppy.,Choose the article,a,the,one,an,a,Easy,grammar,Consonant P,A/An depends on the sound that follows.,,Articles
+grammar-galaxy,Give me _____ pen.,Choose the article,a,a,one,the,an,Easy,grammar,Consonant P,A/An depends on the sound that follows.,,Articles
+grammar-galaxy,_____ sky is blue.,Choose the article,The,One,The,An,A,Easy,grammar,Unique sky,A/An depends on the sound that follows.,,Articles
+grammar-galaxy,He is _____ engineer.,Choose the article,an,the,a,an,one,Easy,grammar,Starts with E,A/An depends on the sound that follows.,,Articles
+grammar-galaxy,It is _____ hour late.,Choose the article,an,the,a,an,one,Easy,grammar,Silent H,A/An depends on the sound that follows.,,Articles
+grammar-galaxy,I saw _____ eagle.,Choose the article,an,an,a,one,the,Easy,grammar,Starts with E,A/An depends on the sound that follows.,,Articles
+grammar-galaxy,She has _____ uniform.,Choose the article,a,the,a,an,one,Easy,grammar,'Y' sound U,A/An depends on the sound that follows.,,Articles
+grammar-galaxy,_____ earth is round.,Choose the article,The,One,An,A,The,Easy,grammar,Unique planet,A/An depends on the sound that follows.,,Articles
+grammar-galaxy,He read _____ book.,Choose the article,a,one,the,an,a,Easy,grammar,Consonant B,A/An depends on the sound that follows.,,Articles
+grammar-galaxy,I ate _____ egg.,Choose the article,an,an,the,one,a,Easy,grammar,Starts with E,A/An depends on the sound that follows.,,Articles
+grammar-galaxy,She is _____ artist.,Choose the article,an,the,an,one,a,Easy,grammar,Starts with A,A/An depends on the sound that follows.,,Articles
+grammar-galaxy,He is _____ boy.,Choose the article,a,a,one,an,the,Easy,grammar,Consonant B,A/An depends on the sound that follows.,,Articles
+grammar-galaxy,This is _____ end.,Choose the article,the,one,the,an,a,Easy,grammar,Specific end,A/An depends on the sound that follows.,,Articles
