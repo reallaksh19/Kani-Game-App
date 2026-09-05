@@ -1289,40 +1289,135 @@ export const SheetBasedGame: React.FC<SheetBasedGameProps> = ({ onBack, difficul
             );
         }
 
-        // LQ Champ Olympiad Lots
+        // LQ Champ Olympiad Lots (LogIQids Style)
         if (gameId.startsWith('lq-')) {
             const options = [currentQ.option1, currentQ.option2, currentQ.option3, currentQ.option4].filter(Boolean) as string[];
+            const selectedOption = answerState?.selected;
+            const selectedIndex = selectedOption ? options.indexOf(selectedOption) : -1;
+            const selectedLetter = selectedIndex >= 0 ? String.fromCharCode(65 + selectedIndex) : '';
+            const passRate = currentQ.difficulty === 'Hard' ? '31%' : '56%';
+
             return (
-                <div className="w-full max-w-2xl relative animate-slideIn">
-                    <div className="bg-gray-900/90 rounded-2xl p-6 backdrop-blur mb-6 border border-amber-500/30 shadow-2xl relative">
-                        <HintButton />
-                        <div className="flex items-center justify-between mb-3">
-                            <span className="text-amber-400 text-sm font-semibold flex items-center gap-1">
-                                🏆 {currentQ.text2 || 'LQ Champ Challenge'}
-                            </span>
-                            <span className={`px-2.5 py-0.5 rounded-full text-xs font-bold ${currentQ.difficulty === 'Hard' ? 'bg-red-500/30 text-red-300 border border-red-500/50' : 'bg-yellow-500/30 text-yellow-300 border border-yellow-500/50'}`}>
-                                {currentQ.difficulty === 'Hard' ? '🔥 Hard' : '🌟 Medium'}
-                            </span>
+                <div className="w-full max-w-3xl relative animate-slideIn pb-24">
+                    {/* LogIQids Question Card */}
+                    <div className="bg-white rounded-3xl overflow-hidden shadow-2xl border border-purple-200 text-gray-800">
+                        {/* Purple Header */}
+                        <div className="bg-[#5c4fd6] text-white px-6 py-2.5 text-center font-bold text-sm tracking-wide flex items-center justify-between">
+                            <span className="text-xs uppercase tracking-wider text-purple-200">🏆 Thinksheet Mode</span>
+                            <span className="font-extrabold text-base">LQ Champ Section</span>
+                            <span className="text-xs text-purple-200">Question {currentIndex + 1} of {totalQuestions}</span>
                         </div>
-                        <div className="bg-amber-500/10 border border-amber-500/30 rounded-xl p-5 mb-4">
-                            <div className="text-white text-lg sm:text-xl leading-relaxed whitespace-pre-line font-medium">{currentQ.text1}</div>
-                        </div>
-                        {showHint && safeHint && (
-                            <div className="bg-yellow-500/10 border border-yellow-500/40 rounded-lg p-3 text-yellow-200 text-sm mt-3 animate-slideIn flex items-start gap-2">
-                                <span className="text-lg">💡</span>
-                                <div><span className="font-semibold">Hint:</span> {safeHint}</div>
+
+                        <div className="p-6">
+                            {/* Meta Row: Category Pill, Difficulty */}
+                            <div className="flex items-center justify-between mb-3">
+                                <span className="bg-purple-100 text-purple-800 text-xs font-black px-3.5 py-1 rounded-full uppercase tracking-wider">
+                                    {currentQ.text2 || 'Logical Reasoning'}
+                                </span>
+                                <div className="flex items-center gap-1.5 text-xs font-bold">
+                                    <span className={currentQ.difficulty === 'Hard' ? 'text-red-500' : 'text-amber-500'}>●</span>
+                                    <span className={currentQ.difficulty === 'Hard' ? 'text-red-600' : 'text-amber-700'}>
+                                        {currentQ.difficulty || 'Medium'}
+                                    </span>
+                                </div>
                             </div>
-                        )}
-                    </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 relative z-20">
-                        {options.map((opt, i) => (
-                            <button key={i} onClick={() => !isAnswered && handleAnswer(opt, safeAnswer)}
-                                disabled={isAnswered}
-                                className={`p-4 rounded-xl text-base sm:text-lg font-bold transition-all text-left flex items-center justify-between ${getButtonStyle(opt, 'bg-gradient-to-r from-amber-600 to-orange-600')}`}>
-                                <span>{opt}</span>
-                                <span className="text-xs opacity-60 ml-2 font-mono">[{String.fromCharCode(65 + i)}]</span>
-                            </button>
-                        ))}
+
+                            {/* Question Title & Text */}
+                            <h2 className="text-lg font-black text-purple-950 mb-1">
+                                Question {String(currentIndex + 1).padStart(2, '0')}
+                            </h2>
+                            <div className="text-gray-900 text-lg sm:text-xl font-medium leading-relaxed mb-4 whitespace-pre-line">
+                                {currentQ.text1}
+                            </div>
+
+                            {/* User Answer, Time & Pass Rate Bar (LogIQids Style) */}
+                            <div className="flex flex-wrap items-center gap-3 py-2 border-y border-gray-100 my-4 text-xs font-bold text-gray-500">
+                                {isAnswered && (
+                                    <span className={`px-3 py-1 rounded-full font-extrabold flex items-center gap-1.5 ${
+                                        answerState.isCorrect 
+                                            ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' 
+                                            : 'bg-rose-100 text-rose-800 border border-rose-300'
+                                    }`}>
+                                        Your Answer: {selectedLetter ? `${selectedLetter}. ` : ''}{selectedOption}
+                                        <span>{answerState.isCorrect ? '✓' : '✗'}</span>
+                                    </span>
+                                )}
+                                <span className="flex items-center gap-1 text-gray-600">
+                                    <span>👥</span>
+                                    <span>{passRate} users solved it right</span>
+                                </span>
+                                <span className="flex items-center gap-1 text-gray-500 ml-auto">
+                                    <span>⏱️ Time:</span>
+                                    <span>{Math.floor(timer / 60)}m {timer % 60}s</span>
+                                </span>
+                            </div>
+
+                            {/* Hint Button & Drawer */}
+                            {safeHint && (
+                                <div className="mb-4">
+                                    <button
+                                        onClick={handleHintClick}
+                                        className="text-xs font-bold text-amber-700 bg-amber-50 hover:bg-amber-100 border border-amber-200 px-3 py-1.5 rounded-xl transition-all flex items-center gap-1.5 cursor-pointer"
+                                    >
+                                        <span>💡</span>
+                                        <span>{showHint ? 'Hide Clue' : 'Need a Detective Clue?'}</span>
+                                    </button>
+                                    {showHint && (
+                                        <div className="mt-2 p-3 bg-amber-50/80 border border-amber-200 rounded-2xl text-amber-900 text-sm animate-slideIn">
+                                            <strong>Detective Tip:</strong> {safeHint}
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+
+                            {/* 4 Options Grid */}
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+                                {options.map((opt, i) => {
+                                    const letter = String.fromCharCode(65 + i);
+                                    let btnStyle = 'bg-gray-50 hover:bg-purple-50 text-gray-800 border-2 border-gray-200 hover:border-purple-300';
+                                    let badge = null;
+
+                                    if (isAnswered) {
+                                        if (opt === safeAnswer) {
+                                            btnStyle = 'bg-emerald-50 text-emerald-900 border-2 border-emerald-500 font-black shadow-sm';
+                                            badge = <span className="text-emerald-600 font-extrabold">✓</span>;
+                                        } else if (opt === selectedOption) {
+                                            btnStyle = 'bg-rose-50 text-rose-900 border-2 border-rose-400 font-bold';
+                                            badge = <span className="text-rose-500 font-extrabold">✗</span>;
+                                        } else {
+                                            btnStyle = 'bg-gray-50 text-gray-400 border border-gray-200 opacity-60';
+                                        }
+                                    }
+
+                                    return (
+                                        <button
+                                            key={i}
+                                            onClick={() => !isAnswered && handleAnswer(opt, safeAnswer)}
+                                            disabled={isAnswered}
+                                            className={`p-3.5 rounded-2xl text-left text-sm sm:text-base transition-all flex items-center justify-between cursor-pointer ${btnStyle}`}
+                                        >
+                                            <div className="flex items-center gap-2.5">
+                                                <span className="font-extrabold text-xs text-gray-500">{letter}.</span>
+                                                <span className="font-semibold">{opt}</span>
+                                            </div>
+                                            {badge}
+                                        </button>
+                                    );
+                                })}
+                            </div>
+
+                            {/* LogIQids Solution Box (Revealed on Answer) */}
+                            {isAnswered && safeExplanation && (
+                                <div className="mt-4 p-4 bg-purple-50/80 border border-purple-200 rounded-2xl text-gray-800 animate-slideIn">
+                                    <div className="flex items-center gap-2 mb-2">
+                                        <span className="text-base font-black text-purple-900">Solution :</span>
+                                    </div>
+                                    <p className="text-xs sm:text-sm text-gray-700 leading-relaxed">
+                                        {safeExplanation}
+                                    </p>
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </div>
             );

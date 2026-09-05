@@ -14,6 +14,7 @@ const GameTilesPage = React.lazy(() => import('./components/pages/GameTilesPage'
 const EnglishLandingPage = React.lazy(() => import('./components/pages/EnglishLandingPage').then(module => ({ default: module.EnglishLandingPage })));
 const MainLandingPage = React.lazy(() => import('./components/pages/MainLandingPage').then(module => ({ default: module.MainLandingPage })));
 const BrainTrainingPage = React.lazy(() => import('./components/pages/BrainTrainingPage').then(module => ({ default: module.BrainTrainingPage })));
+const LQChampHubPage = React.lazy(() => import('./components/pages/LQChampHubPage').then(module => ({ default: module.LQChampHubPage })));
 
 // Interactive game components
 const MemoryMatrixGame = React.lazy(() => import('./components/games/MemoryMatrixGame').then(module => ({ default: module.MemoryMatrixGame })));
@@ -124,7 +125,7 @@ const LearningGalaxy: React.FC = () => {
         if (currentSubject === 'math') return <GameTilesPage title="Math Galaxy" icon="🔢" games={MATH_GAMES} onSelectGame={handleGameSelect} onBack={handleBackToHome} totalStars={totalStars} variant="math" surpriseMode={settings.surpriseMode} leaderboard={leaderboard} />;
         if (currentSubject === 'braintraining') return <BrainTrainingPage onBack={handleBackToHome} onSelectGame={handleBrainTrainingGameSelect} onSelectDifficulty={handleBrainTrainingDifficultySelect} settings={settings} />;
         if (currentSubject === 'exam') return <GameTilesPage title="Exam Center" icon="📝" games={EXAM_GAMES} onSelectGame={handleGameSelect} onBack={handleBackToHome} totalStars={totalStars} variant="exam" surpriseMode={settings.surpriseMode} leaderboard={leaderboard} />;
-        if (currentSubject === 'lqchamp') return <GameTilesPage title="LQ Champ Olympiad" icon="🏆" games={LQ_CHAMP_GAMES} onSelectGame={handleGameSelect} onBack={handleBackToHome} totalStars={totalStars} variant="skill" surpriseMode={settings.surpriseMode} leaderboard={leaderboard} />;
+        if (currentSubject === 'lqchamp') return <LQChampHubPage onBack={handleBackToHome} onSelectGame={handleGameSelect} totalStars={totalStars} settings={settings} leaderboard={leaderboard} />;
 
         return <MainLandingPage onSelectSubject={setCurrentSubject} totalStars={totalStars} onOpenLeaderboard={() => setShowLeaderboard(true)} onOpenQA={() => setShowQA(true)} onOpenSettings={() => setShowSettings(true)} leaderboard={leaderboard} />;
       })()}
