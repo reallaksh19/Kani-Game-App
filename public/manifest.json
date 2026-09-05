@@ -2,18 +2,18 @@
   "name": "Learning Galaxy - Grade 3-4",
   "short_name": "LearningGalaxy",
   "description": "Fun, cosmic Olympiad & reasoning learning platform for Grade 3-4 students",
-  "start_url": "/Kani-Game-App/",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#0b0f19",
   "theme_color": "#4f46e5",
   "icons": [
     {
-      "src": "/Kani-Game-App/favicon.svg",
+      "src": "/favicon.svg",
       "sizes": "any",
       "type": "image/svg+xml"
     },
     {
-      "src": "/Kani-Game-App/app-icon.svg",
+      "src": "/app-icon.svg",
       "sizes": "512x512",
       "type": "image/svg+xml"
     }

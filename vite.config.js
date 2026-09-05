@@ -68,7 +68,7 @@ const saveMasterTilesPlugin = () => ({
 
 export default defineConfig({
   plugins: [react(), saveMasterTilesPlugin()],
-  base: '/Kani-Game-App/',
+  base: '/',
   server: {
     port: 3000
   },
