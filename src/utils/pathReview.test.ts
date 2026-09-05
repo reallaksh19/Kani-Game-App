@@ -11,7 +11,7 @@ describe('findOptimalPath', () => {
         });
 
         expect(path[0]).toBe('0,3');
-        expect(path.at(-1)).toBe('3,0');
+        expect(path[path.length - 1]).toBe('3,0');
         expect(path).not.toContain('1,3');
         expect(path).not.toContain('1,2');
         expect(path).not.toContain('2,1');
