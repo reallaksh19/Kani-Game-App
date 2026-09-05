@@ -2,8 +2,10 @@ import { useState, useEffect, useCallback } from 'react';
 import { Difficulty, Settings, Question, Feedback } from '../types';
 import { BrainSessionMetrics } from '../types/brainProgress';
 import { useSheetData } from './useSheetData';
+import { useAppContext } from '../contexts/AppContext';
 import { GAME_CONSTANTS } from '../constants/gameConstants';
 import { orderItems, pickOrderedItem } from '../utils/questionOrder';
+import { BRAIN_SKILL_BY_GAME, BRAIN_TITLE_BY_GAME } from '../utils/brainTrainingMeta';
 
 export const useGameLogic = (
     gameId: string,
@@ -18,6 +20,7 @@ export const useGameLogic = (
         metrics?: BrainSessionMetrics
     ) => Promise<void>
 ) => {
+    const { recordBrainSession } = useAppContext();
     const isMath = ['space-math', 'alien-invasion', 'bubble-pop', 'planet-hopper', 'fraction-frenzy', 'time-warp', 'money-master', 'geometry-galaxy', 'story-solver', 'estimation-express', 'pattern-planet', 'measurement-mission', 'fraction-exam'].includes(gameId);
     const isSkill = ['pattern-forge', 'logic-lab', 'odd-wizard', 'sorting-station', 'code-breaker', 'memory-matrix', 'sequence-sprint', 'path-planner', 'data-detective', 'venn-voyager', 'mirror-match', 'scale-sense', 'cause-effect', 'analogy-arena', 'sequence-story', 'classify-quest', 'lq-lot-1', 'lq-lot-2', 'lq-lot-3', 'lq-lot-4', 'lq-lot-5'].includes(gameId);
     const isLQ = gameId.startsWith('lq-lot-');
@@ -194,14 +197,28 @@ export const useGameLogic = (
         });
         const missedReview = allQuestionReview.filter(item => !item.correct);
         const questionReview = (missedReview.length ? missedReview : allQuestionReview.slice(0, 3)).slice(0, 6);
-
-        await onGameEnd(gameId, playerName, stars, maxStreak, hintsUsed, {
+        const metrics: BrainSessionMetrics = {
             difficulty: difficulty === 'None' ? 'Mixed' : difficulty,
             correct: correctCount,
             attempted: attemptedCount,
             durationSeconds: timer,
             questionReview,
-        });
+        };
+
+        await onGameEnd(gameId, playerName, stars, maxStreak, hintsUsed, metrics);
+
+        const brainSkill = BRAIN_SKILL_BY_GAME[gameId];
+        if (brainSkill) {
+            await recordBrainSession({
+                studentName: playerName,
+                gameId,
+                gameTitle: BRAIN_TITLE_BY_GAME[gameId] || gameId,
+                skill: brainSkill,
+                stars,
+                streak: maxStreak,
+                ...metrics,
+            });
+        }
         setScoreSaved(true);
     };
 
