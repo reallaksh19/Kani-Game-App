@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { StarIcon } from './StarIcon';
+import { BrainReviewDetails } from './BrainReviewDetails';
 import { useAppContext } from '../../contexts/AppContext';
+import { BrainReviewItem } from '../../types/brainReview';
 
 interface GameOverScreenProps {
     stars: number;
@@ -18,6 +20,7 @@ interface GameOverScreenProps {
     attempted?: number;
     durationSeconds?: number;
     backLabel?: string;
+    reviewItems?: BrainReviewItem[];
 }
 
 const formatDuration = (seconds: number) => {
@@ -42,7 +45,8 @@ export const GameOverScreen: React.FC<GameOverScreenProps> = ({
     correct,
     attempted,
     durationSeconds,
-    backLabel = 'HOME'
+    backLabel = 'HOME',
+    reviewItems = []
 }) => {
     const { activeStudent } = useAppContext();
     const hasAccuracy = typeof correct === 'number' && typeof attempted === 'number' && attempted > 0;
@@ -71,7 +75,7 @@ export const GameOverScreen: React.FC<GameOverScreenProps> = ({
     };
 
     const { title, icon, color, msg } = getFeedback();
-    const isBrainReview = Boolean(gameTitle || skill || hasAccuracy);
+    const isBrainReview = Boolean(gameTitle || skill || hasAccuracy || reviewItems.length > 0);
 
     return (
         <div className={`w-full text-center bg-gray-900/90 rounded-3xl backdrop-blur mx-4 relative z-30 border border-white/10 shadow-2xl animate-scaleIn ${isBrainReview ? 'max-w-2xl p-5 sm:p-7' : 'max-w-sm p-8'}`}>
@@ -134,6 +138,8 @@ export const GameOverScreen: React.FC<GameOverScreenProps> = ({
                             </div>
                         </div>
                     )}
+
+                    <BrainReviewDetails items={reviewItems} />
 
                     {hasAccuracy && (
                         <div className="mb-5 rounded-2xl border border-violet-400/20 bg-violet-500/10 p-4 text-left">
