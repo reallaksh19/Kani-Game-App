@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { SpaceBackground } from '../shared/SpaceBackground';
 import { Header } from '../shared/Header';
 import { DifficultyBadge } from '../shared/DifficultyBadge';
@@ -14,6 +14,24 @@ import { useAppContext } from '../../contexts/AppContext';
 import { useGameLogic } from '../../hooks/useGameLogic';
 import { GAME_THEMES } from '../../themes/themeConfig';
 import { Settings, Difficulty } from '../../types';
+import { Badge } from '../../utils/playerStats';
+
+const PRAISE_MESSAGES = [
+    "⭐ Spot On, Champ!",
+    "🎯 Well Done! Perfect logic!",
+    "🧠 Brilliant Thinking!",
+    "🚀 Super Sharp! Keep going!",
+    "🌟 Awesome Work, Thinker!",
+    "⚡ Pure Genius! You nailed it!",
+    "👏 High Five, Champ!"
+];
+
+const ENCOURAGEMENT_MESSAGES = [
+    "🌱 Nice try, champ! Every attempt makes you sharper!",
+    "💡 Great effort! Check the clue below to learn the trick:",
+    "🔍 Good detective thinking! Here is the correct answer:",
+    "💪 Almost there! Practice makes master!"
+];
 
 interface SheetBasedGameProps {
     onBack: () => void;
@@ -383,7 +401,7 @@ const DynamicImageRenderer = ({ url }: { url: string }) => {
 };
 
 export const SheetBasedGame: React.FC<SheetBasedGameProps> = ({ onBack, difficulty, settings, gameId, title, icon, variant }) => {
-    const { addLeaderboardEntry } = useAppContext();
+    const { addLeaderboardEntry, recordLotCompletion } = useAppContext();
 
     const handleGameEnd = async (game: string, name: string, stars: number, streak: number, hintsUsed: number) => {
         await addLeaderboardEntry({ game, name, stars, streak, date: new Date().toISOString(), hintsUsed });
@@ -399,6 +417,67 @@ export const SheetBasedGame: React.FC<SheetBasedGameProps> = ({ onBack, difficul
     const [readingPhase, setReadingPhase] = useState(false);
     const [showHintModal, setShowHintModal] = useState(false);
     const [observationMode, setObservationMode] = useState(false);
+
+    const [unlockedBadges, setUnlockedBadges] = useState<Badge[]>([]);
+    const [streakToast, setStreakToast] = useState<{ message: string; subtext: string; icon: string } | null>(null);
+    const prevStreakRef = useRef<number>(0);
+    const recordedSessionRef = useRef<boolean>(false);
+
+    // Floating Streak Milestones (3, 5, 7, 10, 15, 20)
+    useEffect(() => {
+        if (streak > prevStreakRef.current) {
+            if (streak === 3) {
+                setStreakToast({ message: "3 IN A ROW!", subtext: "You're warming up, Champ! 🌟", icon: "🔥" });
+            } else if (streak === 5) {
+                setStreakToast({ message: "5 STREAK COMBO!", subtext: "On Fire, Super Thinker! 🚀", icon: "⚡" });
+            } else if (streak === 7) {
+                setStreakToast({ message: "7 IN A ROW!", subtext: "Galaxy Brain Logic Power! 🧠", icon: "⭐" });
+            } else if (streak === 10) {
+                setStreakToast({ message: "10 IN A ROW! LEGENDARY!", subtext: "Unstoppable Olympiad Champ! 👑", icon: "🏆" });
+            } else if (streak === 15) {
+                setStreakToast({ message: "15 IN A ROW!", subtext: "Master Detective Level! 🎯", icon: "💫" });
+            } else if (streak === 20) {
+                setStreakToast({ message: "20 / 20 FLAWLESS!", subtext: "Grand Olympian Master! 🌌", icon: "🥇" });
+            }
+        }
+        prevStreakRef.current = streak;
+    }, [streak]);
+
+    useEffect(() => {
+        if (streakToast) {
+            const timer = setTimeout(() => {
+                setStreakToast(null);
+            }, 2600);
+            return () => clearTimeout(timer);
+        }
+    }, [streakToast]);
+
+    // Record session and evaluate badges on game over
+    useEffect(() => {
+        if (gameOver && !recordedSessionRef.current) {
+            recordedSessionRef.current = true;
+            recordLotCompletion(
+                gameId,
+                questionsQueue,
+                answers,
+                timer,
+                stars,
+                maxStreak
+            ).then(newBadges => {
+                if (newBadges && newBadges.length > 0) {
+                    setUnlockedBadges(newBadges);
+                }
+            });
+        }
+    }, [gameOver, gameId, questionsQueue, answers, timer, stars, maxStreak, recordLotCompletion]);
+
+    const handleStartOrRestart = () => {
+        recordedSessionRef.current = false;
+        setUnlockedBadges([]);
+        setStreakToast(null);
+        prevStreakRef.current = 0;
+        startGame();
+    };
 
     useEffect(() => {
         if (gameActive && gameId === 'story-nebula') {
@@ -1475,13 +1554,26 @@ export const SheetBasedGame: React.FC<SheetBasedGameProps> = ({ onBack, difficul
                 </div>
             )}
 
+            {/* Floating Streak Toast */}
+            {streakToast && (
+                <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 animate-bounce pointer-events-none">
+                    <div className="bg-gradient-to-r from-amber-500 via-orange-500 to-pink-500 text-white px-6 py-3 rounded-2xl shadow-2xl border-2 border-white/40 flex items-center gap-3 backdrop-blur">
+                        <span className="text-3xl">{streakToast.icon}</span>
+                        <div>
+                            <div className="text-base font-black tracking-wide">{streakToast.message}</div>
+                            <div className="text-xs font-bold text-yellow-100">{streakToast.subtext}</div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             <div className={`w-full min-h-full flex flex-col items-center justify-start px-4 pb-24 ${gameOver ? 'pt-6' : 'pt-20'}`}>
                 {!gameActive && !gameOver && (
                     <div className="my-auto text-center py-12">
                         <h1 className="text-5xl font-bold text-white mb-2">{safeIcon} {safeTitle}</h1>
                         <DifficultyBadge difficulty={difficulty} />
                         <p className="text-gray-300 my-4">{questionsCount} questions loaded for challenge!</p>
-                        <button onClick={startGame} disabled={questionsCount === 0}
+                        <button onClick={handleStartOrRestart} disabled={questionsCount === 0}
                             className={`${GAME_THEMES[gameId]?.buttonBg || 'bg-blue-600'} text-white px-8 py-4 rounded-full text-xl font-bold hover:scale-105 transition-transform shadow-lg cursor-pointer disabled:opacity-50`}>
                             {questionsCount > 0 ? 'START GAME' : 'No Questions Available'}
                         </button>
@@ -1500,14 +1592,15 @@ export const SheetBasedGame: React.FC<SheetBasedGameProps> = ({ onBack, difficul
                             setPlayerName={setPlayerName}
                             scoreSaved={scoreSaved}
                             onSaveScore={handleSaveScore}
-                            onRestart={startGame}
+                            onRestart={handleStartOrRestart}
                             onBack={onBack}
+                            newBadges={unlockedBadges}
                         />
                     ) : (
                         <GameOverScreen
                             stars={stars}
                             streak={maxStreak}
-                            onRestart={startGame}
+                            onRestart={handleStartOrRestart}
                             onBack={onBack}
                             onSaveScore={handleSaveScore}
                             playerName={playerName}
@@ -1548,8 +1641,29 @@ export const SheetBasedGame: React.FC<SheetBasedGameProps> = ({ onBack, difficul
                         )}
 
                         {!readingPhase && isAnswered && (
-                            <div className={`mt-4 text-center text-xl font-bold ${answerState.isCorrect ? 'text-green-400' : 'text-red-400'}`}>
-                                {answerState.isCorrect ? '✓ Correct!' : `✗ Answer: ${safeAnswer}`}
+                            <div className="mt-4 w-full max-w-lg mx-auto animate-fadeIn">
+                                {answerState.isCorrect ? (
+                                    <div className="bg-emerald-500/20 border border-emerald-400/40 rounded-2xl p-4 text-center shadow-lg backdrop-blur">
+                                        <div className="text-xl sm:text-2xl font-black text-emerald-300 flex items-center justify-center gap-2">
+                                            <span>{PRAISE_MESSAGES[currentIndex % PRAISE_MESSAGES.length]}</span>
+                                        </div>
+                                        {streak > 1 && (
+                                            <div className="text-xs font-bold text-amber-300 mt-1 flex items-center justify-center gap-1">
+                                                <span>🔥</span>
+                                                <span>{streak} correct in a row! Keep shining, champ!</span>
+                                            </div>
+                                        )}
+                                    </div>
+                                ) : (
+                                    <div className="bg-amber-500/15 border border-amber-400/30 rounded-2xl p-4 text-center shadow-lg backdrop-blur">
+                                        <div className="text-base sm:text-lg font-bold text-amber-200 flex items-center justify-center gap-2">
+                                            <span>{ENCOURAGEMENT_MESSAGES[currentIndex % ENCOURAGEMENT_MESSAGES.length]}</span>
+                                        </div>
+                                        <div className="text-sm font-extrabold text-white mt-1">
+                                            Correct Answer: <span className="text-emerald-300 bg-emerald-950/60 px-3 py-1 rounded-lg border border-emerald-500/30">{safeAnswer}</span>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         )}
 

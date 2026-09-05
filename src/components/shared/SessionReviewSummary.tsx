@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Question } from '../../types';
 import { SvgDiagramRenderer } from './SvgDiagramRenderer';
 import { StarIcon } from './StarIcon';
+import { Badge } from '../../utils/playerStats';
 
 interface AnswerRecord {
     selected: string;
@@ -22,6 +23,7 @@ interface SessionReviewSummaryProps {
     onSaveScore: () => void;
     onRestart: () => void;
     onBack: () => void;
+    newBadges?: Badge[];
 }
 
 export const SessionReviewSummary: React.FC<SessionReviewSummaryProps> = ({
@@ -37,6 +39,7 @@ export const SessionReviewSummary: React.FC<SessionReviewSummaryProps> = ({
     onSaveScore,
     onRestart,
     onBack,
+    newBadges,
 }) => {
     const [filter, setFilter] = useState<'all' | 'incorrect' | 'correct'>('all');
     const [collapsedIds, setCollapsedIds] = useState<Record<number, boolean>>({});
@@ -75,6 +78,41 @@ export const SessionReviewSummary: React.FC<SessionReviewSummaryProps> = ({
     const correctCount = Object.values(answers).filter(a => a.isCorrect).length;
     const attemptedCount = Object.keys(answers).length;
     const accuracyPercent = totalQuestions > 0 ? Math.round((correctCount / totalQuestions) * 100) : 0;
+
+    const getPerformanceTier = (accuracy: number) => {
+        if (accuracy === 100) return {
+            tier: 'Galaxy Grandmaster',
+            icon: '🏆',
+            pill: 'bg-amber-400 text-purple-950',
+            quote: 'Flawless victory, champ! You conquered every single question with pure brilliance!'
+        };
+        if (accuracy >= 80) return {
+            tier: 'Super Brain Champ',
+            icon: '⭐',
+            pill: 'bg-emerald-400 text-emerald-950',
+            quote: 'Outstanding work, champ! Your logical thinking is super sharp!'
+        };
+        if (accuracy >= 60) return {
+            tier: 'Stellar Detective',
+            icon: '🚀',
+            pill: 'bg-blue-400 text-blue-950',
+            quote: 'Great effort! You navigated the Olympiad challenges like a true explorer!'
+        };
+        if (accuracy >= 40) return {
+            tier: 'Keen Explorer',
+            icon: '🌱',
+            pill: 'bg-teal-400 text-teal-950',
+            quote: 'Good job, champ! Review the solutions below to turn mistakes into superpowers!'
+        };
+        return {
+            tier: 'Brave Challenger',
+            icon: '💪',
+            pill: 'bg-orange-400 text-orange-950',
+            quote: 'Awesome courage tackling these tough Olympiad questions! Review and try again!'
+        };
+    };
+
+    const perfTier = getPerformanceTier(accuracyPercent);
 
     const toggleCollapse = (idx: number) => {
         setCollapsedIds(prev => ({ ...prev, [idx]: !prev[idx] }));
@@ -119,6 +157,48 @@ export const SessionReviewSummary: React.FC<SessionReviewSummaryProps> = ({
                         </button>
                     </div>
                 </div>
+
+                {/* Cheerful Kid Encouragement Tier Banner */}
+                <div className="bg-gradient-to-r from-purple-950 to-indigo-950 px-6 py-4 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-white">
+                    <div className="flex items-center gap-3">
+                        <span className="text-3xl animate-bounce">{perfTier.icon}</span>
+                        <div>
+                            <div className="flex items-center gap-2">
+                                <span className={`text-xs font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full ${perfTier.pill}`}>
+                                    {perfTier.tier}
+                                </span>
+                                <span className="text-xs text-purple-200 font-bold">Well done!</span>
+                            </div>
+                            <p className="text-sm font-semibold text-purple-100 mt-0.5">
+                                "{perfTier.quote}"
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Newly Unlocked Badges Celebration */}
+                {newBadges && newBadges.length > 0 && (
+                    <div className="p-6 bg-gradient-to-r from-amber-500/15 via-yellow-500/25 to-amber-500/15 border-b-2 border-amber-300">
+                        <div className="flex items-center gap-2 mb-3">
+                            <span className="text-2xl animate-bounce">🎉</span>
+                            <span className="text-xs font-black uppercase tracking-widest text-amber-900 bg-amber-200 px-3 py-1 rounded-full shadow-sm">
+                                New Pilot Badge{newBadges.length > 1 ? 's' : ''} Unlocked!
+                            </span>
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            {newBadges.map(badge => (
+                                <div key={badge.id} className="bg-white p-4 rounded-2xl border-2 border-amber-300 shadow-lg flex items-center gap-4 animate-scaleIn">
+                                    <span className="text-4xl filter-none drop-shadow scale-110">{badge.icon}</span>
+                                    <div>
+                                        <div className="text-[10px] font-black text-amber-600 uppercase tracking-wider">Badge Earned!</div>
+                                        <h4 className="text-base font-black text-purple-950">{badge.title}</h4>
+                                        <p className="text-xs text-gray-600 font-medium">{badge.description}</p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
 
                 {/* Performance Stats Grid */}
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 p-6 bg-purple-50/50 border-b border-purple-100">

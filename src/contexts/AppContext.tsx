@@ -1,6 +1,14 @@
 import React, { createContext, useContext, useState, useEffect, useMemo } from 'react';
-import { Settings, LeaderboardEntry } from '../types';
+import { Settings, LeaderboardEntry, Question } from '../types';
 import { DEFAULT_SETTINGS } from '../data/gameDefinitions';
+import {
+    PlayerStats,
+    DEFAULT_PLAYER_STATS,
+    loadPlayerStats,
+    savePlayerStats,
+    recordLotSession,
+    Badge
+} from '../utils/playerStats';
 
 // Storage helper
 const storage = {
@@ -24,6 +32,15 @@ interface AppContextType {
     updateSettings: (newSettings: Settings) => Promise<void>;
     leaderboard: LeaderboardEntry[];
     addLeaderboardEntry: (entry: LeaderboardEntry) => Promise<void>;
+    playerStats: PlayerStats;
+    recordLotCompletion: (
+        lotId: string,
+        questions: Question[],
+        answers: Record<number, { selected: string; isCorrect: boolean }>,
+        durationSeconds: number,
+        starsEarned: number,
+        maxStreak: number
+    ) => Promise<Badge[]>;
     loading: boolean;
 }
 
@@ -32,6 +49,7 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [settings, setSettings] = useState<Settings>(DEFAULT_SETTINGS);
     const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
+    const [playerStats, setPlayerStats] = useState<PlayerStats>(DEFAULT_PLAYER_STATS);
     const [loading, setLoading] = useState(true);
 
     // Load initial data
@@ -53,6 +71,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
                     const value = typeof leaderboardData === 'string' ? leaderboardData : leaderboardData.value;
                     setLeaderboard(JSON.parse(value));
                 }
+
+                // Load Player Stats
+                const loadedStats = await loadPlayerStats();
+                setPlayerStats(loadedStats);
             } catch (e) {
                 console.error('Failed to load data', e);
             } finally {
@@ -73,13 +95,37 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         await storage.set('learning-galaxy-leaderboard', JSON.stringify(updated));
     };
 
+    const recordLotCompletion = async (
+        lotId: string,
+        questions: Question[],
+        answers: Record<number, { selected: string; isCorrect: boolean }>,
+        durationSeconds: number,
+        starsEarned: number,
+        maxStreak: number
+    ): Promise<Badge[]> => {
+        const { updatedStats, newBadges } = recordLotSession(
+            playerStats,
+            lotId,
+            questions,
+            answers,
+            durationSeconds,
+            starsEarned,
+            maxStreak
+        );
+        setPlayerStats(updatedStats);
+        await savePlayerStats(updatedStats);
+        return newBadges;
+    };
+
     const value = useMemo(() => ({
         settings,
         updateSettings,
         leaderboard,
         addLeaderboardEntry,
+        playerStats,
+        recordLotCompletion,
         loading
-    }), [settings, leaderboard, loading]);
+    }), [settings, leaderboard, playerStats, loading]);
 
     return (
         <AppContext.Provider value={value}>

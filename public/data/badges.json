@@ -1,0 +1,58 @@
+[
+  {
+    "id": "rookie-pilot",
+    "title": "Rookie Pilot",
+    "icon": "🧑‍🚀",
+    "description": "Completed your first Thinksheet Lot!",
+    "category": "milestone"
+  },
+  {
+    "id": "streak-master",
+    "title": "Streak Master",
+    "icon": "🔥",
+    "description": "Achieved a streak of 5+ correct answers in a row!",
+    "category": "skill"
+  },
+  {
+    "id": "lightning-logic",
+    "title": "Lightning Logic",
+    "icon": "⚡",
+    "description": "Completed a 20-question Thinksheet Lot in under 6 minutes!",
+    "category": "speed"
+  },
+  {
+    "id": "flawless-champ",
+    "title": "Flawless Champ",
+    "icon": "🎯",
+    "description": "Scored 100% accuracy (20/20) on a Thinksheet Lot!",
+    "category": "mastery"
+  },
+  {
+    "id": "number-wizard",
+    "title": "Number Wizard",
+    "icon": "🔢",
+    "description": "Solved 10 or more Numerical Ability questions correctly!",
+    "category": "skill"
+  },
+  {
+    "id": "word-champion",
+    "title": "Word Champion",
+    "icon": "📚",
+    "description": "Solved 10 or more Verbal questions correctly!",
+    "category": "skill"
+  },
+  {
+    "id": "logic-detective",
+    "title": "Logic Detective",
+    "icon": "🧩",
+    "description": "Solved 10 or more Analytical Thinking questions correctly!",
+    "category": "skill"
+  },
+  {
+    "id": "grand-olympian",
+    "title": "Grand Olympian",
+    "icon": "🏆",
+    "description": "Successfully completed all 5 Thinksheet Lots!",
+    "category": "grand"
+  }
+]
