@@ -1,15 +1,26 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Difficulty, Settings, Question, Feedback } from '../types';
+import { BrainSessionMetrics } from '../types/brainProgress';
 import { useSheetData } from './useSheetData';
+import { useAppContext } from '../contexts/AppContext';
 import { GAME_CONSTANTS } from '../constants/gameConstants';
 import { orderItems, pickOrderedItem } from '../utils/questionOrder';
+import { BRAIN_SKILL_BY_GAME, BRAIN_TITLE_BY_GAME } from '../utils/brainTrainingMeta';
 
 export const useGameLogic = (
     gameId: string,
     difficulty: Difficulty,
     settings: Settings,
-    onGameEnd: (game: string, name: string, stars: number, streak: number, hintsUsed: number) => Promise<void>
+    onGameEnd: (
+        game: string,
+        name: string,
+        stars: number,
+        streak: number,
+        hintsUsed: number,
+        metrics?: BrainSessionMetrics
+    ) => Promise<void>
 ) => {
+    const { recordBrainSession } = useAppContext();
     const isMath = ['space-math', 'alien-invasion', 'bubble-pop', 'planet-hopper', 'fraction-frenzy', 'time-warp', 'money-master', 'geometry-galaxy', 'story-solver', 'estimation-express', 'pattern-planet', 'measurement-mission', 'fraction-exam'].includes(gameId);
     const isSkill = ['pattern-forge', 'logic-lab', 'odd-wizard', 'sorting-station', 'code-breaker', 'memory-matrix', 'sequence-sprint', 'path-planner', 'data-detective', 'venn-voyager', 'mirror-match', 'scale-sense', 'cause-effect', 'analogy-arena', 'sequence-story', 'classify-quest', 'lq-lot-1', 'lq-lot-2', 'lq-lot-3', 'lq-lot-4', 'lq-lot-5'].includes(gameId);
     const isLQ = gameId.startsWith('lq-lot-');
@@ -170,7 +181,44 @@ export const useGameLogic = (
     const handleSaveScore = async () => {
         if (!playerName.trim()) return;
         const hintsUsed = Object.values(hintLogs).filter(Boolean).length;
-        await onGameEnd(gameId, playerName, stars, maxStreak, hintsUsed);
+        const correctCount = Object.values(answers).filter(answer => answer.isCorrect).length;
+        const attemptedCount = questionsQueue.length;
+        const allQuestionReview = questionsQueue.map((question, index) => {
+            const answer = answers[index];
+            const arithmeticPrompt = [question.num1, question.operation, question.num2].filter(Boolean).join(' ');
+            return {
+                round: index + 1,
+                correct: Boolean(answer?.isCorrect),
+                prompt: question.text1 || question.topic || question.subtopic || arithmeticPrompt || `Question ${index + 1}`,
+                selected: answer?.selected || 'Skipped',
+                answer: question.answer,
+                explanation: question.explanation || question.know_more || question.hint,
+            };
+        });
+        const missedReview = allQuestionReview.filter(item => !item.correct);
+        const questionReview = (missedReview.length ? missedReview : allQuestionReview.slice(0, 3)).slice(0, 6);
+        const metrics: BrainSessionMetrics = {
+            difficulty: difficulty === 'None' ? 'Mixed' : difficulty,
+            correct: correctCount,
+            attempted: attemptedCount,
+            durationSeconds: timer,
+            questionReview,
+        };
+
+        await onGameEnd(gameId, playerName, stars, maxStreak, hintsUsed, metrics);
+
+        const brainSkill = BRAIN_SKILL_BY_GAME[gameId];
+        if (brainSkill) {
+            await recordBrainSession({
+                studentName: playerName,
+                gameId,
+                gameTitle: BRAIN_TITLE_BY_GAME[gameId] || gameId,
+                skill: brainSkill,
+                stars,
+                streak: maxStreak,
+                ...metrics,
+            });
+        }
         setScoreSaved(true);
     };
 

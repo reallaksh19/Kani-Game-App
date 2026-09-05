@@ -1,15 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StarIcon } from './StarIcon';
 import { BrainReviewDetails } from './BrainReviewDetails';
 import { useAppContext } from '../../contexts/AppContext';
 import { BrainReviewItem } from '../../types/brainReview';
+import { BRAIN_GAME_ID_BY_TITLE } from '../../utils/brainTrainingMeta';
 
 interface GameOverScreenProps {
     stars: number;
     streak: number;
     onRestart: () => void;
     onBack: () => void;
-    onSaveScore: () => void;
+    onSaveScore: () => void | Promise<void>;
     playerName: string;
     setPlayerName: (name: string) => void;
     scoreSaved: boolean;
@@ -48,18 +49,55 @@ export const GameOverScreen: React.FC<GameOverScreenProps> = ({
     backLabel = 'HOME',
     reviewItems = []
 }) => {
-    const { activeStudent } = useAppContext();
+    const { activeStudent, recordBrainSession } = useAppContext();
+    const [saving, setSaving] = useState(false);
+    const [historySaved, setHistorySaved] = useState(false);
     const hasAccuracy = typeof correct === 'number' && typeof attempted === 'number' && attempted > 0;
     const accuracy = hasAccuracy ? Math.round((correct! / attempted!) * 100) : null;
     const avgSeconds = hasAccuracy && typeof durationSeconds === 'number'
         ? Math.max(1, Math.round(durationSeconds / attempted!))
         : null;
+    const brainGameId = gameTitle ? BRAIN_GAME_ID_BY_TITLE[gameTitle] : undefined;
 
     useEffect(() => {
         if (activeStudent?.name && !playerName.trim()) {
             setPlayerName(activeStudent.name);
         }
     }, [activeStudent?.name, playerName, setPlayerName]);
+
+    const handleSave = async () => {
+        if (saving || !playerName.trim()) return;
+        setSaving(true);
+        try {
+            await onSaveScore();
+            if (
+                !historySaved &&
+                brainGameId &&
+                gameTitle &&
+                skill &&
+                typeof correct === 'number' &&
+                typeof attempted === 'number' &&
+                typeof durationSeconds === 'number'
+            ) {
+                await recordBrainSession({
+                    studentName: playerName,
+                    gameId: brainGameId,
+                    gameTitle,
+                    skill,
+                    difficulty: difficulty || 'Mixed',
+                    stars,
+                    streak,
+                    correct,
+                    attempted,
+                    durationSeconds,
+                    reviewItems,
+                });
+                setHistorySaved(true);
+            }
+        } finally {
+            setSaving(false);
+        }
+    };
 
     const getFeedback = () => {
         if (accuracy !== null) {
@@ -166,7 +204,7 @@ export const GameOverScreen: React.FC<GameOverScreenProps> = ({
                 <div className="mb-5">
                     {activeStudent ? (
                         <div className="mb-2 rounded-xl bg-indigo-500/10 border border-indigo-400/20 px-3 py-2 text-sm text-indigo-100">
-                            Save this score to <strong>{activeStudent.avatar} {activeStudent.name}</strong>'s progress.
+                            Save this score to <strong>{activeStudent.avatar} {activeStudent.name}</strong>'s progress and mastery history.
                         </div>
                     ) : (
                         <input
@@ -179,15 +217,15 @@ export const GameOverScreen: React.FC<GameOverScreenProps> = ({
                         />
                     )}
                     <button
-                        onClick={onSaveScore}
-                        disabled={!playerName.trim() && !activeStudent}
+                        onClick={handleSave}
+                        disabled={saving || !playerName.trim()}
                         className="bg-yellow-500 text-gray-950 px-4 py-2.5 rounded-xl font-black hover:bg-yellow-400 disabled:opacity-50 w-full cursor-pointer"
                     >
-                        💾 SAVE SCORE
+                        {saving ? 'SAVING…' : '💾 SAVE SCORE + MASTERY'}
                     </button>
                 </div>
             )}
-            {scoreSaved && <p className="text-green-300 mb-5 font-bold">✓ Score saved to progress</p>}
+            {scoreSaved && <p className="text-green-300 mb-5 font-bold">✓ Score and mastery saved to progress</p>}
 
             <div className="flex flex-col-reverse sm:flex-row gap-3 justify-center">
                 <button onClick={onBack} className="bg-gray-700 text-white px-6 py-3 rounded-full font-bold hover:bg-gray-600 cursor-pointer">
