@@ -3,6 +3,7 @@ import { useAppContext } from './contexts/AppContext';
 import { ALL_GAMES, MATH_GAMES, GRAMMAR_GAMES, VOCABULARY_GAMES, COMPREHENSION_GAMES, SKILL_GAMES, EXAM_GAMES, LQ_CHAMP_GAMES } from './data/gameDefinitions';
 import { Difficulty, GameDefinition } from './types';
 import { LoadingSpinner } from './components/shared/LoadingSpinner';
+import { StudentLoginScreen } from './components/shared/StudentLoginScreen';
 
 // Lazy load page components for better performance
 const SettingsPage = React.lazy(() => import('./components/pages/SettingsPage').then(module => ({ default: module.SettingsPage })));
@@ -39,16 +40,26 @@ const LearningGalaxy: React.FC = () => {
   const [showLeaderboard, setShowLeaderboard] = useState(false);
   const [showQA, setShowQA] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
+  const [showProfileSwitcher, setShowProfileSwitcher] = useState(false);
 
-  const { settings, updateSettings, leaderboard } = useAppContext();
+  const { settings, updateSettings, leaderboard, activeStudent, loading } = useAppContext();
 
   const totalStars = leaderboard.reduce((sum, e) => sum + e.stars, 0);
   const handleBackToHome = () => { setCurrentSubject(null); setEnglishCategory(null); setCurrentGame(null); setSelectedDifficulty(null); };
 
+  if (loading) {
+    return <LoadingScreen />;
+  }
 
+  if (!activeStudent) {
+    return <StudentLoginScreen />;
+  }
 
   return (
     <Suspense fallback={<LoadingScreen />}>
+      {showProfileSwitcher && (
+        <StudentLoginScreen canClose={true} onClose={() => setShowProfileSwitcher(false)} />
+      )}
       {(() => {
         if (showSettings) return <SettingsPage settings={settings} setSettings={updateSettings} onBack={() => setShowSettings(false)} />;
         if (showLeaderboard) return <AnalyticsPage onBack={() => setShowLeaderboard(false)} leaderboard={leaderboard} />;
@@ -127,7 +138,7 @@ const LearningGalaxy: React.FC = () => {
         if (currentSubject === 'exam') return <GameTilesPage title="Exam Center" icon="📝" games={EXAM_GAMES} onSelectGame={handleGameSelect} onBack={handleBackToHome} totalStars={totalStars} variant="exam" surpriseMode={settings.surpriseMode} leaderboard={leaderboard} />;
         if (currentSubject === 'lqchamp') return <LQChampHubPage onBack={handleBackToHome} onSelectGame={handleGameSelect} totalStars={totalStars} settings={settings} leaderboard={leaderboard} />;
 
-        return <MainLandingPage onSelectSubject={setCurrentSubject} totalStars={totalStars} onOpenLeaderboard={() => setShowLeaderboard(true)} onOpenQA={() => setShowQA(true)} onOpenSettings={() => setShowSettings(true)} leaderboard={leaderboard} settings={settings} />;
+        return <MainLandingPage onSelectSubject={setCurrentSubject} totalStars={totalStars} onOpenLeaderboard={() => setShowLeaderboard(true)} onOpenQA={() => setShowQA(true)} onOpenSettings={() => setShowSettings(true)} onOpenProfileSwitcher={() => setShowProfileSwitcher(true)} leaderboard={leaderboard} settings={settings} />;
       })()}
     </Suspense>
   );

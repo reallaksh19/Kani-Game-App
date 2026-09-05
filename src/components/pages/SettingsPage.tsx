@@ -488,6 +488,31 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({ settings, setSetting
                         </div>
                     </div>
 
+                    {/* Privacy & Deployment Settings */}
+                    <div className="bg-gray-900/80 rounded-2xl p-6 backdrop-blur">
+                        <h2 className="text-xl font-bold text-white mb-4">🛡️ Privacy & Analytics Mode</h2>
+                        <div className="flex items-center justify-between py-2">
+                            <div>
+                                <span className="text-white font-bold">Disable Analytics in Deployment</span>
+                                <p className="text-gray-400 text-xs mt-1">
+                                    When active, blocks external IP resolution and telemetry in deployment mode (COPPA & GDPR-K child privacy compliant).
+                                </p>
+                            </div>
+                            <label className="relative inline-flex items-center cursor-pointer ml-4">
+                                <input
+                                    type="checkbox"
+                                    checked={localSettings.disableAnalyticsInProduction ?? true}
+                                    onChange={(e) => setLocalSettings({
+                                        ...localSettings,
+                                        disableAnalyticsInProduction: e.target.checked
+                                    })}
+                                    className="sr-only peer"
+                                />
+                                <div className="w-11 h-6 bg-gray-700 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-emerald-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600"></div>
+                            </label>
+                        </div>
+                    </div>
+
                     {/* Integration Settings */}
                     <div className="bg-gray-900/80 rounded-2xl p-6 backdrop-blur">
                         <h2 className="text-xl font-bold text-white mb-4">📊 Integration</h2>

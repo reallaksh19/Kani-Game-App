@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bgGrad512" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#312e81" />
+      <stop offset="50%" stop-color="#4c1d95" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <linearGradient id="visorGrad512" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fbbf24" />
+      <stop offset="50%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#d97706" />
+    </linearGradient>
+    <linearGradient id="ringGrad512" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ec4899" />
+      <stop offset="100%" stop-color="#8b5cf6" />
+    </linearGradient>
+    <filter id="glow512" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="12" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Container -->
+  <rect width="512" height="512" rx="128" fill="url(#bgGrad512)" />
+  <rect width="496" height="496" x="8" y="8" rx="120" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="8" />
+
+  <!-- Twinkling Stars -->
+  <circle cx="96" cy="112" r="10" fill="#fef08a" opacity="0.9" />
+  <circle cx="416" cy="128" r="12" fill="#fef08a" opacity="0.9" />
+  <circle cx="392" cy="392" r="8" fill="#a7f3d0" opacity="0.8" />
+  <circle cx="112" cy="408" r="8" fill="#fbcfe8" opacity="0.8" />
+  <circle cx="256" cy="72" r="6" fill="#ffffff" opacity="0.7" />
+
+  <!-- Orbit Ring -->
+  <ellipse cx="256" cy="272" rx="208" ry="64" fill="none" stroke="url(#ringGrad512)" stroke-width="12" stroke-dasharray="32 24" transform="rotate(-18 256 272)" opacity="0.75" />
+
+  <!-- Cadet Helmet Base -->
+  <circle cx="256" cy="256" r="128" fill="#f8fafc" />
+  <circle cx="256" cy="256" r="128" fill="none" stroke="#cbd5e1" stroke-width="8" />
+
+  <!-- Helmet Ears/Comms -->
+  <rect x="104" y="224" width="32" height="64" rx="16" fill="#64748b" />
+  <rect x="376" y="224" width="32" height="64" rx="16" fill="#64748b" />
+
+  <!-- Antenna -->
+  <line x1="256" y1="128" x2="256" y2="72" stroke="#94a3b8" stroke-width="16" stroke-linecap="round" />
+  <circle cx="256" cy="56" r="24" fill="#f59e0b" filter="url(#glow512)" />
+
+  <!-- Golden Reflective Visor -->
+  <ellipse cx="256" cy="256" rx="92" ry="76" fill="url(#visorGrad512)" />
+  <ellipse cx="256" cy="256" rx="92" ry="76" fill="none" stroke="#78350f" stroke-width="6" />
+
+  <!-- Visor Highlights / Shine -->
+  <path d="M192 224 Q256 192 312 216" stroke="#ffffff" stroke-width="12" stroke-linecap="round" fill="none" opacity="0.85" />
+  <circle cx="208" cy="248" r="8" fill="#ffffff" opacity="0.9" />
+
+  <!-- Sparkle Badge on Helmet -->
+  <path d="M256 352 L262 368 L280 370 L266 382 L270 400 L256 390 L242 400 L246 382 L232 370 L250 368 Z" fill="#ec4899" />
+</svg>

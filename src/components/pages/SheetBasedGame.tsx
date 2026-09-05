@@ -401,10 +401,11 @@ const DynamicImageRenderer = ({ url }: { url: string }) => {
 };
 
 export const SheetBasedGame: React.FC<SheetBasedGameProps> = ({ onBack, difficulty, settings, gameId, title, icon, variant }) => {
-    const { addLeaderboardEntry, recordLotCompletion } = useAppContext();
+    const { addLeaderboardEntry, recordLotCompletion, activeStudent } = useAppContext();
 
     const handleGameEnd = async (game: string, name: string, stars: number, streak: number, hintsUsed: number) => {
-        await addLeaderboardEntry({ game, name, stars, streak, date: new Date().toISOString(), hintsUsed });
+        const studentName = name.trim() || activeStudent?.name || 'Cadet';
+        await addLeaderboardEntry({ game, name: studentName, stars, streak, date: new Date().toISOString(), hintsUsed });
     };
 
     const {
@@ -413,6 +414,12 @@ export const SheetBasedGame: React.FC<SheetBasedGameProps> = ({ onBack, difficul
         actions: { startGame, handleAnswer, handleSaveScore, navigateQuestion, toggleHint },
         data: { loading, error, questionsCount }
     } = useGameLogic(gameId, difficulty, settings, handleGameEnd);
+
+    useEffect(() => {
+        if (activeStudent && !playerName) {
+            setPlayerName(activeStudent.name);
+        }
+    }, [activeStudent, playerName, setPlayerName]);
 
     const [readingPhase, setReadingPhase] = useState(false);
     const [showHintModal, setShowHintModal] = useState(false);

@@ -485,7 +485,8 @@ export const DEFAULT_SETTINGS = {
         'braintraining': true,
         'exam': true,
         'lqchamp': true
-    }
+    },
+    disableAnalyticsInProduction: true
 };
 
 export default {

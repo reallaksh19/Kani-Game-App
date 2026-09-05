@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useState, useEffect, useMemo } from 'react';
-import { Settings, LeaderboardEntry, Question } from '../types';
+import React, { createContext, useContext, useState, useEffect, useMemo, useRef } from 'react';
+import { Settings, LeaderboardEntry, Question, StudentProfile, SessionLog } from '../types';
 import { DEFAULT_SETTINGS } from '../data/gameDefinitions';
 import {
     PlayerStats,
@@ -13,6 +13,17 @@ import {
     loadMasterTilesConfig,
     saveMasterTilesConfig
 } from '../utils/masterTiles';
+import {
+    loadStudentProfiles,
+    saveStudentProfiles,
+    getActiveStudentId,
+    setActiveStudentId,
+    createStudentProfile
+} from '../utils/studentProfiles';
+import {
+    startSessionLog,
+    updateSessionLog
+} from '../utils/sessionLogger';
 
 // Storage helper
 const storage = {
@@ -46,6 +57,13 @@ interface AppContextType {
         starsEarned: number,
         maxStreak: number
     ) => Promise<Badge[]>;
+    activeStudent: StudentProfile | null;
+    studentProfiles: StudentProfile[];
+    activeSession: SessionLog | null;
+    selectStudent: (student: StudentProfile | null) => Promise<void>;
+    createStudent: (name: string, avatar?: string, grade?: string) => Promise<StudentProfile>;
+    deleteStudent: (studentId: string) => Promise<void>;
+    recordGameActivity: (stars: number) => Promise<void>;
     loading: boolean;
 }
 
@@ -55,7 +73,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const [settings, setSettings] = useState<Settings>(DEFAULT_SETTINGS);
     const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
     const [playerStats, setPlayerStats] = useState<PlayerStats>(DEFAULT_PLAYER_STATS);
+    const [studentProfiles, setStudentProfiles] = useState<StudentProfile[]>([]);
+    const [activeStudent, setActiveStudent] = useState<StudentProfile | null>(null);
+    const [activeSession, setActiveSession] = useState<SessionLog | null>(null);
     const [loading, setLoading] = useState(true);
+    const sessionStartTimeRef = useRef<number>(Date.now());
 
     // Load initial data
     useEffect(() => {
@@ -93,6 +115,27 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
                 // Load Player Stats
                 const loadedStats = await loadPlayerStats();
                 setPlayerStats(loadedStats);
+
+                // Load Student Profiles
+                const profiles = await loadStudentProfiles();
+                setStudentProfiles(profiles);
+
+                const activeId = await getActiveStudentId();
+                let active = profiles.find(p => p.id === activeId) || null;
+                if (!active && profiles.length === 1) {
+                    active = profiles[0];
+                    await setActiveStudentId(active.id);
+                }
+                if (active) {
+                    setActiveStudent(active);
+                    sessionStartTimeRef.current = Date.now();
+                    const sess = await startSessionLog(
+                        active.name,
+                        active.avatar,
+                        mergedSettings.disableAnalyticsInProduction ?? true
+                    );
+                    setActiveSession(sess);
+                }
             } catch (e) {
                 console.error('Failed to load data', e);
             } finally {
@@ -102,6 +145,20 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         loadData();
     }, []);
 
+    // Heartbeat every 30s to update session duration
+    useEffect(() => {
+        if (!activeSession) return;
+
+        const interval = setInterval(() => {
+            const elapsed = Math.max(1, Math.floor((Date.now() - sessionStartTimeRef.current) / 1000));
+            updateSessionLog(activeSession, { durationSeconds: elapsed }).then(updated => {
+                setActiveSession(updated);
+            }).catch(() => {});
+        }, 30000);
+
+        return () => clearInterval(interval);
+    }, [activeSession]);
+
     const updateSettings = async (newSettings: Settings) => {
         setSettings(newSettings);
         await storage.set('learning-galaxy-settings', JSON.stringify(newSettings));
@@ -110,10 +167,40 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         }
     };
 
+    const recordGameActivity = async (stars: number) => {
+        if (activeSession) {
+            const elapsed = Math.max(1, Math.floor((Date.now() - sessionStartTimeRef.current) / 1000));
+            const updated = await updateSessionLog(activeSession, {
+                durationSeconds: elapsed,
+                addGames: 1,
+                addStars: stars
+            });
+            setActiveSession(updated);
+        }
+        if (activeStudent) {
+            const updatedStudent: StudentProfile = {
+                ...activeStudent,
+                lastLoginAt: new Date().toISOString()
+            };
+            const updatedProfiles = studentProfiles.map(p => p.id === updatedStudent.id ? updatedStudent : p);
+            setActiveStudent(updatedStudent);
+            setStudentProfiles(updatedProfiles);
+            await saveStudentProfiles(updatedProfiles);
+        }
+    };
+
     const addLeaderboardEntry = async (entry: LeaderboardEntry) => {
-        const updated = [...leaderboard, entry];
+        const resolvedName = (entry.name && entry.name !== 'Cadet')
+            ? entry.name
+            : (activeStudent?.name || entry.name || 'Cadet');
+        const resolvedEntry: LeaderboardEntry = {
+            ...entry,
+            name: resolvedName
+        };
+        const updated = [...leaderboard, resolvedEntry];
         setLeaderboard(updated);
         await storage.set('learning-galaxy-leaderboard', JSON.stringify(updated));
+        await recordGameActivity(resolvedEntry.stars || 0);
     };
 
     const recordLotCompletion = async (
@@ -138,6 +225,48 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         return newBadges;
     };
 
+    const selectStudent = async (student: StudentProfile | null) => {
+        if (activeSession) {
+            const elapsed = Math.max(1, Math.floor((Date.now() - sessionStartTimeRef.current) / 1000));
+            await updateSessionLog(activeSession, { durationSeconds: elapsed });
+        }
+
+        if (!student) {
+            setActiveStudent(null);
+            await setActiveStudentId(null);
+            setActiveSession(null);
+            return;
+        }
+
+        setActiveStudent(student);
+        await setActiveStudentId(student.id);
+        sessionStartTimeRef.current = Date.now();
+        const newSession = await startSessionLog(
+            student.name,
+            student.avatar,
+            settings.disableAnalyticsInProduction ?? true
+        );
+        setActiveSession(newSession);
+    };
+
+    const createStudent = async (name: string, avatar?: string, grade?: string): Promise<StudentProfile> => {
+        const newProfile = createStudentProfile(name, avatar, grade);
+        const updated = [...studentProfiles, newProfile];
+        setStudentProfiles(updated);
+        await saveStudentProfiles(updated);
+        await selectStudent(newProfile);
+        return newProfile;
+    };
+
+    const deleteStudent = async (studentId: string) => {
+        const updated = studentProfiles.filter(p => p.id !== studentId);
+        setStudentProfiles(updated);
+        await saveStudentProfiles(updated);
+        if (activeStudent?.id === studentId) {
+            await selectStudent(null);
+        }
+    };
+
     const value = useMemo(() => ({
         settings,
         updateSettings,
@@ -145,8 +274,23 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         addLeaderboardEntry,
         playerStats,
         recordLotCompletion,
+        activeStudent,
+        studentProfiles,
+        activeSession,
+        selectStudent,
+        createStudent,
+        deleteStudent,
+        recordGameActivity,
         loading
-    }), [settings, leaderboard, playerStats, loading]);
+    }), [
+        settings,
+        leaderboard,
+        playerStats,
+        activeStudent,
+        studentProfiles,
+        activeSession,
+        loading
+    ]);
 
     return (
         <AppContext.Provider value={value}>

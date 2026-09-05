@@ -2,6 +2,7 @@ import React from 'react';
 import { SpaceBackground } from '../shared/SpaceBackground';
 import { LeaderboardEntry, Settings } from '../../types';
 import { MASTER_TILES, DEFAULT_MASTER_TILES } from '../../utils/masterTiles';
+import { useAppContext } from '../../contexts/AppContext';
 
 interface MainLandingPageProps {
     onSelectSubject: (subject: string) => void;
@@ -9,11 +10,23 @@ interface MainLandingPageProps {
     onOpenLeaderboard: () => void;
     onOpenQA: () => void;
     onOpenSettings: () => void;
+    onOpenProfileSwitcher?: () => void;
     leaderboard?: LeaderboardEntry[];
     settings?: Settings;
 }
 
-export const MainLandingPage: React.FC<MainLandingPageProps> = ({ onSelectSubject, totalStars, onOpenLeaderboard, onOpenQA, onOpenSettings, leaderboard = [], settings }) => {
+export const MainLandingPage: React.FC<MainLandingPageProps> = ({
+    onSelectSubject,
+    totalStars: passedTotalStars,
+    onOpenLeaderboard,
+    onOpenQA,
+    onOpenSettings,
+    onOpenProfileSwitcher,
+    leaderboard = [],
+    settings
+}) => {
+    const { activeStudent } = useAppContext();
+
     // Time-based greeting
     const getGreeting = () => {
         const hour = new Date().getHours();
@@ -23,16 +36,37 @@ export const MainLandingPage: React.FC<MainLandingPageProps> = ({ onSelectSubjec
     };
     const greeting = getGreeting();
 
-    // Calculate achievements
-    const totalGames = leaderboard.length;
-    const bestStreak = leaderboard.reduce((max, g) => Math.max(max, g.streak || 0), 0);
+    // Calculate student-specific achievements
+    const relevantLeaderboard = activeStudent
+        ? leaderboard.filter(e => e.name.toLowerCase() === activeStudent.name.toLowerCase())
+        : leaderboard;
+
+    const totalGames = relevantLeaderboard.length;
+    const bestStreak = relevantLeaderboard.reduce((max, g) => Math.max(max, g.streak || 0), 0);
+    const totalStars = activeStudent
+        ? relevantLeaderboard.reduce((sum, e) => sum + e.stars, 0)
+        : passedTotalStars;
 
     // Floating elements for fun animation
     const floatingItems = ['🚀', '⭐', '🌍', '🛸', '💫', '🌟'];
 
     return (
         <SpaceBackground>
-            {/* Settings button - top right */}
+            {/* Top Bar: Active Student Pill (top-left) & Settings button (top-right) */}
+            {activeStudent && (
+                <button
+                    onClick={onOpenProfileSwitcher}
+                    aria-label="Switch Cadet Profile"
+                    className="absolute top-4 left-4 z-30 flex items-center gap-2 bg-slate-900/80 hover:bg-slate-800 border border-indigo-400/50 px-3.5 py-2 rounded-full text-white shadow-xl transition-all hover:scale-105 cursor-pointer backdrop-blur"
+                >
+                    <span className="text-2xl">{activeStudent.avatar}</span>
+                    <div className="text-left">
+                        <div className="text-xs font-black text-amber-300 leading-tight">{activeStudent.name}</div>
+                        <div className="text-[10px] text-indigo-300 leading-tight">Switch Cadet ⇄</div>
+                    </div>
+                </button>
+            )}
+
             <button onClick={onOpenSettings} aria-label="Settings" className="absolute top-4 right-4 w-12 h-12 rounded-full bg-gray-900/80 flex items-center justify-center text-2xl hover:bg-gray-700 z-30 cursor-pointer transition-all hover:scale-110 focus:outline-none focus-visible:ring-4 focus-visible:ring-purple-400">
                 ⚙️
             </button>
@@ -55,8 +89,12 @@ export const MainLandingPage: React.FC<MainLandingPageProps> = ({ onSelectSubjec
             <div className="flex flex-col items-center justify-center min-h-full px-4 py-6 relative z-10">
                 {/* Mascot and Greeting */}
                 <div className="text-center mb-4">
-                    <div className="text-7xl mb-2" style={{ animation: 'float 2s ease-in-out infinite' }}>🤖</div>
-                    <p className="text-lg text-purple-200">{greeting.emoji} {greeting.text}, Explorer!</p>
+                    <div className="text-7xl mb-2" style={{ animation: 'float 2s ease-in-out infinite' }}>
+                        {activeStudent?.avatar || '🤖'}
+                    </div>
+                    <p className="text-lg text-purple-200">
+                        {greeting.emoji} {greeting.text}, {activeStudent ? activeStudent.name : 'Explorer'}!
+                    </p>
                 </div>
 
                 {/* Title */}

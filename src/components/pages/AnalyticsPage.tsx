@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { SpaceBackground } from '../shared/SpaceBackground';
 import { LeaderboardEntry } from '../../types';
 import { ALL_GAMES, MATH_GAMES, COMPREHENSION_GAMES } from '../../data/gameDefinitions';
+import { useAppContext } from '../../contexts/AppContext';
 
 interface AnalyticsPageProps {
     onBack: () => void;
@@ -19,19 +20,27 @@ const BADGES = [
     { id: 'perfect_streak', title: 'Streak Master', icon: '🔥', desc: 'Get a streak of 10', condition: (stats: any) => stats.maxStreak >= 10 },
 ];
 
-export const AnalyticsPage: React.FC<AnalyticsPageProps> = ({ onBack, leaderboard }) => {
+export const AnalyticsPage: React.FC<AnalyticsPageProps> = ({ onBack, leaderboard: passedLeaderboard }) => {
+    const { activeStudent, leaderboard: contextLeaderboard } = useAppContext();
+    const allLeaderboard = passedLeaderboard || contextLeaderboard;
+
+    const studentLeaderboard = useMemo(() => {
+        if (!activeStudent) return allLeaderboard;
+        return allLeaderboard.filter(e => e.name.toLowerCase() === activeStudent.name.toLowerCase());
+    }, [allLeaderboard, activeStudent]);
 
     const stats = useMemo(() => {
-        const totalGames = leaderboard.length;
-        const totalStars = leaderboard.reduce((sum, e) => sum + e.stars, 0);
-        const totalHints = leaderboard.reduce((sum, e) => sum + (e.hintsUsed || 0), 0);
-        const maxStreak = Math.max(...leaderboard.map(e => e.streak), 0);
-        const lastEntry = leaderboard[leaderboard.length - 1];
-        const playerName = lastEntry ? lastEntry.name : 'Cadet';
+        const totalGames = studentLeaderboard.length;
+        const totalStars = studentLeaderboard.reduce((sum, e) => sum + e.stars, 0);
+        const totalHints = studentLeaderboard.reduce((sum, e) => sum + (e.hintsUsed || 0), 0);
+        const maxStreak = Math.max(...studentLeaderboard.map(e => e.streak), 0);
+        const playerName = activeStudent ? activeStudent.name : (studentLeaderboard[studentLeaderboard.length - 1]?.name || 'Cadet');
+        const playerAvatar = activeStudent ? activeStudent.avatar : '🧑‍🚀';
+        const playerGrade = activeStudent?.grade || 'Cadet';
 
         // Category counts
-        const storyGames = leaderboard.filter(e => COMPREHENSION_GAMES.some(g => g.id === e.game)).length;
-        const mathGames = leaderboard.filter(e => MATH_GAMES.some(g => g.id === e.game)).length;
+        const storyGames = studentLeaderboard.filter(e => COMPREHENSION_GAMES.some(g => g.id === e.game)).length;
+        const mathGames = studentLeaderboard.filter(e => MATH_GAMES.some(g => g.id === e.game)).length;
 
         // Daily stars (last 7 days)
         const today = new Date();
@@ -39,7 +48,7 @@ export const AnalyticsPage: React.FC<AnalyticsPageProps> = ({ onBack, leaderboar
             const date = new Date(today);
             date.setDate(date.getDate() - (6 - i));
             const dateStr = date.toISOString().split('T')[0];
-            const stars = leaderboard
+            const stars = studentLeaderboard
                 .filter(e => e.date.startsWith(dateStr))
                 .reduce((sum, e) => sum + e.stars, 0);
             return { day: date.toLocaleDateString('en-US', { weekday: 'short' }), stars };
@@ -47,7 +56,7 @@ export const AnalyticsPage: React.FC<AnalyticsPageProps> = ({ onBack, leaderboar
 
         // Game performance
         const gameStats: Record<string, { count: number, stars: number }> = {};
-        leaderboard.forEach(e => {
+        studentLeaderboard.forEach(e => {
             if (!gameStats[e.game]) gameStats[e.game] = { count: 0, stars: 0 };
             gameStats[e.game].count++;
             gameStats[e.game].stars += e.stars;
@@ -59,20 +68,28 @@ export const AnalyticsPage: React.FC<AnalyticsPageProps> = ({ onBack, leaderboar
             .slice(0, 5);
 
         return {
-            totalGames, totalStars, totalHints, maxStreak, playerName,
+            totalGames, totalStars, totalHints, maxStreak, playerName, playerAvatar, playerGrade,
             storyGames, mathGames, dailyStars, topGames
         };
-    }, [leaderboard]);
+    }, [studentLeaderboard, activeStudent]);
 
     return (
         <SpaceBackground>
             <div className="flex flex-col h-full pt-6 px-4 pb-8 overflow-y-auto w-full max-w-6xl mx-auto custom-scrollbar">
                 {/* Header */}
                 <div className="flex items-center gap-4 mb-8">
-                    <button onClick={onBack} className="w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center text-white hover:bg-gray-700 text-2xl transition-colors">←</button>
-                    <div>
-                        <h1 className="text-4xl font-bold text-white">My Mission Control</h1>
-                        <p className="text-gray-400">Welcome back, <span className="text-yellow-400 font-bold">{stats.playerName}</span>!</p>
+                    <button onClick={onBack} aria-label="Go Back" className="w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center text-white hover:bg-gray-700 text-2xl transition-colors cursor-pointer">←</button>
+                    <div className="flex items-center gap-3">
+                        <div className="text-4xl w-14 h-14 rounded-2xl bg-indigo-900/60 border border-indigo-400/40 flex items-center justify-center shadow-lg">
+                            {stats.playerAvatar}
+                        </div>
+                        <div>
+                            <h1 className="text-3xl sm:text-4xl font-black text-white">My Mission Control</h1>
+                            <p className="text-gray-300">
+                                Welcome back, <span className="text-yellow-400 font-bold">{stats.playerName}</span>!
+                                <span className="ml-2 text-xs bg-indigo-500/30 text-indigo-300 border border-indigo-500/40 px-2 py-0.5 rounded-full font-medium">{stats.playerGrade}</span>
+                            </p>
+                        </div>
                     </div>
                 </div>
 

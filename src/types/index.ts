@@ -67,6 +67,29 @@ export interface Settings {
     useGoogleSheets?: boolean;
     levelUpMode?: boolean;
     enabledMasterTiles?: Record<string, boolean>;
+    disableAnalyticsInProduction?: boolean;
+}
+
+export interface StudentProfile {
+    id: string;
+    name: string;
+    avatar: string;
+    grade: string;
+    createdAt: string;
+    lastLoginAt: string;
+}
+
+export interface SessionLog {
+    sessionId: string;
+    studentName: string;
+    studentAvatar: string;
+    loginTime: string;
+    lastActiveTime: string;
+    durationSeconds: number;
+    ipAddress: string;
+    deviceInfo: string;
+    gamesPlayed: number;
+    starsEarned: number;
 }
 
 export interface QAStats {
