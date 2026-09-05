@@ -3,6 +3,7 @@ import { SpaceBackground } from '../shared/SpaceBackground';
 import { LeaderboardEntry, Settings } from '../../types';
 import { MASTER_TILES, DEFAULT_MASTER_TILES } from '../../utils/masterTiles';
 import { useAppContext } from '../../contexts/AppContext';
+import { IntegrationEntryStrip } from '../integration/IntegrationEntryStrip';
 
 interface MainLandingPageProps {
     onSelectSubject: (subject: string) => void;
@@ -37,9 +38,10 @@ export const MainLandingPage: React.FC<MainLandingPageProps> = ({
     };
     const greeting = getGreeting();
 
-    // Calculate student-specific achievements
+    // Calculate student-specific achievements. Stable studentId is canonical for new
+    // records; display-name matching remains only as a legacy migration fallback.
     const relevantLeaderboard = activeStudent
-        ? leaderboard.filter(e => e.name.toLowerCase() === activeStudent.name.toLowerCase())
+        ? leaderboard.filter(e => e.studentId ? e.studentId === activeStudent.id : e.name.toLowerCase() === activeStudent.name.toLowerCase())
         : leaderboard;
 
     const totalGames = relevantLeaderboard.length;
@@ -203,6 +205,9 @@ export const MainLandingPage: React.FC<MainLandingPageProps> = ({
                         </div>
                     );
                 })()}
+
+                {/* Integration modes are intentionally separate from legacy master tiles and hidden unless feature flags are enabled. */}
+                <IntegrationEntryStrip onNavigate={onSelectSubject} />
 
                 {/* Action Buttons */}
                 <div className="flex flex-col sm:flex-row gap-3 relative z-20">
