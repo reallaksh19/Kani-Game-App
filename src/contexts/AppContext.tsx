@@ -9,21 +9,26 @@ import {
     recordLotSession,
     Badge
 } from '../utils/playerStats';
+import {
+    loadMasterTilesConfig,
+    saveMasterTilesConfig
+} from '../utils/masterTiles';
 
 // Storage helper
 const storage = {
     get: async (key: string) => {
         try {
-            if (window.storage?.get) return await window.storage.get(key);
-            const value = localStorage.getItem(key);
-            return value ? { value } : null;
-        } catch (e) { return null; }
+            return localStorage.getItem(key);
+        } catch {
+            return null;
+        }
     },
     set: async (key: string, value: string) => {
         try {
-            if (window.storage?.set) return await window.storage.set(key, value);
             localStorage.setItem(key, value);
-        } catch (e) { }
+        } catch {
+            // Ignore storage errors
+        }
     }
 };
 
@@ -56,20 +61,33 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     useEffect(() => {
         const loadData = async () => {
             try {
+                // Load Master Tiles config (from public/data/master_tiles.json + storage)
+                const masterTiles = await loadMasterTilesConfig();
+
                 // Load Settings
+                let mergedSettings: Settings = {
+                    ...DEFAULT_SETTINGS,
+                    enabledMasterTiles: masterTiles
+                };
+
                 const settingsData = await storage.get('learning-galaxy-settings');
                 if (settingsData) {
-                    const value = typeof settingsData === 'string' ? settingsData : settingsData.value;
-                    const parsed = JSON.parse(value);
-                    // Merge with DEFAULT_SETTINGS to ensure new keys (like examSheetUrl) are present
-                    setSettings({ ...DEFAULT_SETTINGS, ...parsed });
+                    const parsed = JSON.parse(settingsData);
+                    mergedSettings = {
+                        ...DEFAULT_SETTINGS,
+                        ...parsed,
+                        enabledMasterTiles: {
+                            ...masterTiles,
+                            ...(parsed.enabledMasterTiles || {})
+                        }
+                    };
                 }
+                setSettings(mergedSettings);
 
                 // Load Leaderboard
                 const leaderboardData = await storage.get('learning-galaxy-leaderboard');
                 if (leaderboardData) {
-                    const value = typeof leaderboardData === 'string' ? leaderboardData : leaderboardData.value;
-                    setLeaderboard(JSON.parse(value));
+                    setLeaderboard(JSON.parse(leaderboardData));
                 }
 
                 // Load Player Stats
@@ -87,6 +105,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const updateSettings = async (newSettings: Settings) => {
         setSettings(newSettings);
         await storage.set('learning-galaxy-settings', JSON.stringify(newSettings));
+        if (newSettings.enabledMasterTiles) {
+            await saveMasterTilesConfig(newSettings.enabledMasterTiles);
+        }
     };
 
     const addLeaderboardEntry = async (entry: LeaderboardEntry) => {

@@ -4,6 +4,7 @@ import { Settings, Difficulty } from '../../types';
 import { DEFAULT_SETTINGS } from '../../data/gameDefinitions';
 import { useTheme, THEMES } from '../../contexts/ThemeContext';
 import { MATH_GAMES, GRAMMAR_GAMES, SKILL_GAMES, EXAM_GAMES } from '../../data/gameDefinitions';
+import { MASTER_TILES, DEFAULT_MASTER_TILES } from '../../utils/masterTiles';
 
 interface SettingsPageProps {
     settings: Settings;
@@ -152,6 +153,82 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({ settings, setSetting
                 )}
 
                 <div className="w-full max-w-2xl space-y-6 relative z-20 pb-8">
+                    {/* Master Subject Tiles Section */}
+                    {(() => {
+                        const enabledTilesMap = localSettings.enabledMasterTiles || DEFAULT_MASTER_TILES;
+                        const activeCount = MASTER_TILES.filter(t => enabledTilesMap[t.id] !== false).length;
+
+                        return (
+                            <div className="bg-gray-900/80 rounded-2xl p-6 backdrop-blur border border-purple-500/30 shadow-xl">
+                                <div className="flex items-center justify-between mb-3">
+                                    <div className="flex items-center gap-2">
+                                        <span className="text-2xl">🏠</span>
+                                        <h2 className="text-xl font-bold text-white">Master Subject Tiles (Home Screen)</h2>
+                                    </div>
+                                    <span className="text-xs font-bold px-3 py-1 rounded-full bg-purple-900/60 text-purple-300 border border-purple-700/50">
+                                        {activeCount} of {MASTER_TILES.length} Visible
+                                    </span>
+                                </div>
+                                <p className="text-gray-300 text-xs sm:text-sm mb-4 leading-relaxed">
+                                    Turn master tiles ON or OFF to control what appears on the main landing screen (e.g. turn off <strong className="text-yellow-300">Exam</strong> to hide the test tile).
+                                    Settings are automatically saved to <code className="text-pink-300 bg-black/40 px-1.5 py-0.5 rounded text-[11px]">public/data/master_tiles.json</code>.
+                                </p>
+
+                                <div className="space-y-3">
+                                    {MASTER_TILES.map(tile => {
+                                        const isEnabled = enabledTilesMap[tile.id] !== false;
+                                        return (
+                                            <div
+                                                key={tile.id}
+                                                className={`flex items-center justify-between p-3.5 rounded-xl border transition-all ${
+                                                    isEnabled
+                                                        ? 'bg-purple-950/30 border-purple-500/30 shadow-sm'
+                                                        : 'bg-gray-800/40 border-gray-700/50 opacity-60'
+                                                }`}
+                                            >
+                                                <div className="flex items-center gap-3">
+                                                    <span className="text-3xl filter-none drop-shadow">{tile.icon}</span>
+                                                    <div>
+                                                        <div className="flex items-center gap-2">
+                                                            <h3 className="text-base font-bold text-white">{tile.title}</h3>
+                                                            <span className={`text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full ${
+                                                                isEnabled
+                                                                    ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
+                                                                    : 'bg-gray-700 text-gray-400'
+                                                            }`}>
+                                                                {isEnabled ? '✓ Visible on Home' : '✕ Hidden'}
+                                                            </span>
+                                                        </div>
+                                                        <p className="text-xs text-gray-400 mt-0.5">{tile.description}</p>
+                                                    </div>
+                                                </div>
+
+                                                <label className="relative inline-flex items-center cursor-pointer ml-4">
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={isEnabled}
+                                                        onChange={(e) => {
+                                                            const updated = {
+                                                                ...enabledTilesMap,
+                                                                [tile.id]: e.target.checked
+                                                            };
+                                                            setLocalSettings({
+                                                                ...localSettings,
+                                                                enabledMasterTiles: updated
+                                                            });
+                                                        }}
+                                                        className="sr-only peer"
+                                                    />
+                                                    <div className="w-11 h-6 bg-gray-700 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-purple-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-gradient-to-r peer-checked:from-purple-500 peer-checked:to-pink-500"></div>
+                                                </label>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        );
+                    })()}
+
                     {/* Data Sources Section */}
                     <div className="bg-gray-900/80 rounded-2xl p-6 backdrop-blur">
                         <div className="flex items-center justify-between mb-4">

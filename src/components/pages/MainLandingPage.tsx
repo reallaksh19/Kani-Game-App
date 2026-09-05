@@ -1,7 +1,7 @@
 import React from 'react';
 import { SpaceBackground } from '../shared/SpaceBackground';
-import { LeaderboardEntry } from '../../types';
-import { MATH_GAMES, GRAMMAR_GAMES, VOCABULARY_GAMES, COMPREHENSION_GAMES, SKILL_GAMES, EXAM_GAMES, LQ_CHAMP_GAMES } from '../../data/gameDefinitions';
+import { LeaderboardEntry, Settings } from '../../types';
+import { MASTER_TILES, DEFAULT_MASTER_TILES } from '../../utils/masterTiles';
 
 interface MainLandingPageProps {
     onSelectSubject: (subject: string) => void;
@@ -10,9 +10,10 @@ interface MainLandingPageProps {
     onOpenQA: () => void;
     onOpenSettings: () => void;
     leaderboard?: LeaderboardEntry[];
+    settings?: Settings;
 }
 
-export const MainLandingPage: React.FC<MainLandingPageProps> = ({ onSelectSubject, totalStars, onOpenLeaderboard, onOpenQA, onOpenSettings, leaderboard = [] }) => {
+export const MainLandingPage: React.FC<MainLandingPageProps> = ({ onSelectSubject, totalStars, onOpenLeaderboard, onOpenQA, onOpenSettings, leaderboard = [], settings }) => {
     // Time-based greeting
     const getGreeting = () => {
         const hour = new Date().getHours();
@@ -82,59 +83,62 @@ export const MainLandingPage: React.FC<MainLandingPageProps> = ({ onSelectSubjec
                     </div>
                 </div>
 
-                {/* Subject Cards - Responsive grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 w-full max-w-md sm:max-w-6xl relative z-20 mb-6">
-                    <button onClick={() => onSelectSubject('math')}
-                        className="bg-gradient-to-br from-purple-500 via-purple-600 to-indigo-700 p-6 sm:p-8 rounded-3xl shadow-2xl hover:scale-105 transition-all text-left cursor-pointer border-2 border-purple-400/30 group focus:outline-none focus-visible:ring-4 focus-visible:ring-purple-400">
-                        <div className="flex items-center justify-between">
-                            <div>
-                                <div className="text-5xl sm:text-6xl mb-2 group-hover:scale-110 transition-transform">🔢</div>
-                                <h2 className="text-2xl sm:text-3xl font-bold text-white mb-1">Math</h2>
-                                <p className="text-purple-200 text-sm">{MATH_GAMES.length} fun games!</p>
+                {/* Subject Cards - Dynamic responsive grid according to master tile settings */}
+                {(() => {
+                    const enabledTilesMap = settings?.enabledMasterTiles || DEFAULT_MASTER_TILES;
+                    const activeTiles = MASTER_TILES.filter(tile => enabledTilesMap[tile.id] !== false);
+
+                    if (activeTiles.length === 0) {
+                        return (
+                            <div className="bg-gray-900/80 p-8 rounded-3xl border border-yellow-500/30 text-center max-w-md relative z-20 mb-6 shadow-2xl backdrop-blur">
+                                <span className="text-5xl mb-2 block animate-bounce">🔒</span>
+                                <h3 className="text-xl font-bold text-white mb-2">All Subject Tiles Are Hidden</h3>
+                                <p className="text-gray-300 text-sm mb-4">
+                                    You have turned off all master tiles in Settings. Enable at least one subject tile to start playing!
+                                </p>
+                                <button
+                                    onClick={onOpenSettings}
+                                    className="bg-yellow-500 text-gray-900 px-6 py-2.5 rounded-full font-bold hover:bg-yellow-400 transition cursor-pointer"
+                                >
+                                    Open Settings ⚙️
+                                </button>
                             </div>
+                        );
+                    }
+
+                    const gridColsClass =
+                        activeTiles.length >= 5 ? 'sm:max-w-6xl grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5' :
+                        activeTiles.length === 4 ? 'sm:max-w-5xl grid-cols-1 sm:grid-cols-2 lg:grid-cols-4' :
+                        activeTiles.length === 3 ? 'sm:max-w-4xl grid-cols-1 sm:grid-cols-3' :
+                        activeTiles.length === 2 ? 'sm:max-w-2xl grid-cols-1 sm:grid-cols-2' :
+                        'max-w-sm grid-cols-1';
+
+                    return (
+                        <div className={`grid ${gridColsClass} gap-4 w-full max-w-md relative z-20 mb-6`}>
+                            {activeTiles.map(tile => (
+                                <button
+                                    key={tile.id}
+                                    onClick={() => onSelectSubject(tile.id)}
+                                    className={`bg-gradient-to-br ${tile.gradient} p-6 sm:p-8 rounded-3xl shadow-2xl hover:scale-105 transition-all text-left cursor-pointer border-2 ${tile.border} group focus:outline-none focus-visible:ring-4 ${tile.ringColor}`}
+                                >
+                                    <div className="flex items-center justify-between">
+                                        <div>
+                                            <div className="text-5xl sm:text-6xl mb-2 group-hover:scale-110 transition-transform">
+                                                {tile.icon}
+                                            </div>
+                                            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-1">
+                                                {tile.title}
+                                            </h2>
+                                            <p className="text-white/80 text-sm font-medium">
+                                                {tile.badgeLabel}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </button>
+                            ))}
                         </div>
-                    </button>
-                    <button onClick={() => onSelectSubject('english')}
-                        className="bg-gradient-to-br from-blue-500 via-blue-600 to-cyan-700 p-6 sm:p-8 rounded-3xl shadow-2xl hover:scale-105 transition-all text-left cursor-pointer border-2 border-blue-400/30 group focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-400">
-                        <div className="flex items-center justify-between">
-                            <div>
-                                <div className="text-5xl sm:text-6xl mb-2 group-hover:scale-110 transition-transform">📚</div>
-                                <h2 className="text-2xl sm:text-3xl font-bold text-white mb-1">English</h2>
-                                <p className="text-blue-200 text-sm">{GRAMMAR_GAMES.length + VOCABULARY_GAMES.length + COMPREHENSION_GAMES.length} fun games!</p>
-                            </div>
-                        </div>
-                    </button>
-                    <button onClick={() => onSelectSubject('braintraining')}
-                        className="bg-gradient-to-br from-pink-500 via-fuchsia-500 to-purple-600 p-6 sm:p-8 rounded-3xl shadow-2xl hover:scale-105 transition-all text-left cursor-pointer border-2 border-pink-400/30 group focus:outline-none focus-visible:ring-4 focus-visible:ring-pink-400">
-                        <div className="flex items-center justify-between">
-                            <div>
-                                <div className="text-5xl sm:text-6xl mb-2 group-hover:scale-110 transition-transform" style={{ animation: 'float 2s ease-in-out infinite' }}>🧠</div>
-                                <h2 className="text-2xl sm:text-3xl font-bold text-white mb-1">Brain Training</h2>
-                                <p className="text-pink-200 text-sm">{SKILL_GAMES.length} skill games!</p>
-                            </div>
-                        </div>
-                    </button>
-                    <button onClick={() => onSelectSubject('exam')}
-                        className="bg-gradient-to-br from-blue-600 via-indigo-600 to-violet-700 p-6 sm:p-8 rounded-3xl shadow-2xl hover:scale-105 transition-all text-left cursor-pointer border-2 border-blue-400/30 group focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-400">
-                        <div className="flex items-center justify-between">
-                            <div>
-                                <div className="text-5xl sm:text-6xl mb-2 group-hover:scale-110 transition-transform">📝</div>
-                                <h2 className="text-2xl sm:text-3xl font-bold text-white mb-1">Exam</h2>
-                                <p className="text-blue-200 text-sm">{EXAM_GAMES.length} tests!</p>
-                            </div>
-                        </div>
-                    </button>
-                    <button onClick={() => onSelectSubject('lqchamp')}
-                        className="bg-gradient-to-br from-amber-500 via-orange-500 to-rose-600 p-6 sm:p-8 rounded-3xl shadow-2xl hover:scale-105 transition-all text-left cursor-pointer border-2 border-amber-400/30 group focus:outline-none focus-visible:ring-4 focus-visible:ring-amber-400">
-                        <div className="flex items-center justify-between">
-                            <div>
-                                <div className="text-5xl sm:text-6xl mb-2 group-hover:scale-110 transition-transform" style={{ animation: 'float 2s ease-in-out infinite' }}>🏆</div>
-                                <h2 className="text-2xl sm:text-3xl font-bold text-white mb-1">LQ Champ</h2>
-                                <p className="text-amber-100 text-sm">{LQ_CHAMP_GAMES.length} Olympiad lots!</p>
-                            </div>
-                        </div>
-                    </button>
-                </div>
+                    );
+                })()}
 
                 {/* Action Buttons */}
                 <div className="flex flex-col sm:flex-row gap-3 relative z-20">

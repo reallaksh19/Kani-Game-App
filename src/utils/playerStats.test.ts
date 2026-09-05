@@ -141,7 +141,6 @@ describe('playerStats utilities', () => {
         it('records answers, advances skill counts, and unlocks badges', () => {
             const mockQuestions: Question[] = [
                 {
-                    id: '1',
                     game_type: 'lq-lot-1',
                     difficulty: 'Medium',
                     text1: 'Solve 2 + 2',
@@ -153,7 +152,6 @@ describe('playerStats utilities', () => {
                     option4: '6'
                 },
                 {
-                    id: '2',
                     game_type: 'lq-lot-1',
                     difficulty: 'Medium',
                     text1: 'Find synonym for big',

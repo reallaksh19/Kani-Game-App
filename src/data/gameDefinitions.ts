@@ -478,7 +478,14 @@ export const DEFAULT_SETTINGS = {
     generatorGrade: 'Grade 3',
     generatorDifficulty: 'Easy',
     levelUpMode: false,
-    surpriseMode: false
+    surpriseMode: false,
+    enabledMasterTiles: {
+        'math': true,
+        'english': true,
+        'braintraining': true,
+        'exam': true,
+        'lqchamp': true
+    }
 };
 
 export default {

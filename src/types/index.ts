@@ -66,6 +66,7 @@ export interface Settings {
     surpriseMode: boolean;
     useGoogleSheets?: boolean;
     levelUpMode?: boolean;
+    enabledMasterTiles?: Record<string, boolean>;
 }
 
 export interface QAStats {
