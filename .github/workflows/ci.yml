@@ -28,6 +28,9 @@ jobs:
       - name: LQ Grade 4 Question Audit
         run: npm run audit:lq
 
+      - name: Brain Training Grade 4 Question Audit
+        run: npm run audit:brain
+
       - name: Run Tests
         run: npm test
 

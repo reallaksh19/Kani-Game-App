@@ -1,13 +1,31 @@
-game_type,difficulty,text1,text2,answer,option1,option2,option3,option4,hint
-code-breaker,Easy,3-1-20,A=1 B=2 C=3...,CAT,CAT,DOG,BAT,RAT,C=3 A=1 T=20
-code-breaker,Easy,4-15-7,A=1 B=2 C=3...,DOG,DOG,CAT,LOG,FOG,D=4 O=15 G=7
-code-breaker,Easy,2-5-4,A=1 B=2 C=3...,BED,BED,RED,FED,LED,B=2 E=5 D=4
-code-breaker,Easy,16-5-14,A=1 B=2...,PEN,PEN,HEN,DEN,TEN,P=16 E=5 N=14
-code-breaker,Medium,8-1-20,A=1 B=2 C=3...,HAT,HAT,BAT,CAT,RAT,H=8 A=1 T=20
-code-breaker,Medium,19-21-14,A=1 B=2 C=3...,SUN,SUN,FUN,RUN,GUN,S=19 U=21 N=14
-code-breaker,Medium,2-9-7,A=1 B=2...,BIG,BIG,DIG,FIG,PIG,B=2 I=9 G=7
-code-breaker,Medium,13-1-14,A=1 B=2...,MAN,MAN,PAN,FAN,VAN,M=13 A=1 N=14
-code-breaker,Hard,13-15-15-14,A=1 B=2 C=3...,MOON,MOON,NOON,SOON,BOON,M=13 O=15 N=14
-code-breaker,Hard,2-15-15-11,A=1 B=2 C=3...,BOOK,BOOK,COOK,LOOK,TOOK,B=2 O=15 K=11
-code-breaker,Hard,6-9-19-8,A=1 B=2...,FISH,FISH,WISH,DISH,SWISH,F=6 I=9 S=19 H=8
-code-breaker,Hard,20-18-5-5,A=1 B=2...,TREE,TREE,FREE,KNEE,FLEE,T=20 R=18 E=5 E=5
+game_type,difficulty,text1,text2,answer,option1,option2,option3,option4,hint,know_more,grade,skill,cognitive_demand
+code-breaker,Easy,"Using A=1, B=2, C=3, ... what word is 3-1-20?",A1Z26 decode,CAT,CAT,BAT,CAR,DOG,Match each number to its alphabet position.,"3=C, 1=A, 20=T, so the word is CAT.",Grade 4,Coding and Decoding,1-step
+code-breaker,Easy,"Using A=1, B=2, ... what word is 4-15-7?",A1Z26 decode,DOG,FOG,DIG,CAT,DOG,Decode one number at a time.,"4=D, 15=O, 7=G, giving DOG.",Grade 4,Coding and Decoding,1-step
+code-breaker,Easy,"Using A=1, B=2, ... what word is 16-5-14?",A1Z26 decode,PEN,TEN,PIN,PEN,PAN,Convert each position to a letter.,"16=P, 5=E, 14=N, giving PEN.",Grade 4,Coding and Decoding,1-step
+code-breaker,Easy,"Using A=1, B=2, ... what word is 19-21-14?",A1Z26 decode,SUN,SON,SUN,FUN,RUN,"Find the letters at positions 19, 21, and 14.","19=S, 21=U, 14=N, so SUN.",Grade 4,Coding and Decoding,1-step
+code-breaker,Easy,"Using A=1, B=2, ... what code represents MAP?",A1Z26 encode,13-1-16,13-1-16,12-1-16,13-2-16,13-1-15,"Find M, A, and P in the alphabet.","MAP uses M=13, A=1, and P=16, so its code is 13-1-16.",Grade 4,Coding and Decoding,1-step
+code-breaker,Easy,"Using A=1, B=2, ... what code represents FISH?",A1Z26 encode,6-9-19-8,5-9-19-8,6-8-19-8,6-9-18-8,6-9-19-8,Convert each letter to its alphabet position.,"F=6, I=9, S=19, H=8.",Grade 4,Coding and Decoding,1-step
+code-breaker,Easy,"Using A=1, B=2, ... what word is 2-15-15-11?",A1Z26 decode,BOOK,LOOK,BOOT,BOOK,COOK,Decode all four numbers.,"2=B, 15=O, 15=O, 11=K.",Grade 4,Coding and Decoding,1-step
+code-breaker,Easy,"Using A=1, B=2, ... what code represents TREE?",A1Z26 encode,20-18-5-5,20-18-4-5,20-18-5-5,20-17-5-5,19-18-5-5,Map each letter to a number.,"T=20, R=18, E=5, E=5.",Grade 4,Coding and Decoding,1-step
+code-breaker,Easy,"Using A=1, B=2, ... what word is 8-1-20?",A1Z26 decode,HAT,HAT,HOT,BAT,HIT,"Translate 8, 1, and 20.","8 corresponds to H, 1 to A, and 20 to T, so the word is HAT.",Grade 4,Coding and Decoding,1-step
+code-breaker,Easy,"Using A=1, B=2, ... what code represents LAMP?",A1Z26 encode,12-1-13-16,11-1-13-16,12-2-13-16,12-1-14-16,12-1-13-16,Find each letter's alphabet position.,"L=12, A=1, M=13, P=16.",Grade 4,Coding and Decoding,1-step
+code-breaker,Medium,"In a code, every letter moves forward by 1: CAT becomes DBU. How is DOG coded?",Shift +1,EPH,FQI,EOH,EPH,DOG,Move each letter one step forward.,"D→E, O→P, G→H, so DOG becomes EPH.",Grade 4,Coding and Decoding,2-step
+code-breaker,Medium,"In a code, every letter moves backward by 1: LION becomes KHNM. How is BEAR coded?",Shift -1,ADZQ,ADYP,ADZQ,CFBS,AEZQ,Move each letter one place back; A would wrap to Z if needed.,"B→A, E→D, A→Z, R→Q, so ADZQ.",Grade 4,Coding and Decoding,2-step
+code-breaker,Medium,A word is coded by reversing its letters. SCHOOL becomes LOOHCS. How is TRAIN coded?,Reverse code,NIART,NIART,TRIAN,NIRAT,TNIAR,Read the word from right to left.,TRAIN reversed is NIART.,Grade 4,Coding and Decoding,2-step
+code-breaker,Medium,"In a code, A=26, B=25, C=24, ... Z=1. What is the code for CAT?",Reverse alphabet numbers,24-26-7,3-1-20,23-25-6,24-25-7,24-26-7,Use reverse positions: A is 26 and Z is 1.,"In reverse alphabet values, C=24, A=26, and T=7, so CAT is coded 24-26-7.",Grade 4,Coding and Decoding,2-step
+code-breaker,Medium,"If each alphabet number is doubled, CAT is 6-2-40. What is DOG?",Double A1Z26,8-30-14,8-15-14,6-30-12,8-30-14,4-15-7,"Find normal positions, then double them.","D=4→8, O=15→30, G=7→14.",Grade 4,Coding and Decoding,2-step
+code-breaker,Medium,A code replaces each letter with the next vowel/consonant-independent alphabet letter. MAP becomes NBQ. How is SUN coded?,Shift +1,TVO,UWO,TVO,RUN,TVN,Every letter simply moves forward one alphabet position.,"S→T, U→V, N→O, giving TVO.",Grade 4,Coding and Decoding,2-step
+code-breaker,Medium,A word is coded as first letter + last letter + middle letters. For GAME → GEAM. How is NOTE coded?,Reorder letters,NEOT,NEOT,ETON,NOET,NTOE,"Keep first and last first, then place the middle letters.","NOTE: first N, last E, middle O,T → NEOT.",Grade 4,Coding and Decoding,2-step
+code-breaker,Medium,"In a code, vowels stay the same but consonants move forward by 1. CAT becomes DAU. How is DOG coded?",Conditional shift,EOH,EPH,DOG,FPH,EOH,Only consonants change.,"D→E, O stays O, G→H, so EOH.",Grade 4,Coding and Decoding,2-step
+code-breaker,Medium,"In a code, letters at odd positions move +1 and even positions move -1. GAME becomes HZND. How is CODE coded?",Alternating shift,DNED,DODE,BNCD,DNED,DNFD,"Apply +1, −1, +1, −1 from left to right.","C→D, O→N, D→E, E→D, giving DNED.",Grade 4,Coding and Decoding,2-step
+code-breaker,Medium,A three-letter word is coded as the sum of its A1Z26 values. CAT=24. What is DOG?,Letter-sum code,26,28,26,24,25,"Add D, O, and G positions.","D=4, O=15, G=7; 4+15+7=26.",Grade 4,Coding and Decoding,2-step
+code-breaker,Hard,"In a code, CAT→DBU and MAP→NBQ. Using the same rule, how is FISH coded?",Infer shift rule,GJTI,GJTI,FISH,HJUK,GITH,Infer the common change from both examples.,"Every letter moves forward by 1: F→G, I→J, S→T, H→I.",Grade 4,Coding and Decoding,3-step
+code-breaker,Hard,"In a code, DOG→7-15-4 and CAT→20-1-3. What is the rule and code for MAP?",Reverse-position order,16-1-13,13-1-16,16-13-1,14-1-17,16-1-13,Compare the usual A1Z26 code with the examples.,"The usual number codes are written in reverse order. MAP is 13-1-16, so coded 16-1-13.",Grade 4,Coding and Decoding,3-step
+code-breaker,Hard,"A code first reverses a word, then moves every letter forward by 1. CAT becomes UBD. How is DOG coded?",Two-step code,HPE,GOD,IQF,HPE,EPH,"Reverse first, then shift.","DOG→GOD; then G→H, O→P, D→E, giving HPE.",Grade 4,Coding and Decoding,3-step
+code-breaker,Hard,A code moves the first letter to the end: TEAM→EAMT. How is BRAIN coded?,Rotation code,RAINB,AINBR,RAINB,NBRAI,BRAIN,Remove the first letter and append it.,BRAIN becomes RAINB.,Grade 4,Coding and Decoding,3-step
+code-breaker,Hard,"In a code, A=2, B=4, C=6, ... each letter's value is twice its position. What is BAD?",Scaled alphabet code,4-2-8,4-2-8,2-1-4,4-4-8,2-4-6,Double each normal alphabet position.,"B=2→4, A=1→2, D=4→8.",Grade 4,Coding and Decoding,3-step
+code-breaker,Hard,A word is coded by swapping each neighbouring pair: ABCD→BADC. How is PLAN coded?,Pair-swap code,LPNA,PALN,LNAP,PLNA,LPNA,Swap positions 1↔2 and 3↔4.,"PLAN: P,L swap to L,P; A,N swap to N,A, giving LPNA.",Grade 4,Coding and Decoding,3-step
+code-breaker,Hard,"In a code, consonants move +2 while vowels move +1. CAT becomes EBV. How is DOG coded?",Mixed shift code,FPI,FQJ,GOH,FPI,EPH,Classify each letter as vowel or consonant.,"D consonant→F, O vowel→P, G consonant→I, giving FPI.",Grade 4,Coding and Decoding,3-step
+code-breaker,Hard,"A code writes the alphabet positions, then adds 1 to each number. CAT becomes 4-2-21. What is PEN?",Number transformation,17-6-15,18-6-14,17-6-15,16-5-14,17-5-15,"Find A1Z26 values, then increase each by one.","P=16→17, E=5→6, N=14→15.",Grade 4,Coding and Decoding,3-step
+code-breaker,Hard,Two examples follow one rule: ABC→CBA and MATH→HTAM. How is LOGIC coded?,Infer reversal,CIGOL,CIGOL,LOGIC,CILOG,GICOL,The same positional transformation is used in both examples.,"Both examples reverse the letter order, so LOGIC→CIGOL.",Grade 4,Coding and Decoding,3-step
+code-breaker,Hard,A code uses A1Z26 and then adds the first and last letter values only. CAT gives 23 (3+20). What does BRAIN give?,Selective letter sum,16,15,17,25,16,Only use the first and last letters.,B=2 and N=14; 2+14=16.,Grade 4,Coding and Decoding,3-step
