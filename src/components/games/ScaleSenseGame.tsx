@@ -19,6 +19,8 @@ export const ScaleSenseGame: React.FC<ScaleSenseGameProps> = ({ onBack, difficul
     const [playerName, setPlayerName] = useState('');
     const [scoreSaved, setScoreSaved] = useState(false);
     const [selected, setSelected] = useState<number | null>(null);
+    const [attempted, setAttempted] = useState(0);
+    const [correctCount, setCorrectCount] = useState(0);
 
     const nextRound = () => {
         setRound(generateScaleRound(difficulty));
@@ -27,15 +29,23 @@ export const ScaleSenseGame: React.FC<ScaleSenseGameProps> = ({ onBack, difficul
     };
 
     const startGame = () => {
-        setStars(0); setStreak(0); setMaxStreak(0); setTimer(60); setScoreSaved(false);
+        setStars(0);
+        setStreak(0);
+        setMaxStreak(0);
+        setTimer(60);
+        setScoreSaved(false);
+        setAttempted(0);
+        setCorrectCount(0);
         nextRound();
     };
 
     const handleAnswer = (value: number) => {
         if (!round || gameState !== 'play') return;
         setSelected(value);
+        setAttempted(count => count + 1);
         const correct = value === round.answer;
         if (correct) {
+            setCorrectCount(count => count + 1);
             const multiplier = round.difficulty === 'Hard' ? 2 : round.difficulty === 'Medium' ? 1.5 : 1;
             setStars(s => s + Math.floor((10 + streak * 2) * multiplier));
             setStreak(s => { const n = s + 1; setMaxStreak(m => Math.max(m, n)); return n; });
@@ -106,7 +116,25 @@ export const ScaleSenseGame: React.FC<ScaleSenseGameProps> = ({ onBack, difficul
                     </div>
                 )}
 
-                {gameState === 'gameover' && <GameOverScreen stars={stars} streak={maxStreak} onRestart={startGame} onBack={onBack} onSaveScore={handleSaveScore} playerName={playerName} setPlayerName={setPlayerName} scoreSaved={scoreSaved} />}
+                {gameState === 'gameover' && (
+                    <GameOverScreen
+                        stars={stars}
+                        streak={maxStreak}
+                        onRestart={startGame}
+                        onBack={onBack}
+                        onSaveScore={handleSaveScore}
+                        playerName={playerName}
+                        setPlayerName={setPlayerName}
+                        scoreSaved={scoreSaved}
+                        gameTitle="Scale Sense"
+                        skill="Numerical Reasoning"
+                        difficulty={difficulty === 'None' ? 'Mixed' : difficulty}
+                        correct={correctCount}
+                        attempted={attempted}
+                        durationSeconds={60 - timer}
+                        backLabel="BRAIN HUB"
+                    />
+                )}
             </div>
         </SpaceBackground>
     );
