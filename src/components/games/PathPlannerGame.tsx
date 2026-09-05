@@ -4,7 +4,9 @@ import { Header } from '../shared/Header';
 import { GameOverScreen } from '../shared/GameOverScreen';
 import { useAppContext } from '../../contexts/AppContext';
 import { Difficulty } from '../../types';
+import { BrainReviewItem } from '../../types/brainReview';
 import { Coord, coordKey, generatePathLevel, PathLevel } from '../../utils/brainGameGenerators';
+import { findOptimalPath } from '../../utils/pathReview';
 
 interface PathPlannerGameProps { onBack: () => void; difficulty: Difficulty; }
 type Direction = '⬆️' | '➡️' | '⬇️' | '⬅️';
@@ -27,6 +29,7 @@ export const PathPlannerGame: React.FC<PathPlannerGameProps> = ({ onBack, diffic
     const [scoreSaved, setScoreSaved] = useState(false);
     const [attempted, setAttempted] = useState(0);
     const [correctCount, setCorrectCount] = useState(0);
+    const [reviewItems, setReviewItems] = useState<BrainReviewItem[]>([]);
 
     const obstacleSet = useMemo(() => new Set(level?.obstacles ?? []), [level]);
     const starSet = useMemo(() => new Set(level?.stars ?? []), [level]);
@@ -49,6 +52,7 @@ export const PathPlannerGame: React.FC<PathPlannerGameProps> = ({ onBack, diffic
         setScoreSaved(false);
         setAttempted(0);
         setCorrectCount(0);
+        setReviewItems([]);
         nextRound();
     };
 
@@ -70,7 +74,24 @@ export const PathPlannerGame: React.FC<PathPlannerGameProps> = ({ onBack, diffic
         setRobotPos(pos);
         setVisited(path);
         const success = !failed && pos.x === level.goal.x && pos.y === level.goal.y;
+        const optimalPath = findOptimalPath(level);
         setAttempted(value => value + 1);
+        setReviewItems(items => [...items, {
+            kind: 'path',
+            id: `path-${items.length + 1}-${Date.now()}`,
+            round: items.length + 1,
+            correct: success,
+            difficulty: level.difficulty,
+            size: level.size,
+            start: coordKey(level.start),
+            goal: coordKey(level.goal),
+            obstacles: [...level.obstacles],
+            stars: [...level.stars],
+            userPath: [...path],
+            optimalPath,
+            moveCount: Math.max(0, path.length - 1),
+            optimalMoves: Math.max(0, optimalPath.length - 1),
+        }]);
         setFeedback(success ? 'success' : 'fail');
         if (success) {
             setCorrectCount(value => value + 1);
@@ -116,11 +137,7 @@ export const PathPlannerGame: React.FC<PathPlannerGameProps> = ({ onBack, diffic
 
                 {(gameState === 'planning' || gameState === 'result') && level && (
                     <div className="w-full max-w-3xl text-center">
-                        <div className="mb-4 flex flex-wrap justify-center gap-2 text-sm font-bold">
-                            <span className="rounded-full bg-white/10 px-3 py-1 text-white">{level.difficulty}</span>
-                            <span className="rounded-full bg-cyan-500/20 px-3 py-1 text-cyan-100">Shortest route: {level.shortestPathLength}</span>
-                            <span className="rounded-full bg-indigo-500/20 px-3 py-1 text-indigo-100">Move budget: {commands.length}/{level.maxMoves}</span>
-                        </div>
+                        <div className="mb-4 flex flex-wrap justify-center gap-2 text-sm font-bold"><span className="rounded-full bg-white/10 px-3 py-1 text-white">{level.difficulty}</span><span className="rounded-full bg-cyan-500/20 px-3 py-1 text-cyan-100">Shortest route: {level.shortestPathLength}</span><span className="rounded-full bg-indigo-500/20 px-3 py-1 text-indigo-100">Move budget: {commands.length}/{level.maxMoves}</span></div>
                         <div className="grid gap-2 mx-auto mb-6 rounded-2xl bg-black/20 p-3" style={{ gridTemplateColumns: `repeat(${level.size}, minmax(0, 1fr))`, width: `${level.size * 56 + 24}px` }}>
                             {Array.from({ length: level.size * level.size }, (_, index) => {
                                 const x = index % level.size; const y = Math.floor(index / level.size); const key = `${x},${y}`;
@@ -130,36 +147,12 @@ export const PathPlannerGame: React.FC<PathPlannerGameProps> = ({ onBack, diffic
                                 return <div key={key} className={`flex h-12 w-12 items-center justify-center rounded-xl border text-xl ${isObstacle ? 'bg-slate-700 border-slate-500' : wasVisited ? 'bg-cyan-500/30 border-cyan-300/50' : 'bg-white/10 border-white/10'}`}>{isRobot ? '🤖' : isGoal ? '🏁' : isObstacle ? '🪨' : isStar ? '⭐' : ''}</div>;
                             })}
                         </div>
-                        <div className="mb-4 flex flex-wrap justify-center gap-2">
-                            {commands.map((cmd, i) => <span key={`${cmd}-${i}`} className="rounded-lg bg-indigo-500/30 px-3 py-2 text-xl">{cmd}</span>)}
-                            {commands.length === 0 && <span className="text-white/50">Add commands below</span>}
-                        </div>
-                        {gameState === 'planning' && <>
-                            <div className="mb-4 flex justify-center gap-3">{DIRECTIONS.map(dir => <button key={dir} disabled={commands.length >= level.maxMoves} onClick={() => setCommands(c => [...c, dir])} className="h-14 w-14 rounded-xl bg-cyan-600 text-2xl hover:bg-cyan-500 disabled:opacity-40">{dir}</button>)}</div>
-                            <div className="flex justify-center gap-3"><button onClick={() => setCommands(c => c.slice(0, -1))} className="rounded-xl bg-slate-600 px-4 py-2 text-white">Undo</button><button onClick={() => setCommands([])} className="rounded-xl bg-slate-600 px-4 py-2 text-white">Clear</button><button disabled={!commands.length} onClick={runCommands} className="rounded-xl bg-emerald-600 px-6 py-2 font-bold text-white disabled:opacity-40">Run ▶</button></div>
-                        </>}
+                        <div className="mb-4 flex flex-wrap justify-center gap-2">{commands.map((cmd, i) => <span key={`${cmd}-${i}`} className="rounded-lg bg-indigo-500/30 px-3 py-2 text-xl">{cmd}</span>)}{commands.length === 0 && <span className="text-white/50">Add commands below</span>}</div>
+                        {gameState === 'planning' && <><div className="mb-4 flex justify-center gap-3">{DIRECTIONS.map(dir => <button key={dir} disabled={commands.length >= level.maxMoves} onClick={() => setCommands(c => [...c, dir])} className="h-14 w-14 rounded-xl bg-cyan-600 text-2xl hover:bg-cyan-500 disabled:opacity-40">{dir}</button>)}</div><div className="flex justify-center gap-3"><button onClick={() => setCommands(c => c.slice(0, -1))} className="rounded-xl bg-slate-600 px-4 py-2 text-white">Undo</button><button onClick={() => setCommands([])} className="rounded-xl bg-slate-600 px-4 py-2 text-white">Clear</button><button disabled={!commands.length} onClick={runCommands} className="rounded-xl bg-emerald-600 px-6 py-2 font-bold text-white disabled:opacity-40">Run ▶</button></div></>}
                         {gameState === 'result' && <div className={`mt-5 text-xl font-bold ${feedback === 'success' ? 'text-emerald-300' : 'text-rose-300'}`}>{feedback === 'success' ? 'Route complete!' : 'That program did not reach the goal. A solvable route is available.'}</div>}
                     </div>
                 )}
-                {gameState === 'gameover' && (
-                    <GameOverScreen
-                        stars={stars}
-                        streak={maxStreak}
-                        onRestart={startGame}
-                        onBack={onBack}
-                        onSaveScore={handleSaveScore}
-                        playerName={playerName}
-                        setPlayerName={setPlayerName}
-                        scoreSaved={scoreSaved}
-                        gameTitle="Path Planner"
-                        skill="Planning & Spatial Reasoning"
-                        difficulty={difficulty === 'None' ? 'Mixed' : difficulty}
-                        correct={correctCount}
-                        attempted={attempted}
-                        durationSeconds={120 - timer}
-                        backLabel="BRAIN HUB"
-                    />
-                )}
+                {gameState === 'gameover' && <GameOverScreen stars={stars} streak={maxStreak} onRestart={startGame} onBack={onBack} onSaveScore={handleSaveScore} playerName={playerName} setPlayerName={setPlayerName} scoreSaved={scoreSaved} gameTitle="Path Planner" skill="Planning & Spatial Reasoning" difficulty={difficulty === 'None' ? 'Mixed' : difficulty} correct={correctCount} attempted={attempted} durationSeconds={120 - timer} backLabel="BRAIN HUB" reviewItems={reviewItems} />}
             </div>
         </SpaceBackground>
     );
