@@ -8,6 +8,7 @@
     "preview": "vite preview",
     "test": "vitest run",
     "audit:lq": "node scripts/audit-lq-questions.mjs",
+    "audit:brain": "node scripts/audit-brain-questions.mjs",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },
