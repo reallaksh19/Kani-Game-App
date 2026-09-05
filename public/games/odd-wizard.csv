@@ -1,13 +1,31 @@
-game_type,difficulty,text1,text2,answer,option1,option2,option3,option4,hint
-odd-wizard,Easy,Which one is NOT a fruit?,Find the odd one,Car,Apple,Car,Banana,Orange,Three are fruits
-odd-wizard,Easy,Which doesn't belong?,Find the odd one,Triangle,Dog,Cat,Bird,Triangle,Three are animals
-odd-wizard,Easy,Which is not a color?,Find the odd one,Table,Red,Blue,Table,Green,Material object
-odd-wizard,Easy,Which is not a number?,Find the odd one,A,1,2,A,3,Letter vs Numbers
-odd-wizard,Medium,Which number doesn't fit?,Find the odd one,7,2,4,6,7,Look at odd vs even
-odd-wizard,Medium,Which doesn't belong?,Find the odd one,Whale,Lion,Elephant,Whale,Tiger,One lives in water
-odd-wizard,Medium,Which is not a shape?,Find the odd one,Blue,Circle,Square,Blue,Triangle,Color vs Shapes
-odd-wizard,Medium,Which is not weather?,Find the odd one,Chair,Rain,Snow,Chair,Wind,Furniture
-odd-wizard,Hard,15 20 25 33 35,Not divisible by 5,33,15,20,25,33,Check divisibility
-odd-wizard,Hard,Mercury Venus Earth Mars,Which is not a planet?,Moon,Mercury,Venus,Moon,Mars,Planets vs moons
-odd-wizard,Hard,Which has no legs?,Find the odd one,Snake,Dog,Cat,Snake,Bird,Leg count
-odd-wizard,Hard,London Paris NewYork France,Which is a country?,France,London,Paris,France,NewYork,City vs Country
+game_type,difficulty,text1,text2,answer,option1,option2,option3,option4,hint,know_more,grade,skill,cognitive_demand
+odd-wizard,Easy,"Which one is the odd one out: apple, banana, carrot, orange?",Semantic odd-one-out,carrot,carrot,apple,banana,orange,Three are fruits.,Carrot is a vegetable; the others are fruits.,Grade 4,Classification,1-step
+odd-wizard,Easy,"Which one is the odd one out: dog, cat, rabbit, table?",Semantic odd-one-out,table,dog,cat,rabbit,table,Three are animals.,Table is furniture; the others are animals.,Grade 4,Classification,1-step
+odd-wizard,Easy,"Which one is the odd one out: red, blue, chair, green?",Semantic odd-one-out,chair,blue,green,chair,red,Three are colours.,"Chair is an object, not a colour.",Grade 4,Classification,1-step
+odd-wizard,Easy,"Which one is the odd one out: circle, square, triangle, spoon?",Semantic odd-one-out,spoon,triangle,spoon,circle,square,Three are shapes.,Spoon is not a geometric shape.,Grade 4,Classification,1-step
+odd-wizard,Easy,"Which one is the odd one out: Monday, Tuesday, January, Friday?",Semantic odd-one-out,January,January,Monday,Tuesday,Friday,Three are days of the week.,"January is a month, while Monday, Tuesday, and Friday are days of the week.",Grade 4,Classification,1-step
+odd-wizard,Easy,"Which one is the odd one out: bus, train, bicycle, pillow?",Semantic odd-one-out,pillow,bus,train,bicycle,pillow,Three are used for transport.,Pillow is not a vehicle.,Grade 4,Classification,1-step
+odd-wizard,Easy,"Which one is the odd one out: 2, 4, 6, 7?",Number property,7,4,6,7,2,Three numbers are even.,"7 is odd; 2,4,6 are even.",Grade 4,Classification,1-step
+odd-wizard,Easy,"Which one is the odd one out: pen, pencil, crayon, plate?",Semantic odd-one-out,plate,crayon,plate,pen,pencil,Three are writing or drawing tools.,Plate is used for food.,Grade 4,Classification,1-step
+odd-wizard,Easy,"Which one is the odd one out: rose, tulip, oak, lily?",Semantic odd-one-out,oak,oak,rose,tulip,lily,Three are commonly named flowers.,"Oak is a tree, while rose, tulip, and lily are commonly classified as flowers.",Grade 4,Classification,1-step
+odd-wizard,Easy,"Which one is the odd one out: metre, litre, centimetre, kilometre?",Unit category,litre,metre,centimetre,kilometre,litre,Three measure length.,Litre measures capacity; the others measure length.,Grade 4,Classification,1-step
+odd-wizard,Medium,"Which number is the odd one out: 12, 18, 24, 25?",Number rule,25,18,24,25,12,Three are multiples of 6.,"12,18,24 are divisible by 6; 25 is not.",Grade 4,Classification,2-step
+odd-wizard,Medium,"Which word is the odd one out: run, jump, swim, happy?",Grammar class,happy,swim,happy,run,jump,Three are action verbs.,Happy is an adjective; the others are verbs.,Grade 4,Classification,2-step
+odd-wizard,Medium,"Which shape is the odd one out: square, rectangle, triangle, parallelogram?",Shape property,triangle,triangle,square,rectangle,parallelogram,Three have four sides.,Triangle has three sides; the others have four.,Grade 4,Classification,2-step
+odd-wizard,Medium,"Which number is the odd one out: 9, 16, 25, 30?",Square-number rule,30,9,16,25,30,Three are perfect squares.,"9=3²,16=4²,25=5²; 30 is not a square.",Grade 4,Classification,2-step
+odd-wizard,Medium,"Which is the odd one out: Mercury, Venus, Earth, Moon?",Astronomy class,Moon,Venus,Earth,Moon,Mercury,Three are planets.,The Moon is a natural satellite.,Grade 4,Classification,2-step
+odd-wizard,Medium,"Which fraction is the odd one out: 1/2, 2/4, 3/6, 3/4?",Equivalent fraction rule,3/4,3/6,3/4,1/2,2/4,Three fractions are equal.,1/2=2/4=3/6; 3/4 has a different value.,Grade 4,Classification,2-step
+odd-wizard,Medium,"Which is the odd one out: copper, iron, silver, glass?",Material class,glass,glass,copper,iron,silver,Three are metals.,Glass is not a metal.,Grade 4,Classification,2-step
+odd-wizard,Medium,"Which number is the odd one out: 14, 21, 28, 32?",Multiple rule,32,14,21,28,32,Three are multiples of 7.,"14,21,28 are divisible by 7; 32 is not.",Grade 4,Classification,2-step
+odd-wizard,Medium,"Which word is the odd one out: replay, rewrite, return, careful?",Prefix rule,careful,rewrite,return,careful,replay,Three begin with the same prefix.,"Replay, rewrite, and return begin with 're-'; careful does not.",Grade 4,Classification,2-step
+odd-wizard,Medium,"Which is the odd one out: frog, toad, salamander, lizard?",Animal class,lizard,salamander,lizard,frog,toad,Three are amphibians.,Lizard is a reptile; the others are amphibians.,Grade 4,Classification,2-step
+odd-wizard,Hard,"Which number is the odd one out: 18, 27, 36, 46?",Multiple and digit rule,46,46,18,27,36,Three are multiples of 9.,"18,27,36 are multiples of 9; 46 is not.",Grade 4,Classification,3-step
+odd-wizard,Hard,"Which word is the odd one out: level, civic, radar, river?",Palindrome rule,river,level,civic,radar,river,Read each word backwards.,"Level, civic, and radar are palindromes; river is not.",Grade 4,Classification,3-step
+odd-wizard,Hard,"Which number is the odd one out: 2, 6, 12, 20, 31?",Product pattern class,31,6,12,31,2,The first four can be written n×(n+1).,"2=1×2, 6=2×3, 12=3×4, 20=4×5; next would be 30, not 31.",Grade 4,Classification,3-step
+odd-wizard,Hard,"Which fraction is the odd one out: 2/3, 4/6, 6/9, 5/8?",Equivalent fraction class,5/8,6/9,5/8,2/3,4/6,Simplify each fraction.,2/3=4/6=6/9; 5/8 is different.,Grade 4,Classification,3-step
+odd-wizard,Hard,"Which shape is the odd one out: square, rhombus, rectangle, equilateral triangle?",Property combination,equilateral triangle,equilateral triangle,square,rhombus,rectangle,Three are quadrilaterals.,"Square, rhombus, and rectangle have four sides; the triangle has three.",Grade 4,Classification,3-step
+odd-wizard,Hard,"Which code is the odd one out if three pairs move forward by 3 letters: AD, BE, CF, EI?",Letter-pair rule,EI,AD,BE,CF,EI,Check the alphabet gap inside each pair.,"A→D, B→E, C→F are +3; E→I is +4, so EI is the odd pair.",Grade 4,Classification,3-step
+odd-wizard,Hard,"Which number is the odd one out: 11, 22, 33, 45?",Repeated-digit rule,45,22,33,45,11,Three have matching tens and ones digits.,"11,22,33 repeat the same digit; 45 does not.",Grade 4,Classification,3-step
+odd-wizard,Hard,"Which word is the odd one out: unhappy, unfair, untidy, replay?",Prefix rule,replay,untidy,replay,unhappy,unfair,Three share the same prefix.,The first three use 'un-'; replay uses 're-'.,Grade 4,Classification,3-step
+odd-wizard,Hard,"Which number is the odd one out: 8, 27, 64, 100?",Cube-number rule,100,100,8,27,64,Three are cubes of whole numbers.,"8=2³,27=3³,64=4³; 100 is not a perfect cube.",Grade 4,Classification,3-step
+odd-wizard,Hard,"Which item is the odd one out: thermometer, ruler, weighing scale, telescope?",Measurement function,telescope,thermometer,ruler,weighing scale,telescope,Three directly measure a common physical quantity.,"A thermometer measures temperature, ruler length, scale mass/weight; a telescope is mainly for viewing distant objects.",Grade 4,Classification,3-step
