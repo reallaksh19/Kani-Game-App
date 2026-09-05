@@ -82,6 +82,35 @@ function multiAnswerIndexes(value: unknown, options: string[]): number[] | null 
   return [...new Set(indexes)];
 }
 
+function matchingItems(value: unknown): Array<{ id: string; text: string }> | null {
+  if (!Array.isArray(value) || value.length < 2) return null;
+  const result: Array<{ id: string; text: string }> = [];
+  for (const item of value) {
+    if (!isRecord(item) || typeof item.id !== 'string' || !item.id.trim() || typeof item.text !== 'string' || !item.text.trim()) return null;
+    result.push({ id: item.id.trim(), text: item.text.trim() });
+  }
+  return new Set(result.map((item) => item.id)).size === result.length ? result : null;
+}
+
+function correctPairs(value: unknown, leftIds: Set<string>, rightIds: Set<string>): Array<[string, string]> | null {
+  if (!Array.isArray(value) || value.length === 0) return null;
+  const result: Array<[string, string]> = [];
+  for (const pair of value) {
+    if (!Array.isArray(pair) || pair.length !== 2 || typeof pair[0] !== 'string' || typeof pair[1] !== 'string') return null;
+    if (!leftIds.has(pair[0]) || !rightIds.has(pair[1])) return null;
+    result.push([pair[0], pair[1]]);
+  }
+  return new Set(result.map(([leftId]) => leftId)).size === result.length ? result : null;
+}
+
+function sequenceOrder(value: unknown, itemCount: number): number[] | null {
+  if (!Array.isArray(value) || value.length !== itemCount) return null;
+  const order = value.filter((item): item is number => typeof item === 'number' && Number.isInteger(item));
+  if (order.length !== itemCount || new Set(order).size !== itemCount) return null;
+  if (order.some((item) => item < 0 || item >= itemCount)) return null;
+  return order;
+}
+
 function commonMetadata(raw: Record<string, unknown>, page: StudyHubPageDocument, meta: KaniCatalogPage, id: string) {
   const pageDifficulty = meta.difficulty === 'mixed' || meta.difficulty === 'none' ? 'medium' : meta.difficulty;
   const cognitiveDemand = [raw.questionCategory, raw.category, raw.usage]
@@ -184,7 +213,46 @@ export function adaptStudyHubPageQuestions(page: StudyHubPageDocument, meta: Kan
       return;
     }
 
-    unsupported.push({ questionId: id, type, reason: `Question type ${type || '(missing)'} is not enabled in the first-wave Kani runtime` });
+    if (type === 'numeric') {
+      const prompt = typeof value.prompt === 'string' ? value.prompt.trim() : '';
+      const answer = typeof value.answer === 'number' && Number.isFinite(value.answer) ? value.answer : null;
+      const tolerance = typeof value.tolerance === 'number' && Number.isFinite(value.tolerance) && value.tolerance >= 0 ? value.tolerance : 0;
+      if (!prompt || answer == null) {
+        unsupported.push({ questionId: id, type, reason: 'Numeric requires prompt and finite numeric answer' });
+        return;
+      }
+      questions.push({ ...base, type, prompt, answer, tolerance, ...(typeof value.unit === 'string' && value.unit.trim() ? { unit: value.unit.trim() } : {}) });
+      return;
+    }
+
+    if (type === 'sequence_order') {
+      const prompt = typeof value.prompt === 'string' ? value.prompt.trim() : '';
+      const items = strings(value.items);
+      const order = sequenceOrder(value.correctOrder, items.length);
+      if (!prompt || items.length < 2 || !order) {
+        unsupported.push({ questionId: id, type, reason: 'Sequence requires prompt, at least two items and a complete unique correctOrder' });
+        return;
+      }
+      questions.push({ ...base, type, prompt, items, correctOrder: order });
+      return;
+    }
+
+    if (type === 'match_following') {
+      const prompt = typeof value.prompt === 'string' ? value.prompt.trim() : '';
+      const leftItems = matchingItems(value.leftItems);
+      const rightItems = matchingItems(value.rightItems);
+      const pairs = leftItems && rightItems
+        ? correctPairs(value.correctPairs, new Set(leftItems.map((item) => item.id)), new Set(rightItems.map((item) => item.id)))
+        : null;
+      if (!prompt || !leftItems || !rightItems || !pairs) {
+        unsupported.push({ questionId: id, type, reason: 'Matching requires prompt, unique left/right items and valid correctPairs' });
+        return;
+      }
+      questions.push({ ...base, type, prompt, leftItems, rightItems, correctPairs: pairs });
+      return;
+    }
+
+    unsupported.push({ questionId: id, type, reason: `Question type ${type || '(missing)'} is not enabled in the Kani runtime or lacks an objectively scorable v1 mapping` });
   });
 
   return { questions, unsupported };

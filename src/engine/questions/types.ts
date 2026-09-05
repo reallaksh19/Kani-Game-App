@@ -1,6 +1,6 @@
 import { KaniActivityType, KaniAttemptV1, KaniDifficulty, KaniQuestion, KaniSourceApp } from '../../integration/kani/contracts';
 
-export type SupportedAnswer = string | number | boolean | number[];
+export type SupportedAnswer = string | number | boolean | number[] | Record<string, string>;
 
 export interface AnswerEvaluation {
   supported: boolean;

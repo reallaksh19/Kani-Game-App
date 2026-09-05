@@ -92,18 +92,40 @@ describe('adaptStudyHubPageQuestions', () => {
     expect(result.questions[3]).toMatchObject({ type: 'multi_select', answerIndexes: [0, 2] });
   });
 
-  it('refuses missing stable ids and unsupported types instead of inventing or mis-scoring them', () => {
+  it('maps numeric, sequence and matching questions into the second-wave runtime', () => {
+    const result = adaptStudyHubPageQuestions(page([
+      { id: 'numeric', type: 'numeric', prompt: 'What is 10 / 4?', answer: 2.5, tolerance: 0.01, unit: 'kg' },
+      { id: 'sequence', type: 'sequence_order', prompt: 'Order the steps.', items: ['First', 'Second', 'Third'], correctOrder: [1, 2, 0] },
+      {
+        id: 'match',
+        type: 'match_following',
+        prompt: 'Match each item.',
+        leftItems: [{ id: 'l1', text: 'Half' }, { id: 'l2', text: 'Quarter' }],
+        rightItems: [{ id: 'r1', text: '1/2' }, { id: 'r2', text: '1/4' }],
+        correctPairs: [['l1', 'r1'], ['l2', 'r2']],
+      },
+    ]), meta);
+
+    expect(result.unsupported).toEqual([]);
+    expect(result.questions[0]).toMatchObject({ type: 'numeric', answer: 2.5, tolerance: 0.01, unit: 'kg' });
+    expect(result.questions[1]).toMatchObject({ type: 'sequence_order', correctOrder: [1, 2, 0] });
+    expect(result.questions[2]).toMatchObject({ type: 'match_following', correctPairs: [['l1', 'r1'], ['l2', 'r2']] });
+  });
+
+  it('refuses missing stable ids and objectively unscorable/invalid types instead of inventing answers', () => {
     const result = adaptStudyHubPageQuestions(page([
       { type: 'mcq', prompt: 'No id', options: ['a', 'b'], answer: 0 },
-      { id: 'q-seq', type: 'sequence_order', prompt: 'Order', items: ['a', 'b'], correctOrder: [0, 1] },
+      { id: 'q-long', type: 'long_answer', prompt: 'Explain why.', modelAnswer: 'Because...' },
       { id: 'q-bad', type: 'mcq', prompt: 'Bad answer', options: ['a', 'b'], answer: 'Z' },
+      { id: 'bad-seq', type: 'sequence_order', prompt: 'Order', items: ['a', 'b'], correctOrder: [0, 0] },
     ]), meta);
 
     expect(result.questions).toHaveLength(0);
-    expect(result.unsupported).toHaveLength(3);
+    expect(result.unsupported).toHaveLength(4);
     expect(result.unsupported[0].reason).toMatch(/stable question id/);
-    expect(result.unsupported[1].reason).toMatch(/not enabled/);
+    expect(result.unsupported[1].reason).toMatch(/not enabled|objectively scorable/);
     expect(result.unsupported[2].reason).toMatch(/valid answer/);
+    expect(result.unsupported[3].reason).toMatch(/complete unique correctOrder/);
   });
 
   it('falls back to page metadata for normalized difficulty and preserves unique answer indexes', () => {
