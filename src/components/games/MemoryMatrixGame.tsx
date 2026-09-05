@@ -4,6 +4,7 @@ import { Header } from '../shared/Header';
 import { GameOverScreen } from '../shared/GameOverScreen';
 import { useAppContext } from '../../contexts/AppContext';
 import { Difficulty } from '../../types';
+import { BrainReviewItem } from '../../types/brainReview';
 
 interface MemoryMatrixGameProps {
     onBack: () => void;
@@ -27,6 +28,7 @@ export const MemoryMatrixGame: React.FC<MemoryMatrixGameProps> = ({ onBack, diff
     const [scoreSaved, setScoreSaved] = useState(false);
     const [attempted, setAttempted] = useState(0);
     const [correctCount, setCorrectCount] = useState(0);
+    const [reviewItems, setReviewItems] = useState<BrainReviewItem[]>([]);
 
     const generatePattern = useCallback(() => {
         let currentDifficulty = difficulty;
@@ -71,6 +73,7 @@ export const MemoryMatrixGame: React.FC<MemoryMatrixGameProps> = ({ onBack, diff
         setShowTime(3000);
         setAttempted(0);
         setCorrectCount(0);
+        setReviewItems([]);
         startRound();
     };
 
@@ -88,6 +91,16 @@ export const MemoryMatrixGame: React.FC<MemoryMatrixGameProps> = ({ onBack, diff
     const checkAnswer = (selected: number[]) => {
         const correct = selected.every(cell => highlightedCells.includes(cell));
         setAttempted(value => value + 1);
+        setReviewItems(items => [...items, {
+            kind: 'memory',
+            id: `memory-${round}-${Date.now()}`,
+            round,
+            correct,
+            difficulty: activeDifficulty,
+            gridSize: currentGridSize,
+            targetCells: [...highlightedCells],
+            selectedCells: [...selected],
+        }]);
 
         if (correct) {
             setCorrectCount(value => value + 1);
@@ -242,6 +255,7 @@ export const MemoryMatrixGame: React.FC<MemoryMatrixGameProps> = ({ onBack, diff
                         attempted={attempted}
                         durationSeconds={60 - timer}
                         backLabel="BRAIN HUB"
+                        reviewItems={reviewItems}
                     />
                 )}
             </div>
