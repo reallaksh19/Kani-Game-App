@@ -11,16 +11,16 @@ export const useGameLogic = (
 ) => {
     const isMath = ['space-math', 'alien-invasion', 'bubble-pop', 'planet-hopper', 'fraction-frenzy', 'time-warp', 'money-master', 'geometry-galaxy', 'story-solver', 'estimation-express', 'pattern-planet', 'measurement-mission', 'fraction-exam'].includes(gameId);
     const isSkill = ['pattern-forge', 'logic-lab', 'odd-wizard', 'sorting-station', 'code-breaker', 'memory-matrix', 'sequence-sprint', 'path-planner', 'data-detective', 'venn-voyager', 'mirror-match', 'scale-sense', 'cause-effect', 'analogy-arena', 'sequence-story', 'classify-quest', 'lq-lot-1', 'lq-lot-2', 'lq-lot-3', 'lq-lot-4', 'lq-lot-5'].includes(gameId);
+    const isLQ = gameId.startsWith('lq-lot-');
 
     const getSheetUrl = () => {
-        if (gameId.startsWith('lq-lot-')) {
+        if (isLQ) {
             const lotNum = gameId.replace('lq-lot-', '');
             return `${import.meta.env.BASE_URL}docs/questions/lq-champ/lot-${lotNum}.csv`;
         }
         if (settings.useGoogleSheets) {
             return isMath ? settings.mathSheetUrl : isSkill ? (settings.skillSheetUrl || settings.englishSheetUrl) : settings.englishSheetUrl;
         }
-        // Local fallbacks: use individual game files
         return `${import.meta.env.BASE_URL}games/${gameId}.csv`;
     };
 
@@ -28,7 +28,6 @@ export const useGameLogic = (
     const { data: allQuestions, loading, error } = useSheetData(sheetUrl, gameId);
 
     const [stars, setStars] = useState(0);
-    // Timer now counts UP
     const [timer, setTimer] = useState(0);
     const [gameActive, setGameActive] = useState(false);
     const [gameOver, setGameOver] = useState(false);
@@ -38,22 +37,20 @@ export const useGameLogic = (
     const [feedback, setFeedback] = useState<Feedback | null>(null);
     const [playerName, setPlayerName] = useState('');
     const [scoreSaved, setScoreSaved] = useState(false);
-
-    // New state for 10-question session
     const [questionsQueue, setQuestionsQueue] = useState<Question[]>([]);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [totalQuestions, setTotalQuestions] = useState(0);
-
-    // Persistence and Navigation State
     const [answers, setAnswers] = useState<Record<number, { selected: string, isCorrect: boolean, timeSpent?: number }>>({});
     const [hintLogs, setHintLogs] = useState<Record<number, boolean>>({});
     const [questionStartTime, setQuestionStartTime] = useState<number>(Date.now());
 
     const filterQuestions = useCallback(() => {
+        // A Grade 4 LQ lot is intentionally mixed: 15 Medium + 5 Hard.
+        // Never let the app-wide difficulty filter silently remove part of a lot.
+        if (isLQ) return allQuestions;
         return allQuestions.filter(q => !q.difficulty || q.difficulty === difficulty || difficulty === 'None');
-    }, [allQuestions, difficulty]);
+    }, [allQuestions, difficulty, isLQ]);
 
-    // Shuffle array helper
     const shuffleArray = <T,>(array: T[]): T[] => {
         const newArr = [...array];
         for (let i = newArr.length - 1; i > 0; i--) {
@@ -64,7 +61,6 @@ export const useGameLogic = (
     };
 
     useEffect(() => {
-        // Timer counts UP when game is active
         if (gameActive && !gameOver) {
             const interval = setInterval(() => setTimer(t => t + 1), 1000);
             return () => clearInterval(interval);
@@ -73,7 +69,7 @@ export const useGameLogic = (
 
     const startGame = () => {
         setStars(0);
-        setTimer(0); // Start from 0
+        setTimer(0);
         setStreak(0);
         setMaxStreak(0);
         setGameActive(true);
@@ -85,12 +81,10 @@ export const useGameLogic = (
         setFeedback(null);
         setQuestionStartTime(Date.now());
 
-        // Prepare session questions
         const filtered = filterQuestions();
         let session: Question[] = [];
 
         if (gameId === 'story-nebula' || gameId === 'story-jammer') {
-            // Group by story title or ID
             const grouped: Record<string, Question[]> = {};
             filtered.forEach(q => {
                 const key = (gameId === 'story-jammer' ? q.story_id : q.text1) || 'Untitled';
@@ -100,11 +94,8 @@ export const useGameLogic = (
 
             const keys = Object.keys(grouped);
             if (keys.length > 0) {
-                // Pick one random story
                 const randomKey = keys[Math.floor(Math.random() * keys.length)];
                 session = grouped[randomKey];
-
-                // Sort by question_num if available for story-jammer
                 if (gameId === 'story-jammer') {
                     session.sort((a, b) => {
                         const numA = parseInt(a.question_num || '0');
@@ -115,9 +106,7 @@ export const useGameLogic = (
             }
         } else {
             const shuffled = shuffleArray(filtered);
-            // Check if game is an Exam type (currently just fraction-exam)
             const isExam = ['fraction-exam'].includes(gameId);
-            const isLQ = gameId.startsWith('lq-lot-');
             const questionLimit = isExam ? 25 : isLQ ? 20 : 10;
             session = shuffled.slice(0, questionLimit);
         }
@@ -129,27 +118,30 @@ export const useGameLogic = (
         if (session.length > 0) {
             setCurrentQ(session[0]);
         } else {
-            // Handle no questions case
             setGameActive(false);
         }
     };
 
     const handleAnswer = (selected: string, correct?: string) => {
-        // If already answered, do nothing
         if (!gameActive || answers[currentIndex]) return;
 
         const isCorrect = selected === correct || selected === String(correct);
         const elapsedSec = Math.max(1, Math.round((Date.now() - questionStartTime) / 1000));
 
-        // Save answer
         setAnswers(prev => ({
             ...prev,
             [currentIndex]: { selected, isCorrect, timeSpent: elapsedSec }
         }));
 
-        // Calculate points
         if (isCorrect) {
-            const mult = difficulty === 'Hard' ? GAME_CONSTANTS.SCORE.MULTIPLIER.HARD : difficulty === 'Medium' ? GAME_CONSTANTS.SCORE.MULTIPLIER.MEDIUM : GAME_CONSTANTS.SCORE.MULTIPLIER.EASY;
+            // LQ lots contain both Medium and Hard questions in the same run, so score
+            // against the actual question difficulty rather than the global selector.
+            const questionDifficulty = (currentQ?.difficulty || difficulty) as Difficulty;
+            const mult = questionDifficulty === 'Hard'
+                ? GAME_CONSTANTS.SCORE.MULTIPLIER.HARD
+                : questionDifficulty === 'Medium'
+                    ? GAME_CONSTANTS.SCORE.MULTIPLIER.MEDIUM
+                    : GAME_CONSTANTS.SCORE.MULTIPLIER.EASY;
             setStars(s => s + Math.floor((GAME_CONSTANTS.SCORE.BASE_POINTS + streak * GAME_CONSTANTS.SCORE.STREAK_BONUS) * mult));
             setStreak(s => { const n = s + 1; setMaxStreak(m => Math.max(m, n)); return n; });
             setFeedback({ correct: true, explanation: currentQ?.explanation });
@@ -157,8 +149,6 @@ export const useGameLogic = (
             setStreak(0);
             setFeedback({ correct: false, answer: correct, explanation: currentQ?.explanation });
         }
-
-        // No auto-advance. User must click Next.
     };
 
     const navigateQuestion = (direction: 'next' | 'prev') => {
@@ -169,10 +159,9 @@ export const useGameLogic = (
         if (newIndex >= 0 && newIndex < questionsQueue.length) {
             setCurrentIndex(newIndex);
             setCurrentQ(questionsQueue[newIndex]);
-            setFeedback(null); // Clear feedback when navigating
+            setFeedback(null);
             setQuestionStartTime(Date.now());
         } else if (direction === 'next' && newIndex >= questionsQueue.length) {
-            // End Game
             setGameActive(false);
             setGameOver(true);
         }
