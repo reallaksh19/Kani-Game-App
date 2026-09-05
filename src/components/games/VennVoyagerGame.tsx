@@ -23,6 +23,8 @@ export const VennVoyagerGame: React.FC<VennVoyagerGameProps> = ({ onBack, diffic
     const [timer, setTimer] = useState(60);
     const [playerName, setPlayerName] = useState('');
     const [scoreSaved, setScoreSaved] = useState(false);
+    const [attempted, setAttempted] = useState(0);
+    const [correctCount, setCorrectCount] = useState(0);
 
     const makePair = () => {
         const next = chooseVennPair(difficulty);
@@ -33,14 +35,25 @@ export const VennVoyagerGame: React.FC<VennVoyagerGameProps> = ({ onBack, diffic
         setFeedback(null);
         setGameState('play');
     };
-    const startGame = () => { setStars(0); setStreak(0); setMaxStreak(0); setTimer(60); setScoreSaved(false); makePair(); };
+    const startGame = () => {
+        setStars(0);
+        setStreak(0);
+        setMaxStreak(0);
+        setTimer(60);
+        setScoreSaved(false);
+        setAttempted(0);
+        setCorrectCount(0);
+        makePair();
+    };
 
     const checkSort = (zone: VennZone) => {
         if (!item || gameState !== 'play') return;
         const correct = classifyVennItem(item, pair);
         setFeedback({ chosen: zone, correct });
         const isCorrect = zone === correct;
+        setAttempted(value => value + 1);
         if (isCorrect) {
+            setCorrectCount(value => value + 1);
             const multiplier = activeDifficulty === 'Hard' ? 2 : activeDifficulty === 'Medium' ? 1.5 : 1;
             setStars(s => s + Math.floor((10 + streak) * multiplier));
             setStreak(s => { const n = s + 1; setMaxStreak(m => Math.max(m, n)); return n; });
@@ -81,9 +94,27 @@ export const VennVoyagerGame: React.FC<VennVoyagerGameProps> = ({ onBack, diffic
         <SpaceBackground variant="skill">
             <Header timer={timer} streak={streak} stars={stars} onBack={onBack} formatTime={formatTime} difficulty={difficulty} />
             <div className="flex min-h-full items-center justify-center px-4 pt-20">
-                {gameState === 'start' && <div className="max-w-lg text-center"><div className="text-7xl mb-4">⭕</div><h1 className="text-4xl font-bold text-white mb-2">Venn Voyager</h1><p className="text-fuchsia-200 mb-4">Classify each item into A only, B only, both sets, or neither. Difficulty now changes the predicates and mastery target.</p><button onClick={startGame} className="rounded-full bg-gradient-to-r from-fuchsia-500 to-pink-500 px-8 py-4 text-xl font-bold text-white hover:scale-105 transition-transform">START GAME</button></div>}
+                {gameState === 'start' && <div className="max-w-lg text-center"><div className="text-7xl mb-4">⭕</div><h1 className="text-4xl font-bold text-white mb-2">Venn Voyager</h1><p className="text-fuchsia-200 mb-4">Classify each item into A only, B only, both sets, or neither. Difficulty changes the predicates and mastery target.</p><button onClick={startGame} className="rounded-full bg-gradient-to-r from-fuchsia-500 to-pink-500 px-8 py-4 text-xl font-bold text-white hover:scale-105 transition-transform">START GAME</button></div>}
                 {(gameState === 'play' || gameState === 'result') && item && <div className="w-full max-w-2xl text-center"><div className="mb-3 text-sm font-bold uppercase tracking-wider text-fuchsia-200">{activeDifficulty} · {sortedCount}/{target} correct in this set</div><div className="relative mx-auto mb-6 h-52 max-w-md"><div className="absolute left-12 top-4 flex h-40 w-40 items-center justify-center rounded-full border-4 border-rose-300 bg-rose-500/20"><span className="-translate-x-6 font-black uppercase text-white">{pair.A}</span></div><div className="absolute right-12 top-4 flex h-40 w-40 items-center justify-center rounded-full border-4 border-blue-300 bg-blue-500/20"><span className="translate-x-6 font-black uppercase text-white">{pair.B}</span></div></div><div className="mb-6"><div className="text-6xl mb-2">{item.emoji}</div><div className="text-2xl font-black text-white">{item.label}</div></div><div className="grid grid-cols-2 gap-3 sm:grid-cols-4">{(['A', 'Both', 'B', 'None'] as VennZone[]).map(zone => { const show = gameState === 'result'; const correct = feedback?.correct === zone; const chosen = feedback?.chosen === zone; return <button key={zone} disabled={show} onClick={() => checkSort(zone)} className={`rounded-2xl border-2 p-4 font-bold capitalize transition ${show && correct ? 'border-emerald-300 bg-emerald-500 text-white' : show && chosen ? 'border-rose-300 bg-rose-500 text-white' : 'border-white/20 bg-white/10 text-white hover:bg-white/20'}`}>{zoneLabel(zone, pair)}</button>; })}</div>{feedback && <div className={`mt-5 text-lg font-bold ${feedback.chosen === feedback.correct ? 'text-emerald-300' : 'text-rose-300'}`}>{feedback.chosen === feedback.correct ? 'Correct classification!' : `Correct zone: ${zoneLabel(feedback.correct, pair)}`}</div>}</div>}
-                {gameState === 'gameover' && <GameOverScreen stars={stars} streak={maxStreak} onRestart={startGame} onBack={onBack} onSaveScore={handleSaveScore} playerName={playerName} setPlayerName={setPlayerName} scoreSaved={scoreSaved} />}
+                {gameState === 'gameover' && (
+                    <GameOverScreen
+                        stars={stars}
+                        streak={maxStreak}
+                        onRestart={startGame}
+                        onBack={onBack}
+                        onSaveScore={handleSaveScore}
+                        playerName={playerName}
+                        setPlayerName={setPlayerName}
+                        scoreSaved={scoreSaved}
+                        gameTitle="Venn Voyager"
+                        skill="Set Classification"
+                        difficulty={difficulty === 'None' ? 'Mixed' : difficulty}
+                        correct={correctCount}
+                        attempted={attempted}
+                        durationSeconds={60 - timer}
+                        backLabel="BRAIN HUB"
+                    />
+                )}
             </div>
         </SpaceBackground>
     );

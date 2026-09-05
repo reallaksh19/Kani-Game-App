@@ -19,6 +19,8 @@ export const DataDetectiveGame: React.FC<DataDetectiveGameProps> = ({ onBack, di
     const [timer, setTimer] = useState(60);
     const [playerName, setPlayerName] = useState('');
     const [scoreSaved, setScoreSaved] = useState(false);
+    const [attempted, setAttempted] = useState(0);
+    const [correctCount, setCorrectCount] = useState(0);
 
     const nextRound = () => {
         setRound(generateDataRound(difficulty));
@@ -26,13 +28,21 @@ export const DataDetectiveGame: React.FC<DataDetectiveGameProps> = ({ onBack, di
         setGameState('play');
     };
     const startGame = () => {
-        setStars(0); setStreak(0); setMaxStreak(0); setTimer(60); setScoreSaved(false);
+        setStars(0);
+        setStreak(0);
+        setMaxStreak(0);
+        setTimer(60);
+        setScoreSaved(false);
+        setAttempted(0);
+        setCorrectCount(0);
         nextRound();
     };
     const answer = (value: string) => {
         if (!round || gameState !== 'play') return;
         setSelected(value);
+        setAttempted(count => count + 1);
         if (value === round.answer) {
+            setCorrectCount(count => count + 1);
             const multiplier = round.difficulty === 'Hard' ? 2 : round.difficulty === 'Medium' ? 1.5 : 1;
             setStars(s => s + Math.floor((10 + streak * 2) * multiplier));
             setStreak(s => { const n = s + 1; setMaxStreak(m => Math.max(m, n)); return n; });
@@ -83,7 +93,25 @@ export const DataDetectiveGame: React.FC<DataDetectiveGameProps> = ({ onBack, di
             <div className="flex min-h-full items-center justify-center px-4 pt-20">
                 {gameState === 'start' && <div className="max-w-lg text-center"><div className="text-7xl mb-4">📊</div><h1 className="text-4xl font-bold text-white mb-2">Data Detective</h1><p className="text-cyan-200 mb-6">Read charts carefully. Values are generated uniquely, so maximum and minimum questions always have one valid answer.</p><button onClick={startGame} className="rounded-full bg-gradient-to-r from-cyan-500 to-indigo-500 px-8 py-4 text-xl font-bold text-white hover:scale-105 transition-transform">START GAME</button></div>}
                 {(gameState === 'play' || gameState === 'result') && round && <div className="w-full max-w-3xl"><div className="mb-3 text-center text-sm font-bold uppercase tracking-wider text-cyan-200">{round.difficulty} · {round.chartType} chart</div>{chart}<h2 className="my-6 text-center text-2xl font-bold text-white">{round.question}</h2><div className={`grid gap-3 ${round.options.length === 2 ? 'grid-cols-2 max-w-md mx-auto' : 'grid-cols-2 sm:grid-cols-4'}`}>{round.options.map(opt => { const show = gameState === 'result'; const correct = opt === round.answer; const chosen = opt === selected; return <button key={opt} disabled={show} onClick={() => answer(opt)} className={`rounded-2xl border-2 px-4 py-4 font-bold transition ${show && correct ? 'border-emerald-300 bg-emerald-500 text-white' : show && chosen ? 'border-rose-300 bg-rose-500 text-white' : 'border-white/20 bg-white/10 text-white hover:bg-white/20'}`}>{opt}</button>; })}</div>{gameState === 'result' && <div className={`mt-5 text-center text-xl font-bold ${selected === round.answer ? 'text-emerald-300' : 'text-rose-300'}`}>{selected === round.answer ? 'Correct read!' : `Correct answer: ${round.answer}`}</div>}</div>}
-                {gameState === 'gameover' && <GameOverScreen stars={stars} streak={maxStreak} onRestart={startGame} onBack={onBack} onSaveScore={handleSaveScore} playerName={playerName} setPlayerName={setPlayerName} scoreSaved={scoreSaved} />}
+                {gameState === 'gameover' && (
+                    <GameOverScreen
+                        stars={stars}
+                        streak={maxStreak}
+                        onRestart={startGame}
+                        onBack={onBack}
+                        onSaveScore={handleSaveScore}
+                        playerName={playerName}
+                        setPlayerName={setPlayerName}
+                        scoreSaved={scoreSaved}
+                        gameTitle="Data Detective"
+                        skill="Data Reasoning"
+                        difficulty={difficulty === 'None' ? 'Mixed' : difficulty}
+                        correct={correctCount}
+                        attempted={attempted}
+                        durationSeconds={60 - timer}
+                        backLabel="BRAIN HUB"
+                    />
+                )}
             </div>
         </SpaceBackground>
     );

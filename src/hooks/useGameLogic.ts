@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { Difficulty, Settings, Question, Feedback } from '../types';
 import { useSheetData } from './useSheetData';
 import { GAME_CONSTANTS } from '../constants/gameConstants';
+import { orderItems, pickOrderedItem } from '../utils/questionOrder';
 
 export const useGameLogic = (
     gameId: string,
@@ -51,15 +52,6 @@ export const useGameLogic = (
         return allQuestions.filter(q => !q.difficulty || q.difficulty === difficulty || difficulty === 'None');
     }, [allQuestions, difficulty, isLQ]);
 
-    const shuffleArray = <T,>(array: T[]): T[] => {
-        const newArr = [...array];
-        for (let i = newArr.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [newArr[i], newArr[j]] = [newArr[j], newArr[i]];
-        }
-        return newArr;
-    };
-
     useEffect(() => {
         if (gameActive && !gameOver) {
             const interval = setInterval(() => setTimer(t => t + 1), 1000);
@@ -93,10 +85,11 @@ export const useGameLogic = (
             });
 
             const keys = Object.keys(grouped);
-            if (keys.length > 0) {
-                const randomKey = keys[Math.floor(Math.random() * keys.length)];
-                session = grouped[randomKey];
+            const selectedKey = pickOrderedItem(keys, settings.randomize);
+            if (selectedKey) {
+                session = [...grouped[selectedKey]];
                 if (gameId === 'story-jammer') {
+                    // Questions within one passage stay in authored question-number order.
                     session.sort((a, b) => {
                         const numA = parseInt(a.question_num || '0');
                         const numB = parseInt(b.question_num || '0');
@@ -105,10 +98,10 @@ export const useGameLogic = (
                 }
             }
         } else {
-            const shuffled = shuffleArray(filtered);
+            const ordered = orderItems(filtered, settings.randomize);
             const isExam = ['fraction-exam'].includes(gameId);
             const questionLimit = isExam ? 25 : isLQ ? 20 : 10;
-            session = shuffled.slice(0, questionLimit);
+            session = ordered.slice(0, questionLimit);
         }
 
         setQuestionsQueue(session);

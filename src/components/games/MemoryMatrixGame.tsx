@@ -12,12 +12,8 @@ interface MemoryMatrixGameProps {
 
 export const MemoryMatrixGame: React.FC<MemoryMatrixGameProps> = ({ onBack, difficulty }) => {
     const { addLeaderboardEntry } = useAppContext();
-
-    // Grid size based on difficulty
-    // Grid size state
     const [currentGridSize, setCurrentGridSize] = useState(difficulty === 'Hard' ? 5 : difficulty === 'Medium' ? 4 : 3);
-
-
+    const [activeDifficulty, setActiveDifficulty] = useState<Difficulty>(difficulty === 'None' ? 'Easy' : difficulty);
     const [gameState, setGameState] = useState<'start' | 'show' | 'play' | 'result' | 'gameover'>('start');
     const [highlightedCells, setHighlightedCells] = useState<number[]>([]);
     const [selectedCells, setSelectedCells] = useState<number[]>([]);
@@ -29,49 +25,42 @@ export const MemoryMatrixGame: React.FC<MemoryMatrixGameProps> = ({ onBack, diff
     const [timer, setTimer] = useState(60);
     const [playerName, setPlayerName] = useState('');
     const [scoreSaved, setScoreSaved] = useState(false);
+    const [attempted, setAttempted] = useState(0);
+    const [correctCount, setCorrectCount] = useState(0);
 
-    // Generate random cells to highlight
     const generatePattern = useCallback(() => {
-        // Determine difficulty for this round
         let currentDifficulty = difficulty;
         if (difficulty === 'None') {
             const difficulties: Difficulty[] = ['Easy', 'Medium', 'Hard'];
             currentDifficulty = difficulties[Math.floor(Math.random() * difficulties.length)];
         }
 
-        const currentGridSize = currentDifficulty === 'Hard' ? 5 : currentDifficulty === 'Medium' ? 4 : 3;
-        const currentCellsToRemember = currentDifficulty === 'Hard' ? 7 : currentDifficulty === 'Medium' ? 5 : 3;
-
-        // Update grid size visual needs to be handled in render, but for now we rely on pattern generation
-        // Actually, render uses 'gridSize' constant. We need state for these if they change!
-        // For 'None' support, we must refactor to state.
-
+        const gridSize = currentDifficulty === 'Hard' ? 5 : currentDifficulty === 'Medium' ? 4 : 3;
+        const cellsToRemember = currentDifficulty === 'Hard' ? 7 : currentDifficulty === 'Medium' ? 5 : 3;
         const cells: number[] = [];
-        const totalCells = currentGridSize * currentGridSize;
-        const count = Math.min(currentCellsToRemember + Math.floor(round / 2), totalCells - 1);
+        const totalCells = gridSize * gridSize;
+        const count = Math.min(cellsToRemember + Math.floor(round / 2), totalCells - 1);
 
         while (cells.length < count) {
             const cell = Math.floor(Math.random() * totalCells);
             if (!cells.includes(cell)) cells.push(cell);
         }
-        return { cells, gridSize: currentGridSize };
+        return { cells, gridSize, currentDifficulty };
     }, [difficulty, round]);
 
-    // Start a new round
     const startRound = useCallback(() => {
-        const { cells, gridSize } = generatePattern();
+        const { cells, gridSize, currentDifficulty } = generatePattern();
         setHighlightedCells(cells);
         setCurrentGridSize(gridSize);
+        setActiveDifficulty(currentDifficulty);
         setSelectedCells([]);
         setGameState('show');
 
-        // Hide pattern after showTime
-        setTimeout(() => {
+        window.setTimeout(() => {
             setGameState('play');
         }, showTime);
     }, [generatePattern, showTime]);
 
-    // Start game
     const startGame = () => {
         setRound(1);
         setStars(0);
@@ -80,29 +69,29 @@ export const MemoryMatrixGame: React.FC<MemoryMatrixGameProps> = ({ onBack, diff
         setTimer(60);
         setScoreSaved(false);
         setShowTime(3000);
+        setAttempted(0);
+        setCorrectCount(0);
         startRound();
     };
 
-    // Handle cell click
     const handleCellClick = (index: number) => {
         if (gameState !== 'play') return;
         if (selectedCells.includes(index)) return;
 
         const newSelected = [...selectedCells, index];
         setSelectedCells(newSelected);
-
-        // Check if all cells selected
         if (newSelected.length === highlightedCells.length) {
             checkAnswer(newSelected);
         }
     };
 
-    // Check answer
     const checkAnswer = (selected: number[]) => {
         const correct = selected.every(cell => highlightedCells.includes(cell));
+        setAttempted(value => value + 1);
 
         if (correct) {
-            const points = 10 * (difficulty === 'Hard' ? 2 : difficulty === 'Medium' ? 1.5 : 1);
+            setCorrectCount(value => value + 1);
+            const points = 10 * (activeDifficulty === 'Hard' ? 2 : activeDifficulty === 'Medium' ? 1.5 : 1);
             setStars(s => s + Math.floor(points + streak * 2));
             setStreak(s => {
                 const newStreak = s + 1;
@@ -111,24 +100,22 @@ export const MemoryMatrixGame: React.FC<MemoryMatrixGameProps> = ({ onBack, diff
             });
             setGameState('result');
 
-            // Next round
-            setTimeout(() => {
+            window.setTimeout(() => {
                 setRound(r => r + 1);
-                setShowTime(t => Math.max(1500, t - 200)); // Decrease show time
+                setShowTime(t => Math.max(1500, t - 200));
                 startRound();
             }, 1500);
         } else {
             setStreak(0);
             setGameState('result');
 
-            setTimeout(() => {
+            window.setTimeout(() => {
                 setRound(r => r + 1);
                 startRound();
             }, 2000);
         }
     };
 
-    // Timer countdown
     useEffect(() => {
         if (gameState === 'play' || gameState === 'show') {
             const interval = setInterval(() => {
@@ -144,7 +131,6 @@ export const MemoryMatrixGame: React.FC<MemoryMatrixGameProps> = ({ onBack, diff
         }
     }, [gameState]);
 
-    // Save score
     const handleSaveScore = async () => {
         if (!playerName.trim()) return;
         await addLeaderboardEntry({
@@ -193,13 +179,12 @@ export const MemoryMatrixGame: React.FC<MemoryMatrixGameProps> = ({ onBack, diff
                                 gameState === 'result' ? (selectedCells.every(c => highlightedCells.includes(c)) ? 'bg-green-500 text-white' : 'bg-red-500 text-white') :
                                     'bg-pink-500 text-white'
                                 }`}>
-                                {gameState === 'show' ? '👀 Memorize!' :
+                                {gameState === 'show' ? `👀 Memorize! · ${activeDifficulty}` :
                                     gameState === 'result' ? (selectedCells.every(c => highlightedCells.includes(c)) ? '✓ Correct!' : '✗ Try again!') :
                                         `Round ${round} - Select ${highlightedCells.length} cells`}
                             </span>
                         </div>
 
-                        {/* Grid */}
                         <div
                             className="grid gap-2 mx-auto mb-6"
                             style={{
@@ -250,6 +235,13 @@ export const MemoryMatrixGame: React.FC<MemoryMatrixGameProps> = ({ onBack, diff
                         playerName={playerName}
                         setPlayerName={setPlayerName}
                         scoreSaved={scoreSaved}
+                        gameTitle="Memory Matrix"
+                        skill="Working Memory"
+                        difficulty={difficulty === 'None' ? 'Mixed' : difficulty}
+                        correct={correctCount}
+                        attempted={attempted}
+                        durationSeconds={60 - timer}
+                        backLabel="BRAIN HUB"
                     />
                 )}
             </div>

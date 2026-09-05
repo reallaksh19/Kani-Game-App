@@ -25,6 +25,13 @@ import {
     updateSessionLog
 } from '../utils/sessionLogger';
 
+// Randomized question order is the product default from this release onward.
+const APP_DEFAULT_SETTINGS: Settings = {
+    ...DEFAULT_SETTINGS,
+    randomize: true,
+};
+const RANDOMIZE_DEFAULT_MIGRATION_KEY = 'learning-galaxy-randomize-default-v1';
+
 // Storage helper
 const storage = {
     get: async (key: string) => {
@@ -70,7 +77,7 @@ interface AppContextType {
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [settings, setSettings] = useState<Settings>(DEFAULT_SETTINGS);
+    const [settings, setSettings] = useState<Settings>(APP_DEFAULT_SETTINGS);
     const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
     const [playerStats, setPlayerStats] = useState<PlayerStats>(DEFAULT_PLAYER_STATS);
     const [studentProfiles, setStudentProfiles] = useState<StudentProfile[]>([]);
@@ -88,7 +95,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
                 // Load Settings
                 let mergedSettings: Settings = {
-                    ...DEFAULT_SETTINGS,
+                    ...APP_DEFAULT_SETTINGS,
                     enabledMasterTiles: masterTiles
                 };
 
@@ -96,13 +103,22 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
                 if (settingsData) {
                     const parsed = JSON.parse(settingsData);
                     mergedSettings = {
-                        ...DEFAULT_SETTINGS,
+                        ...APP_DEFAULT_SETTINGS,
                         ...parsed,
                         enabledMasterTiles: {
                             ...masterTiles,
                             ...(parsed.enabledMasterTiles || {})
                         }
                     };
+                }
+
+                // Older builds shipped randomize=false as the default. Apply the new
+                // default exactly once, then preserve every user toggle after that.
+                const randomizeDefaultMigrated = await storage.get(RANDOMIZE_DEFAULT_MIGRATION_KEY);
+                if (!randomizeDefaultMigrated) {
+                    mergedSettings = { ...mergedSettings, randomize: true };
+                    await storage.set('learning-galaxy-settings', JSON.stringify(mergedSettings));
+                    await storage.set(RANDOMIZE_DEFAULT_MIGRATION_KEY, '1');
                 }
                 setSettings(mergedSettings);
 
@@ -160,10 +176,16 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }, [activeSession]);
 
     const updateSettings = async (newSettings: Settings) => {
-        setSettings(newSettings);
-        await storage.set('learning-galaxy-settings', JSON.stringify(newSettings));
-        if (newSettings.enabledMasterTiles) {
-            await saveMasterTilesConfig(newSettings.enabledMasterTiles);
+        // SettingsPage's Reset action passes the shared DEFAULT_SETTINGS object.
+        // Normalize that reset to the current product defaults.
+        const normalizedSettings = newSettings === DEFAULT_SETTINGS
+            ? APP_DEFAULT_SETTINGS
+            : newSettings;
+        setSettings(normalizedSettings);
+        await storage.set('learning-galaxy-settings', JSON.stringify(normalizedSettings));
+        await storage.set(RANDOMIZE_DEFAULT_MIGRATION_KEY, '1');
+        if (normalizedSettings.enabledMasterTiles) {
+            await saveMasterTilesConfig(normalizedSettings.enabledMasterTiles);
         }
     };
 

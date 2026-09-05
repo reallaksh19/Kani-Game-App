@@ -46,6 +46,7 @@ const LearningGalaxy: React.FC = () => {
 
   const totalStars = leaderboard.reduce((sum, e) => sum + e.stars, 0);
   const handleBackToHome = () => { setCurrentSubject(null); setEnglishCategory(null); setCurrentGame(null); setSelectedDifficulty(null); };
+  const handleBackToSubject = () => { setCurrentGame(null); setSelectedDifficulty(null); };
 
   if (loading) {
     return <LoadingScreen />;
@@ -66,14 +67,17 @@ const LearningGalaxy: React.FC = () => {
         if (showQA) return <EnhancedQAPage onBack={() => setShowQA(false)} leaderboard={leaderboard} />;
 
         if (currentGame && selectedDifficulty) {
-          // Route to interactive games (Phase 3 & 4)
-          if (currentGame === 'memory-matrix') return <MemoryMatrixGame onBack={handleBackToHome} difficulty={selectedDifficulty} />;
-          if (currentGame === 'sequence-sprint') return <SequenceSprintGame onBack={handleBackToHome} difficulty={selectedDifficulty} />;
-          if (currentGame === 'path-planner') return <PathPlannerGame onBack={handleBackToHome} difficulty={selectedDifficulty} />;
-          if (currentGame === 'data-detective') return <DataDetectiveGame onBack={handleBackToHome} difficulty={selectedDifficulty} />;
-          if (currentGame === 'venn-voyager') return <VennVoyagerGame onBack={handleBackToHome} difficulty={selectedDifficulty} />;
-          if (currentGame === 'mirror-match') return <MirrorMatchGame onBack={handleBackToHome} difficulty={selectedDifficulty} />;
-          if (currentGame === 'scale-sense') return <ScaleSenseGame onBack={handleBackToHome} difficulty={selectedDifficulty} />;
+          const gameBack = currentSubject === 'braintraining' ? handleBackToSubject : handleBackToHome;
+
+          // Route to interactive Brain Training games
+          if (currentGame === 'memory-matrix') return <MemoryMatrixGame onBack={gameBack} difficulty={selectedDifficulty} />;
+          if (currentGame === 'sequence-sprint') return <SequenceSprintGame onBack={gameBack} difficulty={selectedDifficulty} />;
+          if (currentGame === 'path-planner') return <PathPlannerGame onBack={gameBack} difficulty={selectedDifficulty} />;
+          if (currentGame === 'data-detective') return <DataDetectiveGame onBack={gameBack} difficulty={selectedDifficulty} />;
+          if (currentGame === 'venn-voyager') return <VennVoyagerGame onBack={gameBack} difficulty={selectedDifficulty} />;
+          if (currentGame === 'mirror-match') return <MirrorMatchGame onBack={gameBack} difficulty={selectedDifficulty} />;
+          if (currentGame === 'scale-sense') return <ScaleSenseGame onBack={gameBack} difficulty={selectedDifficulty} />;
+
           // Route to sheet-based games
           const gameInfo = ALL_GAMES.find(g => g.id === currentGame);
           const variant = MATH_GAMES.find(g => g.id === currentGame) ? 'math'
@@ -83,17 +87,8 @@ const LearningGalaxy: React.FC = () => {
                   : EXAM_GAMES.find(g => g.id === currentGame) ? 'exam'
                     : LQ_CHAMP_GAMES.find(g => g.id === currentGame) ? 'skill'
                     : 'comprehension';
-          return <SheetBasedGame onBack={handleBackToHome} difficulty={selectedDifficulty || 'None'} settings={settings} gameId={currentGame} title={gameInfo?.title} icon={gameInfo?.icon} color={gameInfo?.color} variant={variant} />;
+          return <SheetBasedGame onBack={gameBack} difficulty={selectedDifficulty || 'None'} settings={settings} gameId={currentGame} title={gameInfo?.title} icon={gameInfo?.icon} color={gameInfo?.color} variant={variant} />;
         }
-
-
-        // Determine if we should show difficulty selector
-        // Show IF: difficultyFilterEnabled is TRUE AND selectedDifficulty is NULL
-        // AND settings.defaultDifficulty is 'None' (otherwise we'd have auto-selected it in handleGameSelect)
-        // Actually, clearer logic:
-        // If !difficultyFilterEnabled -> User skips selector. We need to ensure selectedDifficulty is set to 'None' automatically (handled below or via effect).
-        // But here we are rendering.
-        // If we are here, currentGame is set but selectedDifficulty is likely null.
 
         const shouldShowDifficulty = settings.difficultyFilterEnabled &&
           (!settings.defaultDifficulty || settings.defaultDifficulty === 'None');
@@ -101,13 +96,6 @@ const LearningGalaxy: React.FC = () => {
         if (currentGame && !selectedDifficulty) {
           if (shouldShowDifficulty) {
             return <DifficultySelector game={currentGame} onSelect={setSelectedDifficulty} onBack={() => setCurrentGame(null)} settings={settings} />;
-          } else {
-            // Auto-select 'None' (All) and render immediately (by forcing re-render or just rendering the game component here)
-            // Better pattern: Set state and return null (to trigger re-render) or render the game directly.
-            // Since we can't easily jump back to the "if (currentGame && selectedDifficulty)" block without state update,
-            // we'll update state.
-            // Note: updating state during render is bad.
-            // We should handle this in the selection handler or use a derived state.
           }
         }
 
@@ -116,7 +104,7 @@ const LearningGalaxy: React.FC = () => {
           if (settings.difficultyFilterEnabled && settings.defaultDifficulty && settings.defaultDifficulty !== 'None') {
             setSelectedDifficulty(settings.defaultDifficulty);
           } else if (!settings.difficultyFilterEnabled) {
-            setSelectedDifficulty('None'); // Auto-select None/All effectively
+            setSelectedDifficulty('None');
           }
         };
 
@@ -134,7 +122,7 @@ const LearningGalaxy: React.FC = () => {
         }
         if (currentSubject === 'english') return <EnglishLandingPage onSelectCategory={setEnglishCategory} onBack={handleBackToHome} totalStars={totalStars} />;
         if (currentSubject === 'math') return <GameTilesPage title="Math Galaxy" icon="🔢" games={MATH_GAMES} onSelectGame={handleGameSelect} onBack={handleBackToHome} totalStars={totalStars} variant="math" surpriseMode={settings.surpriseMode} leaderboard={leaderboard} />;
-        if (currentSubject === 'braintraining') return <BrainTrainingPage onBack={handleBackToHome} onSelectGame={handleBrainTrainingGameSelect} onSelectDifficulty={handleBrainTrainingDifficultySelect} settings={settings} />;
+        if (currentSubject === 'braintraining') return <BrainTrainingPage onBack={handleBackToHome} onSelectGame={handleBrainTrainingGameSelect} onSelectDifficulty={handleBrainTrainingDifficultySelect} settings={settings} leaderboard={leaderboard} />;
         if (currentSubject === 'exam') return <GameTilesPage title="Exam Center" icon="📝" games={EXAM_GAMES} onSelectGame={handleGameSelect} onBack={handleBackToHome} totalStars={totalStars} variant="exam" surpriseMode={settings.surpriseMode} leaderboard={leaderboard} />;
         if (currentSubject === 'lqchamp') return <LQChampHubPage onBack={handleBackToHome} onSelectGame={handleGameSelect} totalStars={totalStars} settings={settings} leaderboard={leaderboard} />;
 

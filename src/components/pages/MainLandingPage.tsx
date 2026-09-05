@@ -23,9 +23,10 @@ export const MainLandingPage: React.FC<MainLandingPageProps> = ({
     onOpenSettings,
     onOpenProfileSwitcher,
     leaderboard = [],
-    settings
+    settings: passedSettings
 }) => {
-    const { activeStudent } = useAppContext();
+    const { activeStudent, settings: contextSettings, updateSettings } = useAppContext();
+    const settings = passedSettings || contextSettings;
 
     // Time-based greeting
     const getGreeting = () => {
@@ -47,12 +48,19 @@ export const MainLandingPage: React.FC<MainLandingPageProps> = ({
         ? relevantLeaderboard.reduce((sum, e) => sum + e.stars, 0)
         : passedTotalStars;
 
+    const toggleRandomize = async () => {
+        await updateSettings({
+            ...contextSettings,
+            randomize: !contextSettings.randomize,
+        });
+    };
+
     // Floating elements for fun animation
     const floatingItems = ['🚀', '⭐', '🌍', '🛸', '💫', '🌟'];
 
     return (
         <SpaceBackground>
-            {/* Top Bar: Active Student Pill (top-left) & Settings button (top-right) */}
+            {/* Top Bar: Active Student Pill (top-left), Randomize & Settings (top-right) */}
             {activeStudent && (
                 <button
                     onClick={onOpenProfileSwitcher}
@@ -67,9 +75,27 @@ export const MainLandingPage: React.FC<MainLandingPageProps> = ({
                 </button>
             )}
 
-            <button onClick={onOpenSettings} aria-label="Settings" className="absolute top-4 right-4 w-12 h-12 rounded-full bg-gray-900/80 flex items-center justify-center text-2xl hover:bg-gray-700 z-30 cursor-pointer transition-all hover:scale-110 focus:outline-none focus-visible:ring-4 focus-visible:ring-purple-400">
-                ⚙️
-            </button>
+            <div className="absolute top-4 right-4 z-30 flex items-center gap-2">
+                <button
+                    onClick={toggleRandomize}
+                    aria-label={`Question randomisation ${contextSettings.randomize ? 'on' : 'off'}`}
+                    aria-pressed={contextSettings.randomize}
+                    title="Global question order. Changes apply to the next game."
+                    className={`h-12 rounded-full border px-3 sm:px-4 flex items-center gap-2 font-bold text-xs sm:text-sm shadow-xl backdrop-blur transition-all hover:scale-105 focus:outline-none focus-visible:ring-4 focus-visible:ring-purple-400 ${contextSettings.randomize
+                        ? 'bg-fuchsia-600/85 border-fuchsia-300/70 text-white'
+                        : 'bg-gray-900/85 border-gray-500/70 text-gray-200'
+                        }`}
+                >
+                    <span className="text-xl">🔀</span>
+                    <span className="hidden sm:inline">Random</span>
+                    <span className={contextSettings.randomize ? 'text-emerald-200' : 'text-gray-300'}>
+                        {contextSettings.randomize ? 'ON' : 'OFF'}
+                    </span>
+                </button>
+                <button onClick={onOpenSettings} aria-label="Settings" className="w-12 h-12 rounded-full bg-gray-900/80 flex items-center justify-center text-2xl hover:bg-gray-700 cursor-pointer transition-all hover:scale-110 focus:outline-none focus-visible:ring-4 focus-visible:ring-purple-400">
+                    ⚙️
+                </button>
+            </div>
 
             {/* Floating decorations */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
