@@ -39,6 +39,7 @@ const completed = {
 describe('Kani activity bridge', () => {
   it('creates a launch contract without wildcard transport assumptions', () => {
     expect(launch.type).toBe('kani.activity.launch');
+    if (launch.type !== 'kani.activity.launch') throw new Error('Expected launch message');
     expect(launch.payload.studentId).toBe('student_1');
   });
 
