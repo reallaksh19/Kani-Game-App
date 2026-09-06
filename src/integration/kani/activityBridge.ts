@@ -1,4 +1,11 @@
-import { KANI_SCHEMA_VERSION, KaniActivityMessage, KaniActivityType, KaniDifficulty } from './contracts';
+import {
+  KANI_SCHEMA_VERSION,
+  KaniActivityMessage,
+  KaniActivityType,
+  KaniAttemptV1,
+  KaniDifficulty,
+  KaniSourceApp,
+} from './contracts';
 
 export interface KaniLaunchContext {
   launchId: string;
@@ -18,6 +25,13 @@ export interface KaniBridgeAcceptResult {
   message?: KaniActivityMessage;
 }
 
+export interface KaniCompletionAttemptContext {
+  sourceApp: KaniSourceApp;
+  subjectId?: string;
+  topicId?: string;
+  pageId?: string;
+}
+
 function isObject(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
@@ -28,6 +42,14 @@ function isNonEmptyString(value: unknown): value is string {
 
 function isIsoDateTime(value: unknown): value is string {
   return isNonEmptyString(value) && value.includes('T') && !Number.isNaN(Date.parse(value));
+}
+
+function isOptionalNonNegativeInteger(value: unknown): boolean {
+  return value === undefined || (typeof value === 'number' && Number.isInteger(value) && value >= 0);
+}
+
+function isOptionalFiniteNumber(value: unknown): boolean {
+  return value === undefined || (typeof value === 'number' && Number.isFinite(value));
 }
 
 const activityTypes = new Set<KaniActivityType>(['lesson', 'worksheet', 'quiz', 'game', 'brain', 'challenge', 'interactive']);
@@ -91,7 +113,11 @@ export function parseKaniActivityMessage(value: unknown): KaniActivityMessage | 
       if (!difficulties.has(difficulty as KaniDifficulty)) return null;
       if (!Array.isArray(payload.skillIds) || !payload.skillIds.every(isNonEmptyString)) return null;
       if (!isIsoDateTime(payload.completedAt)) return null;
-      if (payload.accuracy !== undefined && (typeof payload.accuracy !== 'number' || payload.accuracy < 0 || payload.accuracy > 1)) return null;
+      if (!isOptionalNonNegativeInteger(payload.correct) || !isOptionalNonNegativeInteger(payload.total)) return null;
+      if (typeof payload.correct === 'number' && typeof payload.total === 'number' && payload.correct > payload.total) return null;
+      if (payload.accuracy !== undefined && (typeof payload.accuracy !== 'number' || !Number.isFinite(payload.accuracy) || payload.accuracy < 0 || payload.accuracy > 1)) return null;
+      if (!isOptionalFiniteNumber(payload.score)) return null;
+      if (payload.durationSeconds !== undefined && (typeof payload.durationSeconds !== 'number' || !Number.isFinite(payload.durationSeconds) || payload.durationSeconds < 0)) return null;
       return {
         ...base,
         type: value.type,
@@ -174,4 +200,27 @@ export function acceptKaniActivityEvent(options: {
     return { accepted: false, reason: 'student_mismatch' };
   }
   return { accepted: true, message };
+}
+
+export function completionMessageToAttempt(message: KaniActivityMessage, context: KaniCompletionAttemptContext): KaniAttemptV1 {
+  if (message.type !== 'kani.activity.completed') throw new Error('Completion event required');
+  const payload = message.payload;
+  return {
+    schemaVersion: KANI_SCHEMA_VERSION,
+    attemptId: payload.attemptId,
+    studentId: payload.studentId,
+    activityId: message.activityId,
+    activityType: payload.activityType,
+    sourceApp: context.sourceApp,
+    ...(context.subjectId ? { subjectId: context.subjectId } : {}),
+    ...(context.topicId ? { topicId: context.topicId } : {}),
+    ...(context.pageId ? { pageId: context.pageId } : {}),
+    skillIds: [...payload.skillIds],
+    difficulty: payload.difficulty,
+    ...(payload.total === 1 && typeof payload.correct === 'number' ? { correct: payload.correct === 1 } : {}),
+    ...(typeof payload.accuracy === 'number' ? { partialCredit: payload.accuracy } : {}),
+    ...(typeof payload.durationSeconds === 'number' ? { responseTimeMs: Math.round(payload.durationSeconds * 1000) } : {}),
+    ...(typeof payload.score === 'number' ? { score: payload.score } : {}),
+    completedAt: payload.completedAt,
+  };
 }
