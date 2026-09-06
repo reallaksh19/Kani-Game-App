@@ -1,5 +1,10 @@
 import { StudentProfile } from '../../types';
-import { LearnerApiClient, RemoteStudentProfile } from './LearnerApiClient';
+import { RemoteStudentProfile } from './LearnerApiClient';
+
+export interface StudentProfileClient {
+  listStudents(): Promise<RemoteStudentProfile[]>;
+  importStudent(student: Pick<RemoteStudentProfile, 'id' | 'name' | 'avatar' | 'grade'>): Promise<RemoteStudentProfile>;
+}
 
 export interface StudentProfileConflict {
   studentId: string;
@@ -58,7 +63,7 @@ export interface StudentProfileImportResult {
  * Existing conflicting stable IDs are never overwritten automatically.
  */
 export async function importLocalStudentProfiles(
-  api: LearnerApiClient,
+  api: StudentProfileClient,
   localProfiles: readonly StudentProfile[],
 ): Promise<StudentProfileImportResult> {
   const remote = await api.listStudents();
