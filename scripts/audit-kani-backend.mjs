@@ -11,6 +11,7 @@ const configPath = path.join(repoRoot, 'supabase', 'config.toml');
 const apiProtocolPath = path.join(repoRoot, 'supabase', 'functions', '_shared', 'kaniApiProtocol.ts');
 const apiFunctionPath = path.join(repoRoot, 'supabase', 'functions', 'kani-api', 'index.ts');
 const denoConfigPath = path.join(repoRoot, 'supabase', 'functions', 'deno.json');
+const evidenceDerivationsPath = path.join(repoRoot, 'src', 'integration', 'kani', 'evidenceDerivations.ts');
 
 const failures = [];
 const pass = (message) => console.log(`✓ ${message}`);
@@ -52,55 +53,28 @@ if (learnerMigration) {
   const tables = ['kani_households', 'kani_household_members', 'kani_students', 'kani_attempts'];
 
   for (const table of tables) {
-    requireCondition(
-      new RegExp(`create table if not exists public\\.${table}\\b`, 'i').test(sql),
-      `${table} is declared`,
-    );
-    requireCondition(
-      new RegExp(`alter table public\\.${table} enable row level security`, 'i').test(sql),
-      `RLS is enabled on ${table}`,
-    );
-    requireCondition(
-      new RegExp(`revoke all on public\\.${table} from anon`, 'i').test(sql),
-      `anon access is revoked from ${table}`,
-    );
+    requireCondition(new RegExp(`create table if not exists public\\.${table}\\b`, 'i').test(sql), `${table} is declared`);
+    requireCondition(new RegExp(`alter table public\\.${table} enable row level security`, 'i').test(sql), `RLS is enabled on ${table}`);
+    requireCondition(new RegExp(`revoke all on public\\.${table} from anon`, 'i').test(sql), `anon access is revoked from ${table}`);
   }
 
   requireCondition(/primary key \(household_id, id\)/i.test(sql), 'student identity is household-scoped');
   requireCondition(/primary key \(household_id, attempt_id\)/i.test(sql), 'attempt idempotency key is household-scoped');
-  requireCondition(
-    /foreign key \(household_id, student_id\) references public\.kani_students\(household_id, id\)/i.test(sql),
-    'attempts reference a household-owned student',
-  );
-  requireCondition(
-    /payload jsonb not null check \(jsonb_typeof\(payload\) = 'object'\)/i.test(sql),
-    'canonical attempt payload is stored as an object',
-  );
+  requireCondition(/foreign key \(household_id, student_id\) references public\.kani_students\(household_id, id\)/i.test(sql), 'attempts reference a household-owned student');
+  requireCondition(/payload jsonb not null check \(jsonb_typeof\(payload\) = 'object'\)/i.test(sql), 'canonical attempt payload is stored as an object');
   for (const [jsonField, column] of [
     ['attemptId', 'attempt_id'],
     ['studentId', 'student_id'],
     ['schemaVersion', 'schema_version'],
     ['activityId', 'activity_id'],
   ]) {
-    requireCondition(
-      new RegExp(`check \\(payload ->> '${jsonField}' = ${column}\\)`, 'i').test(sql),
-      `payload ${jsonField} is bound to ${column}`,
-    );
+    requireCondition(new RegExp(`check \\(payload ->> '${jsonField}' = ${column}\\)`, 'i').test(sql), `payload ${jsonField} is bound to ${column}`);
   }
 
   requireCondition(/create schema if not exists private/i.test(sql), 'security-definer helpers live behind a private schema');
-  requireCondition(
-    /create or replace function private\.kani_is_household_member\(target_household_id uuid\)[\s\S]*security definer/i.test(sql),
-    'household membership helper is security definer in private schema',
-  );
-  requireCondition(
-    /create trigger kani_attempts_immutable before update on public\.kani_attempts/i.test(sql),
-    'attempt update immutability trigger is installed',
-  );
-  requireCondition(
-    /raise exception 'Kani attempt evidence is immutable; insert a new attempt event instead\.'/i.test(sql),
-    'attempt update trigger rejects mutation explicitly',
-  );
+  requireCondition(/create or replace function private\.kani_is_household_member\(target_household_id uuid\)[\s\S]*security definer/i.test(sql), 'household membership helper is security definer in private schema');
+  requireCondition(/create trigger kani_attempts_immutable before update on public\.kani_attempts/i.test(sql), 'attempt update immutability trigger is installed');
+  requireCondition(/raise exception 'Kani attempt evidence is immutable; insert a new attempt event instead\.'/i.test(sql), 'attempt update trigger rejects mutation explicitly');
 
   const writePolicy = statements.find((statement) =>
     /^create policy\b/i.test(statement)
@@ -117,17 +91,11 @@ if (learnerMigration) {
   requireCondition(!unsafeAuthenticatedGrant, 'authenticated table grants are read-only');
 
   for (const table of tables) {
-    requireCondition(
-      new RegExp(`revoke insert, update, delete, truncate, references, trigger on public\\.${table} from authenticated`, 'i').test(sql),
-      `direct authenticated writes are revoked on ${table}`,
-    );
+    requireCondition(new RegExp(`revoke insert, update, delete, truncate, references, trigger on public\\.${table} from authenticated`, 'i').test(sql), `direct authenticated writes are revoked on ${table}`);
   }
 
-  const publicSecurityDefiner = statements.find((statement) =>
-    /^create or replace function public\./i.test(statement) && /security definer/i.test(statement),
-  );
+  const publicSecurityDefiner = statements.find((statement) => /^create or replace function public\./i.test(statement) && /security definer/i.test(statement));
   requireCondition(!publicSecurityDefiner, 'base learner migration exposes no public security-definer helper');
-
   requireCondition(/create index if not exists kani_attempts_student_completed_idx/i.test(sql), 'student history has a completed-at index');
   requireCondition(/create index if not exists kani_attempts_skill_ids_gin_idx/i.test(sql), 'skill evidence has a GIN index');
 }
@@ -174,6 +142,15 @@ if (protocol) {
   requireCondition(/History cursor is invalid/i.test(protocol), 'history cursor validation is explicit');
 }
 
+const evidenceDerivations = readIfPresent(evidenceDerivationsPath);
+requireCondition(evidenceDerivations.length > 0, 'shared deterministic evidence derivations are checked in');
+if (evidenceDerivations) {
+  requireCondition(/deriveStudentRevisionPayload/i.test(evidenceDerivations), 'shared derivations expose revision payloads');
+  requireCondition(/deriveStudentRecommendationsPayload/i.test(evidenceDerivations), 'shared derivations expose recommendation payloads');
+  requireCondition(/reasonCode/i.test(evidenceDerivations) && /evidenceCount/i.test(evidenceDerivations), 'recommendations expose reason codes and evidence counts');
+  requireCondition(!/mastery/i.test(evidenceDerivations), 'evidence services do not introduce an opaque mastery percentage');
+}
+
 const apiFunction = readIfPresent(apiFunctionPath);
 requireCondition(apiFunction.length > 0, 'authenticated kani-api Edge Function is checked in');
 if (apiFunction) {
@@ -184,7 +161,10 @@ if (apiFunction) {
   requireCondition(/consumeWriteQuota\(ctx\.supabaseAdmin/i.test(apiFunction), 'Edge Function consumes service-side write quota for mutations');
   requireCondition(/parseAttemptBatch\(body\)/i.test(apiFunction), 'attempt writes pass through canonical server validation');
   requireCondition(/ATTEMPT_ID_CONFLICT/i.test(apiFunction), 'Edge Function rejects conflicting idempotency keys');
-  requireCondition(/NOT_ENABLED_YET/i.test(apiFunction), 'unimplemented remote derivations fail closed rather than inventing results');
+  requireCondition(/MAX_EVIDENCE_ATTEMPTS\s*=\s*1000/i.test(apiFunction), 'remote evidence derivation reads are bounded');
+  requireCondition(/deriveStudentRevisionPayload/i.test(apiFunction), 'revision route uses shared deterministic derivation');
+  requireCondition(/deriveStudentRecommendationsPayload/i.test(apiFunction), 'recommendation route uses shared deterministic derivation');
+  requireCondition(!/NOT_ENABLED_YET/i.test(apiFunction), 'revision/recommendation routes are no longer placeholder 501 responses');
   requireCondition(!/SUPABASE_(SERVICE_ROLE|SECRET)_KEY/i.test(apiFunction), 'Edge Function source does not read or embed legacy privileged key variables directly');
 }
 
