@@ -1,5 +1,6 @@
 import { AttemptFilter, KaniAttemptV1 } from './contracts';
 import { assertKaniAttempt } from './validators';
+import { canonicalJson } from './canonicalJson';
 
 export interface AttemptStore {
   recordAttempt(input: KaniAttemptV1): Promise<void>;
@@ -9,6 +10,13 @@ export interface AttemptStore {
 export interface KeyValueStorage {
   getItem(key: string): string | null;
   setItem(key: string, value: string): void;
+}
+
+export class LocalAttemptIdConflictError extends Error {
+  constructor(attemptId: string) {
+    super(`Attempt ${attemptId} already exists locally with a different immutable payload.`);
+    this.name = 'LocalAttemptIdConflictError';
+  }
 }
 
 const DEFAULT_STORAGE_KEY = 'kani-attempts-v1';
@@ -46,8 +54,15 @@ export class LocalAttemptStore implements AttemptStore {
   async recordAttempt(input: KaniAttemptV1): Promise<void> {
     assertKaniAttempt(input);
     const current = parseStoredAttempts(this.storage.getItem(this.storageKey));
-    const withoutSameId = current.filter((attempt) => attempt.attemptId !== input.attemptId);
-    const next = [input, ...withoutSameId]
+    const existing = current.find((attempt) => attempt.attemptId === input.attemptId);
+    if (existing) {
+      if (canonicalJson(existing) !== canonicalJson(input)) {
+        throw new LocalAttemptIdConflictError(input.attemptId);
+      }
+      return;
+    }
+
+    const next = [input, ...current]
       .sort((a, b) => Date.parse(b.completedAt) - Date.parse(a.completedAt))
       .slice(0, this.maxAttempts);
     this.storage.setItem(this.storageKey, JSON.stringify(next));
