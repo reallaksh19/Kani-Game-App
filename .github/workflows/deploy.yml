@@ -21,7 +21,7 @@ jobs:
       VITE_STUDY_HUB_BASE_URL: https://reallaksh19.github.io/Study-Hub
       VITE_STUDY_HUB_CATALOG_PATH: /content/catalog.json
       VITE_STUDY_HUB_ALLOWED_ORIGINS: https://reallaksh19.github.io
-      VITE_STUDY_HUB_ALLOWED_SUBJECTS: grade4english
+      VITE_STUDY_HUB_ALLOWED_SUBJECTS: grade4math
       VITE_STUDY_HUB_ALLOWED_GRADES: ''
       VITE_KANI_LEARN_ENABLED: 'true'
       VITE_KANI_PRACTICE_ENABLED: 'false'
@@ -87,9 +87,10 @@ jobs:
       KANI_APP_URL: ${{ needs.deploy.outputs.page_url }}
       STUDY_HUB_BASE_URL: https://reallaksh19.github.io/Study-Hub
       STUDY_HUB_CATALOG_PATH: /content/catalog.json
-      EXPECTED_SUBJECTS: grade4english
+      EXPECTED_SUBJECTS: grade4math
       EXPECTED_LEARN_ENABLED: 'true'
       EXPECTED_PRACTICE_ENABLED: 'false'
+      EXPECTED_MIN_STRUCTURED_QUESTIONS: '20'
     steps:
       - name: Checkout
         uses: actions/checkout@v4
