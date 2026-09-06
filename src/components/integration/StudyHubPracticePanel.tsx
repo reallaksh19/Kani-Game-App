@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useAppContext } from '../../contexts/AppContext';
 import { QuestionSessionResult } from '../../engine/questions/types';
 import { LocalAttemptStore } from '../../integration/kani/AttemptStore';
@@ -11,14 +11,13 @@ import { ExternalActivityHost } from './ExternalActivityHost';
 interface StudyHubPracticePanelProps {
   page: StudyHubPageDocument;
   pageMeta: KaniCatalogPage;
-  attempts?: readonly KaniAttemptV1[];
   onAttemptSaved?: () => void;
 }
 
 type ExternalActivity = Extract<KaniQuestion, { type: 'interactive_external' }>;
 type RunMode = 'all' | 'mistakes';
 
-export const StudyHubPracticePanel: React.FC<StudyHubPracticePanelProps> = ({ page, pageMeta, attempts = [], onAttemptSaved }) => {
+export const StudyHubPracticePanel: React.FC<StudyHubPracticePanelProps> = ({ page, pageMeta, onAttemptSaved }) => {
   const { activeStudent, settings } = useAppContext();
   const adapted = useMemo(() => adaptStudyHubPageQuestions(page, pageMeta), [page, pageMeta]);
   const externalActivities = useMemo(
@@ -29,16 +28,36 @@ export const StudyHubPracticePanel: React.FC<StudyHubPracticePanelProps> = ({ pa
     () => adapted.questions.filter((question) => question.type !== 'interactive_external'),
     [adapted.questions],
   );
-  const retrySelection = useMemo(
-    () => selectRetryQuestions(practiceQuestions, attempts, { pageId: pageMeta.id, limit: 10 }),
-    [attempts, pageMeta.id, practiceQuestions],
-  );
   const attemptStore = useMemo(() => new LocalAttemptStore(), []);
+  const [pageAttempts, setPageAttempts] = useState<KaniAttemptV1[]>([]);
   const [mode, setMode] = useState<'summary' | 'running' | 'result'>('summary');
   const [runMode, setRunMode] = useState<RunMode>('all');
   const [runId, setRunId] = useState(1);
   const [result, setResult] = useState<QuestionSessionResult | null>(null);
   const [saveState, setSaveState] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
+
+  const refreshAttempts = useCallback(async () => {
+    if (!activeStudent) {
+      setPageAttempts([]);
+      return;
+    }
+    const attempts = await attemptStore.listAttempts(activeStudent.id);
+    setPageAttempts(attempts.filter((attempt) => attempt.pageId === pageMeta.id));
+  }, [activeStudent, attemptStore, pageMeta.id]);
+
+  useEffect(() => {
+    void refreshAttempts().catch(() => setPageAttempts([]));
+  }, [refreshAttempts]);
+
+  const retrySelection = useMemo(
+    () => selectRetryQuestions(practiceQuestions, pageAttempts, { pageId: pageMeta.id, limit: 10 }),
+    [pageAttempts, pageMeta.id, practiceQuestions],
+  );
+
+  const notifyAttemptSaved = () => {
+    void refreshAttempts().catch(() => setPageAttempts([]));
+    onAttemptSaved?.();
+  };
 
   const runningQuestions = runMode === 'mistakes' ? retrySelection.questions : practiceQuestions;
 
@@ -49,6 +68,7 @@ export const StudyHubPracticePanel: React.FC<StudyHubPracticePanelProps> = ({ pa
     try {
       for (const attempt of nextResult.attempts) await attemptStore.recordAttempt(attempt);
       setSaveState('saved');
+      await refreshAttempts();
       onAttemptSaved?.();
     } catch {
       setSaveState('error');
@@ -63,7 +83,13 @@ export const StudyHubPracticePanel: React.FC<StudyHubPracticePanelProps> = ({ pa
     setMode('running');
   };
 
-  const restart = () => startRun(runMode);
+  const restart = () => {
+    if (runMode === 'mistakes' && retrySelection.questions.length === 0) {
+      setMode('summary');
+      return;
+    }
+    startRun(runMode);
+  };
 
   if (adapted.questions.length === 0 && adapted.unsupported.length === 0) {
     return (
@@ -118,7 +144,9 @@ export const StudyHubPracticePanel: React.FC<StudyHubPracticePanelProps> = ({ pa
           {result.correctCount === result.total && <div className="text-sm text-emerald-100">All questions in this run were correct.</div>}
         </div>
         <div className="mt-4 flex flex-wrap gap-3">
-          <button onClick={restart} className="rounded-full bg-emerald-600 px-5 py-2.5 font-bold hover:bg-emerald-500">Run this set again</button>
+          <button onClick={restart} className="rounded-full bg-emerald-600 px-5 py-2.5 font-bold hover:bg-emerald-500">
+            {runMode === 'mistakes' && retrySelection.questions.length === 0 ? 'Back to page activities' : 'Run this set again'}
+          </button>
           <button onClick={() => setMode('summary')} className="rounded-full border border-slate-500 px-5 py-2.5 font-bold text-slate-200 hover:bg-slate-800">Back to page activities</button>
         </div>
       </section>
@@ -186,7 +214,7 @@ export const StudyHubPracticePanel: React.FC<StudyHubPracticePanelProps> = ({ pa
       </section>
 
       {externalActivities.map((activity) => (
-        <ExternalActivityHost key={activity.id} activity={activity} pageMeta={pageMeta} onAttemptSaved={onAttemptSaved} />
+        <ExternalActivityHost key={activity.id} activity={activity} pageMeta={pageMeta} onAttemptSaved={notifyAttemptSaved} />
       ))}
     </div>
   );
