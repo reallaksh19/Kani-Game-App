@@ -44,14 +44,13 @@ export function scopeKaniCatalog(catalog: KaniCatalogV1, scope: KaniCatalogScope
   const topics = catalog.topics
     .filter((topic) => subjectAllowed(topic.subjectId) && topic.pageRefs.some((pageId) => pageIds.has(pageId)))
     .map((topic) => ({ ...topic, pageRefs: topic.pageRefs.filter((pageId) => pageIds.has(pageId)) }));
-  const topicIds = new Set(topics.map((topic) => topic.id));
 
   const subjects = catalog.subjects.filter((subject) => subjectAllowed(subject.id) && topics.some((topic) => topic.subjectId === subject.id));
 
   return {
     ...catalog,
     subjects,
-    topics: topics.filter((topic) => topicIds.has(topic.id)),
+    topics,
     pages,
   };
 }
