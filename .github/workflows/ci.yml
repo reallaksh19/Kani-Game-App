@@ -31,6 +31,9 @@ jobs:
       - name: Brain Training Grade 4 Question Audit
         run: npm run audit:brain
 
+      - name: Authenticated Backend Schema Audit
+        run: npm run audit:backend
+
       - name: Run Tests
         run: npm test
 
