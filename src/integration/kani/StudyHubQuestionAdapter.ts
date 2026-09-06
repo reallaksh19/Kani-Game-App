@@ -128,6 +128,14 @@ function assertionReasonAnswer(value: unknown): { options: string[]; answerIndex
   };
 }
 
+function externalReference(value: unknown): { activityId: string; launchUrl: string; [key: string]: unknown } | null {
+  if (!isRecord(value)) return null;
+  const activityId = typeof value.activityId === 'string' ? value.activityId.trim() : '';
+  const launchUrl = typeof value.launchUrl === 'string' ? value.launchUrl.trim() : '';
+  if (!activityId || !launchUrl) return null;
+  return { ...value, activityId, launchUrl };
+}
+
 function commonMetadata(raw: Record<string, unknown>, page: StudyHubPageDocument, meta: KaniCatalogPage, id: string) {
   const pageDifficulty = meta.difficulty === 'mixed' || meta.difficulty === 'none' ? 'medium' : meta.difficulty;
   const cognitiveDemand = [raw.questionCategory, raw.category, raw.usage]
@@ -278,6 +286,17 @@ export function adaptStudyHubPageQuestions(page: StudyHubPageDocument, meta: Kan
         return;
       }
       questions.push({ ...base, type, assertion, reason, options: resolved.options, answerIndex: resolved.answerIndex });
+      return;
+    }
+
+    if (type === 'interactive_external') {
+      const externalRef = externalReference(value.externalRef);
+      const prompt = typeof value.prompt === 'string' && value.prompt.trim() ? value.prompt.trim() : undefined;
+      if (!externalRef) {
+        unsupported.push({ questionId: id, type, reason: 'External activity requires externalRef.activityId and externalRef.launchUrl' });
+        return;
+      }
+      questions.push({ ...base, type, ...(prompt ? { prompt } : {}), externalRef });
       return;
     }
 
