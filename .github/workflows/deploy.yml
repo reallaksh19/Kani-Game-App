@@ -17,6 +17,14 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      VITE_STUDY_HUB_BASE_URL: https://reallaksh19.github.io/Study-Hub
+      VITE_STUDY_HUB_CATALOG_PATH: /content/catalog.json
+      VITE_STUDY_HUB_ALLOWED_ORIGINS: https://reallaksh19.github.io
+      VITE_STUDY_HUB_ALLOWED_SUBJECTS: grade4english
+      VITE_STUDY_HUB_ALLOWED_GRADES: ''
+      VITE_KANI_LEARN_ENABLED: 'true'
+      VITE_KANI_PRACTICE_ENABLED: 'false'
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -45,6 +53,9 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Write production integration manifest
+        run: npm run release:integration-manifest
+
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v4
         with:
@@ -61,7 +72,32 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     needs: build
     runs-on: ubuntu-latest
+    outputs:
+      page_url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+  smoke:
+    name: Production integration smoke
+    needs: deploy
+    runs-on: ubuntu-latest
+    env:
+      KANI_APP_URL: ${{ needs.deploy.outputs.page_url }}
+      STUDY_HUB_BASE_URL: https://reallaksh19.github.io/Study-Hub
+      STUDY_HUB_CATALOG_PATH: /content/catalog.json
+      EXPECTED_SUBJECTS: grade4english
+      EXPECTED_LEARN_ENABLED: 'true'
+      EXPECTED_PRACTICE_ENABLED: 'false'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Smoke production Study-Hub → Kani Learn seam
+        run: npm run smoke:integration

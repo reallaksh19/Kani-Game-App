@@ -9,6 +9,8 @@
     "test": "vitest run",
     "audit:lq": "node scripts/audit-lq-questions.mjs",
     "audit:brain": "node scripts/audit-brain-questions.mjs",
+    "release:integration-manifest": "node scripts/write-integration-release-manifest.mjs",
+    "smoke:integration": "node scripts/smoke-production-integration.mjs",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },
