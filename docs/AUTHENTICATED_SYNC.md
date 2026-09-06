@@ -1,6 +1,6 @@
 # Authenticated Kani learner sync
 
-Status: **backend foundation in progress**. Architecture decision: Study-Hub #15. Implementation epic: Study-Hub #18.
+Status: **Stage 1 merged; Stage 2 authenticated API implemented but not deployed**. Architecture decision: Study-Hub #15. Implementation epic: Study-Hub #18.
 
 ## Boundary
 
@@ -37,8 +37,10 @@ Existing local profile IDs such as `student_alex_1788670000000` remain stable te
 4. Every protected API request validates the user JWT and derives household membership server-side.
 5. Production CORS uses an exact Kani-origin allowlist; wildcard authenticated CORS is not acceptable.
 6. Row Level Security must stay enabled on household, member, student and attempt tables.
-7. Attempt events are immutable. Repeated identical `attemptId` uploads are idempotent; conflicting payloads must return `409` rather than overwrite history.
+7. Attempt events are immutable. Repeated identical `attemptId` uploads are idempotent; conflicting payloads return `409` rather than overwrite history.
 8. Remote outages must never block Learn, Practice, Play, Brain or Challenges. Local storage remains the first write.
+9. Mutating API requests are bounded by body size, batch size and a server-side write quota.
+10. The browser must never possess `service_role` or another privileged Supabase secret.
 
 ## Repository layout
 
@@ -47,11 +49,16 @@ supabase/
   config.toml
   migrations/
     20260906070000_kani_learner_evidence.sql
+    20260906071500_kani_api_write_quota.sql
+  functions/
+    deno.json
+    _shared/kaniApiProtocol.ts
+    kani-api/index.ts
   tests/database/
     kani_learner_rls.test.sql
 ```
 
-The database test is intended for the Supabase CLI / pgTAP test runner. Normal GitHub CI also runs `npm run audit:backend`, a static safety audit that catches accidental removal of critical RLS/privilege/immutability invariants even when Docker/Supabase CLI is unavailable.
+The database test is intended for the Supabase CLI / pgTAP test runner. Normal GitHub CI also runs `npm run audit:backend`, a dependency-free safety audit for critical RLS, privilege, quota and authenticated-function invariants. CI additionally runs `deno check` against the Edge Function so the server handler is type-checked independently of the Vite frontend.
 
 ## Local database workflow
 
@@ -65,7 +72,7 @@ supabase test db
 
 `supabase db reset` reapplies migrations to the local database. `supabase test db` executes pgTAP files under `supabase/tests/database`.
 
-The repository does not require the Supabase CLI for the existing frontend CI/build pipeline; the static backend audit protects the checked-in SQL there.
+The repository does not require the Supabase CLI for the existing frontend build pipeline; the static backend audit and Deno type-check protect the checked-in server code there.
 
 ## Environment model
 
@@ -83,11 +90,21 @@ A publishable browser key is not a privileged database credential. Do not place 
 
 ### Edge Function / hosted backend
 
-Server-side credentials and other sensitive configuration belong only in the Supabase project/function secret store. The Edge Function must not accept a client-supplied household ID as authorization proof.
+The current function uses `@supabase/server` with `auth: 'user'`. Supabase platform JWT verification stays enabled for `kani-api`, and the request context provides the authenticated claims plus a server-only admin client.
+
+Required function configuration includes:
+
+```text
+KANI_ALLOWED_ORIGINS=https://reallaksh19.github.io
+```
+
+Use a comma-separated list only when additional explicit origins are required. `*` is rejected by the protocol. Local Supabase development falls back to the Vite localhost origins only when `SUPABASE_URL` itself is local.
+
+Server-side credentials belong only in Supabase-managed function configuration. The API accepts `x-kani-household-id` only as a selector when an account belongs to multiple households; membership is always revalidated server-side.
 
 ### CI / staging / production
 
-Frontend CI must remain green with sync disabled and without Supabase secrets. Authenticated staging smoke tests should be added only after a real staging project, test guardian identity and CI secrets are configured. Production sync must remain feature-gated until those tests pass.
+Frontend CI remains green with sync disabled and without hosted Supabase secrets. Authenticated staging smoke tests should be added only after a real staging project, test guardian identity and CI secrets are configured. Production sync remains feature-gated until those tests pass.
 
 ## Database model
 
@@ -104,20 +121,44 @@ kani_attempts
 
 Attempts are append-oriented. A trigger rejects UPDATE operations; explicit authenticated account/student deletion may later cascade-delete history only through a dedicated account-deletion workflow.
 
-## Planned API
+The second migration adds a private per-user/per-minute write-quota table and a service-role-only security-definer RPC. It is abuse protection, not billing or learner progress state.
 
-The next implementation stage is a versioned Edge Function router:
+## Versioned Edge Function API
+
+Implemented routes:
 
 ```text
 GET  /api/v1/students
 POST /api/v1/students
 POST /api/v1/attempts
 GET  /api/v1/students/:studentId/history
-GET  /api/v1/students/:studentId/revision
-GET  /api/v1/students/:studentId/recommendations
+GET  /api/v1/students/:studentId/revision          # reserved, 501 until Stage 5
+GET  /api/v1/students/:studentId/recommendations   # reserved, 501 until Stage 5
 ```
 
-`POST /attempts` will support bounded batches for offline replay. History will use cursor pagination. Revision and recommendation responses will reuse the deterministic evidence derivations already implemented in Kani; no remote mastery percentage is introduced.
+The deployed Supabase function prefix wraps these domain routes, for example:
+
+```text
+/functions/v1/kani-api/api/v1/students
+```
+
+### Students
+
+`POST /students` imports or creates an existing Kani student profile without changing its stable `studentId`. Replaying identical profile data is idempotent. Reusing the same ID with different profile data returns `409`.
+
+### Attempts
+
+`POST /attempts` accepts `{ "attempts": [...] }` with at most 50 canonical attempts and a maximum request body of 256 KiB. Every attempt is revalidated against the server-side `kani-attempt-v1` rules before persistence.
+
+Identical `attemptId` replays are accepted. A differing payload for an existing ID returns `409`. The API verifies every submitted student belongs to the selected authenticated household.
+
+### History
+
+History is newest-first and cursor-paginated. Default page size is 50 and the server caps it at 100. Cursors are opaque to clients and include the `(completedAt, attemptId)` ordering boundary.
+
+### Revision / recommendations
+
+The route names are reserved so client/API versioning is stable, but the server currently returns `501 NOT_ENABLED_YET`. Kani continues to derive revision signals and recommendations locally using the completed deterministic evidence functions. No server endpoint invents a mastery score.
 
 ## Local-first sync semantics
 
@@ -134,14 +175,14 @@ When the client sync stage is implemented:
 
 ## Production rollout gate
 
-A schema merge does **not** enable remote learner storage in production. Before enabling sync, the project still requires:
+Merging the API code does **not** enable remote learner storage in production. Before enabling sync, the platform still requires:
 
-- a configured Supabase staging/production project;
-- reviewed migrations and RLS policies;
-- deployed authenticated Edge Function API;
+- a configured Supabase staging project;
+- migrations applied and pgTAP authorization tests executed against that environment;
+- `kani-api` deployed with exact allowed-origin configuration;
 - guardian auth/profile-link UX;
 - idempotent local-first queue;
-- cross-household authorization tests;
+- authenticated staging tests for cross-household denial, replay behavior and history pagination;
 - offline/reconnect and second-device tests;
-- staging authenticated smoke; and
-- production secrets/configuration plus a production sync smoke.
+- production project/configuration; and
+- a production sync smoke test.
