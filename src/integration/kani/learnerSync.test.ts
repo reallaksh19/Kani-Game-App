@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { KaniAttemptV1 } from './contracts';
 import { AttemptSyncConflictError, AttemptSyncQueueFullError, LocalAttemptSyncQueue, computeRetryDelayMs } from './AttemptSyncQueue';
-import { AttemptSyncCoordinator } from './AttemptSyncCoordinator';
+import { AttemptSyncCoordinator, AttemptUploadClient } from './AttemptSyncCoordinator';
 import { LearnerApiClient, LearnerApiError } from './LearnerApiClient';
 import { StaticGuardianSessionProvider } from './GuardianSessionProvider';
 import { LocalFirstAttemptStore } from './LocalFirstAttemptStore';
@@ -170,14 +170,14 @@ describe('local-first store and coordinator', () => {
     const queue = new LocalAttemptSyncQueue({ storage: new MemoryStorage() });
     queue.enqueue(attempt({ attemptId: 'a1' }), 1000);
     queue.enqueue(attempt({ attemptId: 'a2' }), 1000);
-    const api = {
-      uploadAttempts: async (values: readonly KaniAttemptV1[]) => ({
+    const api: AttemptUploadClient = {
+      uploadAttempts: async (values) => ({
         accepted: values.length,
         created: values.length,
         existing: 0,
         idempotentReplay: false,
       }),
-    } as LearnerApiClient;
+    };
     const coordinator = new AttemptSyncCoordinator(queue, api);
     const result = await coordinator.flush({ nowMs: 1000 });
     expect(result).toEqual({ attempted: 2, synced: 2, blocked: 0, deferred: 0 });
@@ -187,11 +187,11 @@ describe('local-first store and coordinator', () => {
   it('leaves evidence pending when sign-in or profile linkage is not ready', async () => {
     const queue = new LocalAttemptSyncQueue({ storage: new MemoryStorage() });
     queue.enqueue(attempt(), 1000);
-    const api = {
+    const api: AttemptUploadClient = {
       uploadAttempts: async () => {
         throw new LearnerApiError('sign in', { status: 401, code: 'UNAUTHENTICATED' });
       },
-    } as LearnerApiClient;
+    };
     const coordinator = new AttemptSyncCoordinator(queue, api);
     const result = await coordinator.flush({ nowMs: 1000 });
     expect(result.deferred).toBe(1);
