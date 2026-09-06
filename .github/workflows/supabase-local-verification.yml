@@ -1,0 +1,36 @@
+name: Supabase local verification
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'supabase/**'
+      - 'scripts/verify-local-supabase.sh'
+      - '.github/workflows/supabase-local-verification.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  verify-local-supabase:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Docker preflight
+        run: |
+          docker --version
+          docker info
+
+      - name: Run migrations and pgTAP RLS tests
+        env:
+          KANI_STOP_SUPABASE_AFTER_VERIFY: '1'
+        run: npm run verify:supabase-local
