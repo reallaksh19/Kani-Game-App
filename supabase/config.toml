@@ -29,3 +29,6 @@ enable_signup = true
 [edge_runtime]
 enabled = true
 policy = "per_worker"
+
+[functions.kani-api]
+verify_jwt = true
