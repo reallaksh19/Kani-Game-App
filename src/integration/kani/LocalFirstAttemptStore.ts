@@ -6,6 +6,7 @@ export interface LocalFirstAttemptStoreOptions {
   localStore?: AttemptStore;
   syncQueue?: LocalAttemptSyncQueue;
   queueEnabled?: boolean;
+  onQueued?: (attempt: KaniAttemptV1) => void;
   onQueueError?: (error: unknown, attempt: KaniAttemptV1) => void;
 }
 
@@ -17,12 +18,14 @@ export class LocalFirstAttemptStore implements AttemptStore {
   private readonly localStore: AttemptStore;
   private readonly syncQueue: LocalAttemptSyncQueue;
   private readonly queueEnabled: boolean;
+  private readonly onQueued?: LocalFirstAttemptStoreOptions['onQueued'];
   private readonly onQueueError?: LocalFirstAttemptStoreOptions['onQueueError'];
 
   constructor(options: LocalFirstAttemptStoreOptions = {}) {
     this.localStore = options.localStore || new LocalAttemptStore();
     this.syncQueue = options.syncQueue || new LocalAttemptSyncQueue();
     this.queueEnabled = options.queueEnabled ?? false;
+    this.onQueued = options.onQueued;
     this.onQueueError = options.onQueueError;
   }
 
@@ -32,6 +35,7 @@ export class LocalFirstAttemptStore implements AttemptStore {
 
     try {
       this.syncQueue.enqueue(input);
+      this.onQueued?.(input);
     } catch (error) {
       this.onQueueError?.(error, input);
       // Local persistence is authoritative while sync is unavailable. Do not
