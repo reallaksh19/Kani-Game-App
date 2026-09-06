@@ -41,6 +41,13 @@ function joinBaseUrl(baseUrl: string, contentPath: string): string {
   return `${baseUrl}/${normalizedPath}`;
 }
 
+export function resolveStudyHubLearnerUrl(baseUrl: string, learnerUrl: string): string {
+  const normalizedBase = normalizeBaseUrl(baseUrl);
+  const target = learnerUrl.trim();
+  if (!target) throw new StudyHubContentError('Study-Hub learner URL is required');
+  return joinBaseUrl(normalizedBase, target);
+}
+
 export class StudyHubContentClient {
   private readonly baseUrl: string;
   private readonly catalogPath: string;
