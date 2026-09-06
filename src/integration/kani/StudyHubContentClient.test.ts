@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import { StudyHubContentClient, StudyHubContentError } from './StudyHubContentClient';
+import { resolveStudyHubLearnerUrl, StudyHubContentClient, StudyHubContentError } from './StudyHubContentClient';
 
 const catalog = {
   schemaVersion: '1.0',
@@ -21,6 +21,7 @@ const catalog = {
     title: 'Fractions introduction',
     activityType: 'lesson',
     contentUrl: '/Mathematics/fractions/pages/intro.json',
+    learnerUrl: '#/topic/math-fractions/page/math-fractions-intro',
     difficulty: 'easy',
     skillIds: [],
     conceptTags: ['fractions'],
@@ -59,6 +60,7 @@ describe('StudyHubContentClient', () => {
 
     expect((await client.getSubjects())[0].id).toBe('mathematics');
     expect((await client.getTopic('math-fractions')).title).toBe('Fractions');
+    expect((await client.getPageMeta('math-fractions-intro')).learnerUrl).toBe('#/topic/math-fractions/page/math-fractions-intro');
     expect((await client.getPage('math-fractions-intro')).title).toBe('Fractions introduction');
     expect((await client.getPage('math-fractions-intro')).id).toBe('math-fractions-intro');
 
@@ -73,8 +75,30 @@ describe('StudyHubContentClient', () => {
     expect(fetchFn).toHaveBeenCalledTimes(2);
   });
 
+  it('resolves catalog learner links against the configured Study-Hub base path', () => {
+    expect(resolveStudyHubLearnerUrl(
+      'https://example.test/Study-Hub/',
+      '#/topic/math-fractions/page/math-fractions-intro',
+    )).toBe('https://example.test/Study-Hub/#/topic/math-fractions/page/math-fractions-intro');
+
+    expect(resolveStudyHubLearnerUrl(
+      'https://example.test/Study-Hub',
+      'https://cdn.example.test/lesson',
+    )).toBe('https://cdn.example.test/lesson');
+  });
+
   it('rejects invalid catalog contracts', async () => {
     const fetchFn = vi.fn(async () => jsonResponse({ ...catalog, schemaVersion: '2.0' }));
+    const client = new StudyHubContentClient({ baseUrl: 'https://example.test/Study-Hub', fetchFn });
+    await expect(client.getCatalog()).rejects.toBeInstanceOf(StudyHubContentError);
+  });
+
+  it('rejects blank learner links when they are present', async () => {
+    const invalid = {
+      ...catalog,
+      pages: [{ ...catalog.pages[0], learnerUrl: '   ' }],
+    };
+    const fetchFn = vi.fn(async () => jsonResponse(invalid));
     const client = new StudyHubContentClient({ baseUrl: 'https://example.test/Study-Hub', fetchFn });
     await expect(client.getCatalog()).rejects.toBeInstanceOf(StudyHubContentError);
   });
