@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useAppContext } from '../../contexts/AppContext';
-import { LocalAttemptStore } from '../../integration/kani/AttemptStore';
+import { createCanonicalAttemptStore } from '../../integration/kani/createCanonicalAttemptStore';
 import {
   acceptKaniActivityEvent,
   completionMessageToAttempt,
@@ -30,7 +30,7 @@ function makeLaunchId(): string {
 export const ExternalActivityHost: React.FC<ExternalActivityHostProps> = ({ activity, pageMeta, onAttemptSaved }) => {
   const { activeStudent } = useAppContext();
   const config = useMemo(() => getKaniIntegrationConfig(), []);
-  const attemptStore = useMemo(() => new LocalAttemptStore(), []);
+  const attemptStore = useMemo(() => createCanonicalAttemptStore(), []);
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const [launchId, setLaunchId] = useState<string | null>(null);
   const [status, setStatus] = useState<HostStatus>('idle');
