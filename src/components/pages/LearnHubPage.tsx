@@ -3,6 +3,7 @@ import { SpaceBackground } from '../shared/SpaceBackground';
 import { KaniCatalogTopic, KaniCatalogV1, StudyHubPageDocument } from '../../integration/kani/contracts';
 import { resolveStudyHubLearnerUrl, StudyHubContentClient } from '../../integration/kani/StudyHubContentClient';
 import { getKaniIntegrationConfig } from '../../integration/kani/integrationConfig';
+import { scopeKaniCatalog } from '../../integration/kani/catalogScope';
 import { StudyHubPracticePanel } from '../integration/StudyHubPracticePanel';
 
 interface LearnHubPageProps {
@@ -22,13 +23,19 @@ export const LearnHubPage: React.FC<LearnHubPageProps> = ({ onBack }) => {
   const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading');
   const [error, setError] = useState('');
 
+  const rolloutScoped = config.allowedStudyHubSubjectIds.length > 0 || config.allowedStudyHubGrades.length > 0;
+
   const loadCatalog = async () => {
     setStatus('loading');
     setError('');
     setSelectedPage(null);
     try {
       client.clearCache();
-      const next = await client.getCatalog();
+      const published = await client.getCatalog();
+      const next = scopeKaniCatalog(published, {
+        subjectIds: config.allowedStudyHubSubjectIds,
+        grades: config.allowedStudyHubGrades,
+      });
       setCatalog(next);
       setSelectedTopicId((current) => current && next.topics.some((topic) => topic.id === current) ? current : next.topics[0]?.id || null);
       setStatus('ready');
@@ -40,7 +47,7 @@ export const LearnHubPage: React.FC<LearnHubPageProps> = ({ onBack }) => {
 
   useEffect(() => {
     void loadCatalog();
-    // The integration client is stable for this page lifetime.
+    // The integration client/config are stable for this page lifetime.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [client]);
 
@@ -83,6 +90,15 @@ export const LearnHubPage: React.FC<LearnHubPageProps> = ({ onBack }) => {
           {!config.integrationLearnEnabled && (
             <div className="mb-5 rounded-2xl border border-amber-400/40 bg-amber-950/40 p-4 text-amber-100">
               Learn integration is disabled by feature flag. This route is an integration diagnostic placeholder and should not be exposed in normal navigation until enabled.
+            </div>
+          )}
+
+          {rolloutScoped && (
+            <div className="mb-5 rounded-2xl border border-cyan-300/30 bg-cyan-950/35 p-4 text-sm text-cyan-50">
+              <div className="font-bold">Controlled Learn rollout scope</div>
+              <div className="mt-1 text-cyan-100/80">
+                Subjects: {config.allowedStudyHubSubjectIds.join(', ') || 'all'} · Grades: {config.allowedStudyHubGrades.join(', ') || 'all'}
+              </div>
             </div>
           )}
 
@@ -130,7 +146,9 @@ export const LearnHubPage: React.FC<LearnHubPageProps> = ({ onBack }) => {
 
                 <main className="rounded-3xl border border-slate-700 bg-slate-950/75 p-5 sm:p-6">
                   {!selectedTopic ? (
-                    <div className="text-slate-300">No published Study-Hub topics are available.</div>
+                    <div className="text-slate-300">
+                      {rolloutScoped ? 'No Study-Hub content matches the configured Learn rollout scope.' : 'No published Study-Hub topics are available.'}
+                    </div>
                   ) : selectedPage ? (
                     <div>
                       <button onClick={() => setSelectedPage(null)} className="mb-4 text-sm font-bold text-cyan-300 hover:text-cyan-200">← Topic pages</button>
