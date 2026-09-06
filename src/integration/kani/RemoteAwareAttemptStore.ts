@@ -1,11 +1,15 @@
 import { AttemptFilter, KaniAttemptV1 } from './contracts';
 import { AttemptStore } from './AttemptStore';
 import { AttemptHistoryConflict, mergeAttemptHistory } from './mergeAttemptHistory';
-import { LearnerApiClient } from './LearnerApiClient';
+import { AttemptHistoryPage } from './LearnerApiClient';
+
+export interface AttemptHistoryClient {
+  getHistory(studentId: string, options?: { cursor?: string | null; limit?: number }): Promise<AttemptHistoryPage>;
+}
 
 export interface RemoteAwareAttemptStoreOptions {
   localStore: AttemptStore;
-  api: LearnerApiClient;
+  api: AttemptHistoryClient;
   maxRemotePages?: number;
   onRemoteReadError?: (error: unknown) => void;
   onHistoryConflicts?: (conflicts: AttemptHistoryConflict[]) => void;
@@ -29,7 +33,7 @@ function applyFilter(attempts: KaniAttemptV1[], filter: AttemptFilter): KaniAtte
  */
 export class RemoteAwareAttemptStore implements AttemptStore {
   private readonly localStore: AttemptStore;
-  private readonly api: LearnerApiClient;
+  private readonly api: AttemptHistoryClient;
   private readonly maxRemotePages: number;
   private readonly onRemoteReadError?: RemoteAwareAttemptStoreOptions['onRemoteReadError'];
   private readonly onHistoryConflicts?: RemoteAwareAttemptStoreOptions['onHistoryConflicts'];
