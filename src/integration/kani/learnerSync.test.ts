@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { KaniAttemptV1 } from './contracts';
-import { AttemptSyncConflictError, LocalAttemptSyncQueue, computeRetryDelayMs } from './AttemptSyncQueue';
+import { AttemptSyncConflictError, AttemptSyncQueueFullError, LocalAttemptSyncQueue, computeRetryDelayMs } from './AttemptSyncQueue';
 import { AttemptSyncCoordinator } from './AttemptSyncCoordinator';
 import { LearnerApiClient, LearnerApiError } from './LearnerApiClient';
 import { StaticGuardianSessionProvider } from './GuardianSessionProvider';
@@ -64,6 +64,16 @@ describe('LocalAttemptSyncQueue', () => {
       .toThrow(AttemptSyncConflictError);
   });
 
+  it('fails a new enqueue instead of silently dropping older pending evidence when full', () => {
+    const queue = new LocalAttemptSyncQueue({ storage: new MemoryStorage(), maxEntries: 2 });
+    queue.enqueue(attempt({ attemptId: 'oldest' }), 1000);
+    queue.enqueue(attempt({ attemptId: 'newer' }), 2000);
+
+    expect(() => queue.enqueue(attempt({ attemptId: 'overflow' }), 3000))
+      .toThrow(AttemptSyncQueueFullError);
+    expect(queue.listAll().map((entry) => entry.attempt.attemptId)).toEqual(['newer', 'oldest']);
+  });
+
   it('uses bounded exponential retry and respects Retry-After', () => {
     const queue = new LocalAttemptSyncQueue({ storage: new MemoryStorage() });
     queue.enqueue(attempt(), 1000);
@@ -108,9 +118,10 @@ describe('LearnerApiClient', () => {
     });
 
     await client.listStudents();
-    expect(receivedHeaders?.get('authorization')).toBe('Bearer jwt-token');
-    expect(receivedHeaders?.get('apikey')).toBe('sb_publishable_key');
-    expect(receivedHeaders?.get('x-kani-household-id')).toBe('11111111-1111-4111-8111-111111111111');
+    const headers = receivedHeaders as Headers | null;
+    expect(headers?.get('authorization')).toBe('Bearer jwt-token');
+    expect(headers?.get('apikey')).toBe('sb_publishable_key');
+    expect(headers?.get('x-kani-household-id')).toBe('11111111-1111-4111-8111-111111111111');
   });
 
   it('fails before network access when no guardian session exists', async () => {
