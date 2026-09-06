@@ -1,6 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 import {
   acceptKaniActivityEvent,
+  completionMessageToAttempt,
   createLaunchMessage,
   normalizeAllowedOrigins,
   parseKaniActivityMessage,
@@ -92,9 +93,13 @@ describe('Kani activity bridge', () => {
     })).toEqual({ accepted: false, reason: 'student_mismatch' });
   });
 
-  it('rejects malformed or unsupported messages', () => {
+  it('rejects malformed or unsafe completion summaries', () => {
     expect(parseKaniActivityMessage({ ...completed, schemaVersion: '2.0' })).toBeNull();
     expect(parseKaniActivityMessage({ ...completed, payload: { ...completed.payload, accuracy: 2 } })).toBeNull();
+    expect(parseKaniActivityMessage({ ...completed, payload: { ...completed.payload, correct: -1 } })).toBeNull();
+    expect(parseKaniActivityMessage({ ...completed, payload: { ...completed.payload, total: 2.5 } })).toBeNull();
+    expect(parseKaniActivityMessage({ ...completed, payload: { ...completed.payload, correct: 11, total: 10 } })).toBeNull();
+    expect(parseKaniActivityMessage({ ...completed, payload: { ...completed.payload, durationSeconds: -1 } })).toBeNull();
     expect(parseKaniActivityMessage({ nope: true })).toBeNull();
   });
 
@@ -103,5 +108,47 @@ describe('Kani activity bridge', () => {
     postKaniActivityMessage({ postMessage } as unknown as Window, 'https://study.example/path', launch);
     expect(postMessage).toHaveBeenCalledWith(launch, 'https://study.example');
     expect(() => postKaniActivityMessage({ postMessage } as unknown as Window, '*', launch)).toThrow(/targetOrigin/);
+  });
+
+  it('normalizes an accepted completion into a canonical attempt without inventing per-question correctness', () => {
+    const parsed = parseKaniActivityMessage(completed);
+    if (!parsed) throw new Error('Expected valid completion');
+    const attempt = completionMessageToAttempt(parsed, {
+      sourceApp: 'study-hub',
+      subjectId: 'mathematics',
+      topicId: 'fractions',
+      pageId: 'fractions-page',
+    });
+
+    expect(attempt).toEqual({
+      schemaVersion: '1.0',
+      attemptId: 'attempt_1',
+      studentId: 'student_1',
+      activityId: 'activity_1',
+      activityType: 'game',
+      sourceApp: 'study-hub',
+      subjectId: 'mathematics',
+      topicId: 'fractions',
+      pageId: 'fractions-page',
+      skillIds: ['skill_1'],
+      difficulty: 'medium',
+      partialCredit: 0.8,
+      responseTimeMs: 100000,
+      score: 82,
+      completedAt: '2026-09-05T14:00:00.000Z',
+    });
+    expect(attempt.correct).toBeUndefined();
+  });
+
+  it('maps correctness only for a single-outcome completion', () => {
+    const parsed = parseKaniActivityMessage({
+      ...completed,
+      payload: { ...completed.payload, correct: 1, total: 1, accuracy: 1 },
+    });
+    if (!parsed) throw new Error('Expected valid completion');
+    expect(completionMessageToAttempt(parsed, { sourceApp: 'study-hub' })).toMatchObject({
+      correct: true,
+      partialCredit: 1,
+    });
   });
 });
