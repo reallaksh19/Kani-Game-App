@@ -4,6 +4,7 @@ import { getKaniIntegrationConfig } from '../../integration/kani/integrationConf
 import { getLearnerSyncConfig } from '../../integration/kani/learnerSyncConfig';
 import { LocalAttemptSyncQueue } from '../../integration/kani/AttemptSyncQueue';
 import { GuardianAccountPanel } from './GuardianAccountPanel';
+import { RemoteProfileImportPanel } from './RemoteProfileImportPanel';
 
 interface IntegrationDiagnosticsPanelProps {
   catalog?: KaniCatalogV1 | null;
@@ -46,6 +47,7 @@ export const IntegrationDiagnosticsPanel: React.FC<IntegrationDiagnosticsPanelPr
       {sync.reason && <div className="mt-3 rounded-xl border border-slate-600 bg-slate-900/60 p-3 text-slate-300">Learner sync: {sync.reason}</div>}
       {error && <div className="mt-3 rounded-xl border border-rose-400/30 bg-rose-950/30 p-3 text-rose-200">Last integration error: {error}</div>}
       <GuardianAccountPanel />
+      <RemoteProfileImportPanel />
       <p className="mt-3 text-xs text-slate-500">No API keys, access tokens, service credentials or other secrets are shown in this panel.</p>
     </details>
   );
