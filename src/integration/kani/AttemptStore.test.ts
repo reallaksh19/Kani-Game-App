@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { KaniAttemptV1 } from './contracts';
-import { LocalAttemptStore } from './AttemptStore';
+import { LocalAttemptIdConflictError, LocalAttemptStore } from './AttemptStore';
 
 class MemoryStorage {
   private data = new Map<string, string>();
@@ -37,13 +37,18 @@ describe('LocalAttemptStore', () => {
     expect((await store.listAttempts('student_b')).map((item) => item.attemptId)).toEqual(['b1']);
   });
 
-  it('deduplicates by attemptId and keeps the newest replacement', async () => {
+  it('treats identical attempt replays as idempotent and rejects conflicting immutable IDs', async () => {
     const store = new LocalAttemptStore({ storage: new MemoryStorage() });
-    await store.recordAttempt(attempt({ attemptId: 'same', score: 5 }));
-    await store.recordAttempt(attempt({ attemptId: 'same', score: 9, completedAt: '2026-09-05T14:00:00.000Z' }));
+    const original = attempt({ attemptId: 'same', score: 5 });
+    await store.recordAttempt(original);
+    await store.recordAttempt({ ...original });
+
+    await expect(store.recordAttempt(attempt({ attemptId: 'same', score: 9 })))
+      .rejects.toBeInstanceOf(LocalAttemptIdConflictError);
+
     const saved = await store.listAttempts('student_a');
     expect(saved).toHaveLength(1);
-    expect(saved[0].score).toBe(9);
+    expect(saved[0].score).toBe(5);
   });
 
   it('supports activity/topic/skill filters and history caps', async () => {
