@@ -1,8 +1,15 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { SpaceBackground } from '../shared/SpaceBackground';
 import { LeaderboardEntry } from '../../types';
 import { ALL_GAMES, MATH_GAMES, COMPREHENSION_GAMES } from '../../data/gameDefinitions';
 import { useAppContext } from '../../contexts/AppContext';
+import { LocalAttemptStore } from '../../integration/kani/AttemptStore';
+import { KaniAttemptV1, KaniSourceApp } from '../../integration/kani/contracts';
+import {
+    canonicalAttemptCredit,
+    getCanonicalAttemptSummary,
+    getRecentCanonicalAttempts,
+} from '../../utils/canonicalAttemptAnalytics';
 
 interface AnalyticsPageProps {
     onBack: () => void;
@@ -20,14 +27,67 @@ const BADGES = [
     { id: 'perfect_streak', title: 'Streak Master', icon: '🔥', desc: 'Get a streak of 10', condition: (stats: any) => stats.maxStreak >= 10 },
 ];
 
+function sourceLabel(sourceApp: KaniSourceApp): string {
+    if (sourceApp === 'study-hub') return 'Study-Hub';
+    if (sourceApp === 'worksheet-app') return 'Worksheet';
+    return 'Kani';
+}
+
+function formatEvidenceTime(ms: number): string {
+    if (ms < 1000) return `${ms}ms`;
+    const seconds = ms / 1000;
+    if (seconds < 60) return `${seconds.toFixed(seconds >= 10 ? 0 : 1)}s`;
+    const minutes = Math.floor(seconds / 60);
+    const remainder = Math.round(seconds % 60);
+    return `${minutes}m ${remainder}s`;
+}
+
+function formatEvidenceDate(value: string): string {
+    const date = new Date(value);
+    return Number.isNaN(date.getTime()) ? value : date.toLocaleString(undefined, {
+        month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit'
+    });
+}
+
 export const AnalyticsPage: React.FC<AnalyticsPageProps> = ({ onBack, leaderboard: passedLeaderboard }) => {
     const { activeStudent, leaderboard: contextLeaderboard } = useAppContext();
     const allLeaderboard = passedLeaderboard || contextLeaderboard;
+    const attemptStore = useMemo(() => new LocalAttemptStore(), []);
+    const [canonicalAttempts, setCanonicalAttempts] = useState<KaniAttemptV1[]>([]);
+    const [attemptState, setAttemptState] = useState<'idle' | 'loading' | 'ready' | 'error'>('idle');
+    const activeStudentId = activeStudent?.id || '';
+
+    useEffect(() => {
+        let cancelled = false;
+        if (!activeStudentId) {
+            setCanonicalAttempts([]);
+            setAttemptState('idle');
+            return () => { cancelled = true; };
+        }
+
+        setAttemptState('loading');
+        void attemptStore.listAttempts(activeStudentId, { limit: 100 })
+            .then((attempts) => {
+                if (cancelled) return;
+                setCanonicalAttempts(attempts);
+                setAttemptState('ready');
+            })
+            .catch(() => {
+                if (cancelled) return;
+                setCanonicalAttempts([]);
+                setAttemptState('error');
+            });
+
+        return () => { cancelled = true; };
+    }, [activeStudentId, attemptStore]);
 
     const studentLeaderboard = useMemo(() => {
         if (!activeStudent) return allLeaderboard;
         return allLeaderboard.filter(e => e.name.toLowerCase() === activeStudent.name.toLowerCase());
     }, [allLeaderboard, activeStudent]);
+
+    const canonicalSummary = useMemo(() => getCanonicalAttemptSummary(canonicalAttempts), [canonicalAttempts]);
+    const recentCanonicalAttempts = useMemo(() => getRecentCanonicalAttempts(canonicalAttempts, 8), [canonicalAttempts]);
 
     const stats = useMemo(() => {
         const totalGames = studentLeaderboard.length;
@@ -123,8 +183,8 @@ export const AnalyticsPage: React.FC<AnalyticsPageProps> = ({ onBack, leaderboar
                         <h2 className="text-2xl font-bold text-white mb-6">Weekly Stars</h2>
                         <div className="flex items-end justify-between h-48 gap-2">
                             {stats.dailyStars.map((d, i) => {
-                                const max = Math.max(...stats.dailyStars.map(s => s.stars), 10); // Scale max
-                                const height = Math.max((d.stars / max) * 100, 5); // Min 5% height
+                                const max = Math.max(...stats.dailyStars.map(s => s.stars), 10);
+                                const height = Math.max((d.stars / max) * 100, 5);
                                 return (
                                     <div key={i} className="flex-1 flex flex-col items-center group">
                                         <div className="text-white text-xs mb-1 opacity-0 group-hover:opacity-100 transition-opacity">{d.stars}</div>
@@ -157,6 +217,73 @@ export const AnalyticsPage: React.FC<AnalyticsPageProps> = ({ onBack, leaderboar
                     </div>
                 </div>
 
+                {/* Canonical cross-app evidence */}
+                <section className="bg-gray-900/60 p-6 rounded-3xl border border-cyan-400/20 mb-8">
+                    <div className="flex flex-wrap items-start justify-between gap-3 mb-5">
+                        <div>
+                            <div className="text-xs font-black uppercase tracking-[0.18em] text-cyan-300">Kani attempt v1</div>
+                            <h2 className="text-2xl font-bold text-white">Canonical Learning Evidence</h2>
+                            <p className="mt-1 text-sm text-gray-400">Study-Hub, Worksheet and external activity evidence keyed to the active student ID. Average credit is evidence, not a calibrated mastery score.</p>
+                        </div>
+                        {canonicalSummary.latestCompletedAt && (
+                            <div className="rounded-full border border-cyan-400/20 bg-cyan-950/30 px-3 py-1.5 text-xs font-semibold text-cyan-100">
+                                Latest {formatEvidenceDate(canonicalSummary.latestCompletedAt)}
+                            </div>
+                        )}
+                    </div>
+
+                    {attemptState === 'loading' ? (
+                        <div className="rounded-2xl border border-gray-700 bg-gray-800/40 p-5 text-center text-gray-300">Loading canonical evidence…</div>
+                    ) : attemptState === 'error' ? (
+                        <div className="rounded-2xl border border-rose-400/30 bg-rose-950/30 p-4 text-rose-200">Canonical attempt history could not be read from this device.</div>
+                    ) : canonicalAttempts.length === 0 ? (
+                        <div className="rounded-2xl border border-gray-700 bg-gray-800/40 p-5 text-center text-gray-400">No canonical Learn, Practice or external-activity evidence has been saved for this student yet.</div>
+                    ) : (
+                        <>
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-5">
+                                <EvidenceMetric label="Evidence records" value={String(canonicalSummary.records)} />
+                                <EvidenceMetric label="Activities" value={String(canonicalSummary.activities)} />
+                                <EvidenceMetric label="Average credit" value={canonicalSummary.averageCredit == null ? '—' : `${Math.round(canonicalSummary.averageCredit * 100)}%`} />
+                                <EvidenceMetric label="Response time" value={formatEvidenceTime(canonicalSummary.totalResponseTimeMs)} />
+                            </div>
+
+                            <div className="mb-5 flex flex-wrap gap-2 text-xs">
+                                {canonicalSummary.sources.map((source) => (
+                                    <span key={source.sourceApp} className="rounded-full border border-gray-600 bg-gray-800/70 px-3 py-1.5 text-gray-200">
+                                        {sourceLabel(source.sourceApp)} · {source.count}
+                                    </span>
+                                ))}
+                                <span className="rounded-full border border-gray-600 bg-gray-800/70 px-3 py-1.5 text-gray-300">Scored evidence · {canonicalSummary.scoredRecords}</span>
+                                <span className="rounded-full border border-gray-600 bg-gray-800/70 px-3 py-1.5 text-gray-300">Fully correct records · {canonicalSummary.correctRecords}</span>
+                            </div>
+
+                            <div className="space-y-2">
+                                {recentCanonicalAttempts.map((attempt) => {
+                                    const credit = canonicalAttemptCredit(attempt);
+                                    return (
+                                        <div key={attempt.attemptId} className="flex flex-wrap items-center gap-3 rounded-2xl border border-gray-700 bg-gray-800/40 p-3">
+                                            <div className="min-w-0 flex-1">
+                                                <div className="flex flex-wrap items-center gap-2">
+                                                    <span className="rounded-full bg-cyan-950/50 px-2.5 py-1 text-[11px] font-bold text-cyan-200">{sourceLabel(attempt.sourceApp)}</span>
+                                                    <span className="text-sm font-bold text-white break-all">{attempt.activityId}</span>
+                                                </div>
+                                                <div className="mt-1 text-xs text-gray-400">
+                                                    {attempt.questionId ? `Question ${attempt.questionId}` : attempt.pageId ? `Page ${attempt.pageId}` : attempt.topicId ? `Topic ${attempt.topicId}` : attempt.activityType}
+                                                    {' · '}{attempt.difficulty}{' · '}{formatEvidenceDate(attempt.completedAt)}
+                                                </div>
+                                            </div>
+                                            <div className="text-right text-sm">
+                                                <div className="font-bold text-white">{credit == null ? (typeof attempt.score === 'number' ? `Score ${attempt.score}` : 'Recorded') : `${Math.round(credit * 100)}% credit`}</div>
+                                                {typeof attempt.responseTimeMs === 'number' && <div className="text-xs text-gray-400">{formatEvidenceTime(attempt.responseTimeMs)}</div>}
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </>
+                    )}
+                </section>
+
                 {/* Top Games List */}
                 <div className="bg-gray-900/60 p-6 rounded-3xl border border-white/10">
                     <h2 className="text-2xl font-bold text-white mb-6">Favorite Missions</h2>
@@ -184,3 +311,10 @@ export const AnalyticsPage: React.FC<AnalyticsPageProps> = ({ onBack, leaderboar
         </SpaceBackground>
     );
 };
+
+const EvidenceMetric: React.FC<{ label: string; value: string }> = ({ label, value }) => (
+    <div className="rounded-2xl border border-cyan-400/15 bg-gray-800/55 p-4">
+        <div className="text-2xl font-black text-white">{value}</div>
+        <div className="mt-1 text-[11px] font-bold uppercase tracking-wide text-cyan-300">{label}</div>
+    </div>
+);
