@@ -3,6 +3,7 @@ export interface LearnerSyncConfig {
   apiBaseUrl: string;
   supabaseUrl: string;
   supabasePublishableKey: string;
+  householdId: string;
   apiReady: boolean;
   authReady: boolean;
   ready: boolean;
@@ -29,6 +30,7 @@ export function resolveLearnerSyncConfig(env: LearnerSyncEnv): LearnerSyncConfig
   const apiBaseUrl = normalizeUrl(asString(env.VITE_KANI_API_BASE_URL));
   const supabaseUrl = normalizeUrl(asString(env.VITE_SUPABASE_URL));
   const supabasePublishableKey = asString(env.VITE_SUPABASE_PUBLISHABLE_KEY);
+  const householdId = asString(env.VITE_KANI_HOUSEHOLD_ID);
   const apiReady = apiBaseUrl.length > 0;
   const authReady = supabaseUrl.length > 0 && supabasePublishableKey.length > 0;
   const ready = requested && apiReady && authReady;
@@ -43,6 +45,7 @@ export function resolveLearnerSyncConfig(env: LearnerSyncEnv): LearnerSyncConfig
     apiBaseUrl,
     supabaseUrl,
     supabasePublishableKey,
+    householdId,
     apiReady,
     authReady,
     ready,
