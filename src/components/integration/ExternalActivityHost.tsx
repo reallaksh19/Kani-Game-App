@@ -19,6 +19,7 @@ type SaveStatus = 'idle' | 'saving' | 'saved' | 'error';
 interface ExternalActivityHostProps {
   activity: ExternalActivity;
   pageMeta: KaniCatalogPage;
+  onAttemptSaved?: () => void;
 }
 
 function makeLaunchId(): string {
@@ -26,7 +27,7 @@ function makeLaunchId(): string {
   return `launch_${Date.now()}_${Math.random().toString(36).slice(2)}`;
 }
 
-export const ExternalActivityHost: React.FC<ExternalActivityHostProps> = ({ activity, pageMeta }) => {
+export const ExternalActivityHost: React.FC<ExternalActivityHostProps> = ({ activity, pageMeta, onAttemptSaved }) => {
   const { activeStudent } = useAppContext();
   const config = useMemo(() => getKaniIntegrationConfig(), []);
   const attemptStore = useMemo(() => new LocalAttemptStore(), []);
@@ -121,7 +122,10 @@ export const ExternalActivityHost: React.FC<ExternalActivityHostProps> = ({ acti
           pageId: pageMeta.id,
         });
         void attemptStore.recordAttempt(attempt)
-          .then(() => setSaveStatus('saved'))
+          .then(() => {
+            setSaveStatus('saved');
+            onAttemptSaved?.();
+          })
           .catch(() => setSaveStatus('error'));
         endHostSession('completed');
         return;
@@ -147,6 +151,7 @@ export const ExternalActivityHost: React.FC<ExternalActivityHostProps> = ({ acti
     attemptStore,
     config.allowedStudyHubOrigins,
     launchId,
+    onAttemptSaved,
     pageMeta.activityType,
     pageMeta.id,
     pageMeta.subjectId,

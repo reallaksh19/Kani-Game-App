@@ -10,11 +10,12 @@ import { ExternalActivityHost } from './ExternalActivityHost';
 interface StudyHubPracticePanelProps {
   page: StudyHubPageDocument;
   pageMeta: KaniCatalogPage;
+  onAttemptSaved?: () => void;
 }
 
 type ExternalActivity = Extract<KaniQuestion, { type: 'interactive_external' }>;
 
-export const StudyHubPracticePanel: React.FC<StudyHubPracticePanelProps> = ({ page, pageMeta }) => {
+export const StudyHubPracticePanel: React.FC<StudyHubPracticePanelProps> = ({ page, pageMeta, onAttemptSaved }) => {
   const { activeStudent, settings } = useAppContext();
   const adapted = useMemo(() => adaptStudyHubPageQuestions(page, pageMeta), [page, pageMeta]);
   const externalActivities = useMemo(
@@ -38,6 +39,7 @@ export const StudyHubPracticePanel: React.FC<StudyHubPracticePanelProps> = ({ pa
     try {
       for (const attempt of nextResult.attempts) await attemptStore.recordAttempt(attempt);
       setSaveState('saved');
+      onAttemptSaved?.();
     } catch {
       setSaveState('error');
     }
@@ -145,7 +147,7 @@ export const StudyHubPracticePanel: React.FC<StudyHubPracticePanelProps> = ({ pa
       </section>
 
       {externalActivities.map((activity) => (
-        <ExternalActivityHost key={activity.id} activity={activity} pageMeta={pageMeta} />
+        <ExternalActivityHost key={activity.id} activity={activity} pageMeta={pageMeta} onAttemptSaved={onAttemptSaved} />
       ))}
     </div>
   );
