@@ -116,7 +116,7 @@ describe('LearnerApiClient evidence endpoints', () => {
 
     await client.getRevision('student one');
     await client.getRecommendations('student one');
-    expect(paths[0]).toEndWith('/students/student%20one/revision');
-    expect(paths[1]).toEndWith('/students/student%20one/recommendations');
+    expect(paths[0].endsWith('/students/student%20one/revision')).toBe(true);
+    expect(paths[1].endsWith('/students/student%20one/recommendations')).toBe(true);
   });
 });
