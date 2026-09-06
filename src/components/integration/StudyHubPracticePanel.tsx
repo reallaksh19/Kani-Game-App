@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useAppContext } from '../../contexts/AppContext';
 import { QuestionSessionResult } from '../../engine/questions/types';
-import { LocalAttemptStore } from '../../integration/kani/AttemptStore';
+import { createCanonicalAttemptStore } from '../../integration/kani/createCanonicalAttemptStore';
 import { KaniAttemptV1, KaniCatalogPage, KaniQuestion, StudyHubPageDocument } from '../../integration/kani/contracts';
 import { adaptStudyHubPageQuestions } from '../../integration/kani/StudyHubQuestionAdapter';
 import { selectRetryQuestions } from '../../utils/canonicalRetrySelection';
@@ -28,7 +28,7 @@ export const StudyHubPracticePanel: React.FC<StudyHubPracticePanelProps> = ({ pa
     () => adapted.questions.filter((question) => question.type !== 'interactive_external'),
     [adapted.questions],
   );
-  const attemptStore = useMemo(() => new LocalAttemptStore(), []);
+  const attemptStore = useMemo(() => createCanonicalAttemptStore(), []);
   const [pageAttempts, setPageAttempts] = useState<KaniAttemptV1[]>([]);
   const [mode, setMode] = useState<'summary' | 'running' | 'result'>('summary');
   const [runMode, setRunMode] = useState<RunMode>('all');

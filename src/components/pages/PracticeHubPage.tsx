@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { SpaceBackground } from '../shared/SpaceBackground';
 import { CanonicalQuestionHost } from '../questions/CanonicalQuestionHost';
 import { useAppContext } from '../../contexts/AppContext';
-import { LocalAttemptStore } from '../../integration/kani/AttemptStore';
+import { createCanonicalAttemptStore } from '../../integration/kani/createCanonicalAttemptStore';
 import { getKaniIntegrationConfig } from '../../integration/kani/integrationConfig';
 import { WORKSHEET_CANONICAL_FIXTURE } from '../../integration/kani/fixtures/worksheetCanonicalFixture';
 import { QuestionSessionResult } from '../../engine/questions/types';
@@ -14,7 +14,7 @@ interface PracticeHubPageProps {
 export const PracticeHubPage: React.FC<PracticeHubPageProps> = ({ onBack }) => {
   const { activeStudent, settings } = useAppContext();
   const config = useMemo(() => getKaniIntegrationConfig(), []);
-  const attemptStore = useMemo(() => new LocalAttemptStore(), []);
+  const attemptStore = useMemo(() => createCanonicalAttemptStore(), []);
   const [runId, setRunId] = useState(1);
   const [result, setResult] = useState<QuestionSessionResult | null>(null);
   const [saveState, setSaveState] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
