@@ -43,7 +43,8 @@ describe('SupabaseGuardianAuth', () => {
     expect(account.userId).toBe('guardian-1');
     expect(account.email).toBe('parent@example.com');
     expect(requestUrl).toBe('https://project.supabase.co/auth/v1/token?grant_type=password');
-    expect(requestHeaders?.get('apikey')).toBe('sb_publishable_test');
+    const headers = requestHeaders as Headers | null;
+    expect(headers?.get('apikey')).toBe('sb_publishable_test');
     expect(JSON.parse(requestBody)).toEqual({ email: 'parent@example.com', password: 'very-secret' });
 
     const persisted = [...storage.data.values()].join('\n');
