@@ -1,4 +1,5 @@
 import { KaniAttemptV1 } from './contracts';
+import { StudentRecommendationsPayload, StudentRevisionPayload } from './evidenceDerivations';
 import { GuardianSessionProvider } from './GuardianSessionProvider';
 
 export interface RemoteStudentProfile {
@@ -21,6 +22,14 @@ export interface AttemptHistoryPage {
   attempts: KaniAttemptV1[];
   nextCursor: string | null;
 }
+
+export interface EvidenceWindowInfo {
+  maxAttempts: number;
+  truncated: boolean;
+}
+
+export type RemoteStudentRevision = StudentRevisionPayload & { evidenceWindow: EvidenceWindowInfo };
+export type RemoteStudentRecommendations = StudentRecommendationsPayload & { evidenceWindow: EvidenceWindowInfo };
 
 export class LearnerApiError extends Error {
   readonly status: number;
@@ -156,5 +165,13 @@ export class LearnerApiClient {
     if (options.limit != null) params.set('limit', String(options.limit));
     const query = params.toString();
     return this.request<AttemptHistoryPage>(`/students/${encodeURIComponent(studentId)}/history${query ? `?${query}` : ''}`);
+  }
+
+  async getRevision(studentId: string): Promise<RemoteStudentRevision> {
+    return this.request<RemoteStudentRevision>(`/students/${encodeURIComponent(studentId)}/revision`);
+  }
+
+  async getRecommendations(studentId: string): Promise<RemoteStudentRecommendations> {
+    return this.request<RemoteStudentRecommendations>(`/students/${encodeURIComponent(studentId)}/recommendations`);
   }
 }
