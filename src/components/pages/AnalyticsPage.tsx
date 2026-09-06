@@ -10,6 +10,7 @@ import {
     getCanonicalAttemptSummary,
     getRecentCanonicalAttempts,
 } from '../../utils/canonicalAttemptAnalytics';
+import { CanonicalEvidenceRollupPanel } from '../shared/CanonicalEvidenceRollupPanel';
 
 interface AnalyticsPageProps {
     onBack: () => void;
@@ -257,7 +258,9 @@ export const AnalyticsPage: React.FC<AnalyticsPageProps> = ({ onBack, leaderboar
                                 <span className="rounded-full border border-gray-600 bg-gray-800/70 px-3 py-1.5 text-gray-300">Fully correct records · {canonicalSummary.correctRecords}</span>
                             </div>
 
-                            <div className="space-y-2">
+                            <CanonicalEvidenceRollupPanel attempts={canonicalAttempts} />
+
+                            <div className="mt-5 space-y-2">
                                 {recentCanonicalAttempts.map((attempt) => {
                                     const credit = canonicalAttemptCredit(attempt);
                                     return (
