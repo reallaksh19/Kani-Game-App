@@ -50,6 +50,9 @@ jobs:
       - name: Authenticated Backend Schema Audit
         run: npm run audit:backend
 
+      - name: Stage 6 Verification Harness Audit
+        run: npm run audit:staging-harness
+
       - name: Run Tests
         run: npm test
 
