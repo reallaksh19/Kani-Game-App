@@ -102,6 +102,7 @@ function validatePage(value: unknown, index: number): KaniCatalogPage {
     skillIds: requireStringArray(item.skillIds, `catalog.pages[${index}].skillIds`),
     conceptTags: requireStringArray(item.conceptTags, `catalog.pages[${index}].conceptTags`),
   };
+  if (item.learnerUrl !== undefined) page.learnerUrl = requireString(item.learnerUrl, `catalog.pages[${index}].learnerUrl`);
   if (item.grade !== undefined) page.grade = requireString(item.grade, `catalog.pages[${index}].grade`);
   if (!isOptionalFiniteNumber(item.order)) throw new KaniContractError(`catalog.pages[${index}].order must be finite`);
   if (typeof item.order === 'number') page.order = item.order;

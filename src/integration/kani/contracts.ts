@@ -65,6 +65,7 @@ export interface KaniCatalogPage {
   title: string;
   activityType: KaniActivityType;
   contentUrl: string;
+  learnerUrl?: string;
   grade?: string;
   difficulty: KaniDifficulty;
   skillIds: string[];

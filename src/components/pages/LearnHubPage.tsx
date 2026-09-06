@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { SpaceBackground } from '../shared/SpaceBackground';
 import { KaniCatalogTopic, KaniCatalogV1, StudyHubPageDocument } from '../../integration/kani/contracts';
-import { StudyHubContentClient } from '../../integration/kani/StudyHubContentClient';
+import { resolveStudyHubLearnerUrl, StudyHubContentClient } from '../../integration/kani/StudyHubContentClient';
 import { getKaniIntegrationConfig } from '../../integration/kani/integrationConfig';
 import { StudyHubPracticePanel } from '../integration/StudyHubPracticePanel';
 
@@ -48,6 +48,9 @@ export const LearnHubPage: React.FC<LearnHubPageProps> = ({ onBack }) => {
   const pages = catalog?.pages.filter((page) => page.topicId === selectedTopicId) || [];
   const subjectById = new Map((catalog?.subjects || []).map((subject) => [subject.id, subject]));
   const selectedPageMeta = selectedPage ? catalog?.pages.find((page) => page.id === selectedPage.id) : undefined;
+  const selectedLearnerUrl = selectedPageMeta?.learnerUrl
+    ? resolveStudyHubLearnerUrl(config.studyHubBaseUrl, selectedPageMeta.learnerUrl)
+    : null;
 
   const openPage = async (pageId: string) => {
     setLoadingPageId(pageId);
@@ -71,7 +74,7 @@ export const LearnHubPage: React.FC<LearnHubPageProps> = ({ onBack }) => {
               <div>
                 <div className="text-xs font-black uppercase tracking-[0.2em] text-cyan-300">Study-Hub · Content Plane</div>
                 <h1 className="text-3xl font-black sm:text-4xl">📚 Learn</h1>
-                <p className="mt-1 text-sm text-slate-300">Read-only federation through <code>kani-catalog-v1</code>.</p>
+                <p className="mt-1 text-sm text-slate-300">Discover Study-Hub lessons, then practice them through Kani.</p>
               </div>
             </div>
             <button onClick={() => void loadCatalog()} className="rounded-full border border-cyan-300/30 bg-cyan-950/40 px-4 py-2 text-sm font-bold text-cyan-100 hover:bg-cyan-900/50">↻ Refresh catalog</button>
@@ -131,15 +134,27 @@ export const LearnHubPage: React.FC<LearnHubPageProps> = ({ onBack }) => {
                   ) : selectedPage ? (
                     <div>
                       <button onClick={() => setSelectedPage(null)} className="mb-4 text-sm font-bold text-cyan-300 hover:text-cyan-200">← Topic pages</button>
-                      <div className="text-xs font-black uppercase tracking-widest text-cyan-300">Read-only page contract</div>
-                      <h2 className="mt-1 text-2xl font-black">{selectedPage.title}</h2>
+                      <div className="text-xs font-black uppercase tracking-widest text-cyan-300">Study-Hub page · Kani practice</div>
+                      <div className="mt-1 flex flex-wrap items-start justify-between gap-3">
+                        <h2 className="text-2xl font-black">{selectedPage.title}</h2>
+                        {selectedLearnerUrl && (
+                          <a
+                            href={selectedLearnerUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="rounded-full border border-cyan-300/40 bg-cyan-950/50 px-4 py-2 text-sm font-bold text-cyan-100 transition hover:bg-cyan-900/60 focus:outline-none focus-visible:ring-4 focus-visible:ring-cyan-400"
+                          >
+                            📖 Open full lesson in Study-Hub ↗
+                          </a>
+                        )}
+                      </div>
                       <div className="mt-4 grid gap-3 sm:grid-cols-3">
                         <Info label="Page ID" value={selectedPage.id} />
                         <Info label="Topic ID" value={selectedPage.topicId} />
                         <Info label="Kind" value={String(selectedPage.pageKind || 'lesson')} />
                       </div>
                       <div className="mt-5 rounded-2xl border border-purple-300/20 bg-purple-950/30 p-4 text-sm text-purple-100">
-                        Lesson rendering remains owned by Study-Hub. Structured questions can now cross the content boundary and run through Kani without importing Study-Hub React internals.
+                        Study-Hub owns the full lesson experience. Kani owns the active student, Randomise setting, question runtime, timing, review and canonical attempts.
                       </div>
                       <div className="mt-4 text-sm text-slate-300">
                         Blocks: {Array.isArray(selectedPage.blocks) ? selectedPage.blocks.length : 0} · Clarifiers: {Array.isArray(selectedPage.clarifiers) ? selectedPage.clarifiers.length : 0} · Questions: {Array.isArray(selectedPage.questions) ? selectedPage.questions.length : 0}
@@ -158,8 +173,9 @@ export const LearnHubPage: React.FC<LearnHubPageProps> = ({ onBack }) => {
                               <div>
                                 <div className="font-bold">{page.title}</div>
                                 <div className="mt-1 text-xs text-slate-400">{page.activityType} · {page.difficulty} · {page.id}</div>
+                                {page.learnerUrl && <div className="mt-1 text-xs text-cyan-300">Full Study-Hub lesson available</div>}
                               </div>
-                              <span className="text-cyan-300">{loadingPageId === page.id ? 'Loading…' : 'Open →'}</span>
+                              <span className="text-cyan-300">{loadingPageId === page.id ? 'Loading…' : 'Preview & practice →'}</span>
                             </div>
                           </button>
                         ))}
