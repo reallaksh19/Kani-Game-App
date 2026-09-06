@@ -1,5 +1,10 @@
+import { KaniAttemptV1 } from './contracts';
 import { LocalAttemptSyncQueue } from './AttemptSyncQueue';
-import { LearnerApiClient, LearnerApiError } from './LearnerApiClient';
+import { AttemptUploadResult, LearnerApiError } from './LearnerApiClient';
+
+export interface AttemptUploadClient {
+  uploadAttempts(attempts: readonly KaniAttemptV1[]): Promise<AttemptUploadResult>;
+}
 
 export interface SyncFlushResult {
   attempted: number;
@@ -12,7 +17,7 @@ export interface SyncFlushResult {
 export class AttemptSyncCoordinator {
   constructor(
     private readonly queue: LocalAttemptSyncQueue,
-    private readonly api: LearnerApiClient,
+    private readonly api: AttemptUploadClient,
   ) {}
 
   async flush(options: { nowMs?: number; limit?: number; random?: () => number } = {}): Promise<SyncFlushResult> {
