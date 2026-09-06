@@ -9,6 +9,7 @@ const expectedSubjects = String(process.env.EXPECTED_SUBJECTS || '')
   .filter(Boolean);
 const expectedLearnEnabled = String(process.env.EXPECTED_LEARN_ENABLED || 'true').toLowerCase() === 'true';
 const expectedPracticeEnabled = String(process.env.EXPECTED_PRACTICE_ENABLED || 'false').toLowerCase() === 'true';
+const expectedMinStructuredQuestions = Math.max(0, Number(process.env.EXPECTED_MIN_STRUCTURED_QUESTIONS || 0));
 
 function joinBase(baseUrl, contentPath) {
   return `${baseUrl.replace(/\/+$/, '')}/${String(contentPath).replace(/^\/+/, '')}`;
@@ -117,6 +118,7 @@ for (const page of scopedPages) {
   assert.ok(typeof page.learnerUrl === 'string' && page.learnerUrl.length > 0, `Page ${page.id} has no learnerUrl`);
 }
 
+let maxStructuredQuestions = 0;
 const pagesToProbe = scopedPages.slice(0, 3);
 for (const pageMeta of pagesToProbe) {
   await retry(`Study-Hub page ${pageMeta.id}`, async () => {
@@ -124,7 +126,21 @@ for (const pageMeta of pagesToProbe) {
     const { value: page } = await fetchJson(withCacheBust(pageUrl));
     assert.equal(page.id, pageMeta.id, `Page id mismatch for ${pageMeta.id}`);
     assert.equal(page.topicId, pageMeta.topicId, `Topic id mismatch for ${pageMeta.id}`);
+    const questions = Array.isArray(page.questions) ? page.questions : [];
+    maxStructuredQuestions = Math.max(maxStructuredQuestions, questions.length);
+    if (questions.length > 0) {
+      const ids = questions.map((question) => question?.id).filter(Boolean);
+      assert.equal(new Set(ids).size, questions.length, `Structured page ${pageMeta.id} has missing or duplicate question IDs`);
+      assert.ok(Array.isArray(pageMeta.skillIds) && pageMeta.skillIds.length > 0, `Structured page ${pageMeta.id} has no catalog skillIds`);
+    }
   }, 6, 3000);
+}
+
+if (expectedMinStructuredQuestions > 0) {
+  assert.ok(
+    maxStructuredQuestions >= expectedMinStructuredQuestions,
+    `Production Learn scope exposes at most ${maxStructuredQuestions} structured questions; expected at least ${expectedMinStructuredQuestions}`,
+  );
 }
 
 const firstLearnerUrl = joinBase(studyHubBaseUrl, scopedPages[0].learnerUrl);
@@ -140,3 +156,4 @@ console.log(`Learn enabled: ${manifest.learnEnabled}`);
 console.log(`Practice enabled: ${manifest.practiceEnabled}`);
 console.log(`Scoped subjects: ${manifest.allowedSubjects.join(', ') || '(all)'}`);
 console.log(`Scoped topics/pages: ${scopedTopics.length}/${scopedPages.length}`);
+console.log(`Maximum structured questions on probed page: ${maxStructuredQuestions}`);
