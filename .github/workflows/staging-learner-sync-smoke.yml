@@ -1,0 +1,45 @@
+name: Staging learner sync smoke
+
+on:
+  workflow_dispatch:
+    inputs:
+      acknowledgement:
+        description: 'Type STAGING to confirm this must not target production learner data'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: kani-staging-learner-sync-smoke
+  cancel-in-progress: false
+
+jobs:
+  authenticated-smoke:
+    if: ${{ inputs.acknowledgement == 'STAGING' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      KANI_STAGING_SUPABASE_URL: ${{ vars.KANI_STAGING_SUPABASE_URL }}
+      KANI_STAGING_API_BASE_URL: ${{ vars.KANI_STAGING_API_BASE_URL }}
+      KANI_STAGING_ALLOWED_ORIGIN: ${{ vars.KANI_STAGING_ALLOWED_ORIGIN }}
+      KANI_STAGING_HOUSEHOLD_A_ID: ${{ vars.KANI_STAGING_HOUSEHOLD_A_ID }}
+      KANI_STAGING_HOUSEHOLD_B_ID: ${{ vars.KANI_STAGING_HOUSEHOLD_B_ID }}
+      KANI_STAGING_PUBLISHABLE_KEY: ${{ secrets.KANI_STAGING_PUBLISHABLE_KEY }}
+      KANI_STAGING_GUARDIAN_A_EMAIL: ${{ secrets.KANI_STAGING_GUARDIAN_A_EMAIL }}
+      KANI_STAGING_GUARDIAN_A_PASSWORD: ${{ secrets.KANI_STAGING_GUARDIAN_A_PASSWORD }}
+      KANI_STAGING_GUARDIAN_B_EMAIL: ${{ secrets.KANI_STAGING_GUARDIAN_B_EMAIL }}
+      KANI_STAGING_GUARDIAN_B_PASSWORD: ${{ secrets.KANI_STAGING_GUARDIAN_B_PASSWORD }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Run authenticated staging acceptance smoke
+        run: npm run smoke:learner-staging
