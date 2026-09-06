@@ -2,20 +2,23 @@ import React, { useMemo, useState } from 'react';
 import { useAppContext } from '../../contexts/AppContext';
 import { QuestionSessionResult } from '../../engine/questions/types';
 import { LocalAttemptStore } from '../../integration/kani/AttemptStore';
-import { KaniCatalogPage, KaniQuestion, StudyHubPageDocument } from '../../integration/kani/contracts';
+import { KaniAttemptV1, KaniCatalogPage, KaniQuestion, StudyHubPageDocument } from '../../integration/kani/contracts';
 import { adaptStudyHubPageQuestions } from '../../integration/kani/StudyHubQuestionAdapter';
+import { selectRetryQuestions } from '../../utils/canonicalRetrySelection';
 import { CanonicalQuestionHost } from '../questions/CanonicalQuestionHost';
 import { ExternalActivityHost } from './ExternalActivityHost';
 
 interface StudyHubPracticePanelProps {
   page: StudyHubPageDocument;
   pageMeta: KaniCatalogPage;
+  attempts?: readonly KaniAttemptV1[];
   onAttemptSaved?: () => void;
 }
 
 type ExternalActivity = Extract<KaniQuestion, { type: 'interactive_external' }>;
+type RunMode = 'all' | 'mistakes';
 
-export const StudyHubPracticePanel: React.FC<StudyHubPracticePanelProps> = ({ page, pageMeta, onAttemptSaved }) => {
+export const StudyHubPracticePanel: React.FC<StudyHubPracticePanelProps> = ({ page, pageMeta, attempts = [], onAttemptSaved }) => {
   const { activeStudent, settings } = useAppContext();
   const adapted = useMemo(() => adaptStudyHubPageQuestions(page, pageMeta), [page, pageMeta]);
   const externalActivities = useMemo(
@@ -26,11 +29,18 @@ export const StudyHubPracticePanel: React.FC<StudyHubPracticePanelProps> = ({ pa
     () => adapted.questions.filter((question) => question.type !== 'interactive_external'),
     [adapted.questions],
   );
+  const retrySelection = useMemo(
+    () => selectRetryQuestions(practiceQuestions, attempts, { pageId: pageMeta.id, limit: 10 }),
+    [attempts, pageMeta.id, practiceQuestions],
+  );
   const attemptStore = useMemo(() => new LocalAttemptStore(), []);
   const [mode, setMode] = useState<'summary' | 'running' | 'result'>('summary');
+  const [runMode, setRunMode] = useState<RunMode>('all');
   const [runId, setRunId] = useState(1);
   const [result, setResult] = useState<QuestionSessionResult | null>(null);
   const [saveState, setSaveState] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
+
+  const runningQuestions = runMode === 'mistakes' ? retrySelection.questions : practiceQuestions;
 
   const complete = async (nextResult: QuestionSessionResult) => {
     setResult(nextResult);
@@ -45,12 +55,15 @@ export const StudyHubPracticePanel: React.FC<StudyHubPracticePanelProps> = ({ pa
     }
   };
 
-  const restart = () => {
+  const startRun = (nextRunMode: RunMode) => {
     setResult(null);
     setSaveState('idle');
+    setRunMode(nextRunMode);
     setRunId((value) => value + 1);
     setMode('running');
   };
+
+  const restart = () => startRun(runMode);
 
   if (adapted.questions.length === 0 && adapted.unsupported.length === 0) {
     return (
@@ -60,13 +73,13 @@ export const StudyHubPracticePanel: React.FC<StudyHubPracticePanelProps> = ({ pa
     );
   }
 
-  if (mode === 'running' && activeStudent && practiceQuestions.length > 0) {
+  if (mode === 'running' && activeStudent && runningQuestions.length > 0) {
     return (
       <div className="mt-6 flex justify-center">
         <CanonicalQuestionHost
-          key={`${page.id}_${runId}`}
-          questions={practiceQuestions}
-          config={{ randomize: settings.randomize, sessionId: `studyhub_${page.id}_${activeStudent.id}_${runId}` }}
+          key={`${page.id}_${runMode}_${runId}`}
+          questions={runningQuestions}
+          config={{ randomize: settings.randomize, sessionId: `studyhub_${page.id}_${activeStudent.id}_${runMode}_${runId}` }}
           context={{
             studentId: activeStudent.id,
             activityId: `studyhub:${page.id}`,
@@ -86,7 +99,9 @@ export const StudyHubPracticePanel: React.FC<StudyHubPracticePanelProps> = ({ pa
   if (mode === 'result' && result) {
     return (
       <section className="mt-6 rounded-3xl border border-emerald-300/25 bg-emerald-950/20 p-5">
-        <div className="text-xs font-black uppercase tracking-[0.18em] text-emerald-300">Study-Hub → Kani practice complete</div>
+        <div className="text-xs font-black uppercase tracking-[0.18em] text-emerald-300">
+          {runMode === 'mistakes' ? 'Retry mistakes complete' : 'Study-Hub → Kani practice complete'}
+        </div>
         <h3 className="mt-1 text-2xl font-black">{result.correctCount} / {result.total} correct</h3>
         <div className="mt-3 flex flex-wrap gap-2 text-sm">
           <span className="rounded-full bg-slate-900/70 px-3 py-1.5">Accuracy {Math.round(result.accuracy * 100)}%</span>
@@ -100,10 +115,10 @@ export const StudyHubPracticePanel: React.FC<StudyHubPracticePanelProps> = ({ pa
               {item.explanation && <div className="mt-1 text-slate-300">{item.explanation}</div>}
             </div>
           ))}
-          {result.correctCount === result.total && <div className="text-sm text-emerald-100">All supported questions were correct.</div>}
+          {result.correctCount === result.total && <div className="text-sm text-emerald-100">All questions in this run were correct.</div>}
         </div>
         <div className="mt-4 flex flex-wrap gap-3">
-          <button onClick={restart} className="rounded-full bg-emerald-600 px-5 py-2.5 font-bold hover:bg-emerald-500">Practice again</button>
+          <button onClick={restart} className="rounded-full bg-emerald-600 px-5 py-2.5 font-bold hover:bg-emerald-500">Run this set again</button>
           <button onClick={() => setMode('summary')} className="rounded-full border border-slate-500 px-5 py-2.5 font-bold text-slate-200 hover:bg-slate-800">Back to page activities</button>
         </div>
       </section>
@@ -123,16 +138,40 @@ export const StudyHubPracticePanel: React.FC<StudyHubPracticePanelProps> = ({ pa
             </p>
           </div>
           {practiceQuestions.length > 0 && (
-            <button
-              type="button"
-              disabled={!activeStudent}
-              onClick={() => setMode('running')}
-              className="rounded-full bg-cyan-600 px-5 py-2.5 font-bold text-white hover:bg-cyan-500 disabled:cursor-not-allowed disabled:opacity-40"
-            >
-              Start question practice →
-            </button>
+            <div className="flex flex-wrap gap-2">
+              {retrySelection.questions.length > 0 && (
+                <button
+                  type="button"
+                  disabled={!activeStudent}
+                  onClick={() => startRun('mistakes')}
+                  className="rounded-full border border-amber-300/40 bg-amber-950/45 px-5 py-2.5 font-bold text-amber-100 hover:bg-amber-900/50 disabled:cursor-not-allowed disabled:opacity-40"
+                >
+                  ↻ Retry {retrySelection.questions.length} mistake{retrySelection.questions.length === 1 ? '' : 's'}
+                </button>
+              )}
+              <button
+                type="button"
+                disabled={!activeStudent}
+                onClick={() => startRun('all')}
+                className="rounded-full bg-cyan-600 px-5 py-2.5 font-bold text-white hover:bg-cyan-500 disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                Start all questions →
+              </button>
+            </div>
           )}
         </div>
+
+        {retrySelection.questions.length > 0 && (
+          <div className="mt-4 rounded-2xl border border-amber-300/25 bg-amber-950/25 p-3 text-sm text-amber-100">
+            Retry Mistakes uses the latest scored result for each current question. Questions already corrected later are removed automatically; answer keys are not stored in attempt history.
+          </div>
+        )}
+
+        {retrySelection.staleQuestionIds.length > 0 && (
+          <div className="mt-3 rounded-2xl border border-slate-600 bg-slate-900/60 p-3 text-xs text-slate-300">
+            {retrySelection.staleQuestionIds.length} prior missed question{retrySelection.staleQuestionIds.length === 1 ? '' : 's'} no longer exist in the current published page and were safely ignored.
+          </div>
+        )}
 
         {adapted.unsupported.length > 0 && (
           <details className="mt-4 rounded-2xl border border-amber-300/20 bg-amber-950/20 p-3 text-sm">
