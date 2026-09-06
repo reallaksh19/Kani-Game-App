@@ -1,6 +1,6 @@
 # Authenticated Kani learner sync
 
-Status: **Stage 1 merged; Stage 2 authenticated API implemented but not deployed**. Architecture decision: Study-Hub #15. Implementation epic: Study-Hub #18.
+Status: **Stages 1–5 code foundation implemented; hosted deployment/auth activation still blocked on real Supabase infrastructure**. Architecture decision: Study-Hub #15. Implementation epic: Study-Hub #18.
 
 ## Boundary
 
@@ -41,6 +41,7 @@ Existing local profile IDs such as `student_alex_1788670000000` remain stable te
 8. Remote outages must never block Learn, Practice, Play, Brain or Challenges. Local storage remains the first write.
 9. Mutating API requests are bounded by body size, batch size and a server-side write quota.
 10. The browser must never possess `service_role` or another privileged Supabase secret.
+11. Revision/recommendation responses must remain deterministic and explainable from canonical evidence; do not introduce an opaque remote mastery score.
 
 ## Repository layout
 
@@ -56,9 +57,20 @@ supabase/
     kani-api/index.ts
   tests/database/
     kani_learner_rls.test.sql
+
+src/integration/kani/
+  evidenceDerivations.ts
+  AttemptSyncQueue.ts
+  AttemptSyncCoordinator.ts
+  LearnerApiClient.ts
+  GuardianSessionProvider.ts
+  LocalFirstAttemptStore.ts
+  RemoteAwareAttemptStore.ts
+  StudentProfileSync.ts
+  mergeAttemptHistory.ts
 ```
 
-The database test is intended for the Supabase CLI / pgTAP test runner. Normal GitHub CI also runs `npm run audit:backend`, a dependency-free safety audit for critical RLS, privilege, quota and authenticated-function invariants. CI additionally runs `deno check` against the Edge Function so the server handler is type-checked independently of the Vite frontend.
+The database test is intended for the Supabase CLI / pgTAP test runner. Normal GitHub CI also runs `npm run audit:backend`, a dependency-free safety audit for critical RLS, privilege, quota, authenticated-function and deterministic-evidence invariants. CI additionally runs `deno check` against the Edge Function so the server handler is type-checked independently of the Vite frontend.
 
 ## Local database workflow
 
@@ -78,12 +90,14 @@ The repository does not require the Supabase CLI for the existing frontend build
 
 ### Local frontend
 
-Future auth/sync client code may consume public browser configuration such as:
+Auth/sync client code is fail-closed and may consume public browser configuration such as:
 
 ```text
 VITE_KANI_SYNC_ENABLED=false
+VITE_KANI_API_BASE_URL=<local-or-hosted-function-domain>/functions/v1/kani-api/api/v1
 VITE_SUPABASE_URL=<local-or-hosted-project-url>
 VITE_SUPABASE_PUBLISHABLE_KEY=<public browser key>
+VITE_KANI_HOUSEHOLD_ID=<optional explicit household selector>
 ```
 
 A publishable browser key is not a privileged database credential. Do not place secret/service-role keys in `VITE_*` variables because Vite embeds those values into the browser bundle.
@@ -132,8 +146,8 @@ GET  /api/v1/students
 POST /api/v1/students
 POST /api/v1/attempts
 GET  /api/v1/students/:studentId/history
-GET  /api/v1/students/:studentId/revision          # reserved, 501 until Stage 5
-GET  /api/v1/students/:studentId/recommendations   # reserved, 501 until Stage 5
+GET  /api/v1/students/:studentId/revision
+GET  /api/v1/students/:studentId/recommendations
 ```
 
 The deployed Supabase function prefix wraps these domain routes, for example:
@@ -158,31 +172,44 @@ History is newest-first and cursor-paginated. Default page size is 50 and the se
 
 ### Revision / recommendations
 
-The route names are reserved so client/API versioning is stable, but the server currently returns `501 NOT_ENABLED_YET`. Kani continues to derive revision signals and recommendations locally using the completed deterministic evidence functions. No server endpoint invents a mastery score.
+These endpoints now reuse `src/integration/kani/evidenceDerivations.ts`, the same deterministic logic exported to local Kani revision/evidence utilities. This prevents a separate server-side notion of learner state.
+
+The server loads a bounded newest-first evidence window of at most 1,000 canonical attempts for the authenticated household/student. Responses include:
+
+- page revision signals;
+- topic and skill evidence rollups;
+- recent/previous credit evidence;
+- trend and evidence-confidence labels;
+- explicit recommendation `reasonCode` values;
+- supporting attempt/scored counts; and
+- `evidenceWindow.truncated` so clients know when the bounded service window was reached.
+
+There is intentionally no `/mastery` endpoint and no opaque recommendation model. The service produces explainable evidence/revision signals from the same canonical attempt records used locally.
 
 ## Local-first sync semantics
 
-When the client sync stage is implemented:
+The client foundation now implements these rules:
 
 1. write every attempt to `LocalAttemptStore` immediately;
 2. track upload state separately from the canonical attempt payload;
-3. upload pending attempts in bounded batches after authenticated profile linking;
-4. retry transient failures with exponential backoff and jitter;
+3. queue uploads only when sync configuration is explicitly ready;
+4. retry transient failures with exponential backoff, jitter and `Retry-After` support;
 5. keep local attempts after successful upload;
-6. merge local + remote reads by `attemptId`;
-7. preserve stable `studentId` across devices;
-8. surface sync state without blocking learning when the backend is unavailable.
+6. merge local + remote reads by immutable `attemptId`;
+7. surface conflicting same-ID payloads instead of silently overwriting evidence;
+8. preserve stable `studentId` across devices;
+9. import/link student profiles by stable ID, never display name; and
+10. fall back to local history when auth/network/remote reads fail.
 
 ## Production rollout gate
 
-Merging the API code does **not** enable remote learner storage in production. Before enabling sync, the platform still requires:
+Merging the API/client code does **not** enable remote learner storage in production. Before enabling sync, the platform still requires:
 
 - a configured Supabase staging project;
 - migrations applied and pgTAP authorization tests executed against that environment;
 - `kani-api` deployed with exact allowed-origin configuration;
-- guardian auth/profile-link UX;
-- idempotent local-first queue;
-- authenticated staging tests for cross-household denial, replay behavior and history pagination;
+- guardian auth/profile-link UX backed by real Supabase Auth;
+- authenticated staging tests for cross-household denial, replay behavior, history pagination and evidence-service parity;
 - offline/reconnect and second-device tests;
 - production project/configuration; and
 - a production sync smoke test.
