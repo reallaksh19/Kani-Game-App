@@ -30,6 +30,13 @@ export class AttemptSyncConflictError extends Error {
   }
 }
 
+export class AttemptSyncQueueFullError extends Error {
+  constructor(maxEntries: number) {
+    super(`Attempt sync queue reached its ${maxEntries}-entry safety limit. Existing pending evidence was preserved.`);
+    this.name = 'AttemptSyncQueueFullError';
+  }
+}
+
 const DEFAULT_STORAGE_KEY = 'kani-attempt-sync-v1';
 const DEFAULT_MAX_ENTRIES = 2000;
 const MAX_BACKOFF_MS = 5 * 60 * 1000;
@@ -90,7 +97,10 @@ export class LocalAttemptSyncQueue {
   }
 
   private write(entries: AttemptSyncQueueEntry[]): void {
-    this.storage.setItem(this.storageKey, JSON.stringify(entries.slice(0, this.maxEntries)));
+    // Never truncate a durable outbox silently. If the queue is full, enqueue()
+    // rejects the new metadata while LocalFirstAttemptStore keeps the learner's
+    // canonical attempt in local history.
+    this.storage.setItem(this.storageKey, JSON.stringify(entries));
   }
 
   enqueue(attempt: KaniAttemptV1, nowMs = Date.now()): void {
@@ -102,6 +112,10 @@ export class LocalAttemptSyncQueue {
         throw new AttemptSyncConflictError(attempt.attemptId);
       }
       return;
+    }
+
+    if (entries.length >= this.maxEntries) {
+      throw new AttemptSyncQueueFullError(this.maxEntries);
     }
 
     const now = isoFromMs(nowMs);
