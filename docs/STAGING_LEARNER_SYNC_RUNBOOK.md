@@ -6,13 +6,14 @@ This runbook is the execution companion to Study-Hub issues #18, #20 and #21. It
 
 ## 1. Local Linux/macOS database verification
 
-This is the one validation step that needs Docker + the Supabase CLI on a local/Linux-capable machine. It requires no hosted credentials.
+This validation step needs Docker plus Node.js 20+ / npm on a local/Linux-capable machine. It requires no hosted credentials and **does not require a globally installed Supabase CLI**.
 
 Prerequisites:
 
 ```bash
 docker --version
-supabase --version
+node --version
+npm --version
 ```
 
 From the repository root:
@@ -20,6 +21,8 @@ From the repository root:
 ```bash
 npm run verify:supabase-local
 ```
+
+The helper uses an existing global `supabase` command when available. Otherwise it falls back to the pinned npm CLI `supabase@2.116.0` through `npx`, which may download the CLI on the first run. This follows Supabase's supported project/package-runner installation model.
 
 That command performs:
 
@@ -31,10 +34,16 @@ supabase start
 
 It verifies that the checked-in migrations apply cleanly and executes the pgTAP RLS/authorization tests under `supabase/tests/database`.
 
-The local services remain running after a successful verification for inspection. Stop them with:
+The local services remain running after a successful verification for inspection. If the helper used a global CLI, stop them with:
 
 ```bash
 supabase stop
+```
+
+If it used the pinned fallback, use:
+
+```bash
+npx --yes supabase@2.116.0 stop
 ```
 
 or ask the helper to stop automatically:
@@ -49,7 +58,8 @@ Do not send passwords, access tokens or service-role keys. The useful diagnostic
 
 ```text
 docker --version
-supabase --version
+node --version
+npm --version
 npm run verify:supabase-local
 ```
 
