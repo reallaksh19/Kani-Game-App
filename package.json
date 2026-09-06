@@ -10,6 +10,8 @@
     "audit:lq": "node scripts/audit-lq-questions.mjs",
     "audit:brain": "node scripts/audit-brain-questions.mjs",
     "audit:backend": "node scripts/audit-kani-backend.mjs",
+    "verify:supabase-local": "bash scripts/verify-local-supabase.sh",
+    "smoke:learner-staging": "node scripts/smoke-authenticated-learner-staging.mjs",
     "release:integration-manifest": "node scripts/write-integration-release-manifest.mjs",
     "smoke:integration": "node scripts/smoke-production-integration.mjs",
     "predeploy": "npm run build",
