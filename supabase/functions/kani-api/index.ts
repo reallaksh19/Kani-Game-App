@@ -1,5 +1,9 @@
 import { createSupabaseContext } from '@supabase/server';
 import {
+  deriveStudentRecommendationsPayload,
+  deriveStudentRevisionPayload,
+} from '../../../src/integration/kani/evidenceDerivations.ts';
+import {
   KaniApiInputError,
   MAX_REQUEST_BYTES,
   assertAllowedBrowserOrigin,
@@ -16,6 +20,7 @@ import {
 } from '../_shared/kaniApiProtocol.ts';
 
 const WRITE_UNITS_PER_MINUTE = 120;
+const MAX_EVIDENCE_ATTEMPTS = 1000;
 
 interface QuotaResult {
   allowed: boolean;
@@ -321,6 +326,27 @@ async function getHistory(admin: any, householdId: string, studentId: string, ur
   };
 }
 
+async function getEvidenceWindow(admin: any, householdId: string, studentId: string): Promise<{ attempts: any[]; truncated: boolean }> {
+  await requireStudent(admin, householdId, studentId);
+  const { data, error } = await admin
+    .from('kani_attempts')
+    .select('payload,completed_at,attempt_id')
+    .eq('household_id', householdId)
+    .eq('student_id', studentId)
+    .order('completed_at', { ascending: false })
+    .order('attempt_id', { ascending: false })
+    .limit(MAX_EVIDENCE_ATTEMPTS + 1);
+  if (error) {
+    console.error('Evidence window query failed', error);
+    throw new KaniApiInputError('Learner evidence could not be loaded', 'BACKEND_ERROR', 500);
+  }
+  const rows = data || [];
+  return {
+    attempts: rows.slice(0, MAX_EVIDENCE_ATTEMPTS).map((row: any) => row.payload),
+    truncated: rows.length > MAX_EVIDENCE_ATTEMPTS,
+  };
+}
+
 function localDevelopmentOrigins(): string[] {
   const supabaseUrl = Deno.env.get('SUPABASE_URL') || '';
   if (!/localhost|127\.0\.0\.1/.test(supabaseUrl)) return [];
@@ -385,14 +411,21 @@ export default {
         return jsonResponse(await getHistory(ctx.supabaseAdmin, householdId, route.studentId, new URL(req.url)), 200, corsHeaders);
       }
 
-      // These routes are reserved now so clients can depend on one API version,
-      // but Stage 5 will wire the completed deterministic Kani evidence derivations.
-      return jsonResponse({
-        error: {
-          code: 'NOT_ENABLED_YET',
-          message: `${route.kind === 'student.revision' ? 'Revision' : 'Recommendation'} remote derivation is not enabled yet; Kani continues to derive it locally.`,
-        },
-      }, 501, corsHeaders);
+      if (route.kind === 'student.revision' || route.kind === 'student.recommendations') {
+        const evidence = await getEvidenceWindow(ctx.supabaseAdmin, householdId, route.studentId);
+        const payload = route.kind === 'student.revision'
+          ? deriveStudentRevisionPayload(route.studentId, evidence.attempts)
+          : deriveStudentRecommendationsPayload(route.studentId, evidence.attempts);
+        return jsonResponse({
+          ...payload,
+          evidenceWindow: {
+            maxAttempts: MAX_EVIDENCE_ATTEMPTS,
+            truncated: evidence.truncated,
+          },
+        }, 200, corsHeaders);
+      }
+
+      throw new KaniApiInputError('API route not found', 'NOT_FOUND', 404);
     } catch (error) {
       return errorResponse(error, corsHeaders);
     }
