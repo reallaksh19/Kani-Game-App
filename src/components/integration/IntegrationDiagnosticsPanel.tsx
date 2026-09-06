@@ -20,8 +20,10 @@ export const IntegrationDiagnosticsPanel: React.FC<IntegrationDiagnosticsPanelPr
         <Diagnostic label="Catalog path" value={config.studyHubCatalogPath} />
         <Diagnostic label="Catalog" value={statusLabel} />
         <Diagnostic label="Schema" value={catalog?.schemaVersion || '—'} />
-        <Diagnostic label="Published content" value={catalog ? `${catalog.subjects.length} subjects · ${catalog.topics.length} topics · ${catalog.pages.length} pages` : '—'} />
+        <Diagnostic label="Published/visible content" value={catalog ? `${catalog.subjects.length} subjects · ${catalog.topics.length} topics · ${catalog.pages.length} pages` : '—'} />
         <Diagnostic label="Allowed Study-Hub origins" value={config.allowedStudyHubOrigins.join(', ') || 'none'} />
+        <Diagnostic label="Allowed Learn subjects" value={config.allowedStudyHubSubjectIds.join(', ') || 'all'} />
+        <Diagnostic label="Allowed Learn grades" value={config.allowedStudyHubGrades.join(', ') || 'all'} />
         <Diagnostic label="Learn flag" value={config.integrationLearnEnabled ? 'enabled' : 'disabled'} />
         <Diagnostic label="Practice flag" value={config.integrationPracticeEnabled ? 'enabled' : 'disabled'} />
       </div>
