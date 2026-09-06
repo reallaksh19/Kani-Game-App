@@ -112,20 +112,51 @@ describe('adaptStudyHubPageQuestions', () => {
     expect(result.questions[2]).toMatchObject({ type: 'match_following', correctPairs: [['l1', 'r1'], ['l2', 'r2']] });
   });
 
+  it('maps external activity references without discarding extension metadata', () => {
+    const result = adaptStudyHubPageQuestions(page([
+      {
+        id: 'external-1',
+        type: 'interactive_external',
+        prompt: 'Explore the fraction game.',
+        skillIds: ['skill_fraction-game'],
+        externalRef: {
+          activityId: 'fraction-game-1',
+          launchUrl: '/activities/fractions/index.html',
+          presentation: 'iframe',
+        },
+      },
+    ]), meta);
+
+    expect(result.unsupported).toEqual([]);
+    expect(result.questions[0]).toMatchObject({
+      id: 'external-1',
+      type: 'interactive_external',
+      prompt: 'Explore the fraction game.',
+      externalRef: {
+        activityId: 'fraction-game-1',
+        launchUrl: '/activities/fractions/index.html',
+        presentation: 'iframe',
+      },
+    });
+    expect(result.questions[0].skillIds).toEqual(expect.arrayContaining(['skill_fraction-comparison', 'skill_fraction-game']));
+  });
+
   it('refuses missing stable ids and objectively unscorable/invalid types instead of inventing answers', () => {
     const result = adaptStudyHubPageQuestions(page([
       { type: 'mcq', prompt: 'No id', options: ['a', 'b'], answer: 0 },
       { id: 'q-long', type: 'long_answer', prompt: 'Explain why.', modelAnswer: 'Because...' },
       { id: 'q-bad', type: 'mcq', prompt: 'Bad answer', options: ['a', 'b'], answer: 'Z' },
       { id: 'bad-seq', type: 'sequence_order', prompt: 'Order', items: ['a', 'b'], correctOrder: [0, 0] },
+      { id: 'bad-external', type: 'interactive_external', externalRef: { activityId: 'missing-url' } },
     ]), meta);
 
     expect(result.questions).toHaveLength(0);
-    expect(result.unsupported).toHaveLength(4);
+    expect(result.unsupported).toHaveLength(5);
     expect(result.unsupported[0].reason).toMatch(/stable question id/);
     expect(result.unsupported[1].reason).toMatch(/not enabled|objectively scorable/);
     expect(result.unsupported[2].reason).toMatch(/valid answer/);
     expect(result.unsupported[3].reason).toMatch(/complete unique correctOrder/);
+    expect(result.unsupported[4].reason).toMatch(/activityId.*launchUrl/);
   });
 
   it('falls back to page metadata for normalized difficulty and preserves unique answer indexes', () => {
