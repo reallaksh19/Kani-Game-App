@@ -2,7 +2,7 @@ begin;
 
 create extension if not exists pgtap with schema extensions;
 
-select plan(22);
+select plan(30);
 
 select has_table('public', 'kani_households', 'households table exists');
 select has_table('public', 'kani_household_members', 'household membership table exists');
@@ -87,6 +87,22 @@ values
     '{"schemaVersion":"1.0","attemptId":"attempt-b-1","studentId":"student_same_1000","activityId":"studyhub:grade4math-number-system-practice","activityType":"worksheet","sourceApp":"study-hub","subjectId":"grade4math","topicId":"grade4math-number-system","pageId":"grade4math-number-system-practice","questionId":"grade4math-number-system-q02","skillIds":["skill-expanded-form"],"difficulty":"easy","correct":true,"partialCredit":1,"completedAt":"2026-09-06T06:01:00Z"}'::jsonb
   );
 
+set local role anon;
+
+select throws_ok(
+  $$select count(*) from public.kani_students$$,
+  '42501',
+  'permission denied for table kani_students',
+  'anonymous browser role cannot read students directly'
+);
+select throws_ok(
+  $$select count(*) from public.kani_attempts$$,
+  '42501',
+  'permission denied for table kani_attempts',
+  'anonymous browser role cannot read attempts directly'
+);
+
+reset role;
 set local role authenticated;
 set local "request.jwt.claim.sub" = '10000000-0000-0000-0000-000000000001';
 
@@ -114,6 +130,42 @@ select throws_ok(
   '42501',
   'permission denied for table kani_attempts',
   'authenticated browser role cannot insert attempts directly'
+);
+select throws_ok(
+  $$insert into public.kani_households default values$$,
+  '42501',
+  'permission denied for table kani_households',
+  'authenticated browser role cannot insert households directly'
+);
+select throws_ok(
+  $$insert into public.kani_household_members (household_id, user_id, role) values ('aaaaaaaa-0000-0000-0000-000000000001', '20000000-0000-0000-0000-000000000002', 'guardian')$$,
+  '42501',
+  'permission denied for table kani_household_members',
+  'authenticated browser role cannot insert household membership directly'
+);
+select throws_ok(
+  $$update public.kani_students set name = 'Browser Changed' where household_id = 'aaaaaaaa-0000-0000-0000-000000000001' and id = 'student_same_1000'$$,
+  '42501',
+  'permission denied for table kani_students',
+  'authenticated browser role cannot update students directly'
+);
+select throws_ok(
+  $$delete from public.kani_attempts where household_id = 'aaaaaaaa-0000-0000-0000-000000000001' and attempt_id = 'attempt-a-1'$$,
+  '42501',
+  'permission denied for table kani_attempts',
+  'authenticated browser role cannot delete attempts directly'
+);
+
+reset role;
+set local role service_role;
+
+select lives_ok(
+  $$insert into public.kani_students (household_id, id, name, avatar, grade) values ('aaaaaaaa-0000-0000-0000-000000000001', 'service-role-write', 'Backend Student', '🧪', 'Grade 4')$$,
+  'service role can insert students through the privileged backend path'
+);
+select lives_ok(
+  $$insert into public.kani_attempts (household_id, attempt_id, student_id, schema_version, activity_id, activity_type, source_app, skill_ids, difficulty, completed_at, payload) values ('aaaaaaaa-0000-0000-0000-000000000001', 'service-role-attempt', 'service-role-write', '1.0', 'backend:test', 'quiz', 'game-app', '{}', 'easy', '2026-09-06T06:02:00Z', '{"schemaVersion":"1.0","attemptId":"service-role-attempt","studentId":"service-role-write","activityId":"backend:test"}'::jsonb)$$,
+  'service role can insert canonical attempts through the privileged backend path'
 );
 
 reset role;
