@@ -112,7 +112,7 @@ export const PatternsDiagnosticPilot: React.FC<PatternsDiagnosticPilotProps> = (
         <div className="text-xs font-black uppercase tracking-[0.18em] text-emerald-300">Patterns diagnostic complete</div>
         <h2 className="mt-1 text-2xl font-black">{result.total} probes completed</h2>
         <p className="mt-2 max-w-3xl text-sm text-emerald-50/80">
-          Study-Hub interprets the two probes for each skill separately, including hint use and mixed outcomes. Kani does not turn the total correct count into a placement, proficiency, or ability label.
+          Study-Hub interprets the two probes for each skill separately, including hint use and mixed outcomes. Kani does not turn the total correct count into a placement label.
         </p>
         <div className="mt-3 text-sm text-slate-200">
           Attempts: {saveState === 'saved' ? 'saved locally' : saveState === 'saving' ? 'saving locally…' : saveState === 'error' ? 'save failed' : 'pending'}
