@@ -1,3 +1,4 @@
+import fs from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { KaniAttemptV1 } from './contracts';
 import { PATTERN_DIAGNOSTIC_ACTIVITY_ID } from './PatternDiagnosticClient';
@@ -69,5 +70,16 @@ describe('patternDiagnosticHandoff', () => {
     const padded = attempt(0) as KaniAttemptV1 & { padding: string };
     padded.padding = 'x'.repeat(70_000);
     expect(() => buildPatternDiagnosticBridgeUrl('https://example.test/Study-Hub', [padded])).toThrow(/64 KiB/);
+  });
+
+  it('keeps learner-facing pilot copy evidence-focused and uses the just-completed attempts', () => {
+    const source = fs.readFileSync(
+      new URL('../../components/integration/PatternsDiagnosticPilot.tsx', import.meta.url),
+      'utf8',
+    );
+    expect(source).toContain('buildPatternDiagnosticBridgeUrl(studyHubBaseUrl, nextResult.attempts)');
+    expect(source).toContain('for (const attempt of nextResult.attempts) await attemptStore.recordAttempt(attempt)');
+    expect(source).not.toContain('{result.correctCount}');
+    expect(source).not.toMatch(/mastery score|ability score|grade placement/i);
   });
 });
