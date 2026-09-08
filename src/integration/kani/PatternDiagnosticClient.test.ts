@@ -36,7 +36,7 @@ const questions = SKILLS.flatMap((slug) => [1, 2].map((number, index) => ({
   ...(index === 0
     ? { options: ['A', 'B'], answerIndex: 0 }
     : { answer: 2, tolerance: 0 }),
-}));
+})));
 
 const envelope = {
   schemaVersion: '1.0',
