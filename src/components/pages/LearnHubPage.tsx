@@ -12,6 +12,7 @@ import {
   PageRevisionSignal,
   revisionSignalLabel,
 } from '../../utils/canonicalRevisionSignals';
+import { PatternsDiagnosticPilot } from '../integration/PatternsDiagnosticPilot';
 import { StudyHubPracticePanel } from '../integration/StudyHubPracticePanel';
 
 interface LearnHubPageProps {
@@ -36,6 +37,8 @@ export const LearnHubPage: React.FC<LearnHubPageProps> = ({ onBack }) => {
   const [evidenceError, setEvidenceError] = useState('');
 
   const rolloutScoped = config.allowedStudyHubSubjectIds.length > 0 || config.allowedStudyHubGrades.length > 0;
+  const patternsPilotEnabled = config.integrationLearnEnabled
+    && (config.allowedStudyHubSubjectIds.length === 0 || config.allowedStudyHubSubjectIds.includes('grade4math'));
 
   const loadCatalog = async () => {
     setStatus('loading');
@@ -143,6 +146,13 @@ export const LearnHubPage: React.FC<LearnHubPageProps> = ({ onBack }) => {
                 Subjects: {config.allowedStudyHubSubjectIds.join(', ') || 'all'} · Grades: {config.allowedStudyHubGrades.join(', ') || 'all'}
               </div>
             </div>
+          )}
+
+          {patternsPilotEnabled && (
+            <PatternsDiagnosticPilot
+              studyHubBaseUrl={config.studyHubBaseUrl}
+              onAttemptSaved={() => void loadEvidence()}
+            />
           )}
 
           {evidenceError && (
