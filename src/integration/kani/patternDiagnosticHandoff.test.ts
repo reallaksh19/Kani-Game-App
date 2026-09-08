@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { KaniAttemptV1 } from './contracts';
 import { PATTERN_DIAGNOSTIC_ACTIVITY_ID } from './PatternDiagnosticClient';
@@ -74,7 +75,7 @@ describe('patternDiagnosticHandoff', () => {
 
   it('keeps learner-facing pilot copy evidence-focused and uses the just-completed attempts', () => {
     const source = fs.readFileSync(
-      new URL('../../components/integration/PatternsDiagnosticPilot.tsx', import.meta.url),
+      path.join(process.cwd(), 'src', 'components', 'integration', 'PatternsDiagnosticPilot.tsx'),
       'utf8',
     );
     expect(source).toContain('buildPatternDiagnosticBridgeUrl(studyHubBaseUrl, nextResult.attempts)');
