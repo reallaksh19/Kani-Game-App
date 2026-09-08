@@ -54,12 +54,12 @@ describe('PatternDiagnosticClient', () => {
     expect(resolvePatternDiagnosticUrl('https://example.test/Study-Hub/')).toBe(`https://example.test/Study-Hub${PATTERN_DIAGNOSTIC_PATH}`);
   });
 
-  it('fetches and validates exactly 26 canonical diagnostic questions', async () => {
+  it('fetches and validates the exact ordered 26-probe diagnostic identity', async () => {
     const fetchFn = vi.fn(async () => jsonResponse(envelope));
     const result = await fetchPatternDiagnostic('https://example.test/Study-Hub', fetchFn);
     expect(result.activityId).toBe(PATTERN_DIAGNOSTIC_ACTIVITY_ID);
-    expect(result.questions).toHaveLength(26);
-    expect(new Set(result.questions.map((question) => question.id)).size).toBe(26);
+    expect(result.questions.map((question) => question.id)).toEqual(questions.map((question) => question.id));
+    expect(result.questions.map((question) => question.skillIds[0])).toEqual(questions.map((question) => question.skillIds[0]));
     expect(fetchFn).toHaveBeenCalledWith(
       'https://example.test/Study-Hub/content/diagnostics/patterns-initial.json',
       { headers: { Accept: 'application/json' } },
@@ -71,6 +71,27 @@ describe('PatternDiagnosticClient', () => {
     expect(() => parsePatternDiagnosticEnvelope({ ...envelope, sourceApp: 'game-app' })).toThrow(/sourceApp/);
     expect(() => parsePatternDiagnosticEnvelope({ ...envelope, questions: questions.slice(0, 25) })).toThrow(/exactly 26/);
     expect(() => parsePatternDiagnosticEnvelope({ ...envelope, questions: questions.map((question, index) => index === 0 ? { ...question, curriculumTags: undefined } : question) })).toThrow(/curriculumTags/);
+  });
+
+  it('rejects identity drift even when the payload still contains 26 valid canonical questions', () => {
+    const reordered = [...questions];
+    [reordered[0], reordered[1]] = [reordered[1], reordered[0]];
+    expect(() => parsePatternDiagnosticEnvelope({ ...envelope, questions: reordered })).toThrow(/question 1 must be/);
+
+    const wrongSkill = questions.map((question, index) => index === 0
+      ? { ...question, skillIds: ['patterns.compare_pattern_attributes'] }
+      : question);
+    expect(() => parsePatternDiagnosticEnvelope({ ...envelope, questions: wrongSkill })).toThrow(/must reference exactly patterns.observe_sequence_order/);
+
+    const extraTag = questions.map((question, index) => index === 0
+      ? { ...question, conceptTags: ['patterns', 'diagnostic-probe', 'extra'] }
+      : question);
+    expect(() => parsePatternDiagnosticEnvelope({ ...envelope, questions: extraTag })).toThrow(/exact diagnostic concept tags/);
+
+    const missingHint = questions.map((question, index) => index === 0
+      ? { ...question, hint: undefined }
+      : question);
+    expect(() => parsePatternDiagnosticEnvelope({ ...envelope, questions: missingHint })).toThrow(/must include a hint/);
   });
 
   it('rejects duplicate ids and non-diagnostic identity metadata', () => {
