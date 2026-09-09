@@ -19,6 +19,10 @@ function scopedKey(householdId: string, id: string): string {
   return `${householdId}\u0000${id}`;
 }
 
+function cloneAttempt(value: KaniAttemptV1): KaniAttemptV1 {
+  return JSON.parse(JSON.stringify(value)) as KaniAttemptV1;
+}
+
 export class MemoryStore implements KaniStore {
   private readonly householdRows = new Map<string, { record: HouseholdRecord; hash: string }>();
   private readonly studentRows = new Map<string, { record: StudentRecord; hash: string }>();
@@ -95,7 +99,7 @@ export class MemoryStore implements KaniStore {
       const hash = canonicalSha256(input);
       const existing = this.attemptRows.get(input.attemptId);
       if (existing && existing.hash !== hash) throw new ImmutableRecordConflictError('attempt', input.attemptId);
-      if (!existing) this.attemptRows.set(input.attemptId, { record: structuredClone(input), hash });
+      if (!existing) this.attemptRows.set(input.attemptId, { record: cloneAttempt(input), hash });
     },
     listAttempts: async (studentId: string, filter: AttemptFilter = {}): Promise<KaniAttemptV1[]> => {
       const normalizedStudentId = studentId.trim();
@@ -112,7 +116,7 @@ export class MemoryStore implements KaniStore {
       if (filter.topicId) attempts = attempts.filter((attempt) => attempt.topicId === filter.topicId);
       if (filter.skillId) attempts = attempts.filter((attempt) => attempt.skillIds.includes(filter.skillId as string));
       if (filter.limit != null) attempts = attempts.slice(0, Math.max(0, filter.limit));
-      return attempts.map((attempt) => structuredClone(attempt));
+      return attempts.map(cloneAttempt);
     },
   };
 }
