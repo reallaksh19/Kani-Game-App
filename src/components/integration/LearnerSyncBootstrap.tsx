@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
+import { createGuardianIdentityProvider } from '../../infrastructure/identity/createGuardianIdentityProvider';
 import { AttemptSyncCoordinator } from '../../integration/kani/AttemptSyncCoordinator';
 import { LocalAttemptSyncQueue } from '../../integration/kani/AttemptSyncQueue';
 import { LearnerApiClient } from '../../integration/kani/LearnerApiClient';
-import { SupabaseGuardianAuth } from '../../integration/kani/SupabaseGuardianAuth';
 import { getLearnerSyncConfig } from '../../integration/kani/learnerSyncConfig';
 import { KANI_ATTEMPT_QUEUED_EVENT } from '../../integration/kani/learnerSyncEvents';
 
@@ -20,14 +20,11 @@ export const LearnerSyncBootstrap: React.FC = () => {
     const config = getLearnerSyncConfig();
     if (!config.ready) return;
 
-    const auth = new SupabaseGuardianAuth({
-      supabaseUrl: config.supabaseUrl,
-      publishableKey: config.supabasePublishableKey,
-    });
+    const auth = createGuardianIdentityProvider(config.identity);
     const api = new LearnerApiClient({
       baseUrl: config.apiBaseUrl,
       sessionProvider: auth,
-      publishableKey: config.supabasePublishableKey,
+      publishableKey: config.identity.publicKey,
       householdIdProvider: () => config.householdId || null,
     });
     const queue = new LocalAttemptSyncQueue();
@@ -63,8 +60,6 @@ export const LearnerSyncBootstrap: React.FC = () => {
           }
         })
         .catch((error) => {
-          // Coordinator normally converts network/auth failures into deferred
-          // queue state. This is a final safety net; never surface as learner UI.
           console.warn('Learner sync runtime could not complete a background flush.', error);
         })
         .finally(() => {
@@ -84,8 +79,6 @@ export const LearnerSyncBootstrap: React.FC = () => {
     window.addEventListener('focus', onFocus);
     document.addEventListener('visibilitychange', onVisible);
 
-    // Resume an outbox left by an earlier offline/reload period as soon as this
-    // configured app starts. Auth/profile-link errors remain deferred unchanged.
     const initialTimer = setTimeout(flush, 0);
     const retryTimer = setInterval(() => {
       if (queue.counts().total > 0) flush();
