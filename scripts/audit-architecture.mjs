@@ -1,0 +1,62 @@
+import { readdir, readFile, stat } from 'node:fs/promises';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const srcRoot = path.join(root, 'src');
+const codeExtensions = new Set(['.js', '.jsx', '.ts', '.tsx', '.mjs', '.cjs']);
+const providerNeutralRoots = ['domain', 'application', 'ports'].map((name) => path.join(srcRoot, name));
+const providerImportPatterns = [
+  /from\s+['"][^'"]*supabase[^'"]*['"]/i,
+  /from\s+['"][^'"]*neon[^'"]*['"]/i,
+  /from\s+['"][^'"]*firebase[^'"]*['"]/i,
+  /require\(\s*['"][^'"]*(?:supabase|neon|firebase)[^'"]*['"]\s*\)/i,
+];
+const browserSecretPatterns = [
+  { name: 'Supabase service-role env', regex: /SUPABASE_SERVICE_ROLE_KEY/ },
+  { name: 'secret API key literal', regex: /sb_secret_[A-Za-z0-9_-]+/ },
+  { name: 'database connection URL', regex: /postgres(?:ql)?:\/\//i },
+  { name: 'publicly-prefixed secret config', regex: /VITE_[A-Z0-9_]*(?:SERVICE_ROLE|SECRET|DATABASE_PASSWORD|PRIVATE_KEY)/ },
+];
+
+async function exists(target) {
+  try { await stat(target); return true; } catch { return false; }
+}
+
+async function listCodeFiles(dir) {
+  if (!(await exists(dir))) return [];
+  const out = [];
+  for (const entry of await readdir(dir, { withFileTypes: true })) {
+    if (['node_modules', 'dist', 'coverage'].includes(entry.name)) continue;
+    const target = path.join(dir, entry.name);
+    if (entry.isDirectory()) out.push(...await listCodeFiles(target));
+    else if (codeExtensions.has(path.extname(entry.name))) out.push(target);
+  }
+  return out;
+}
+
+const violations = [];
+for (const file of await listCodeFiles(srcRoot)) {
+  const text = await readFile(file, 'utf8');
+  const rel = path.relative(root, file).replaceAll(path.sep, '/');
+  for (const pattern of browserSecretPatterns) {
+    if (pattern.regex.test(text)) violations.push(`${rel}: browser-facing source contains ${pattern.name}`);
+  }
+}
+
+for (const neutralRoot of providerNeutralRoots) {
+  for (const file of await listCodeFiles(neutralRoot)) {
+    const text = await readFile(file, 'utf8');
+    const rel = path.relative(root, file).replaceAll(path.sep, '/');
+    for (const regex of providerImportPatterns) {
+      if (regex.test(text)) violations.push(`${rel}: provider-neutral layer imports provider-specific SDK/module`);
+    }
+  }
+}
+
+if (violations.length) {
+  throw new Error(`Architecture drift detected:\n- ${violations.join('\n- ')}`);
+}
+
+console.log('Architecture baseline passes: no browser admin secrets and provider-neutral layers remain provider-independent.');
+console.log('Existing provider adapters under src/integration/kani remain grandfathered for E1 and will be isolated behind ports in later roadmap batches.');

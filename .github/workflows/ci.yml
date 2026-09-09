@@ -6,11 +6,14 @@ on:
   pull_request:
     branches: [main]
 
+permissions:
+  contents: read
+
 jobs:
   verify:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout Kani
         uses: actions/checkout@v4
 
       - name: Setup Node
@@ -19,6 +22,21 @@ jobs:
           node-version: 20
           cache: 'npm'
 
+      - name: Read locked Study-Hub SHA
+        id: contract-lock
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "sha=$(node -e "const fs=require('fs'); process.stdout.write(JSON.parse(fs.readFileSync('integration/upstream.lock.json','utf8')).sourceCommit)")" >> "$GITHUB_OUTPUT"
+
+      - name: Checkout Study-Hub contract authority at locked SHA
+        uses: actions/checkout@v4
+        with:
+          repository: reallaksh19/Study-Hub
+          ref: ${{ steps.contract-lock.outputs.sha }}
+          path: .contract-source
+          persist-credentials: false
+
       - name: Setup Deno
         uses: denoland/setup-deno@v2
         with:
@@ -26,6 +44,18 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Verify immutable Study-Hub contract lock
+        env:
+          KANI_CONTRACT_SOURCE_DIR: ${{ github.workspace }}/.contract-source
+        run: npm run audit:contracts
+
+      - name: Remove temporary Study-Hub checkout
+        shell: bash
+        run: rm -rf .contract-source
+
+      - name: Architecture Anti-Drift Audit
+        run: npm run audit:architecture
 
       - name: Type Check
         run: npx tsc --noEmit
