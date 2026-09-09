@@ -1,10 +1,15 @@
-# E1 architecture-sensitive ownership
-# Keep contract locks, integration seams, backend adapters and CI governance reviewable.
+# Architecture-sensitive ownership
+# Keep contract locks, provider-neutral ports, adapters and CI governance reviewable.
 /.github/CODEOWNERS @reallaksh19
 /.github/workflows/ci.yml @reallaksh19
 /integration/upstream.lock.json @reallaksh19
 /integration/contracts/ @reallaksh19
 /scripts/audit-contract-lock.mjs @reallaksh19
 /scripts/audit-architecture.mjs @reallaksh19
+/src/domain/ @reallaksh19
+/src/ports/ @reallaksh19
+/src/config/ @reallaksh19
+/src/infrastructure/ @reallaksh19
 /src/integration/kani/ @reallaksh19
+/docs/E2_PORTS_AND_ADAPTERS.md @reallaksh19
 /supabase/ @reallaksh19

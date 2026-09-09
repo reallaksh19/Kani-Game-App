@@ -1,7 +1,24 @@
+import {
+  getKaniRuntimeConfig,
+  KaniIdentityDriver,
+  KaniRuntimeConfig,
+  KaniRuntimeEnv,
+  resolveKaniRuntimeConfig,
+} from '../../config/kaniRuntimeConfig';
+
 export interface LearnerSyncConfig {
   requested: boolean;
   apiBaseUrl: string;
+  identity: {
+    driver: KaniIdentityDriver;
+    endpoint: string;
+    publicKey: string;
+  };
+  /** @deprecated compatibility fields; product UI should use `identity`. */
+  authDriver: KaniIdentityDriver;
+  /** @deprecated compatibility field. */
   supabaseUrl: string;
+  /** @deprecated compatibility field. */
   supabasePublishableKey: string;
   householdId: string;
   apiReady: boolean;
@@ -10,49 +27,38 @@ export interface LearnerSyncConfig {
   reason?: string;
 }
 
-export type LearnerSyncEnv = Record<string, string | boolean | undefined>;
+export type LearnerSyncEnv = KaniRuntimeEnv;
 
-function asString(value: string | boolean | undefined): string {
-  return typeof value === 'string' ? value.trim() : '';
-}
-
-function asBoolean(value: string | boolean | undefined): boolean {
-  if (typeof value === 'boolean') return value;
-  return typeof value === 'string' && ['1', 'true', 'yes', 'on'].includes(value.trim().toLowerCase());
-}
-
-function normalizeUrl(value: string): string {
-  return value.replace(/\/+$/, '');
-}
-
-export function resolveLearnerSyncConfig(env: LearnerSyncEnv): LearnerSyncConfig {
-  const requested = asBoolean(env.VITE_KANI_SYNC_ENABLED);
-  const apiBaseUrl = normalizeUrl(asString(env.VITE_KANI_API_BASE_URL));
-  const supabaseUrl = normalizeUrl(asString(env.VITE_SUPABASE_URL));
-  const supabasePublishableKey = asString(env.VITE_SUPABASE_PUBLISHABLE_KEY);
-  const householdId = asString(env.VITE_KANI_HOUSEHOLD_ID);
-  const apiReady = apiBaseUrl.length > 0;
-  const authReady = supabaseUrl.length > 0 && supabasePublishableKey.length > 0;
-  const ready = requested && apiReady && authReady;
-
+function fromRuntime(runtime: KaniRuntimeConfig): LearnerSyncConfig {
   let reason: string | undefined;
-  if (!requested) reason = 'Learner sync is disabled by feature flag.';
-  else if (!apiReady) reason = 'Learner API base URL is not configured.';
-  else if (!authReady) reason = 'Supabase public auth configuration is incomplete.';
+  if (!runtime.sync.requested) reason = 'Learner sync is disabled by feature flag.';
+  else if (runtime.errors.length > 0) reason = runtime.errors[0];
+  else if (!runtime.apiReady) reason = 'Learner API base URL is not configured.';
+  else if (!runtime.identityReady) reason = 'Guardian public auth configuration is incomplete.';
 
   return {
-    requested,
-    apiBaseUrl,
-    supabaseUrl,
-    supabasePublishableKey,
-    householdId,
-    apiReady,
-    authReady,
-    ready,
+    requested: runtime.sync.requested,
+    apiBaseUrl: runtime.sync.apiBaseUrl,
+    identity: {
+      driver: runtime.identity.driver,
+      endpoint: runtime.identity.supabaseUrl,
+      publicKey: runtime.identity.publishableKey,
+    },
+    authDriver: runtime.identity.driver,
+    supabaseUrl: runtime.identity.supabaseUrl,
+    supabasePublishableKey: runtime.identity.publishableKey,
+    householdId: runtime.sync.householdId,
+    apiReady: runtime.apiReady,
+    authReady: runtime.identityReady,
+    ready: runtime.ready,
     reason,
   };
 }
 
+export function resolveLearnerSyncConfig(env: LearnerSyncEnv): LearnerSyncConfig {
+  return fromRuntime(resolveKaniRuntimeConfig(env));
+}
+
 export function getLearnerSyncConfig(): LearnerSyncConfig {
-  return resolveLearnerSyncConfig(import.meta.env as LearnerSyncEnv);
+  return fromRuntime(getKaniRuntimeConfig());
 }
