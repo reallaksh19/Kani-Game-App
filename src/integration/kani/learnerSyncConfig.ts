@@ -1,6 +1,14 @@
+import {
+  getKaniRuntimeConfig,
+  KaniIdentityDriver,
+  KaniRuntimeEnv,
+  resolveKaniRuntimeConfig,
+} from '../../config/kaniRuntimeConfig';
+
 export interface LearnerSyncConfig {
   requested: boolean;
   apiBaseUrl: string;
+  authDriver: KaniIdentityDriver;
   supabaseUrl: string;
   supabasePublishableKey: string;
   householdId: string;
@@ -10,49 +18,40 @@ export interface LearnerSyncConfig {
   reason?: string;
 }
 
-export type LearnerSyncEnv = Record<string, string | boolean | undefined>;
-
-function asString(value: string | boolean | undefined): string {
-  return typeof value === 'string' ? value.trim() : '';
-}
-
-function asBoolean(value: string | boolean | undefined): boolean {
-  if (typeof value === 'boolean') return value;
-  return typeof value === 'string' && ['1', 'true', 'yes', 'on'].includes(value.trim().toLowerCase());
-}
-
-function normalizeUrl(value: string): string {
-  return value.replace(/\/+$/, '');
-}
+export type LearnerSyncEnv = KaniRuntimeEnv;
 
 export function resolveLearnerSyncConfig(env: LearnerSyncEnv): LearnerSyncConfig {
-  const requested = asBoolean(env.VITE_KANI_SYNC_ENABLED);
-  const apiBaseUrl = normalizeUrl(asString(env.VITE_KANI_API_BASE_URL));
-  const supabaseUrl = normalizeUrl(asString(env.VITE_SUPABASE_URL));
-  const supabasePublishableKey = asString(env.VITE_SUPABASE_PUBLISHABLE_KEY);
-  const householdId = asString(env.VITE_KANI_HOUSEHOLD_ID);
-  const apiReady = apiBaseUrl.length > 0;
-  const authReady = supabaseUrl.length > 0 && supabasePublishableKey.length > 0;
-  const ready = requested && apiReady && authReady;
-
+  const runtime = resolveKaniRuntimeConfig(env);
   let reason: string | undefined;
-  if (!requested) reason = 'Learner sync is disabled by feature flag.';
-  else if (!apiReady) reason = 'Learner API base URL is not configured.';
-  else if (!authReady) reason = 'Supabase public auth configuration is incomplete.';
+  if (!runtime.sync.requested) reason = 'Learner sync is disabled by feature flag.';
+  else if (runtime.errors.length > 0) reason = runtime.errors[0];
+  else if (!runtime.apiReady) reason = 'Learner API base URL is not configured.';
+  else if (!runtime.identityReady) reason = 'Guardian public auth configuration is incomplete.';
 
   return {
-    requested,
-    apiBaseUrl,
-    supabaseUrl,
-    supabasePublishableKey,
-    householdId,
-    apiReady,
-    authReady,
-    ready,
+    requested: runtime.sync.requested,
+    apiBaseUrl: runtime.sync.apiBaseUrl,
+    authDriver: runtime.identity.driver,
+    supabaseUrl: runtime.identity.supabaseUrl,
+    supabasePublishableKey: runtime.identity.publishableKey,
+    householdId: runtime.sync.householdId,
+    apiReady: runtime.apiReady,
+    authReady: runtime.identityReady,
+    ready: runtime.ready,
     reason,
   };
 }
 
 export function getLearnerSyncConfig(): LearnerSyncConfig {
-  return resolveLearnerSyncConfig(import.meta.env as LearnerSyncEnv);
+  const runtime = getKaniRuntimeConfig();
+  return resolveLearnerSyncConfig({
+    VITE_KANI_ENV: runtime.environment,
+    VITE_KANI_STORAGE_DRIVER: runtime.storage.driver,
+    VITE_KANI_SYNC_ENABLED: runtime.sync.requested,
+    VITE_KANI_API_BASE_URL: runtime.sync.apiBaseUrl,
+    VITE_KANI_HOUSEHOLD_ID: runtime.sync.householdId,
+    VITE_KANI_AUTH_DRIVER: runtime.identity.driver,
+    VITE_SUPABASE_URL: runtime.identity.supabaseUrl,
+    VITE_SUPABASE_PUBLISHABLE_KEY: runtime.identity.publishableKey,
+  });
 }
