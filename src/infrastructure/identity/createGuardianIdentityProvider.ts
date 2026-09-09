@@ -4,17 +4,17 @@ import { SupabaseGuardianIdentityProvider } from './supabase/SupabaseGuardianIde
 
 export interface GuardianIdentityFactoryConfig {
   driver: KaniIdentityDriver;
-  supabaseUrl: string;
-  publishableKey: string;
+  endpoint: string;
+  publicKey: string;
 }
 
-/** Composition root: provider selection is confined to infrastructure. */
+/** Composition root: provider selection and provider-specific option mapping stay here. */
 export function createGuardianIdentityProvider(config: GuardianIdentityFactoryConfig): GuardianIdentityProvider {
   switch (config.driver) {
     case 'supabase':
       return new SupabaseGuardianIdentityProvider({
-        supabaseUrl: config.supabaseUrl,
-        publishableKey: config.publishableKey,
+        supabaseUrl: config.endpoint,
+        publishableKey: config.publicKey,
       });
     default: {
       const unreachable: never = config.driver;
