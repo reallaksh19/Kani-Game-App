@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useAppContext } from '../../contexts/AppContext';
+import { createGuardianIdentityProvider } from '../../infrastructure/identity/createGuardianIdentityProvider';
 import { LearnerApiClient, RemoteStudentProfile } from '../../integration/kani/LearnerApiClient';
 import { importRemoteProfilesLocally, planRemoteProfilesForLocalImport } from '../../integration/kani/RemoteStudentProfileImport';
-import { SupabaseGuardianAuth } from '../../integration/kani/SupabaseGuardianAuth';
 import { getLearnerSyncConfig } from '../../integration/kani/learnerSyncConfig';
 
 /**
@@ -13,16 +13,15 @@ import { getLearnerSyncConfig } from '../../integration/kani/learnerSyncConfig';
 export const RemoteProfileImportPanel: React.FC = () => {
   const { studentProfiles } = useAppContext();
   const config = useMemo(() => getLearnerSyncConfig(), []);
-  const auth = useMemo(() => config.authReady ? new SupabaseGuardianAuth({
-    supabaseUrl: config.supabaseUrl,
-    publishableKey: config.supabasePublishableKey,
-  }) : null, [config.authReady, config.supabasePublishableKey, config.supabaseUrl]);
+  const auth = useMemo(() => config.authReady
+    ? createGuardianIdentityProvider(config.identity)
+    : null, [config.authReady, config.identity]);
   const api = useMemo(() => auth && config.apiReady ? new LearnerApiClient({
     baseUrl: config.apiBaseUrl,
     sessionProvider: auth,
-    publishableKey: config.supabasePublishableKey,
+    publishableKey: config.identity.publicKey,
     householdIdProvider: () => config.householdId || null,
-  }) : null, [auth, config.apiBaseUrl, config.apiReady, config.householdId, config.supabasePublishableKey]);
+  }) : null, [auth, config.apiBaseUrl, config.apiReady, config.householdId, config.identity.publicKey]);
 
   const [remote, setRemote] = useState<RemoteStudentProfile[]>([]);
   const [signedIn, setSignedIn] = useState(false);
