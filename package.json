@@ -11,6 +11,8 @@
     "audit:brain": "node scripts/audit-brain-questions.mjs",
     "audit:backend": "node scripts/audit-kani-backend.mjs",
     "audit:staging-harness": "bash -n scripts/verify-local-supabase.sh && node --check scripts/smoke-authenticated-learner-staging.mjs",
+    "audit:contracts": "node scripts/audit-contract-lock.mjs",
+    "audit:architecture": "node scripts/audit-architecture.mjs",
     "verify:supabase-local": "bash scripts/verify-local-supabase.sh",
     "smoke:learner-staging": "node scripts/smoke-authenticated-learner-staging.mjs",
     "release:integration-manifest": "node scripts/write-integration-release-manifest.mjs",
