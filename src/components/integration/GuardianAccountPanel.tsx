@@ -1,11 +1,12 @@
 import React, { FormEvent, useEffect, useMemo, useState } from 'react';
 import { useAppContext } from '../../contexts/AppContext';
+import { createGuardianIdentityProvider } from '../../infrastructure/identity/createGuardianIdentityProvider';
 import { AttemptSyncCoordinator } from '../../integration/kani/AttemptSyncCoordinator';
 import { LocalAttemptSyncQueue } from '../../integration/kani/AttemptSyncQueue';
 import { LearnerApiClient } from '../../integration/kani/LearnerApiClient';
 import { StudentProfileSyncPlan, importLocalStudentProfiles, planStudentProfileSync } from '../../integration/kani/StudentProfileSync';
-import { GuardianAccount, GuardianAuthError, SupabaseGuardianAuth } from '../../integration/kani/SupabaseGuardianAuth';
 import { getLearnerSyncConfig } from '../../integration/kani/learnerSyncConfig';
+import { GuardianAccount, GuardianIdentityError } from '../../ports/identity';
 
 const emptyPlan: StudentProfileSyncPlan = {
   imports: [],
@@ -17,15 +18,14 @@ const emptyPlan: StudentProfileSyncPlan = {
 export const GuardianAccountPanel: React.FC = () => {
   const { studentProfiles } = useAppContext();
   const config = useMemo(() => getLearnerSyncConfig(), []);
-  const auth = useMemo(() => config.authReady ? new SupabaseGuardianAuth({
-    supabaseUrl: config.supabaseUrl,
-    publishableKey: config.supabasePublishableKey,
-  }) : null, [config.authReady, config.supabasePublishableKey, config.supabaseUrl]);
+  const auth = useMemo(() => config.authReady
+    ? createGuardianIdentityProvider(config.identity)
+    : null, [config.authReady, config.identity]);
   const api = useMemo(() => auth && config.apiReady ? new LearnerApiClient({
     baseUrl: config.apiBaseUrl,
     sessionProvider: auth,
-    publishableKey: config.supabasePublishableKey,
-  }) : null, [auth, config.apiBaseUrl, config.apiReady, config.supabasePublishableKey]);
+    publishableKey: config.identity.publicKey,
+  }) : null, [auth, config.apiBaseUrl, config.apiReady, config.identity.publicKey]);
   const queue = useMemo(() => new LocalAttemptSyncQueue(), []);
 
   const [account, setAccount] = useState<GuardianAccount | null>(null);
@@ -91,7 +91,7 @@ export const GuardianAccountPanel: React.FC = () => {
       await refreshRemoteState();
       setMessage('Signed in. Local learning still works offline; cloud sync is optional.');
     } catch (cause) {
-      setError(cause instanceof GuardianAuthError ? cause.message : cause instanceof Error ? cause.message : 'Sign-in failed.');
+      setError(cause instanceof GuardianIdentityError ? cause.message : cause instanceof Error ? cause.message : 'Sign-in failed.');
     } finally {
       setBusy(false);
     }
@@ -162,22 +162,8 @@ export const GuardianAccountPanel: React.FC = () => {
 
       {!account ? (
         <form onSubmit={signIn} className="mt-4 grid gap-3 sm:grid-cols-[1fr_1fr_auto]">
-          <input
-            type="email"
-            autoComplete="username"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-            placeholder="Guardian email"
-            className="rounded-lg border border-slate-700 bg-slate-950/70 px-3 py-2 text-white"
-          />
-          <input
-            type="password"
-            autoComplete="current-password"
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-            placeholder="Password"
-            className="rounded-lg border border-slate-700 bg-slate-950/70 px-3 py-2 text-white"
-          />
+          <input type="email" autoComplete="username" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="Guardian email" className="rounded-lg border border-slate-700 bg-slate-950/70 px-3 py-2 text-white" />
+          <input type="password" autoComplete="current-password" value={password} onChange={(event) => setPassword(event.target.value)} placeholder="Password" className="rounded-lg border border-slate-700 bg-slate-950/70 px-3 py-2 text-white" />
           <button disabled={busy} className="rounded-lg bg-cyan-600 px-4 py-2 font-bold text-white disabled:opacity-50">Sign in</button>
         </form>
       ) : (
@@ -216,7 +202,7 @@ export const GuardianAccountPanel: React.FC = () => {
 
       {message && <div className="mt-3 rounded-lg border border-emerald-500/20 bg-emerald-950/20 p-2 text-xs text-emerald-200">{message}</div>}
       {error && <div className="mt-3 rounded-lg border border-rose-500/20 bg-rose-950/20 p-2 text-xs text-rose-200">{error}</div>}
-      <div className="mt-3 text-[11px] text-slate-500">Passwords are never stored by Kani. Browser storage contains only the Supabase session needed to resume an authenticated guardian account.</div>
+      <div className="mt-3 text-[11px] text-slate-500">Passwords are never stored by Kani. Browser storage contains only the guardian session material needed to resume an authenticated account.</div>
     </section>
   );
 };
