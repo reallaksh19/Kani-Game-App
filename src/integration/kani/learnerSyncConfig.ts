@@ -1,6 +1,7 @@
 import {
   getKaniRuntimeConfig,
   KaniIdentityDriver,
+  KaniRuntimeConfig,
   KaniRuntimeEnv,
   resolveKaniRuntimeConfig,
 } from '../../config/kaniRuntimeConfig';
@@ -8,8 +9,16 @@ import {
 export interface LearnerSyncConfig {
   requested: boolean;
   apiBaseUrl: string;
+  identity: {
+    driver: KaniIdentityDriver;
+    endpoint: string;
+    publicKey: string;
+  };
+  /** @deprecated compatibility fields; product UI should use `identity`. */
   authDriver: KaniIdentityDriver;
+  /** @deprecated compatibility field. */
   supabaseUrl: string;
+  /** @deprecated compatibility field. */
   supabasePublishableKey: string;
   householdId: string;
   apiReady: boolean;
@@ -20,8 +29,7 @@ export interface LearnerSyncConfig {
 
 export type LearnerSyncEnv = KaniRuntimeEnv;
 
-export function resolveLearnerSyncConfig(env: LearnerSyncEnv): LearnerSyncConfig {
-  const runtime = resolveKaniRuntimeConfig(env);
+function fromRuntime(runtime: KaniRuntimeConfig): LearnerSyncConfig {
   let reason: string | undefined;
   if (!runtime.sync.requested) reason = 'Learner sync is disabled by feature flag.';
   else if (runtime.errors.length > 0) reason = runtime.errors[0];
@@ -31,6 +39,11 @@ export function resolveLearnerSyncConfig(env: LearnerSyncEnv): LearnerSyncConfig
   return {
     requested: runtime.sync.requested,
     apiBaseUrl: runtime.sync.apiBaseUrl,
+    identity: {
+      driver: runtime.identity.driver,
+      endpoint: runtime.identity.supabaseUrl,
+      publicKey: runtime.identity.publishableKey,
+    },
     authDriver: runtime.identity.driver,
     supabaseUrl: runtime.identity.supabaseUrl,
     supabasePublishableKey: runtime.identity.publishableKey,
@@ -42,16 +55,10 @@ export function resolveLearnerSyncConfig(env: LearnerSyncEnv): LearnerSyncConfig
   };
 }
 
+export function resolveLearnerSyncConfig(env: LearnerSyncEnv): LearnerSyncConfig {
+  return fromRuntime(resolveKaniRuntimeConfig(env));
+}
+
 export function getLearnerSyncConfig(): LearnerSyncConfig {
-  const runtime = getKaniRuntimeConfig();
-  return resolveLearnerSyncConfig({
-    VITE_KANI_ENV: runtime.environment,
-    VITE_KANI_STORAGE_DRIVER: runtime.storage.driver,
-    VITE_KANI_SYNC_ENABLED: runtime.sync.requested,
-    VITE_KANI_API_BASE_URL: runtime.sync.apiBaseUrl,
-    VITE_KANI_HOUSEHOLD_ID: runtime.sync.householdId,
-    VITE_KANI_AUTH_DRIVER: runtime.identity.driver,
-    VITE_SUPABASE_URL: runtime.identity.supabaseUrl,
-    VITE_SUPABASE_PUBLISHABLE_KEY: runtime.identity.publishableKey,
-  });
+  return fromRuntime(getKaniRuntimeConfig());
 }
