@@ -1,0 +1,29 @@
+{
+  "lockVersion": "1.0",
+  "contractSource": "reallaksh19/Study-Hub",
+  "sourceCommit": "6e27d8da1efbb043826ee84ff70b7bf216bf611e",
+  "sourceManifestPath": "integration/platform-manifest.json",
+  "manifestVersion": "1.0",
+  "contracts": {
+    "kani-content-v1": {
+      "schemaVersion": "1.0",
+      "path": "integration/contracts/kani-content-v1.schema.json",
+      "sha256": "37bcfdcc45fb959d51971b3fe1532501a5cbdef2ce32df8a98b6881c2b0ee72d"
+    },
+    "kani-catalog-v1": {
+      "schemaVersion": "1.0",
+      "path": "integration/contracts/kani-catalog-v1.schema.json",
+      "sha256": "feefe05cddeea324d3bd7ac9a0f9da76162fae18ff9903a08f0666b137d33351"
+    },
+    "kani-activity-v1": {
+      "schemaVersion": "1.0",
+      "path": "integration/contracts/kani-activity-v1.schema.json",
+      "sha256": "22d7500b866118af4c991a2b3a4bcdc73dde59056f5942e731a21fc356622812"
+    },
+    "kani-attempt-v1": {
+      "schemaVersion": "1.0",
+      "path": "integration/contracts/kani-attempt-v1.schema.json",
+      "sha256": "90ab244536cd3ae6dcc180f1a365e2df8870387b3327bd5fdeefb871a052f1a6"
+    }
+  }
+}
