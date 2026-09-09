@@ -35,6 +35,7 @@ jobs:
           repository: reallaksh19/Study-Hub
           ref: ${{ steps.contract-lock.outputs.sha }}
           path: .contract-source
+          persist-credentials: false
 
       - name: Setup Deno
         uses: denoland/setup-deno@v2
@@ -48,6 +49,10 @@ jobs:
         env:
           KANI_CONTRACT_SOURCE_DIR: ${{ github.workspace }}/.contract-source
         run: npm run audit:contracts
+
+      - name: Remove temporary Study-Hub checkout
+        shell: bash
+        run: rm -rf .contract-source
 
       - name: Architecture Anti-Drift Audit
         run: npm run audit:architecture
