@@ -6,11 +6,16 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const srcRoot = path.join(root, 'src');
 const codeExtensions = new Set(['.js', '.jsx', '.ts', '.tsx', '.mjs', '.cjs']);
 const providerNeutralRoots = ['domain', 'application', 'ports'].map((name) => path.join(srcRoot, name));
+const componentRoot = path.join(srcRoot, 'components');
 const providerImportPatterns = [
   /from\s+['"][^'"]*supabase[^'"]*['"]/i,
   /from\s+['"][^'"]*neon[^'"]*['"]/i,
   /from\s+['"][^'"]*firebase[^'"]*['"]/i,
   /require\(\s*['"][^'"]*(?:supabase|neon|firebase)[^'"]*['"]\s*\)/i,
+];
+const providerConstructionPatterns = [
+  /\bSupabaseGuardianAuth\b/,
+  /\bSupabaseGuardianIdentityProvider\b/,
 ];
 const browserSecretPatterns = [
   { name: 'Supabase service-role env', regex: /SUPABASE_SERVICE_ROLE_KEY/ },
@@ -35,8 +40,13 @@ async function listCodeFiles(dir) {
   return out;
 }
 
+function isTestFile(file) {
+  return /\.(?:test|spec)\.[^.]+$/.test(file);
+}
+
 const violations = [];
 for (const file of await listCodeFiles(srcRoot)) {
+  if (isTestFile(file)) continue;
   const text = await readFile(file, 'utf8');
   const rel = path.relative(root, file).replaceAll(path.sep, '/');
   for (const pattern of browserSecretPatterns) {
@@ -54,9 +64,39 @@ for (const neutralRoot of providerNeutralRoots) {
   }
 }
 
+for (const file of await listCodeFiles(componentRoot)) {
+  if (isTestFile(file)) continue;
+  const text = await readFile(file, 'utf8');
+  const rel = path.relative(root, file).replaceAll(path.sep, '/');
+  for (const regex of providerImportPatterns) {
+    if (regex.test(text)) violations.push(`${rel}: product UI imports a provider-specific module`);
+  }
+  for (const regex of providerConstructionPatterns) {
+    if (regex.test(text)) violations.push(`${rel}: product UI constructs/references a provider-specific identity adapter`);
+  }
+}
+
+const legacyAuthShim = path.join(srcRoot, 'integration/kani/SupabaseGuardianAuth.ts');
+if (await exists(legacyAuthShim)) {
+  const text = await readFile(legacyAuthShim, 'utf8');
+  if (/class\s+SupabaseGuardianAuth\b/.test(text) || /\/auth\/v1\//.test(text)) {
+    violations.push('src/integration/kani/SupabaseGuardianAuth.ts: compatibility shim contains provider implementation logic');
+  }
+}
+
+for (const required of [
+  'src/ports/identity.ts',
+  'src/ports/storage.ts',
+  'src/infrastructure/identity/createGuardianIdentityProvider.ts',
+  'src/infrastructure/identity/supabase/SupabaseGuardianIdentityProvider.ts',
+  'src/infrastructure/storage/local/LocalAttemptStore.ts',
+  'src/infrastructure/storage/memory/MemoryStore.ts',
+]) {
+  if (!(await exists(path.join(root, required)))) violations.push(`${required}: required E2 architecture boundary is missing`);
+}
+
 if (violations.length) {
   throw new Error(`Architecture drift detected:\n- ${violations.join('\n- ')}`);
 }
 
-console.log('Architecture baseline passes: no browser admin secrets and provider-neutral layers remain provider-independent.');
-console.log('Existing provider adapters under src/integration/kani remain grandfathered for E1 and will be isolated behind ports in later roadmap batches.');
+console.log('Architecture audit passes: provider-neutral layers are independent, provider adapters are infrastructure-only, and product UI uses neutral composition seams.');
