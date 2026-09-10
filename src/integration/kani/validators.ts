@@ -22,6 +22,7 @@ export class KaniContractError extends Error {
 const DIFFICULTIES = new Set<KaniDifficulty>(['easy', 'medium', 'hard', 'mixed', 'none']);
 const ACTIVITY_TYPES = new Set<KaniActivityType>(['lesson', 'worksheet', 'quiz', 'game', 'brain', 'challenge', 'interactive']);
 const SOURCE_APPS = new Set<KaniSourceApp>(['study-hub', 'game-app', 'worksheet-app']);
+const PRIMARY_CONFIDENCE = new Set(['LOW', 'MEDIUM', 'HIGH', 'NOT_OBSERVED']);
 
 const isObject = (value: unknown): value is Record<string, unknown> => typeof value === 'object' && value !== null && !Array.isArray(value);
 const isNonEmptyString = (value: unknown): value is string => typeof value === 'string' && value.trim().length > 0;
@@ -72,6 +73,12 @@ function requireActivityType(value: unknown, context: string): KaniActivityType 
 function requireStringArray(value: unknown, context: string): string[] {
   if (!isStringArray(value)) throw new KaniContractError(`${context} must be an array of non-empty strings`);
   return value;
+}
+
+function assertOnlyKeys(value: Record<string, unknown>, allowed: readonly string[], context: string) {
+  const allowedSet = new Set(allowed);
+  const unexpected = Object.keys(value).find((key) => !allowedSet.has(key));
+  if (unexpected) throw new KaniContractError(`${context}.${unexpected} is not permitted by the canonical contract`);
 }
 
 function assertSchemaVersion(value: unknown, context: string) {
@@ -351,6 +358,65 @@ export function parseStudyHubPageDocument(value: unknown, expected?: { id?: stri
   return { ...page, id, topicId, title } as StudyHubPageDocument;
 }
 
+function validatePrimaryAttemptEvidence(value: unknown) {
+  const evidence = requireObject(value, 'attempt.primaryEvidence');
+  assertOnlyKeys(evidence, [
+    'semanticVersion',
+    'learningEpisodeId',
+    'learningObjectIds',
+    'questionFamilyId',
+    'selfCorrected',
+    'confidenceBefore',
+    'confidenceAfter',
+    'conceptualSupport',
+    'accessAdjustments',
+    'representation',
+    'responseMode',
+    'errorSignature',
+  ], 'attempt.primaryEvidence');
+
+  if (evidence.semanticVersion !== '1.0') {
+    throw new KaniContractError('attempt.primaryEvidence.semanticVersion must equal 1.0');
+  }
+  if (evidence.learningEpisodeId !== undefined) requireString(evidence.learningEpisodeId, 'attempt.primaryEvidence.learningEpisodeId');
+  if (evidence.learningObjectIds !== undefined) {
+    const ids = requireStringArray(evidence.learningObjectIds, 'attempt.primaryEvidence.learningObjectIds');
+    if (ids.length === 0) throw new KaniContractError('attempt.primaryEvidence.learningObjectIds must be non-empty when present');
+  }
+  if (evidence.questionFamilyId !== undefined) requireString(evidence.questionFamilyId, 'attempt.primaryEvidence.questionFamilyId');
+  if (evidence.selfCorrected !== undefined) requireBoolean(evidence.selfCorrected, 'attempt.primaryEvidence.selfCorrected');
+
+  for (const key of ['confidenceBefore', 'confidenceAfter'] as const) {
+    const confidence = evidence[key];
+    if (confidence !== undefined && (!isNonEmptyString(confidence) || !PRIMARY_CONFIDENCE.has(confidence))) {
+      throw new KaniContractError(`attempt.primaryEvidence.${key} must be LOW, MEDIUM, HIGH or NOT_OBSERVED`);
+    }
+  }
+
+  if (evidence.conceptualSupport !== undefined) {
+    const support = requireObject(evidence.conceptualSupport, 'attempt.primaryEvidence.conceptualSupport');
+    assertOnlyKeys(support, ['level', 'type'], 'attempt.primaryEvidence.conceptualSupport');
+    requireString(support.level, 'attempt.primaryEvidence.conceptualSupport.level');
+    requireString(support.type, 'attempt.primaryEvidence.conceptualSupport.type');
+  }
+  if (evidence.accessAdjustments !== undefined) requireStringArray(evidence.accessAdjustments, 'attempt.primaryEvidence.accessAdjustments');
+  if (evidence.representation !== undefined) {
+    const representation = requireObject(evidence.representation, 'attempt.primaryEvidence.representation');
+    assertOnlyKeys(representation, ['type', 'role'], 'attempt.primaryEvidence.representation');
+    requireString(representation.type, 'attempt.primaryEvidence.representation.type');
+    requireString(representation.role, 'attempt.primaryEvidence.representation.role');
+  }
+  if (evidence.responseMode !== undefined) requireString(evidence.responseMode, 'attempt.primaryEvidence.responseMode');
+  if (evidence.errorSignature !== undefined) {
+    const signature = requireObject(evidence.errorSignature, 'attempt.primaryEvidence.errorSignature');
+    assertOnlyKeys(signature, ['source', 'code'], 'attempt.primaryEvidence.errorSignature');
+    if (signature.source !== 'AUTHORED_RESPONSE_CLASSIFICATION') {
+      throw new KaniContractError('attempt.primaryEvidence.errorSignature.source must equal AUTHORED_RESPONSE_CLASSIFICATION');
+    }
+    requireString(signature.code, 'attempt.primaryEvidence.errorSignature.code');
+  }
+}
+
 export function assertKaniAttempt(value: unknown): asserts value is KaniAttemptV1 {
   const attempt = requireObject(value, 'attempt');
   assertSchemaVersion(attempt.schemaVersion, 'attempt');
@@ -375,6 +441,7 @@ export function assertKaniAttempt(value: unknown): asserts value is KaniAttemptV
   if (attempt.score !== undefined && (typeof attempt.score !== 'number' || !Number.isFinite(attempt.score))) {
     throw new KaniContractError('attempt.score must be finite');
   }
+  if (attempt.primaryEvidence !== undefined) validatePrimaryAttemptEvidence(attempt.primaryEvidence);
   if (!isIsoDateTime(attempt.completedAt)) throw new KaniContractError('attempt.completedAt must be ISO-8601');
   if (attempt.startedAt !== undefined && !isIsoDateTime(attempt.startedAt)) throw new KaniContractError('attempt.startedAt must be ISO-8601');
 }
