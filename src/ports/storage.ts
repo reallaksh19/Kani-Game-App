@@ -1,4 +1,4 @@
-import type { AttemptFilter, KaniAttemptV1 } from '../integration/kani/contracts';
+import type { AttemptFilter, KaniAttemptV1 } from '../domain/contracts';
 
 export interface AttemptRepository {
   recordAttempt(input: KaniAttemptV1): Promise<void>;

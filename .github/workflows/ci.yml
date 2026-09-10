@@ -19,7 +19,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: 'npm'
 
       - name: Read locked Study-Hub SHA
@@ -72,8 +72,11 @@ jobs:
       - name: Stage 6 Verification Harness Audit
         run: npm run audit:staging-harness
 
-      - name: Deno Check Learner API
+      - name: Deno Check Learner API Reference Adapter
         run: deno check --config supabase/functions/deno.json supabase/functions/kani-api/index.ts
+
+      - name: Connector-free SQLite Backend Matrix
+        run: npm run test:sqlite-backend
 
       - name: Run Tests
         run: npm test

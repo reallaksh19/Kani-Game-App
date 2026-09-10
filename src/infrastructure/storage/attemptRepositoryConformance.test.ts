@@ -3,6 +3,7 @@ import type { KaniAttemptV1 } from '../../integration/kani/contracts';
 import type { AttemptRepository, KeyValueStorage } from '../../ports/storage';
 import { LocalAttemptStore } from './local/LocalAttemptStore';
 import { MemoryStore } from './memory/MemoryStore';
+import { SQLiteStore } from './sqlite/SQLiteStore';
 
 class MemoryKeyValueStorage implements KeyValueStorage {
   private readonly data = new Map<string, string>();
@@ -30,15 +31,26 @@ function attempt(overrides: Partial<KaniAttemptV1> = {}): KaniAttemptV1 {
   };
 }
 
-const adapters: Array<{ name: string; create: () => AttemptRepository }> = [
-  { name: 'MemoryStore', create: () => new MemoryStore().attempts },
-  { name: 'LocalAttemptStore', create: () => new LocalAttemptStore({ storage: new MemoryKeyValueStorage(), maxAttempts: 50 }) },
+const adapters: Array<{ name: string; create: () => Promise<AttemptRepository> }> = [
+  { name: 'MemoryStore', create: async () => new MemoryStore().attempts },
+  { name: 'LocalAttemptStore', create: async () => new LocalAttemptStore({ storage: new MemoryKeyValueStorage(), maxAttempts: 50 }) },
+  {
+    name: 'SQLiteStore',
+    create: async () => {
+      const store = new SQLiteStore();
+      await store.households.put({ householdId: 'house_a' });
+      await store.households.put({ householdId: 'house_b' });
+      await store.students.put({ householdId: 'house_a', studentId: 'student_a', name: 'A', avatar: '🧑‍🚀', grade: '4' });
+      await store.students.put({ householdId: 'house_b', studentId: 'student_b', name: 'B', avatar: '🧑‍🚀', grade: '4' });
+      return store.attempts;
+    },
+  },
 ];
 
 for (const adapter of adapters) {
   describe(`${adapter.name} attempt conformance`, () => {
     it('isolates evidence by stable studentId', async () => {
-      const store = adapter.create();
+      const store = await adapter.create();
       await store.recordAttempt(attempt({ attemptId: 'a1', studentId: 'student_a' }));
       await store.recordAttempt(attempt({ attemptId: 'b1', studentId: 'student_b' }));
       expect((await store.listAttempts('student_a')).map((item) => item.attemptId)).toEqual(['a1']);
@@ -46,7 +58,7 @@ for (const adapter of adapters) {
     });
 
     it('accepts identical replay and rejects conflicting immutable attemptId', async () => {
-      const store = adapter.create();
+      const store = await adapter.create();
       const original = attempt({ attemptId: 'same', score: 5 });
       await store.recordAttempt(original);
       await store.recordAttempt({ ...original });
@@ -57,7 +69,7 @@ for (const adapter of adapters) {
     });
 
     it('filters and orders history deterministically', async () => {
-      const store = adapter.create();
+      const store = await adapter.create();
       await store.recordAttempt(attempt({ attemptId: 'a', completedAt: '2026-09-05T13:51:00.000Z' }));
       await store.recordAttempt(attempt({ attemptId: 'b', completedAt: '2026-09-05T13:52:00.000Z', skillIds: ['other'] }));
       await store.recordAttempt(attempt({ attemptId: 'c', completedAt: '2026-09-05T13:52:00.000Z' }));
@@ -67,7 +79,7 @@ for (const adapter of adapters) {
     });
 
     it('rejects malformed canonical attempts', async () => {
-      const store = adapter.create();
+      const store = await adapter.create();
       await expect(store.recordAttempt(attempt({ studentId: '', partialCredit: 2 }))).rejects.toThrow();
     });
   });
