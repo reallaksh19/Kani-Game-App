@@ -1,25 +1,26 @@
 import '@testing-library/jest-dom';
 import { vi } from 'vitest';
 
-// Mock theme config if needed, or other globals
-// For now, simple setup is fine as we use shared config files.
+// Browser-specific shims must remain conditional so server-side Node suites can
+// use this shared setup without accidentally depending on JSDOM.
+if (typeof window !== 'undefined') {
+    Object.defineProperty(window, 'matchMedia', {
+        writable: true,
+        value: vi.fn().mockImplementation((query: string) => ({
+            matches: false,
+            media: query,
+            onchange: null,
+            addListener: vi.fn(), // deprecated
+            removeListener: vi.fn(), // deprecated
+            addEventListener: vi.fn(),
+            removeEventListener: vi.fn(),
+            dispatchEvent: vi.fn(),
+        })),
+    });
+}
 
-// Mock matchMedia if not present (JSDOM doesn't support it fully)
-Object.defineProperty(window, 'matchMedia', {
-    writable: true,
-    value: vi.fn().mockImplementation(query => ({
-        matches: false,
-        media: query,
-        onchange: null,
-        addListener: vi.fn(), // deprecated
-        removeListener: vi.fn(), // deprecated
-        addEventListener: vi.fn(),
-        removeEventListener: vi.fn(),
-        dispatchEvent: vi.fn(),
-    })),
-});
-
-// Mock localStorage for node/jsdom test environments
+// Mock localStorage for both Node and JSDOM test environments. Server-side
+// tests receive only the global shim; browser tests also receive window storage.
 const createLocalStorageMock = () => {
     let store: Record<string, string> = {};
     return {
@@ -41,13 +42,15 @@ const createLocalStorageMock = () => {
 };
 
 const localStorageMock = createLocalStorageMock();
-Object.defineProperty(window, 'localStorage', {
-    value: localStorageMock,
-    writable: true,
-    configurable: true
-});
+if (typeof window !== 'undefined') {
+    Object.defineProperty(window, 'localStorage', {
+        value: localStorageMock,
+        writable: true,
+        configurable: true,
+    });
+}
 Object.defineProperty(globalThis, 'localStorage', {
     value: localStorageMock,
     writable: true,
-    configurable: true
+    configurable: true,
 });

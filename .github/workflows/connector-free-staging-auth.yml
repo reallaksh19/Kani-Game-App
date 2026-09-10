@@ -1,0 +1,41 @@
+name: Connector-free staging auth acceptance
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  authenticated-acceptance:
+    name: E4 authenticated HTTP acceptance
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout Kani
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Architecture Anti-Drift Audit
+        run: npm run audit:architecture
+
+      - name: Type Check
+        run: npx tsc --noEmit
+
+      - name: Production-grade OIDC/JWT matrix
+        run: npm run test:e4-auth
+
+      - name: Connector-free SQLite regression matrix
+        run: npm run test:sqlite-backend

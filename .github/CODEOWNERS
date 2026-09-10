@@ -3,6 +3,7 @@
 /.github/CODEOWNERS @reallaksh19
 /.github/workflows/ci.yml @reallaksh19
 /.github/workflows/deploy.yml @reallaksh19
+/.github/workflows/connector-free-staging-auth.yml @reallaksh19
 /integration/upstream.lock.json @reallaksh19
 /integration/contracts/ @reallaksh19
 /scripts/audit-contract-lock.mjs @reallaksh19
@@ -15,4 +16,5 @@
 /src/integration/kani/ @reallaksh19
 /docs/E2_PORTS_AND_ADAPTERS.md @reallaksh19
 /docs/E3_SQLITE_STAGING_BACKEND.md @reallaksh19
+/docs/E4_IDENTITY_AUTHORIZATION.md @reallaksh19
 /supabase/ @reallaksh19

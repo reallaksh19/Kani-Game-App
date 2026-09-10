@@ -11,6 +11,7 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:sqlite-backend": "vitest run src/infrastructure/storage/sqlite src/infrastructure/storage/attemptRepositoryConformance.test.ts src/infrastructure/identity/test src/infrastructure/http/node src/application/api/KaniApiApp.test.ts",
+    "test:e4-auth": "vitest run src/infrastructure/identity/oidc src/infrastructure/staging/connectorFreeAuthenticatedAcceptance.test.ts",
     "audit:lq": "node scripts/audit-lq-questions.mjs",
     "audit:brain": "node scripts/audit-brain-questions.mjs",
     "audit:backend": "node scripts/audit-kani-backend.mjs",
