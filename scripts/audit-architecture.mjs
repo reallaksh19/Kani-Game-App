@@ -13,6 +13,10 @@ const providerImportPatterns = [
   /from\s+['"][^'"]*firebase[^'"]*['"]/i,
   /require\(\s*['"][^'"]*(?:supabase|neon|firebase)[^'"]*['"]\s*\)/i,
 ];
+const storageImplementationPatterns = [
+  /from\s+['"]node:sqlite['"]/i,
+  /from\s+['"][^'"]*(?:better-sqlite3|sqlite3)[^'"]*['"]/i,
+];
 const providerConstructionPatterns = [
   /\bSupabaseGuardianAuth\b/,
   /\bSupabaseGuardianIdentityProvider\b/,
@@ -52,14 +56,17 @@ for (const file of await listCodeFiles(srcRoot)) {
   for (const pattern of browserSecretPatterns) {
     if (pattern.regex.test(text)) violations.push(`${rel}: browser-facing source contains ${pattern.name}`);
   }
+  if (rel !== 'src/infrastructure/identity/test/TestRequestIdentityProvider.ts' && /\bTestRequestIdentityProvider\b/.test(text)) {
+    violations.push(`${rel}: CI-only test identity adapter leaked outside its infrastructure implementation`);
+  }
 }
 
 for (const neutralRoot of providerNeutralRoots) {
   for (const file of await listCodeFiles(neutralRoot)) {
     const text = await readFile(file, 'utf8');
     const rel = path.relative(root, file).replaceAll(path.sep, '/');
-    for (const regex of providerImportPatterns) {
-      if (regex.test(text)) violations.push(`${rel}: provider-neutral layer imports provider-specific SDK/module`);
+    for (const regex of [...providerImportPatterns, ...storageImplementationPatterns]) {
+      if (regex.test(text)) violations.push(`${rel}: provider-neutral layer imports provider/storage implementation`);
     }
   }
 }
@@ -68,8 +75,8 @@ for (const file of await listCodeFiles(componentRoot)) {
   if (isTestFile(file)) continue;
   const text = await readFile(file, 'utf8');
   const rel = path.relative(root, file).replaceAll(path.sep, '/');
-  for (const regex of providerImportPatterns) {
-    if (regex.test(text)) violations.push(`${rel}: product UI imports a provider-specific module`);
+  for (const regex of [...providerImportPatterns, ...storageImplementationPatterns]) {
+    if (regex.test(text)) violations.push(`${rel}: product UI imports a provider/storage implementation`);
   }
   for (const regex of providerConstructionPatterns) {
     if (regex.test(text)) violations.push(`${rel}: product UI constructs/references a provider-specific identity adapter`);
@@ -84,19 +91,34 @@ if (await exists(legacyAuthShim)) {
   }
 }
 
+const legacyProtocolShim = path.join(root, 'supabase/functions/_shared/kaniApiProtocol.ts');
+if (await exists(legacyProtocolShim)) {
+  const text = await readFile(legacyProtocolShim, 'utf8');
+  if (/function\s+(?:matchKaniApiRoute|parseAttemptBatch|parseStudentInput)\b/.test(text)) {
+    violations.push('supabase/functions/_shared/kaniApiProtocol.ts: provider directory contains canonical API protocol implementation');
+  }
+}
+
 for (const required of [
   'src/ports/identity.ts',
   'src/ports/storage.ts',
+  'src/ports/backend.ts',
+  'src/application/api/kaniApiProtocol.ts',
+  'src/application/api/KaniApiApp.ts',
   'src/infrastructure/identity/createGuardianIdentityProvider.ts',
   'src/infrastructure/identity/supabase/SupabaseGuardianIdentityProvider.ts',
+  'src/infrastructure/identity/test/TestRequestIdentityProvider.ts',
   'src/infrastructure/storage/local/LocalAttemptStore.ts',
   'src/infrastructure/storage/memory/MemoryStore.ts',
+  'src/infrastructure/storage/sqlite/migrations.ts',
+  'src/infrastructure/storage/sqlite/runMigrations.ts',
+  'src/infrastructure/storage/sqlite/SQLiteStore.ts',
 ]) {
-  if (!(await exists(path.join(root, required)))) violations.push(`${required}: required E2 architecture boundary is missing`);
+  if (!(await exists(path.join(root, required)))) violations.push(`${required}: required architecture boundary is missing`);
 }
 
 if (violations.length) {
   throw new Error(`Architecture drift detected:\n- ${violations.join('\n- ')}`);
 }
 
-console.log('Architecture audit passes: provider-neutral layers are independent, provider adapters are infrastructure-only, and product UI uses neutral composition seams.');
+console.log('Architecture audit passes: canonical API/domain layers are provider-neutral, SQLite is infrastructure-only, test identity is CI-only, and product UI stays behind neutral seams.');

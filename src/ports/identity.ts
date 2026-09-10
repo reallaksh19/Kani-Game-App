@@ -39,3 +39,25 @@ export class StaticGuardianSessionProvider implements GuardianSessionProvider {
     return this.session;
   }
 }
+
+export interface AuthenticatedRequestIdentity {
+  userId: string;
+  claims?: Readonly<Record<string, unknown>>;
+}
+
+/** Server-side request identity seam. Authorization remains a Kani application concern. */
+export interface RequestIdentityProvider {
+  verifyRequest(request: Request): Promise<AuthenticatedRequestIdentity>;
+}
+
+export class RequestIdentityError extends Error {
+  readonly status: number;
+  readonly code: string;
+
+  constructor(message: string, options: { status?: number; code?: string } = {}) {
+    super(message);
+    this.name = 'RequestIdentityError';
+    this.status = options.status ?? 401;
+    this.code = options.code ?? 'UNAUTHENTICATED';
+  }
+}
