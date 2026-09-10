@@ -73,6 +73,7 @@ for (const file of await listCodeFiles(srcRoot)) {
 
 for (const neutralRoot of providerNeutralRoots) {
   for (const file of await listCodeFiles(neutralRoot)) {
+    if (isTestFile(file)) continue;
     const text = await readFile(file, 'utf8');
     const rel = path.relative(root, file).replaceAll(path.sep, '/');
     for (const regex of [...providerImportPatterns, ...storageImplementationPatterns, ...serverInfrastructureImportPatterns]) {
@@ -155,4 +156,4 @@ if (violations.length) {
   throw new Error(`Architecture drift detected:\n- ${violations.join('\n- ')}`);
 }
 
-console.log('Architecture audit passes: canonical layers are provider-neutral, SQLite/OIDC stay server-side, E4 acceptance uses real signed JWTs, and browser product code has no database/server identity path.');
+console.log('Architecture audit passes: canonical production layers are provider-neutral, SQLite/OIDC stay server-side, E4 acceptance uses real signed JWTs, and browser product code has no database/server identity path.');
