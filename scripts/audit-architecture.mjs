@@ -6,7 +6,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const srcRoot = path.join(root, 'src');
 const codeExtensions = new Set(['.js', '.jsx', '.ts', '.tsx', '.mjs', '.cjs']);
 const providerNeutralRoots = ['domain', 'application', 'ports'].map((name) => path.join(srcRoot, name));
-const componentRoot = path.join(srcRoot, 'components');
+const browserRoots = ['components', 'contexts'].map((name) => path.join(srcRoot, name));
 const providerImportPatterns = [
   /from\s+['"][^'"]*supabase[^'"]*['"]/i,
   /from\s+['"][^'"]*neon[^'"]*['"]/i,
@@ -16,6 +16,16 @@ const providerImportPatterns = [
 const storageImplementationPatterns = [
   /from\s+['"]node:sqlite['"]/i,
   /from\s+['"][^'"]*(?:better-sqlite3|sqlite3)[^'"]*['"]/i,
+];
+const serverInfrastructureImportPatterns = [
+  /from\s+['"][^'"]*infrastructure\/storage\//i,
+  /from\s+['"][^'"]*infrastructure\/identity\/oidc\//i,
+  /from\s+['"][^'"]*infrastructure\/http\/node\//i,
+];
+const serverConstructionPatterns = [
+  /\bSQLiteStore\b/,
+  /\bOidcRequestIdentityProvider\b/,
+  /\bcreateKaniNodeServer\b/,
 ];
 const providerConstructionPatterns = [
   /\bSupabaseGuardianAuth\b/,
@@ -65,21 +75,23 @@ for (const neutralRoot of providerNeutralRoots) {
   for (const file of await listCodeFiles(neutralRoot)) {
     const text = await readFile(file, 'utf8');
     const rel = path.relative(root, file).replaceAll(path.sep, '/');
-    for (const regex of [...providerImportPatterns, ...storageImplementationPatterns]) {
-      if (regex.test(text)) violations.push(`${rel}: provider-neutral layer imports provider/storage implementation`);
+    for (const regex of [...providerImportPatterns, ...storageImplementationPatterns, ...serverInfrastructureImportPatterns]) {
+      if (regex.test(text)) violations.push(`${rel}: provider-neutral layer imports provider/storage/server implementation`);
     }
   }
 }
 
-for (const file of await listCodeFiles(componentRoot)) {
-  if (isTestFile(file)) continue;
-  const text = await readFile(file, 'utf8');
-  const rel = path.relative(root, file).replaceAll(path.sep, '/');
-  for (const regex of [...providerImportPatterns, ...storageImplementationPatterns]) {
-    if (regex.test(text)) violations.push(`${rel}: product UI imports a provider/storage implementation`);
-  }
-  for (const regex of providerConstructionPatterns) {
-    if (regex.test(text)) violations.push(`${rel}: product UI constructs/references a provider-specific identity adapter`);
+for (const browserRoot of browserRoots) {
+  for (const file of await listCodeFiles(browserRoot)) {
+    if (isTestFile(file)) continue;
+    const text = await readFile(file, 'utf8');
+    const rel = path.relative(root, file).replaceAll(path.sep, '/');
+    for (const regex of [...providerImportPatterns, ...storageImplementationPatterns, ...serverInfrastructureImportPatterns]) {
+      if (regex.test(text)) violations.push(`${rel}: browser product code imports a provider/storage/server implementation`);
+    }
+    for (const regex of [...providerConstructionPatterns, ...serverConstructionPatterns]) {
+      if (regex.test(text)) violations.push(`${rel}: browser product code constructs/references server/provider infrastructure`);
+    }
   }
 }
 
@@ -99,6 +111,24 @@ if (await exists(legacyProtocolShim)) {
   }
 }
 
+const oidcProvider = path.join(srcRoot, 'infrastructure/identity/oidc/OidcRequestIdentityProvider.ts');
+if (await exists(oidcProvider)) {
+  const text = await readFile(oidcProvider, 'utf8');
+  if (/supabase|firebase|neon/i.test(text)) violations.push('OIDC request verifier contains provider-specific coupling');
+  if (!/RS256/.test(text) || !/JWT_ISSUER_INVALID/.test(text) || !/JWT_AUDIENCE_INVALID/.test(text)) {
+    violations.push('OIDC request verifier is missing strict algorithm/issuer/audience enforcement');
+  }
+}
+
+const e4Acceptance = path.join(srcRoot, 'infrastructure/staging/connectorFreeAuthenticatedAcceptance.test.ts');
+if (await exists(e4Acceptance)) {
+  const text = await readFile(e4Acceptance, 'utf8');
+  if (/TestRequestIdentityProvider/.test(text)) violations.push('E4 authenticated acceptance incorrectly uses the CI-only synthetic identity adapter');
+  for (const required of ['OidcRequestIdentityProvider', 'SQLiteStore', 'createKaniNodeServer', 'HOUSEHOLD_FORBIDDEN', 'AUTHORIZATION_REQUIRED']) {
+    if (!text.includes(required)) violations.push(`E4 authenticated acceptance is missing required real-boundary evidence: ${required}`);
+  }
+}
+
 for (const required of [
   'src/ports/identity.ts',
   'src/ports/storage.ts',
@@ -108,11 +138,15 @@ for (const required of [
   'src/infrastructure/identity/createGuardianIdentityProvider.ts',
   'src/infrastructure/identity/supabase/SupabaseGuardianIdentityProvider.ts',
   'src/infrastructure/identity/test/TestRequestIdentityProvider.ts',
+  'src/infrastructure/identity/oidc/OidcRequestIdentityProvider.ts',
   'src/infrastructure/storage/local/LocalAttemptStore.ts',
   'src/infrastructure/storage/memory/MemoryStore.ts',
   'src/infrastructure/storage/sqlite/migrations.ts',
   'src/infrastructure/storage/sqlite/runMigrations.ts',
   'src/infrastructure/storage/sqlite/SQLiteStore.ts',
+  'src/infrastructure/staging/connectorFreeAuthenticatedAcceptance.test.ts',
+  '.github/workflows/connector-free-staging-auth.yml',
+  'docs/E4_IDENTITY_AUTHORIZATION.md',
 ]) {
   if (!(await exists(path.join(root, required)))) violations.push(`${required}: required architecture boundary is missing`);
 }
@@ -121,4 +155,4 @@ if (violations.length) {
   throw new Error(`Architecture drift detected:\n- ${violations.join('\n- ')}`);
 }
 
-console.log('Architecture audit passes: canonical API/domain layers are provider-neutral, SQLite is infrastructure-only, test identity is CI-only, and product UI stays behind neutral seams.');
+console.log('Architecture audit passes: canonical layers are provider-neutral, SQLite/OIDC stay server-side, E4 acceptance uses real signed JWTs, and browser product code has no database/server identity path.');

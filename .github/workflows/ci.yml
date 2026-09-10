@@ -75,6 +75,9 @@ jobs:
       - name: Deno Check Learner API Reference Adapter
         run: deno check --config supabase/functions/deno.json supabase/functions/kani-api/index.ts
 
+      - name: Production-grade OIDC + Authorization Matrix
+        run: npm run test:e4-auth
+
       - name: Connector-free SQLite Backend Matrix
         run: npm run test:sqlite-backend
 
