@@ -1,9 +1,9 @@
 import {
-    BrainGameMastery,
-    BrainMasterySummary,
+    BrainEvidenceSummary,
+    BrainGameEvidence,
     BrainSessionDraft,
     BrainSessionRecord,
-    BrainSkillMastery,
+    BrainSkillEvidence,
 } from '../types/brainProgress';
 
 const STORAGE_KEY = 'learning-galaxy-brain-sessions-v1';
@@ -19,13 +19,57 @@ const difficultyFactor = (difficulty: string) => {
     return 1;
 };
 
-export const calculateBrainMastery = (correct: number, attempted: number, difficulty: string) => {
+/**
+ * A transparent, short-term session performance signal.
+ *
+ * This is deliberately NOT durable mastery. Retention, transfer,
+ * independence and support dependency require separate evidence.
+ */
+export const calculateBrainPerformance = (correct: number, attempted: number, difficulty: string) => {
     if (attempted <= 0) return 0;
     const accuracy = clamp((correct / attempted) * 100);
     return Math.round(clamp(accuracy * difficultyFactor(difficulty)));
 };
 
+/** @deprecated Use calculateBrainPerformance. This value is not durable mastery. */
+export const calculateBrainMastery = calculateBrainPerformance;
+
 const normalizeName = (value?: string | null) => (value || '').trim().toLowerCase();
+
+const isFiniteNumber = (value: unknown): value is number => typeof value === 'number' && Number.isFinite(value);
+
+/**
+ * Normalizes legacy localStorage records that persisted `masteryScore`.
+ * New in-memory records always expose `performanceScore` and do not retain
+ * the legacy mastery field.
+ */
+export const normalizeBrainSessionRecord = (value: unknown): BrainSessionRecord | null => {
+    if (!value || typeof value !== 'object') return null;
+    const session = value as Record<string, unknown>;
+    if (
+        typeof session.id !== 'string' ||
+        typeof session.studentId !== 'string' ||
+        typeof session.gameId !== 'string' ||
+        typeof session.completedAt !== 'string'
+    ) return null;
+
+    const attempted = isFiniteNumber(session.attempted) ? Math.max(0, Math.round(session.attempted)) : 0;
+    const correct = isFiniteNumber(session.correct) ? clamp(Math.round(session.correct), 0, attempted || 0) : 0;
+    const difficulty = typeof session.difficulty === 'string' ? session.difficulty : 'Mixed';
+    const performanceScore = isFiniteNumber(session.performanceScore)
+        ? Math.round(clamp(session.performanceScore))
+        : isFiniteNumber(session.masteryScore)
+            ? Math.round(clamp(session.masteryScore))
+            : calculateBrainPerformance(correct, attempted, difficulty);
+
+    const { masteryScore: _legacyMasteryScore, ...rest } = session;
+    return {
+        ...(rest as unknown as BrainSessionRecord),
+        attempted,
+        correct,
+        performanceScore,
+    };
+};
 
 export const createBrainSessionRecord = (
     draft: BrainSessionDraft,
@@ -52,7 +96,7 @@ export const createBrainSessionRecord = (
         completedAt,
         accuracy,
         averageSeconds: attempted > 0 ? Math.round(durationSeconds / attempted) : 0,
-        masteryScore: calculateBrainMastery(correct, attempted, draft.difficulty),
+        performanceScore: calculateBrainPerformance(correct, attempted, draft.difficulty),
     };
 };
 
@@ -62,13 +106,10 @@ export const loadBrainSessions = async (): Promise<BrainSessionRecord[]> => {
         if (!raw) return [];
         const parsed = JSON.parse(raw);
         if (!Array.isArray(parsed)) return [];
-        return parsed.filter((session): session is BrainSessionRecord => Boolean(
-            session &&
-            typeof session.id === 'string' &&
-            typeof session.studentId === 'string' &&
-            typeof session.gameId === 'string' &&
-            typeof session.completedAt === 'string'
-        )).slice(0, MAX_SESSIONS);
+        return parsed
+            .map(normalizeBrainSessionRecord)
+            .filter((session): session is BrainSessionRecord => Boolean(session))
+            .slice(0, MAX_SESSIONS);
     } catch {
         return [];
     }
@@ -112,30 +153,32 @@ const weightedRecent = (sessions: BrainSessionRecord[], selector: (session: Brai
 
 const getTrend = (sessions: BrainSessionRecord[]) => {
     if (sessions.length < 4) return 0;
-    const latest = sessions.slice(0, 3).map(session => session.masteryScore);
-    const previous = sessions.slice(3, 6).map(session => session.masteryScore);
+    const latest = sessions.slice(0, 3).map(session => session.performanceScore);
+    const previous = sessions.slice(3, 6).map(session => session.performanceScore);
     if (!previous.length) return 0;
     return Math.round(avg(latest) - avg(previous));
 };
 
-export const getBrainGameMastery = (
+export const getBrainGameEvidence = (
     sessions: BrainSessionRecord[],
     gameId: string,
     studentId?: string | null,
     studentName?: string | null
-): BrainGameMastery => {
+): BrainGameEvidence => {
     const gameSessions = filterBrainSessions(sessions, studentId, studentName)
         .filter(session => session.gameId === gameId);
-    const byDifficulty: BrainGameMastery['byDifficulty'] = {};
+    const byDifficulty: BrainGameEvidence['byDifficulty'] = {};
     (['Easy', 'Medium', 'Hard', 'Mixed'] as const).forEach(level => {
-        const values = gameSessions.filter(session => session.difficulty === level).map(session => session.masteryScore);
+        const values = gameSessions
+            .filter(session => session.difficulty === level)
+            .map(session => session.performanceScore);
         if (values.length) byDifficulty[level] = Math.round(avg(values.slice(0, 5)));
     });
 
     return {
         gameId,
         sessions: gameSessions.length,
-        mastery: Math.round(weightedRecent(gameSessions, session => session.masteryScore)),
+        recentPerformance: Math.round(weightedRecent(gameSessions, session => session.performanceScore)),
         accuracy: Math.round(weightedRecent(gameSessions, session => session.accuracy)),
         trend: getTrend(gameSessions),
         bestStars: gameSessions.reduce((max, session) => Math.max(max, session.stars || 0), 0),
@@ -145,11 +188,11 @@ export const getBrainGameMastery = (
     };
 };
 
-export const getBrainMasterySummary = (
+export const getBrainEvidenceSummary = (
     sessions: BrainSessionRecord[],
     studentId?: string | null,
     studentName?: string | null
-): BrainMasterySummary => {
+): BrainEvidenceSummary => {
     const studentSessions = filterBrainSessions(sessions, studentId, studentName);
     const grouped = new Map<string, BrainSessionRecord[]>();
     studentSessions.forEach(session => {
@@ -158,22 +201,29 @@ export const getBrainMasterySummary = (
         grouped.set(session.skill, current);
     });
 
-    const skills: BrainSkillMastery[] = [...grouped.entries()].map(([skill, skillSessions]) => ({
+    const skills: BrainSkillEvidence[] = [...grouped.entries()].map(([skill, skillSessions]) => ({
         skill,
         sessions: skillSessions.length,
-        mastery: Math.round(weightedRecent(skillSessions, session => session.masteryScore)),
+        recentPerformance: Math.round(weightedRecent(skillSessions, session => session.performanceScore)),
         accuracy: Math.round(weightedRecent(skillSessions, session => session.accuracy)),
         trend: getTrend(skillSessions),
         lastPlayed: skillSessions[0]?.completedAt,
-    })).sort((a, b) => b.mastery - a.mastery || b.sessions - a.sessions);
+    })).sort((a, b) => b.recentPerformance - a.recentPerformance || b.sessions - a.sessions);
 
     return {
         totalSessions: studentSessions.length,
-        overallMastery: Math.round(weightedRecent(studentSessions, session => session.masteryScore)),
+        recentPerformance: Math.round(weightedRecent(studentSessions, session => session.performanceScore)),
         overallAccuracy: Math.round(weightedRecent(studentSessions, session => session.accuracy)),
-        strongestSkill: skills[0],
-        focusSkill: skills.length ? [...skills].sort((a, b) => a.mastery - b.mastery || b.sessions - a.sessions)[0] : undefined,
+        strongestRecentSkill: skills[0],
+        reviewFocusSkill: skills.length
+            ? [...skills].sort((a, b) => a.recentPerformance - b.recentPerformance || b.sessions - a.sessions)[0]
+            : undefined,
         skills,
         recentSessions: studentSessions.slice(0, 5),
     };
 };
+
+/** @deprecated Use getBrainGameEvidence. The returned values are recent evidence, not mastery. */
+export const getBrainGameMastery = getBrainGameEvidence;
+/** @deprecated Use getBrainEvidenceSummary. The returned values are recent evidence, not mastery. */
+export const getBrainMasterySummary = getBrainEvidenceSummary;
