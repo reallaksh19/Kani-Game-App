@@ -144,6 +144,9 @@ describe('OidcRequestIdentityProvider', () => {
     await expect(provider().verifyRequest(bearerRequest(wrongSignature)))
       .rejects.toMatchObject({ code: 'JWT_SIGNATURE_INVALID', status: 401 });
 
+    // Isolate the unknown-key verifier so this assertion proves its own
+    // initial JWKS fetch plus exactly one forced refresh on kid miss.
+    fetchCount = 0;
     await expect(provider().verifyRequest(bearerRequest(await signJwt(keyB))))
       .rejects.toMatchObject({ code: 'JWKS_KEY_NOT_FOUND', status: 401 });
     expect(fetchCount).toBe(2);
