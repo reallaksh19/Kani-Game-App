@@ -35,10 +35,6 @@ interface SigningJwk extends JsonWebKey {
   key_ops?: string[];
 }
 
-interface JwksDocument {
-  keys: SigningJwk[];
-}
-
 interface JwksCache {
   keysById: Map<string, SigningJwk>;
   expiresAtMs: number;
@@ -209,12 +205,13 @@ export class OidcRequestIdentityProvider implements RequestIdentityProvider {
     const key = await this.getVerificationKey(header.kid);
     const signingInput = new TextEncoder().encode(`${segments[0]}.${segments[1]}`);
     const signature = decodeBase64Url(segments[2], 'JWT signature');
+    const signatureBuffer = signature.slice().buffer as ArrayBuffer;
     let verified = false;
     try {
       verified = await crypto.subtle.verify(
         { name: 'RSASSA-PKCS1-v1_5' },
         key,
-        signature,
+        signatureBuffer,
         signingInput,
       );
     } catch {
