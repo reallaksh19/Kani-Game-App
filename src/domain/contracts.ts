@@ -96,6 +96,32 @@ export interface StudyHubPageDocument {
   [key: string]: unknown;
 }
 
+export type PrimaryEvidenceConfidence = 'LOW' | 'MEDIUM' | 'HIGH' | 'NOT_OBSERVED';
+
+export interface PrimaryAttemptEvidenceV1 {
+  semanticVersion: '1.0';
+  learningEpisodeId?: string;
+  learningObjectIds?: string[];
+  questionFamilyId?: string;
+  selfCorrected?: boolean;
+  confidenceBefore?: PrimaryEvidenceConfidence;
+  confidenceAfter?: PrimaryEvidenceConfidence;
+  conceptualSupport?: {
+    level: string;
+    type: string;
+  };
+  accessAdjustments?: string[];
+  representation?: {
+    type: string;
+    role: string;
+  };
+  responseMode?: string;
+  errorSignature?: {
+    source: 'AUTHORED_RESPONSE_CLASSIFICATION';
+    code: string;
+  };
+}
+
 export interface KaniAttemptV1 {
   schemaVersion: typeof KANI_SCHEMA_VERSION;
   attemptId: string;
@@ -115,6 +141,7 @@ export interface KaniAttemptV1 {
   responseTimeMs?: number;
   hintsUsed?: number;
   score?: number;
+  primaryEvidence?: PrimaryAttemptEvidenceV1;
   startedAt?: string;
   completedAt: string;
 }
