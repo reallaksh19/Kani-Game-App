@@ -6,7 +6,7 @@ import { GameDefinition, Difficulty, LeaderboardEntry, Settings } from '../../ty
 import { BrainSessionRecord } from '../../types/brainProgress';
 import { useAppContext } from '../../contexts/AppContext';
 import { BRAIN_SKILL_BY_GAME, getBrainGameProgress, getBrainTrainingSummary } from '../../utils/brainTrainingMeta';
-import { getBrainGameMastery, getBrainMasterySummary } from '../../utils/brainProgress';
+import { getBrainEvidenceSummary, getBrainGameEvidence } from '../../utils/brainProgress';
 
 interface BrainTrainingPageProps {
     onBack: () => void;
@@ -47,8 +47,8 @@ export const BrainTrainingPage: React.FC<BrainTrainingPageProps> = ({
         [leaderboard, activeStudent?.name, activeStudent?.id]
     );
 
-    const masterySummary = useMemo(
-        () => getBrainMasterySummary(brainSessions, activeStudent?.id, activeStudent?.name),
+    const evidenceSummary = useMemo(
+        () => getBrainEvidenceSummary(brainSessions, activeStudent?.id, activeStudent?.name),
         [brainSessions, activeStudent?.id, activeStudent?.name]
     );
 
@@ -147,29 +147,29 @@ export const BrainTrainingPage: React.FC<BrainTrainingPageProps> = ({
 
                     {!activeStudent && (
                         <div className="mb-5 w-full max-w-3xl rounded-2xl border border-amber-300/30 bg-amber-500/10 p-4 text-center text-sm font-semibold text-amber-100">
-                            Select a student profile to keep mastery and review history separate.
+                            Select a student profile to keep recent evidence and review history separate.
                         </div>
                     )}
 
                     <div className="mb-3 grid w-full max-w-3xl grid-cols-2 gap-2 sm:grid-cols-4">
-                        <div className="rounded-xl border border-purple-400/30 bg-purple-950/50 p-3 text-center"><div className="text-xl font-black text-white">{masterySummary.totalSessions ? `${masterySummary.overallMastery}%` : '—'}</div><div className="text-[11px] uppercase tracking-wide text-purple-200">Overall mastery</div></div>
-                        <div className="rounded-xl border border-cyan-400/30 bg-cyan-950/40 p-3 text-center"><div className="text-xl font-black text-white">{masterySummary.totalSessions ? `${masterySummary.overallAccuracy}%` : '—'}</div><div className="text-[11px] uppercase tracking-wide text-cyan-200">Recent accuracy</div></div>
-                        <div className="rounded-xl border border-emerald-400/30 bg-emerald-950/40 p-3 text-center"><div className="truncate text-base font-black text-white">{masterySummary.strongestSkill?.skill || 'Start playing'}</div><div className="text-[11px] uppercase tracking-wide text-emerald-200">Strongest skill</div></div>
-                        <div className="rounded-xl border border-orange-400/30 bg-orange-950/40 p-3 text-center"><div className="truncate text-base font-black text-white">{masterySummary.focusSkill?.skill || 'Build history'}</div><div className="text-[11px] uppercase tracking-wide text-orange-200">Practice focus</div></div>
+                        <div className="rounded-xl border border-purple-400/30 bg-purple-950/50 p-3 text-center"><div className="text-xl font-black text-white">{evidenceSummary.totalSessions ? `${evidenceSummary.recentPerformance}%` : '—'}</div><div className="text-[11px] uppercase tracking-wide text-purple-200">Recent performance</div></div>
+                        <div className="rounded-xl border border-cyan-400/30 bg-cyan-950/40 p-3 text-center"><div className="text-xl font-black text-white">{evidenceSummary.totalSessions ? `${evidenceSummary.overallAccuracy}%` : '—'}</div><div className="text-[11px] uppercase tracking-wide text-cyan-200">Recent accuracy</div></div>
+                        <div className="rounded-xl border border-emerald-400/30 bg-emerald-950/40 p-3 text-center"><div className="truncate text-base font-black text-white">{evidenceSummary.strongestRecentSkill?.skill || 'Start playing'}</div><div className="text-[11px] uppercase tracking-wide text-emerald-200">Strong recent skill</div></div>
+                        <div className="rounded-xl border border-orange-400/30 bg-orange-950/40 p-3 text-center"><div className="truncate text-base font-black text-white">{evidenceSummary.reviewFocusSkill?.skill || 'Build history'}</div><div className="text-[11px] uppercase tracking-wide text-orange-200">Review focus</div></div>
                     </div>
 
                     <div className="mb-6 text-center text-xs text-purple-200/80">
-                        {masterySummary.totalSessions} detailed mastery session{masterySummary.totalSessions === 1 ? '' : 's'} · {legacySummary.savedSessions} saved score{legacySummary.savedSessions === 1 ? '' : 's'} · {legacySummary.gamesTried}/{SKILL_GAMES.length} games tried
+                        {evidenceSummary.totalSessions} detailed evidence session{evidenceSummary.totalSessions === 1 ? '' : 's'} · {legacySummary.savedSessions} saved score{legacySummary.savedSessions === 1 ? '' : 's'} · {legacySummary.gamesTried}/{SKILL_GAMES.length} games tried
                     </div>
 
-                    {masterySummary.skills.length > 0 && (
+                    {evidenceSummary.skills.length > 0 && (
                         <div className="mb-6 w-full max-w-3xl rounded-2xl border border-white/10 bg-black/20 p-4">
-                            <div className="mb-3 flex items-center justify-between gap-3"><h2 className="font-black text-white">Skill mastery</h2><span className="text-xs text-white/55">Recent sessions weighted more</span></div>
+                            <div className="mb-3 flex items-center justify-between gap-3"><h2 className="font-black text-white">Recent skill evidence</h2><span className="text-xs text-white/55">Recent sessions weighted more</span></div>
                             <div className="grid gap-2 sm:grid-cols-2">
-                                {masterySummary.skills.slice(0, 6).map(skill => (
+                                {evidenceSummary.skills.slice(0, 6).map(skill => (
                                     <div key={skill.skill} className="rounded-xl bg-white/5 p-3">
-                                        <div className="mb-2 flex items-center justify-between gap-2"><span className="truncate text-sm font-bold text-white">{skill.skill}</span><span className="text-sm font-black text-violet-200">{skill.mastery}%</span></div>
-                                        <div className="h-2 overflow-hidden rounded-full bg-white/10"><div className="h-full rounded-full bg-violet-400" style={{ width: `${skill.mastery}%` }} /></div>
+                                        <div className="mb-2 flex items-center justify-between gap-2"><span className="truncate text-sm font-bold text-white">{skill.skill}</span><span className="text-sm font-black text-violet-200">{skill.recentPerformance}%</span></div>
+                                        <div className="h-2 overflow-hidden rounded-full bg-white/10"><div className="h-full rounded-full bg-violet-400" style={{ width: `${skill.recentPerformance}%` }} /></div>
                                         <div className="mt-2 flex justify-between text-[10px] uppercase tracking-wide text-white/45"><span>{skill.sessions} session{skill.sessions === 1 ? '' : 's'}</span><span>{trendLabel(skill.trend)}</span></div>
                                     </div>
                                 ))}
@@ -177,14 +177,14 @@ export const BrainTrainingPage: React.FC<BrainTrainingPageProps> = ({
                         </div>
                     )}
 
-                    {masterySummary.recentSessions.length > 0 && (
+                    {evidenceSummary.recentSessions.length > 0 && (
                         <div className="mb-7 w-full max-w-5xl">
                             <div className="mb-3 flex items-end justify-between gap-3"><div><h2 className="text-xl font-black text-white">Recent reviews</h2><p className="text-xs text-purple-200">Reopen saved evidence instead of losing it after the game.</p></div></div>
                             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                                {masterySummary.recentSessions.map(session => (
+                                {evidenceSummary.recentSessions.map(session => (
                                     <button key={session.id} onClick={() => setSelectedHistory(session)} className="rounded-2xl border border-white/10 bg-white/5 p-4 text-left transition hover:border-violet-300/50 hover:bg-white/10 focus:outline-none focus-visible:ring-4 focus-visible:ring-violet-300/40">
                                         <div className="flex items-start justify-between gap-2"><div><div className="font-black text-white">{session.gameTitle}</div><div className="text-xs text-violet-200">{session.skill} · {session.difficulty}</div></div><span className="text-lg">↗</span></div>
-                                        <div className="mt-3 flex gap-2 text-xs font-bold"><span className="rounded-full bg-violet-500/20 px-2 py-1 text-violet-100">Mastery {session.masteryScore}%</span><span className="rounded-full bg-cyan-500/15 px-2 py-1 text-cyan-100">Accuracy {session.accuracy}%</span></div>
+                                        <div className="mt-3 flex gap-2 text-xs font-bold"><span className="rounded-full bg-violet-500/20 px-2 py-1 text-violet-100">Performance {session.performanceScore}%</span><span className="rounded-full bg-cyan-500/15 px-2 py-1 text-cyan-100">Accuracy {session.accuracy}%</span></div>
                                         <div className="mt-3 text-[11px] text-white/45">{new Date(session.completedAt).toLocaleDateString()} · Tap to review</div>
                                     </button>
                                 ))}
@@ -196,7 +196,7 @@ export const BrainTrainingPage: React.FC<BrainTrainingPageProps> = ({
                         {SKILL_GAMES.map((game, index) => {
                             const unlocked = isUnlocked(game);
                             const scoreProgress = getBrainGameProgress(leaderboard, game.id, activeStudent?.name, activeStudent?.id);
-                            const masteryProgress = getBrainGameMastery(brainSessions, game.id, activeStudent?.id, activeStudent?.name);
+                            const evidenceProgress = getBrainGameEvidence(brainSessions, game.id, activeStudent?.id, activeStudent?.name);
                             return (
                                 <button
                                     key={game.id}
@@ -213,19 +213,19 @@ export const BrainTrainingPage: React.FC<BrainTrainingPageProps> = ({
 
                                     <div className="mt-3 flex flex-wrap items-center gap-2">
                                         <span className="rounded-full bg-black/20 px-2 py-0.5 text-[11px] font-semibold text-white/90">{BRAIN_SKILL_BY_GAME[game.id]}</span>
-                                        {masteryProgress.sessions > 0 && <span className="rounded-full bg-white/20 px-2 py-0.5 text-[11px] font-black text-white">Mastery {masteryProgress.mastery}% · {trendLabel(masteryProgress.trend)}</span>}
+                                        {evidenceProgress.sessions > 0 && <span className="rounded-full bg-white/20 px-2 py-0.5 text-[11px] font-black text-white">Performance {evidenceProgress.recentPerformance}% · {trendLabel(evidenceProgress.trend)}</span>}
                                     </div>
 
-                                    {masteryProgress.sessions > 0 ? (
+                                    {evidenceProgress.sessions > 0 ? (
                                         <div className="mt-3 rounded-xl bg-black/20 px-3 py-2 text-xs text-white/90">
-                                            <div className="flex justify-between"><span>{masteryProgress.sessions} detailed session{masteryProgress.sessions === 1 ? '' : 's'}</span><strong>{masteryProgress.accuracy}% accuracy</strong></div>
+                                            <div className="flex justify-between"><span>{evidenceProgress.sessions} detailed session{evidenceProgress.sessions === 1 ? '' : 's'}</span><strong>{evidenceProgress.accuracy}% accuracy</strong></div>
                                             <div className="mt-2 flex flex-wrap gap-1 text-[10px] font-bold">
-                                                {(['Easy', 'Medium', 'Hard', 'Mixed'] as const).map(level => masteryProgress.byDifficulty[level] !== undefined ? <span key={level} className="rounded bg-white/10 px-1.5 py-0.5">{level[0]} {masteryProgress.byDifficulty[level]}%</span> : null)}
+                                                {(['Easy', 'Medium', 'Hard', 'Mixed'] as const).map(level => evidenceProgress.byDifficulty[level] !== undefined ? <span key={level} className="rounded bg-white/10 px-1.5 py-0.5">{level[0]} {evidenceProgress.byDifficulty[level]}%</span> : null)}
                                             </div>
                                         </div>
                                     ) : (
                                         <div className="mt-3 rounded-xl bg-black/20 px-3 py-2 text-xs text-white/80">
-                                            {scoreProgress.plays > 0 ? <span>Legacy best ⭐ {scoreProgress.bestStars} · play once more to start mastery tracking</span> : <span className="font-semibold text-white/75">New challenge · no mastery history yet</span>}
+                                            {scoreProgress.plays > 0 ? <span>Legacy best ⭐ {scoreProgress.bestStars} · play once more to start recent-evidence tracking</span> : <span className="font-semibold text-white/75">New challenge · no recent evidence yet</span>}
                                         </div>
                                     )}
 
@@ -235,7 +235,7 @@ export const BrainTrainingPage: React.FC<BrainTrainingPageProps> = ({
                         })}
                     </div>
 
-                    <div className="mt-8 text-center"><p className="text-purple-300 text-sm">Mastery is based on accuracy and challenge level, not raw stars alone. 🎯</p></div>
+                    <div className="mt-8 max-w-3xl text-center"><p className="text-purple-300 text-sm">Performance is a short-term session signal. Durable learning also needs independent, retention and transfer evidence. 🎯</p></div>
                 </div>
 
                 <style>{`

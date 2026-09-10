@@ -101,10 +101,10 @@ export const GameOverScreen: React.FC<GameOverScreenProps> = ({
 
     const getFeedback = () => {
         if (accuracy !== null) {
-            if (accuracy >= 90) return { title: 'Strong Control', icon: '🏆', color: 'text-emerald-300', msg: 'Accurate and consistent reasoning.' };
-            if (accuracy >= 70) return { title: 'Building Mastery', icon: '🚀', color: 'text-cyan-300', msg: 'Good control. Review the misses and try to extend the streak.' };
-            if (accuracy >= 50) return { title: 'Growing Skill', icon: '💡', color: 'text-yellow-300', msg: 'The core idea is forming. Slow down on the hardest decisions.' };
-            return { title: 'Practice Target Found', icon: '🎯', color: 'text-fuchsia-300', msg: 'Use the next run to focus on one rule at a time.' };
+            if (accuracy >= 90) return { title: 'Strong Run', icon: '🏆', color: 'text-emerald-300', msg: 'This session showed high recent accuracy.' };
+            if (accuracy >= 70) return { title: 'Steady Run', icon: '🚀', color: 'text-cyan-300', msg: 'This session showed more correct answers than misses.' };
+            if (accuracy >= 50) return { title: 'Mixed Run', icon: '💡', color: 'text-yellow-300', msg: 'This session has useful correct answers and misses to review.' };
+            return { title: 'Review Focus Found', icon: '🎯', color: 'text-fuchsia-300', msg: 'This session has several misses that can guide the next review.' };
         }
         if (stars >= 150) return { title: 'Galaxy Guardian', icon: '🛡️', color: 'text-fuchsia-400', msg: 'Out of this World! 🌟' };
         if (stars >= 100) return { title: 'Space Explorer', icon: '🚀', color: 'text-blue-400', msg: 'Awesome Job! 🚀' };
@@ -181,11 +181,11 @@ export const GameOverScreen: React.FC<GameOverScreenProps> = ({
 
                     {hasAccuracy && (
                         <div className="mb-5 rounded-2xl border border-violet-400/20 bg-violet-500/10 p-4 text-left">
-                            <div className="text-xs font-black uppercase tracking-wider text-violet-200">Review focus</div>
+                            <div className="text-xs font-black uppercase tracking-wider text-violet-200">Recent evidence</div>
                             <p className="mt-1 text-sm leading-relaxed text-white/85">
                                 {accuracy! >= 80
-                                    ? `Keep the same method and aim to make the next ${Math.max(1, attempted!)} attempts with an even longer streak.`
-                                    : `Replay once and prioritize accuracy before speed. Your next target is ${Math.min(attempted!, correct! + 2)} correct out of ${attempted!}.`}
+                                    ? `This run recorded ${correct}/${attempted} correct. It is useful recent performance evidence, but it does not by itself show durable mastery.`
+                                    : `This run recorded ${correct}/${attempted} correct. The saved misses show which questions contributed to the lower recent accuracy.`}
                             </p>
                         </div>
                     )}
@@ -204,7 +204,7 @@ export const GameOverScreen: React.FC<GameOverScreenProps> = ({
                 <div className="mb-5">
                     {activeStudent ? (
                         <div className="mb-2 rounded-xl bg-indigo-500/10 border border-indigo-400/20 px-3 py-2 text-sm text-indigo-100">
-                            Save this score to <strong>{activeStudent.avatar} {activeStudent.name}</strong>'s progress and mastery history.
+                            Save this score to <strong>{activeStudent.avatar} {activeStudent.name}</strong>'s progress and evidence history.
                         </div>
                     ) : (
                         <input
@@ -221,11 +221,11 @@ export const GameOverScreen: React.FC<GameOverScreenProps> = ({
                         disabled={saving || !playerName.trim()}
                         className="bg-yellow-500 text-gray-950 px-4 py-2.5 rounded-xl font-black hover:bg-yellow-400 disabled:opacity-50 w-full cursor-pointer"
                     >
-                        {saving ? 'SAVING…' : '💾 SAVE SCORE + MASTERY'}
+                        {saving ? 'SAVING…' : '💾 SAVE SCORE + REVIEW'}
                     </button>
                 </div>
             )}
-            {scoreSaved && <p className="text-green-300 mb-5 font-bold">✓ Score and mastery saved to progress</p>}
+            {scoreSaved && <p className="text-green-300 mb-5 font-bold">✓ Score and session evidence saved to progress</p>}
 
             <div className="flex flex-col-reverse sm:flex-row gap-3 justify-center">
                 <button onClick={onBack} className="bg-gray-700 text-white px-6 py-3 rounded-full font-bold hover:bg-gray-600 cursor-pointer">

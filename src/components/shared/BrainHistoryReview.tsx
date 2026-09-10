@@ -30,8 +30,12 @@ export const BrainHistoryReview: React.FC<BrainHistoryReviewProps> = ({ session,
                 <button onClick={onClose} aria-label="Close saved review" className="rounded-full bg-white/10 px-3 py-2 font-black text-white hover:bg-white/20">✕</button>
             </div>
 
+            <div className="mb-3 rounded-2xl border border-violet-300/15 bg-violet-500/10 p-3 text-sm text-violet-100">
+                These numbers describe this saved session. They are recent performance evidence, not a durable mastery judgement.
+            </div>
+
             <div className="mb-5 grid grid-cols-2 gap-2 sm:grid-cols-5">
-                <Metric label="Mastery" value={`${session.masteryScore}%`} />
+                <Metric label="Performance" value={`${session.performanceScore}%`} />
                 <Metric label="Accuracy" value={`${session.accuracy}%`} />
                 <Metric label="Correct" value={`${session.correct}/${session.attempted}`} />
                 <Metric label="Time" value={formatDuration(session.durationSeconds)} />
@@ -61,7 +65,7 @@ export const BrainHistoryReview: React.FC<BrainHistoryReviewProps> = ({ session,
 
             {!session.reviewItems?.length && !session.questionReview?.length && (
                 <div className="rounded-2xl border border-white/10 bg-white/5 p-5 text-sm text-white/70">
-                    This older saved session has mastery metrics but no retained round-by-round evidence.
+                    This older saved session has performance metrics but no retained round-by-round evidence.
                 </div>
             )}
         </div>

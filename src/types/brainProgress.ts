@@ -27,6 +27,15 @@ export interface BrainSessionDraft extends BrainSessionMetrics {
     reviewItems?: BrainReviewItem[];
 }
 
+/**
+ * One saved Brain Training session.
+ *
+ * `performanceScore` is a short-term session metric derived from the observed
+ * session. It is not durable learning mastery.
+ *
+ * `masteryScore` is retained only so legacy localStorage records can be read
+ * and migrated without losing history. New records must not write it.
+ */
 export interface BrainSessionRecord extends BrainSessionDraft {
     id: string;
     studentId: string;
@@ -34,22 +43,24 @@ export interface BrainSessionRecord extends BrainSessionDraft {
     completedAt: string;
     accuracy: number;
     averageSeconds: number;
-    masteryScore: number;
+    performanceScore: number;
+    /** @deprecated Legacy persisted field. Read for migration only. */
+    masteryScore?: number;
 }
 
-export interface BrainSkillMastery {
+export interface BrainSkillEvidence {
     skill: string;
     sessions: number;
-    mastery: number;
+    recentPerformance: number;
     accuracy: number;
     trend: number;
     lastPlayed?: string;
 }
 
-export interface BrainGameMastery {
+export interface BrainGameEvidence {
     gameId: string;
     sessions: number;
-    mastery: number;
+    recentPerformance: number;
     accuracy: number;
     trend: number;
     bestStars: number;
@@ -58,12 +69,19 @@ export interface BrainGameMastery {
     byDifficulty: Partial<Record<'Easy' | 'Medium' | 'Hard' | 'Mixed', number>>;
 }
 
-export interface BrainMasterySummary {
+export interface BrainEvidenceSummary {
     totalSessions: number;
-    overallMastery: number;
+    recentPerformance: number;
     overallAccuracy: number;
-    strongestSkill?: BrainSkillMastery;
-    focusSkill?: BrainSkillMastery;
-    skills: BrainSkillMastery[];
+    strongestRecentSkill?: BrainSkillEvidence;
+    reviewFocusSkill?: BrainSkillEvidence;
+    skills: BrainSkillEvidence[];
     recentSessions: BrainSessionRecord[];
 }
+
+/** @deprecated Use BrainSkillEvidence. The data is recent evidence, not mastery. */
+export type BrainSkillMastery = BrainSkillEvidence;
+/** @deprecated Use BrainGameEvidence. The data is recent evidence, not mastery. */
+export type BrainGameMastery = BrainGameEvidence;
+/** @deprecated Use BrainEvidenceSummary. The data is recent evidence, not mastery. */
+export type BrainMasterySummary = BrainEvidenceSummary;
