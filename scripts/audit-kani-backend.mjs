@@ -8,10 +8,12 @@ const repoRoot = path.resolve(__dirname, '..');
 const migrationsDir = path.join(repoRoot, 'supabase', 'migrations');
 const testsDir = path.join(repoRoot, 'supabase', 'tests', 'database');
 const configPath = path.join(repoRoot, 'supabase', 'config.toml');
-const apiProtocolPath = path.join(repoRoot, 'supabase', 'functions', '_shared', 'kaniApiProtocol.ts');
+const apiProtocolPath = path.join(repoRoot, 'src', 'application', 'api', 'kaniApiProtocol.ts');
+const apiProtocolShimPath = path.join(repoRoot, 'supabase', 'functions', '_shared', 'kaniApiProtocol.ts');
 const apiFunctionPath = path.join(repoRoot, 'supabase', 'functions', 'kani-api', 'index.ts');
 const denoConfigPath = path.join(repoRoot, 'supabase', 'functions', 'deno.json');
-const evidenceDerivationsPath = path.join(repoRoot, 'src', 'integration', 'kani', 'evidenceDerivations.ts');
+const evidenceDerivationsPath = path.join(repoRoot, 'src', 'domain', 'evidenceDerivations.ts');
+const evidenceDerivationsShimPath = path.join(repoRoot, 'src', 'integration', 'kani', 'evidenceDerivations.ts');
 
 const failures = [];
 const pass = (message) => console.log(`✓ ${message}`);
@@ -132,7 +134,7 @@ requireCondition(denoConfig.length > 0, 'Edge Function Deno config is checked in
 requireCondition(/"@supabase\/server"\s*:\s*"npm:@supabase\/server@\^1"/i.test(denoConfig), 'Edge Function uses the authenticated Supabase server package');
 
 const protocol = readIfPresent(apiProtocolPath);
-requireCondition(protocol.length > 0, 'versioned learner API protocol is checked in');
+requireCondition(protocol.length > 0, 'provider-neutral versioned learner API protocol is checked in');
 if (protocol) {
   requireCondition(/MAX_ATTEMPT_BATCH\s*=\s*50/i.test(protocol), 'attempt upload batch is bounded');
   requireCondition(/MAX_REQUEST_BYTES\s*=\s*256 \* 1024/i.test(protocol), 'request payload size is bounded');
@@ -142,14 +144,30 @@ if (protocol) {
   requireCondition(/History cursor is invalid/i.test(protocol), 'history cursor validation is explicit');
 }
 
+const protocolShim = readIfPresent(apiProtocolShimPath);
+requireCondition(protocolShim.length > 0, 'Supabase API protocol compatibility shim is checked in');
+requireCondition(
+  /export \* from ['"]\.\.\/\.\.\/\.\.\/src\/application\/api\/kaniApiProtocol\.ts['"]/i.test(protocolShim)
+    && !/function\s+(?:matchKaniApiRoute|parseAttemptBatch|parseStudentInput)\b/i.test(protocolShim),
+  'Supabase API protocol shim delegates to the provider-neutral authority without duplicating implementation',
+);
+
 const evidenceDerivations = readIfPresent(evidenceDerivationsPath);
-requireCondition(evidenceDerivations.length > 0, 'shared deterministic evidence derivations are checked in');
+requireCondition(evidenceDerivations.length > 0, 'provider-neutral deterministic evidence derivations are checked in');
 if (evidenceDerivations) {
   requireCondition(/deriveStudentRevisionPayload/i.test(evidenceDerivations), 'shared derivations expose revision payloads');
   requireCondition(/deriveStudentRecommendationsPayload/i.test(evidenceDerivations), 'shared derivations expose recommendation payloads');
   requireCondition(/reasonCode/i.test(evidenceDerivations) && /evidenceCount/i.test(evidenceDerivations), 'recommendations expose reason codes and evidence counts');
   requireCondition(!/mastery/i.test(evidenceDerivations), 'evidence services do not introduce an opaque mastery percentage');
 }
+
+const evidenceDerivationsShim = readIfPresent(evidenceDerivationsShimPath);
+requireCondition(evidenceDerivationsShim.length > 0, 'legacy evidence derivation compatibility shim is checked in');
+requireCondition(
+  /export \* from ['"]\.\.\/\.\.\/domain\/evidenceDerivations\.ts['"]/i.test(evidenceDerivationsShim)
+    && !/function\s+deriveStudent(?:Revision|Recommendations)Payload\b/i.test(evidenceDerivationsShim),
+  'legacy evidence derivation shim delegates to the provider-neutral domain authority without duplication',
+);
 
 const apiFunction = readIfPresent(apiFunctionPath);
 requireCondition(apiFunction.length > 0, 'authenticated kani-api Edge Function is checked in');
