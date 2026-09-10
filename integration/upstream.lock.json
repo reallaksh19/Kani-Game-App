@@ -1,7 +1,7 @@
 {
   "lockVersion": "1.0",
   "contractSource": "reallaksh19/Study-Hub",
-  "sourceCommit": "6e27d8da1efbb043826ee84ff70b7bf216bf611e",
+  "sourceCommit": "bc8a79705c67f2c80c646e560a1497959a79938b",
   "sourceManifestPath": "integration/platform-manifest.json",
   "manifestVersion": "1.0",
   "contracts": {
@@ -23,7 +23,7 @@
     "kani-attempt-v1": {
       "schemaVersion": "1.0",
       "path": "integration/contracts/kani-attempt-v1.schema.json",
-      "sha256": "90ab244536cd3ae6dcc180f1a365e2df8870387b3327bd5fdeefb871a052f1a6"
+      "sha256": "433da6d7a0d7f9541bf1ac77b0ff7d4e09092c7a8353f8b2faa3321e548c46dd"
     }
   }
 }
