@@ -75,7 +75,10 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'jsdom',
-    setupFiles: './src/test/setup.ts'
+    setupFiles: './src/test/setup.ts',
+    alias: {
+      'node:sqlite': path.resolve(__dirname, 'src/test/nodeSqliteShim.ts')
+    }
   }
 });
 
