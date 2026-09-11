@@ -46,7 +46,7 @@ function primaryMissionAttempt(): KaniAttemptV1 {
 }
 
 describe('Phase 3 Primary mission offline attempt idempotency', () => {
-  it('keeps one immutable local attempt and one outbox entry when the same attempt is recorded twice, then removes the outbox entry after sync', async () => {
+  it('keeps one immutable local attempt and never creates a second remote attempt when the same completion is replayed', async () => {
     const storage = new MemoryStorage();
     const localStore = new LocalAttemptStore({ storage, storageKey: 'phase3-attempts' });
     const queue = new LocalAttemptSyncQueue({ storage, storageKey: 'phase3-outbox' });
@@ -64,30 +64,47 @@ describe('Phase 3 Primary mission offline attempt idempotency', () => {
     expect(await localStore.listAttempts('student_alpha')).toHaveLength(1);
     expect(queue.counts()).toEqual({ pending: 1, retrying: 0, blocked: 0, total: 1 });
 
-    const uploaded: KaniAttemptV1[][] = [];
+    const remoteAttemptIds = new Set<string>();
+    const uploads: Array<{ created: number; existing: number }> = [];
     const coordinator = new AttemptSyncCoordinator(queue, {
       async uploadAttempts(attempts) {
-        uploaded.push([...attempts]);
+        let created = 0;
+        let existing = 0;
+        for (const value of attempts) {
+          if (remoteAttemptIds.has(value.attemptId)) existing += 1;
+          else {
+            remoteAttemptIds.add(value.attemptId);
+            created += 1;
+          }
+        }
+        uploads.push({ created, existing });
         return {
           accepted: attempts.length,
-          created: attempts.length,
-          existing: 0,
-          idempotentReplay: false,
+          created,
+          existing,
+          idempotentReplay: existing > 0 && created === 0,
         };
       },
     });
 
-    const result = await coordinator.flush({ nowMs: Date.parse('2026-09-11T05:01:00.000Z') });
-    expect(result).toEqual({ attempted: 1, synced: 1, blocked: 0, deferred: 0 });
-    expect(uploaded).toHaveLength(1);
-    expect(uploaded[0]).toHaveLength(1);
-    expect(uploaded[0][0].attemptId).toBe(attempt.attemptId);
+    const firstSync = await coordinator.flush({ nowMs: Date.now() + 60_000 });
+    expect(firstSync).toEqual({ attempted: 1, synced: 1, blocked: 0, deferred: 0 });
+    expect(uploads[0]).toEqual({ created: 1, existing: 0 });
+    expect(remoteAttemptIds.size).toBe(1);
     expect(queue.counts().total).toBe(0);
     expect(await localStore.listAttempts('student_alpha')).toHaveLength(1);
 
-    // A later retry of the same immutable completion stays idempotent locally.
+    // A later client replay may queue the immutable attempt again; remote
+    // idempotency must treat it as existing rather than count a second attempt.
     await localFirst.recordAttempt(attempt);
     expect(await localStore.listAttempts('student_alpha')).toHaveLength(1);
     expect(queue.counts().total).toBe(1);
+
+    const replaySync = await coordinator.flush({ nowMs: Date.now() + 120_000 });
+    expect(replaySync).toEqual({ attempted: 1, synced: 1, blocked: 0, deferred: 0 });
+    expect(uploads[1]).toEqual({ created: 0, existing: 1 });
+    expect(remoteAttemptIds.size).toBe(1);
+    expect(queue.counts().total).toBe(0);
+    expect(await localStore.listAttempts('student_alpha')).toHaveLength(1);
   });
 });
