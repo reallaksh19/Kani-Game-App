@@ -6,6 +6,7 @@ import { QuestionSessionResult } from '../../engine/questions/types';
 import { createCanonicalAttemptStore } from '../../integration/kani/createCanonicalAttemptStore';
 import { getKaniIntegrationConfig } from '../../integration/kani/integrationConfig';
 import { PrimaryMissionBundle, PrimaryMissionClient, PrimaryMissionError } from '../../integration/kani/PrimaryMissionClient';
+import { buildPrimaryReturnUrl, primaryMissionCopy } from '../../integration/kani/PrimaryMissionPresentation';
 
 interface PrimaryMissionPageProps {
   opaqueId: string;
@@ -18,11 +19,6 @@ type SaveState = 'idle' | 'saving' | 'saved' | 'error';
 function newSessionNonce(): string {
   if (globalThis.crypto?.randomUUID) return globalThis.crypto.randomUUID();
   return `${Date.now()}_${Math.random().toString(36).slice(2)}`;
-}
-
-function buildReturnUrl(baseUrl: string, opaqueId: string): string {
-  const root = baseUrl.replace(/\/+$/, '');
-  return `${root}/primary/return.html?mission=${encodeURIComponent(opaqueId)}`;
 }
 
 export const PrimaryMissionPage: React.FC<PrimaryMissionPageProps> = ({ opaqueId, onExit }) => {
@@ -82,7 +78,10 @@ export const PrimaryMissionPage: React.FC<PrimaryMissionPageProps> = ({ opaqueId
 
   if (!activeStudent) return null;
 
-  const returnUrl = buildReturnUrl(config.studyHubBaseUrl, opaqueId);
+  const copy = bundle ? primaryMissionCopy(bundle) : null;
+  const returnUrl = bundle
+    ? buildPrimaryReturnUrl(config.studyHubBaseUrl, bundle.route.returnLearnerPath, opaqueId)
+    : null;
 
   return (
     <SpaceBackground>
@@ -99,7 +98,7 @@ export const PrimaryMissionPage: React.FC<PrimaryMissionPageProps> = ({ opaqueId
             </button>
             <div>
               <div className="text-xs font-black uppercase tracking-[0.2em] text-cyan-300">Study-Hub → Kani learning mission</div>
-              <h1 className="text-3xl font-black sm:text-4xl">Fraction Mission</h1>
+              <h1 className="text-3xl font-black sm:text-4xl">{copy?.title || 'Learning Mission'}</h1>
               <p className="mt-1 text-sm text-slate-300">Mission code {opaqueId}. Your learner profile is attached only after launch.</p>
             </div>
           </div>
@@ -107,7 +106,7 @@ export const PrimaryMissionPage: React.FC<PrimaryMissionPageProps> = ({ opaqueId
           {loadState === 'loading' && (
             <section className="rounded-3xl border border-cyan-300/30 bg-slate-950/80 p-8 text-center shadow-2xl">
               <div className="text-5xl">🛰️</div>
-              <h2 className="mt-4 text-2xl font-black">Loading your fraction mission…</h2>
+              <h2 className="mt-4 text-2xl font-black">Loading your learning mission…</h2>
               <p className="mt-2 text-slate-300">Kani is checking the mission with Study-Hub.</p>
             </section>
           )}
@@ -130,12 +129,15 @@ export const PrimaryMissionPage: React.FC<PrimaryMissionPageProps> = ({ opaqueId
             </section>
           )}
 
-          {loadState === 'ready' && bundle && !result && (
+          {loadState === 'ready' && bundle && !result && copy && (
             <>
               <div className="mb-5 grid gap-3 sm:grid-cols-3">
                 <MissionFact label="Questions" value={String(bundle.questions.length)} />
                 <MissionFact label="Timer" value={bundle.mission.timerPolicy === 'OFF' ? 'Off' : bundle.mission.timerPolicy} />
                 <MissionFact label="Finish means" value="Activity complete" />
+              </div>
+              <div className="mb-5 rounded-2xl border border-cyan-300/25 bg-slate-950/65 p-4 text-sm text-slate-200">
+                <strong className="text-cyan-200">{copy.title}:</strong> {copy.loadingBody}
               </div>
               <div className="flex justify-center">
                 <CanonicalQuestionHost
@@ -150,7 +152,7 @@ export const PrimaryMissionPage: React.FC<PrimaryMissionPageProps> = ({ opaqueId
                     activityId: bundle.mission.missionId,
                     activityType: 'game',
                     sourceApp: 'game-app',
-                    subjectId: bundle.questions[0]?.subjectId || 'mathematics',
+                    subjectId: bundle.questions[0]?.subjectId || 'unknown',
                     topicId: bundle.questions[0]?.topicId,
                     pageId: bundle.questions[0]?.pageId,
                     primaryEvidence: {
@@ -166,11 +168,11 @@ export const PrimaryMissionPage: React.FC<PrimaryMissionPageProps> = ({ opaqueId
             </>
           )}
 
-          {result && bundle && (
+          {result && bundle && copy && returnUrl && (
             <section className="rounded-3xl border border-emerald-300/35 bg-slate-950/85 p-6 shadow-2xl sm:p-8">
-              <div className="text-6xl">🚀</div>
+              <div className="text-6xl">{copy.icon}</div>
               <div className="mt-3 text-xs font-black uppercase tracking-[0.2em] text-emerald-300">Mission complete</div>
-              <h2 className="mt-1 text-3xl font-black">Nice work finishing the fraction activity.</h2>
+              <h2 className="mt-1 text-3xl font-black">{copy.completionTitle}</h2>
               <p className="mt-3 max-w-2xl text-slate-200">
                 This is recent practice evidence, not a mastery label. You answered {result.correctCount} of {result.total} questions correctly in this activity.
               </p>
@@ -183,12 +185,12 @@ export const PrimaryMissionPage: React.FC<PrimaryMissionPageProps> = ({ opaqueId
 
               <div className="mt-7 rounded-2xl border border-cyan-300/30 bg-cyan-950/25 p-5">
                 <div className="text-sm font-black uppercase tracking-[0.16em] text-cyan-300">Back to learning</div>
-                <p className="mt-2 text-slate-100">Now show what you know outside the game. The return task uses a different question from the six game questions.</p>
+                <p className="mt-2 text-slate-100">{copy.returnBody}</p>
                 <a
                   href={returnUrl}
                   className="mt-4 inline-flex rounded-full bg-cyan-500 px-7 py-3 text-base font-black text-slate-950 hover:bg-cyan-400"
                 >
-                  Back to my fraction page →
+                  {copy.returnButton}
                 </a>
               </div>
 
