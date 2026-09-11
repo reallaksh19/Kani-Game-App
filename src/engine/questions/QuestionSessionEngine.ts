@@ -1,4 +1,4 @@
-import { KANI_SCHEMA_VERSION, KaniAttemptV1, KaniQuestion } from '../../integration/kani/contracts';
+import { KANI_SCHEMA_VERSION, KaniAttemptV1, KaniQuestion, PrimaryAttemptEvidenceV1 } from '../../integration/kani/contracts';
 import { evaluateQuestionAnswer } from './AnswerEvaluator';
 import { buildQuestionReviewEvidence } from './reviewEvidence';
 import { selectSessionQuestions } from './sessionSelection';
@@ -15,6 +15,17 @@ type Clock = () => number;
 function createSessionId(): string {
   if (globalThis.crypto?.randomUUID) return `session_${globalThis.crypto.randomUUID()}`;
   return `session_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+}
+
+function clonePrimaryEvidence(evidence: PrimaryAttemptEvidenceV1): PrimaryAttemptEvidenceV1 {
+  return {
+    ...evidence,
+    ...(evidence.learningObjectIds ? { learningObjectIds: [...evidence.learningObjectIds] } : {}),
+    ...(evidence.conceptualSupport ? { conceptualSupport: { ...evidence.conceptualSupport } } : {}),
+    ...(evidence.accessAdjustments ? { accessAdjustments: [...evidence.accessAdjustments] } : {}),
+    ...(evidence.representation ? { representation: { ...evidence.representation } } : {}),
+    ...(evidence.errorSignature ? { errorSignature: { ...evidence.errorSignature } } : {}),
+  };
 }
 
 export class QuestionSessionEngine {
@@ -111,6 +122,7 @@ export class QuestionSessionEngine {
         partialCredit: response.partialCredit,
         responseTimeMs: response.responseTimeMs,
         hintsUsed: response.hintsUsed,
+        ...(context.primaryEvidence ? { primaryEvidence: clonePrimaryEvidence(context.primaryEvidence) } : {}),
         startedAt: response.startedAt,
         completedAt: response.completedAt,
       }];
