@@ -10,6 +10,12 @@ const expectedSubjects = String(process.env.EXPECTED_SUBJECTS || '')
 const expectedLearnEnabled = String(process.env.EXPECTED_LEARN_ENABLED || 'true').toLowerCase() === 'true';
 const expectedPracticeEnabled = String(process.env.EXPECTED_PRACTICE_ENABLED || 'false').toLowerCase() === 'true';
 const expectedMinStructuredQuestions = Math.max(0, Number(process.env.EXPECTED_MIN_STRUCTURED_QUESTIONS || 0));
+const primaryMissionToken = String(process.env.PRIMARY_FRACTION_MISSION_TOKEN || 'P4FE7K2Q').trim().toUpperCase();
+const primaryMissionId = 'KM-G4-FRAC-EQUIV-001';
+const primaryLearningEpisodeId = 'EP-G4-FRAC-EQUIV-001';
+const primaryLearningObjectId = 'MATH-FRAC-EQUIVALENCE';
+const primaryReturnQuestionId = 'fraction-equiv-return-q-201';
+const primaryDelayedQuestionId = 'fraction-equiv-delayed-q-301';
 
 function joinBase(baseUrl, contentPath) {
   return `${baseUrl.replace(/\/+$/, '')}/${String(contentPath).replace(/^\/+/, '')}`;
@@ -149,6 +155,89 @@ await retry('Study-Hub learner route', async () => {
   assert.match(text, /<html|<!doctype/i, 'Study-Hub learner route did not return an HTML app shell');
 }, 6, 3000);
 
+// Phase 3: prove the deployed print/QR → Kani mission → return-task seam.
+assert.match(primaryMissionToken, /^[A-Z0-9]{8}$/, 'Primary fraction mission token must remain opaque');
+const resolverUrl = joinBase(studyHubBaseUrl, '/primary/missions/resolver.json');
+const resolver = await retry('Primary mission resolver', async () => {
+  const { value } = await fetchJson(withCacheBust(resolverUrl));
+  const route = value?.[primaryMissionToken];
+  assert.ok(route, `Primary resolver is missing ${primaryMissionToken}`);
+  assert.equal(route.missionId, primaryMissionId, 'Primary resolver mission identity drifted');
+  assert.match(route.missionPath, /^\/primary\/missions\//);
+  assert.match(route.contentPath, /^\/primary\/fractions\//);
+  assert.match(route.returnTaskPath, /^\/primary\/fractions\//);
+  assert.match(route.delayedRetrievalTaskPath, /^\/primary\/fractions\//);
+  assert.equal(route.returnLearnerPath, '/primary/return.html');
+  const serialized = JSON.stringify(route).toLowerCase();
+  for (const forbidden of ['studentid', 'answerindex', 'correctanswer', 'masterystate', 'teacherdecision']) {
+    assert.equal(serialized.includes(forbidden), false, `Primary resolver leaked ${forbidden}`);
+  }
+  return value;
+}, 12, 5000);
+
+const primaryRoute = resolver[primaryMissionToken];
+const missionUrl = joinBase(studyHubBaseUrl, primaryRoute.missionPath);
+const mission = await retry('Primary fraction mission', async () => {
+  const { value } = await fetchJson(withCacheBust(missionUrl));
+  assert.equal(value.missionId, primaryMissionId);
+  assert.equal(value.learningEpisodeId, primaryLearningEpisodeId);
+  assert.deepEqual(value.learningObjectIds, [primaryLearningObjectId]);
+  assert.equal(value.launchPolicy?.gate, 'ATTEMPT_NOT_SCORE');
+  assert.equal(value.timerPolicy, 'OFF');
+  assert.equal(value.completionPolicy?.means, 'ACTIVITY_COMPLETED');
+  assert.equal(value.returnPolicy?.required, true);
+  assert.equal(value.returnPolicy?.endlessGameChain, false);
+  assert.ok(Array.isArray(value.questionRefs) && value.questionRefs.length >= 4 && value.questionRefs.length <= 6, 'Primary mission must use 4-6 canonical questions');
+  return value;
+});
+
+const contentUrl = joinBase(studyHubBaseUrl, primaryRoute.contentPath);
+const primaryContent = await retry('Primary fraction canonical content', async () => {
+  const { value } = await fetchJson(withCacheBust(contentUrl));
+  const questions = Array.isArray(value.questions) ? value.questions : [];
+  const questionIds = new Set(questions.map((question) => question.id));
+  for (const ref of mission.questionRefs) {
+    const questionId = typeof ref === 'string' ? ref : ref?.questionId;
+    assert.ok(questionId && questionIds.has(questionId), `Mission question ${questionId || '(missing)'} is absent from canonical content`);
+  }
+  const missionIds = new Set(mission.questionRefs.map((ref) => typeof ref === 'string' ? ref : ref?.questionId));
+  assert.equal(missionIds.has(primaryReturnQuestionId), false, 'Independent return question leaked into game mission');
+  assert.equal(missionIds.has(primaryDelayedQuestionId), false, 'Delayed retrieval question leaked into game mission');
+  return value;
+});
+assert.ok(primaryContent.questions.some((question) => question.id === primaryReturnQuestionId));
+assert.ok(primaryContent.questions.some((question) => question.id === primaryDelayedQuestionId));
+
+const launchArtifactUrl = joinBase(studyHubBaseUrl, `/primary/missions/${primaryMissionToken}.launch.json`);
+const launchArtifact = await retry('Primary launch artifact', async () => {
+  const { value } = await fetchJson(withCacheBust(launchArtifactUrl));
+  assert.equal(value.opaqueId, primaryMissionToken);
+  assert.equal(value.targetUrl, `${kaniAppUrl}#/primary/m/${primaryMissionToken}`);
+  assert.equal(value.qrAssetPath, `/primary/fractions/${primaryMissionToken}-qr.svg`);
+  assert.equal(value.returnLearnerPath, '/primary/return.html');
+  const serialized = JSON.stringify(value).toLowerCase();
+  for (const forbidden of ['studentid', 'answerindex', 'correctanswer', 'masterystate', 'teacherdecision']) {
+    assert.equal(serialized.includes(forbidden), false, `Primary launch artifact leaked ${forbidden}`);
+  }
+  return value;
+});
+
+await retry('Primary printable QR', async () => {
+  const { text } = await fetchText(withCacheBust(joinBase(studyHubBaseUrl, launchArtifact.qrAssetPath)));
+  assert.match(text, /<svg/i, 'Printable Primary QR is not SVG');
+  assert.match(text, new RegExp(primaryMissionToken), 'Printable Primary QR metadata lost the opaque mission token');
+});
+
+const returnUrl = `${joinBase(studyHubBaseUrl, launchArtifact.returnLearnerPath)}?mission=${encodeURIComponent(primaryMissionToken)}`;
+await retry('Primary child return page', async () => {
+  const { text } = await fetchText(`${returnUrl}&${cacheBust()}`);
+  assert.match(text, /Back from the game/i, 'Return page is not the child-facing fraction page');
+  assert.match(text, /Riya colours 4\/6 of a strip/i, 'Return page lost the independent canonical question');
+  assert.match(text, /NOT_YET_TESTED/, 'Return page lost the delayed-retention boundary');
+  assert.match(text, /3–7 days later/, 'Return page lost the delayed retrieval window');
+  assert.doesNotMatch(text, /each third can be split into two sixths/i, 'Return page exposed the canonical model answer');
+});
+
 console.log('Production integration smoke passed');
 console.log(`Kani: ${kaniAppUrl}`);
 console.log(`Study-Hub catalog: ${catalogUrl}`);
@@ -157,3 +246,5 @@ console.log(`Practice enabled: ${manifest.practiceEnabled}`);
 console.log(`Scoped subjects: ${manifest.allowedSubjects.join(', ') || '(all)'}`);
 console.log(`Scoped topics/pages: ${scopedTopics.length}/${scopedPages.length}`);
 console.log(`Maximum structured questions on probed page: ${maxStructuredQuestions}`);
+console.log(`Primary fraction mission: ${launchArtifact.targetUrl}`);
+console.log(`Primary return page: ${returnUrl}`);
