@@ -1,9 +1,10 @@
-import React, { useState, Suspense } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import { useAppContext } from './contexts/AppContext';
 import { ALL_GAMES, MATH_GAMES, GRAMMAR_GAMES, VOCABULARY_GAMES, COMPREHENSION_GAMES, SKILL_GAMES, EXAM_GAMES, LQ_CHAMP_GAMES } from './data/gameDefinitions';
 import { Difficulty, GameDefinition } from './types';
 import { LoadingSpinner } from './components/shared/LoadingSpinner';
 import { StudentLoginScreen } from './components/shared/StudentLoginScreen';
+import { parsePrimaryMissionOpaqueId } from './integration/kani/primaryMissionLocation';
 
 // Lazy load page components for better performance
 const SettingsPage = React.lazy(() => import('./components/pages/SettingsPage').then(module => ({ default: module.SettingsPage })));
@@ -18,6 +19,7 @@ const BrainTrainingPage = React.lazy(() => import('./components/pages/BrainTrain
 const LQChampHubPage = React.lazy(() => import('./components/pages/LQChampHubPage').then(module => ({ default: module.LQChampHubPage })));
 const LearnHubPage = React.lazy(() => import('./components/pages/LearnHubPage').then(module => ({ default: module.LearnHubPage })));
 const PracticeHubPage = React.lazy(() => import('./components/pages/PracticeHubPage').then(module => ({ default: module.PracticeHubPage })));
+const PrimaryMissionPage = React.lazy(() => import('./components/pages/PrimaryMissionPage').then(module => ({ default: module.PrimaryMissionPage })));
 
 // Interactive game components
 const MemoryMatrixGame = React.lazy(() => import('./components/games/MemoryMatrixGame').then(module => ({ default: module.MemoryMatrixGame })));
@@ -34,6 +36,11 @@ const LoadingScreen = () => (
   </div>
 );
 
+function readPrimaryMissionFromWindow(): string | null {
+  if (typeof window === 'undefined') return null;
+  return parsePrimaryMissionOpaqueId(window.location);
+}
+
 const LearningGalaxy: React.FC = () => {
   const [currentSubject, setCurrentSubject] = useState<string | null>(null);
   const [englishCategory, setEnglishCategory] = useState<string | null>(null);
@@ -43,12 +50,35 @@ const LearningGalaxy: React.FC = () => {
   const [showQA, setShowQA] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [showProfileSwitcher, setShowProfileSwitcher] = useState(false);
+  const [primaryMissionOpaqueId, setPrimaryMissionOpaqueId] = useState<string | null>(readPrimaryMissionFromWindow);
 
   const { settings, updateSettings, leaderboard, activeStudent, loading } = useAppContext();
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return undefined;
+    const syncMissionLocation = () => setPrimaryMissionOpaqueId(readPrimaryMissionFromWindow());
+    window.addEventListener('hashchange', syncMissionLocation);
+    window.addEventListener('popstate', syncMissionLocation);
+    return () => {
+      window.removeEventListener('hashchange', syncMissionLocation);
+      window.removeEventListener('popstate', syncMissionLocation);
+    };
+  }, []);
 
   const totalStars = leaderboard.reduce((sum, e) => sum + e.stars, 0);
   const handleBackToHome = () => { setCurrentSubject(null); setEnglishCategory(null); setCurrentGame(null); setSelectedDifficulty(null); };
   const handleBackToSubject = () => { setCurrentGame(null); setSelectedDifficulty(null); };
+  const handleExitPrimaryMission = () => {
+    if (typeof window !== 'undefined') {
+      const url = new URL(window.location.href);
+      url.hash = '';
+      url.searchParams.delete('mission');
+      url.pathname = url.pathname.replace(/\/primary\/m\/[A-Z0-9]{8}\/?$/i, '/');
+      window.history.replaceState({}, '', `${url.pathname}${url.search}${url.hash}`);
+    }
+    setPrimaryMissionOpaqueId(null);
+    handleBackToHome();
+  };
 
   if (loading) {
     return <LoadingScreen />;
@@ -64,6 +94,7 @@ const LearningGalaxy: React.FC = () => {
         <StudentLoginScreen canClose={true} onClose={() => setShowProfileSwitcher(false)} />
       )}
       {(() => {
+        if (primaryMissionOpaqueId) return <PrimaryMissionPage opaqueId={primaryMissionOpaqueId} onExit={handleExitPrimaryMission} />;
         if (showSettings) return <SettingsPage settings={settings} setSettings={updateSettings} onBack={() => setShowSettings(false)} />;
         if (showLeaderboard) return <AnalyticsPage onBack={() => setShowLeaderboard(false)} leaderboard={leaderboard} />;
         if (showQA) return <EnhancedQAPage onBack={() => setShowQA(false)} leaderboard={leaderboard} />;
