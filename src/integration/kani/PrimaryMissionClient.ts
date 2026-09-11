@@ -11,6 +11,7 @@ export interface PrimaryMissionRoute {
   contentPath: string;
   returnTaskPath: string;
   delayedRetrievalTaskPath: string;
+  returnLearnerPath: string;
 }
 
 export interface PrimaryMissionSemanticRef {
@@ -150,6 +151,7 @@ function parseRoute(value: unknown, opaqueId: string): PrimaryMissionRoute {
     contentPath: string(value.contentPath, 'route.contentPath'),
     returnTaskPath: string(value.returnTaskPath, 'route.returnTaskPath'),
     delayedRetrievalTaskPath: string(value.delayedRetrievalTaskPath, 'route.delayedRetrievalTaskPath'),
+    returnLearnerPath: string(value.returnLearnerPath, 'route.returnLearnerPath'),
   };
 }
 
@@ -191,7 +193,7 @@ export function parsePrimaryMission(value: unknown): PrimaryMissionV1 {
   if (!Array.isArray(value.questionRefs) || value.questionRefs.length === 0) throw new PrimaryMissionError('mission.questionRefs must be non-empty');
   const questionRefs = value.questionRefs.map((entry, index) => {
     if (!isRecord(entry) || Object.keys(entry).length !== 1 || !('questionId' in entry)) {
-      throw new PrimaryMissionError(`mission.questionRefs[${index}] must use a canonical questionId in Phase 3`);
+      throw new PrimaryMissionError(`mission.questionRefs[${index}] must use a canonical questionId`);
     }
     return { questionId: string(entry.questionId, `mission.questionRefs[${index}].questionId`) };
   });
@@ -305,7 +307,7 @@ export class PrimaryMissionClient {
       if (!question) throw new PrimaryMissionError(`mission references missing canonical question ${questionId}`);
       return question;
     });
-    if (questions.length < 4 || questions.length > 6) throw new PrimaryMissionError('Phase-3 mission must contain 4–6 canonical questions');
+    if (questions.length < 4 || questions.length > 6) throw new PrimaryMissionError('Primary mission must contain 4–6 canonical questions');
 
     const returnTask = parseTask(await this.fetchJson(route.returnTaskPath), 'returnTask');
     const delayedRaw = await this.fetchJson(route.delayedRetrievalTaskPath);
