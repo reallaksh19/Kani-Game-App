@@ -1,4 +1,4 @@
-import { KaniActivityType, KaniAttemptV1, KaniDifficulty, KaniQuestion, KaniSourceApp } from '../../integration/kani/contracts';
+import { KaniActivityType, KaniAttemptV1, KaniDifficulty, KaniQuestion, KaniSourceApp, PrimaryAttemptEvidenceV1 } from '../../integration/kani/contracts';
 
 export type SupportedAnswer = string | number | boolean | number[] | Record<string, string>;
 
@@ -37,6 +37,13 @@ export interface QuestionSessionContext {
   subjectId?: string;
   topicId?: string;
   pageId?: string;
+  /**
+   * Bounded Primary semantic evidence that the hosting experience can directly
+   * justify for every emitted attempt. This is copied as evidence only; the
+   * QuestionSessionEngine never invents diagnosis, mastery, support level or
+   * representation semantics from ordinary Kani telemetry such as hintsUsed.
+   */
+  primaryEvidence?: PrimaryAttemptEvidenceV1;
 }
 
 export interface QuestionSessionSnapshot {

@@ -200,6 +200,43 @@ describe('QuestionSessionEngine', () => {
     expect(result.review[0]).toMatchObject({ partialCredit: 0.5, selectedAnswer: { l1: 'r1', l2: 'r1' } });
   });
 
+  it('copies bounded Primary evidence to each attempt without deriving support from hintsUsed', () => {
+    const engine = new QuestionSessionEngine({
+      questions: [questions[0]],
+      config: { randomize: false, sessionId: 'primary_session' },
+    });
+    engine.submitAnswer(1, 2);
+
+    const result = engine.buildResult({
+      studentId: 'student_alpha',
+      activityId: 'KM-G4-FRAC-EQUIV-001',
+      activityType: 'game',
+      primaryEvidence: {
+        semanticVersion: '1.0',
+        learningEpisodeId: 'EP-G4-FRAC-EQUIV-001',
+        learningObjectIds: ['MATH-FRAC-EQUIVALENCE'],
+      },
+    });
+
+    expect(result.attempts[0].primaryEvidence).toEqual({
+      semanticVersion: '1.0',
+      learningEpisodeId: 'EP-G4-FRAC-EQUIV-001',
+      learningObjectIds: ['MATH-FRAC-EQUIVALENCE'],
+    });
+    expect(result.attempts[0].hintsUsed).toBe(2);
+    expect(result.attempts[0].primaryEvidence?.conceptualSupport).toBeUndefined();
+  });
+
+  it('keeps legacy sessions byte-shape compatible by omitting primaryEvidence when no Primary context is supplied', () => {
+    const engine = new QuestionSessionEngine({
+      questions: [questions[0]],
+      config: { randomize: false, sessionId: 'legacy_session' },
+    });
+    engine.submitAnswer(1);
+    const result = engine.buildResult({ studentId: 'student_alpha', activityId: 'legacy_quiz', activityType: 'quiz' });
+    expect('primaryEvidence' in result.attempts[0]).toBe(false);
+  });
+
   it('rejects question types without an objective runtime evaluator', () => {
     const longAnswer: KaniQuestion = {
       ...base,
